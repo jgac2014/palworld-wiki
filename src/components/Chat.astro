@@ -1,0 +1,197 @@
+---
+/**
+ * Widget do assistente. Fica flutuando no canto de todas as páginas.
+ *
+ * Enquanto o worker não estiver publicado, o botão explica o que falta em vez
+ * de dar erro. Para ligar: publique o worker (veja worker/README.md) e ponha a
+ * URL dele em ENDERECO_ASSISTENTE abaixo.
+ */
+const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.workers.dev'
+---
+
+<button id="abrir-chat" aria-label="Abrir o assistente da wiki">
+  <span>Perguntar</span>
+</button>
+
+<div id="painel-chat" hidden>
+  <header>
+    <div>
+      <strong>Assistente da wiki</strong>
+      <span>responde só com o que está escrito aqui</span>
+    </div>
+    <button id="fechar-chat" aria-label="Fechar">✕</button>
+  </header>
+
+  <div id="conversa">
+    <div class="msg bot">
+      Pergunte qualquer coisa sobre a wiki. Por exemplo: <em>qual o melhor Pal de Garimpo que eu consigo agora</em>,
+      ou <em>por que meu Anubis ficou pior no 1.0</em>.
+    </div>
+  </div>
+
+  <form id="form-chat">
+    <input id="entrada" type="text" maxlength="600" placeholder="Sua pergunta..." autocomplete="off" />
+    <button type="submit" id="enviar">→</button>
+  </form>
+</div>
+
+<style>
+  #abrir-chat {
+    position: fixed; right: 20px; bottom: 20px; z-index: 60;
+    background: var(--acento); color: #12140f; border: none;
+    padding: 12px 20px; border-radius: 30px; cursor: pointer;
+    font-family: var(--sans); font-size: 14px; font-weight: 600;
+    box-shadow: 0 4px 18px rgba(0,0,0,.45);
+  }
+  #abrir-chat:hover { filter: brightness(1.08); }
+  #painel-chat {
+    position: fixed; right: 20px; bottom: 20px; z-index: 61;
+    width: 380px; max-width: calc(100vw - 40px);
+    height: 520px; max-height: calc(100vh - 40px);
+    background: var(--fundo-2); border: 1px solid var(--linha);
+    border-radius: 6px; box-shadow: 0 10px 40px rgba(0,0,0,.6);
+    display: flex; flex-direction: column; overflow: hidden;
+    font-family: var(--sans);
+  }
+  /* O display:flex acima vence o [hidden] do HTML, então o painel nascia
+     aberto tapando o conteúdo. Esta regra devolve o comportamento esperado. */
+  #painel-chat[hidden] { display: none; }
+  #painel-chat header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 13px 16px; border-bottom: 1px solid var(--linha); background: var(--cartao);
+  }
+  #painel-chat header strong { display: block; font-size: 14px; color: var(--texto); }
+  #painel-chat header span { font-size: 11.5px; color: var(--apagado); }
+  #fechar-chat { background: none; border: none; color: var(--apagado); font-size: 16px; cursor: pointer; padding: 4px 6px; }
+  #fechar-chat:hover { color: var(--texto); }
+  #conversa { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { font-size: 14px; line-height: 1.6; padding: 11px 14px; border-radius: 4px; white-space: pre-wrap; }
+  .msg.bot { background: var(--cartao); color: #d6d3c8; border-left: 2px solid var(--acento); }
+  .msg.eu { background: #232820; color: var(--texto); align-self: flex-end; max-width: 85%; }
+  .msg.erro { background: #2a1c1a; color: #e5a49c; border-left: 2px solid var(--cuidado); font-size: 13.5px; }
+  .msg em { color: var(--apagado); }
+  .msg strong { color: #fff; }
+  #form-chat { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--linha); background: var(--cartao); }
+  #entrada {
+    flex: 1; background: var(--fundo); border: 1px solid var(--linha); color: var(--texto);
+    padding: 10px 12px; border-radius: 3px; font-size: 13.5px; font-family: var(--sans); outline: none;
+  }
+  #entrada:focus { border-color: var(--acento); }
+  #enviar {
+    background: var(--acento); color: #12140f; border: none; width: 42px;
+    border-radius: 3px; cursor: pointer; font-size: 17px; font-weight: bold;
+  }
+  #enviar:disabled { opacity: .45; cursor: default; }
+  @media (max-width: 520px) { #painel-chat { right: 10px; bottom: 10px; height: calc(100vh - 20px); } }
+  @media print { #abrir-chat, #painel-chat { display: none !important; } }
+</style>
+
+<script define:vars={{ ENDERECO_ASSISTENTE }}>
+  const abrir = document.getElementById('abrir-chat');
+  const painel = document.getElementById('painel-chat');
+  const fechar = document.getElementById('fechar-chat');
+  const form = document.getElementById('form-chat');
+  const entrada = document.getElementById('entrada');
+  const enviar = document.getElementById('enviar');
+  const conversa = document.getElementById('conversa');
+
+  const historico = [];
+
+  abrir.addEventListener('click', () => {
+    painel.hidden = false;
+    abrir.style.display = 'none';
+    entrada.focus();
+  });
+  fechar.addEventListener('click', () => {
+    painel.hidden = true;
+    abrir.style.display = '';
+  });
+
+  function bolha(classe, texto) {
+    const d = document.createElement('div');
+    d.className = `msg ${classe}`;
+    d.textContent = texto;
+    conversa.appendChild(d);
+    conversa.scrollTop = conversa.scrollHeight;
+    return d;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pergunta = entrada.value.trim();
+    if (!pergunta) return;
+
+    if (!ENDERECO_ASSISTENTE) {
+      bolha('eu', pergunta);
+      bolha(
+        'erro',
+        'O assistente ainda não foi ligado. Falta publicar o worker e colocar o endereço dele em ' +
+        'src/components/Chat.astro. O passo a passo está em worker/README.md.'
+      );
+      entrada.value = '';
+      return;
+    }
+
+    bolha('eu', pergunta);
+    historico.push({ role: 'user', content: pergunta });
+    entrada.value = '';
+    entrada.disabled = enviar.disabled = true;
+
+    const resposta = bolha('bot', '');
+    resposta.textContent = 'pensando...';
+
+    try {
+      const r = await fetch(ENDERECO_ASSISTENTE, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ mensagens: historico }),
+      });
+
+      if (!r.ok) {
+        let msg = 'O assistente não conseguiu responder agora.';
+        try { msg = (await r.json()).erro || msg; } catch {}
+        resposta.className = 'msg erro';
+        resposta.textContent = msg;
+        entrada.disabled = enviar.disabled = false;
+        return;
+      }
+
+      const leitor = r.body.getReader();
+      const dec = new TextDecoder();
+      let acumulado = '';
+      let sobra = '';
+
+      while (true) {
+        const { done, value } = await leitor.read();
+        if (done) break;
+        sobra += dec.decode(value, { stream: true });
+        const linhas = sobra.split('\n');
+        sobra = linhas.pop();
+        for (const linha of linhas) {
+          if (!linha.startsWith('data: ')) continue;
+          try {
+            const ev = JSON.parse(linha.slice(6));
+            if (ev.type === 'content_block_delta' && ev.delta?.text) {
+              acumulado += ev.delta.text;
+              resposta.textContent = acumulado;
+              conversa.scrollTop = conversa.scrollHeight;
+            }
+          } catch {}
+        }
+      }
+
+      if (!acumulado) {
+        resposta.className = 'msg erro';
+        resposta.textContent = 'Veio uma resposta vazia. Tente reformular a pergunta.';
+      } else {
+        historico.push({ role: 'assistant', content: acumulado });
+      }
+    } catch (err) {
+      resposta.className = 'msg erro';
+      resposta.textContent = 'Não consegui falar com o assistente. Verifique a conexão.';
+    } finally {
+      entrada.disabled = enviar.disabled = false;
+      entrada.focus();
+    }
+  });
+</script>

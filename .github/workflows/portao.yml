@@ -1,0 +1,60 @@
+name: Portão de qualidade
+
+# Roda em todo push e em todo pull request, inclusive fora da main.
+# O deploy.yml publica; este aqui é o que impede publicar coisa errada.
+#
+# Se este workflow falhar, NÃO conserte o portão para o commit passar.
+# Conserte o commit. O portão já pegou dado inventado, link quebrado e
+# marcação de idioma travada, coisas que o build sozinho deixa passar.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  portao:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar o Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Instalar o Chromium do Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Integridade de dados e conteúdo
+        run: npm run verificar
+
+      - name: Construir
+        run: npm run build
+        env:
+          CI: true
+          GH_USER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+
+      - name: Empacotar a versão offline
+        run: npm run offline
+
+      - name: Testes de navegador
+        run: npm run testar
+        # O script usa o Chromium do ambiente quando a variável existe; no
+        # runner do GitHub quem resolve o caminho é o próprio Playwright.
+        env:
+          CHROMIUM: ''
+
+      - name: Guardar o pacote offline
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiki-offline
+          path: wiki-palworld-offline.html
+          if-no-files-found: ignore

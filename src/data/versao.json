@@ -1,0 +1,28 @@
+{
+  "versao": "1.0.2.101103",
+  "build": "1.100.933",
+  "verificado_em": "2026-07-30",
+  "pendente_revisao": false,
+  "versao_publicada": "1.0.2.101103",
+  "ultimas_notas": [
+    {
+      "versao": "1.0.2.101103",
+      "data": "2026-07-30",
+      "titulo": "v1.0.2.101103:Bug fixes",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1839676055885050"
+    },
+    {
+      "versao": "1.0.2.100993",
+      "data": "2026-07-30",
+      "titulo": "Mod Support Improvement",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1839676055884093"
+    },
+    {
+      "versao": "1.0.2",
+      "data": "2026-07-29",
+      "titulo": "v1.0.2: Bug fixes",
+      "url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1839676055881423"
+    }
+  ],
+  "revisado_em": "2026-07-30"
+}

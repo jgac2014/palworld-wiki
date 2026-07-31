@@ -1,0 +1,98 @@
+---
+/**
+ * Seletor de idioma dos nomes do jogo.
+ *
+ * O texto dos guias continua em português, porque é onde está o trabalho do grupo.
+ * O que alterna são os NOMES das coisas do jogo, que é o que precisa bater com a
+ * tela de quem está jogando. Quem joga em inglês lê o guia em português e vê
+ * "Kindling" onde o jogo dele mostra "Kindling".
+ *
+ * A escolha fica salva no navegador e também vai na URL (?idioma=en), para dar
+ * para mandar o link já no idioma certo para o amigo.
+ */
+---
+
+<div class="seletor" role="group" aria-label="Idioma dos nomes do jogo">
+  <span class="rotulo">Nomes do jogo</span>
+  <div class="botoes">
+    <button type="button" data-idioma="pt" class="ativo">PT</button>
+    <button type="button" data-idioma="en">EN</button>
+  </div>
+</div>
+
+<style>
+  .seletor { padding: 12px 20px 14px; border-bottom: 1px solid var(--linha); margin-bottom: 6px; }
+  .rotulo {
+    display: block; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--apagado); margin-bottom: 6px; font-family: var(--sans);
+  }
+  .botoes { display: flex; gap: 0; border: 1px solid var(--linha); border-radius: 3px; overflow: hidden; width: fit-content; }
+  .botoes button {
+    background: transparent; border: none; color: var(--apagado); cursor: pointer;
+    padding: 5px 14px; font-size: 12px; font-weight: 600; font-family: var(--sans);
+    letter-spacing: .06em; transition: .12s;
+  }
+  .botoes button:hover { color: var(--texto); background: #20241a; }
+  .botoes button.ativo { background: var(--acento); color: #12140f; }
+  :global(.termo) { border-bottom: 1px dotted #4a5240; cursor: help; }
+  :global(html[data-idioma="en"] .termo) { border-bottom-color: #5a6350; }
+</style>
+
+<script>
+  const CHAVE = 'palworld-wiki-idioma';
+
+  function aplicar(idioma) {
+    document.documentElement.setAttribute('data-idioma', idioma);
+    document.documentElement.lang = idioma === 'en' ? 'en' : 'pt-BR';
+
+    // termos dentro do texto dos guias
+    document.querySelectorAll('[data-termo]').forEach((el) => {
+      const alvo = idioma === 'en' ? el.dataset.en : el.dataset.pt;
+      if (alvo) {
+        el.textContent = alvo;
+        el.title = idioma === 'en' ? el.dataset.pt : el.dataset.en;
+      }
+    });
+
+    // rótulos em tabelas, filtros e qualquer lugar com os dois textos declarados
+    document.querySelectorAll('[data-rot-pt]').forEach((el) => {
+      const alvo = idioma === 'en' ? el.dataset.rotEn : el.dataset.rotPt;
+      if (alvo) el.textContent = alvo;
+    });
+
+    // opções de select
+    document.querySelectorAll('option[data-rot-pt]').forEach((op) => {
+      const alvo = idioma === 'en' ? op.dataset.rotEn : op.dataset.rotPt;
+      if (alvo) op.textContent = alvo;
+    });
+
+    document.querySelectorAll('.seletor button').forEach((b) => {
+      b.classList.toggle('ativo', b.dataset.idioma === idioma);
+    });
+
+    try { localStorage.setItem(CHAVE, idioma); } catch {}
+  }
+
+  function idiomaInicial() {
+    const daUrl = new URLSearchParams(location.search).get('idioma');
+    if (daUrl === 'en' || daUrl === 'pt') return daUrl;
+    try {
+      const salvo = localStorage.getItem(CHAVE);
+      if (salvo === 'en' || salvo === 'pt') return salvo;
+    } catch {}
+    return 'pt';
+  }
+
+  document.querySelectorAll('.seletor button').forEach((b) => {
+    b.addEventListener('click', () => {
+      const idioma = b.dataset.idioma;
+      aplicar(idioma);
+      const url = new URL(location.href);
+      if (idioma === 'pt') url.searchParams.delete('idioma');
+      else url.searchParams.set('idioma', idioma);
+      history.replaceState(null, '', url);
+    });
+  });
+
+  aplicar(idiomaInicial());
+</script>

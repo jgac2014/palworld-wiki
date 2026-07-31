@@ -1,0 +1,6 @@
+name = "wiki-palworld-ia"
+main = "src/index.js"
+compatibility_date = "2026-07-01"
+
+# A chave da API NÃO vai aqui. Ela é um secret, definido por linha de comando:
+#   npx wrangler secret put ANTHROPIC_API_KEY

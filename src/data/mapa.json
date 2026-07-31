@@ -1,0 +1,263 @@
+{
+  "_leia_isto": [
+    "Este arquivo controla o mapa interativo. Dá para editar direto pelo GitHub.",
+    "",
+    "COMO ADICIONAR UM PONTO: copie um bloco de 'marcadores', cole no fim da lista",
+    "e troque os valores. As coordenadas x e y são as mesmas que o jogo mostra no",
+    "canto do mapa quando você abre a tela de mapa.",
+    "",
+    "CATEGORIAS DISPONÍVEIS: base, minerio, quartzo, carvao, enxofre, petroleo,",
+    "torre, alpha, santuario, mercador, viagem. Para criar uma categoria nova,",
+    "acrescente uma entrada em 'categorias' com uma cor.",
+    "",
+    "CALIBRAÇÃO: a imagem do mapa não vem no repositório (é arte do jogo).",
+    "Coloque um print do seu mapa em public/mapa/mapa.jpg e ajuste os dois pontos",
+    "de 'calibracao' abaixo: pegue dois lugares que você sabe a coordenada no jogo,",
+    "veja em que pixel eles caem na sua imagem, e preencha. O mapa se ajusta sozinho.",
+    "Sem imagem, o mapa mostra uma grade de coordenadas e continua funcionando."
+  ],
+  "imagem": {
+    "arquivo": "/mapa/mapa.jpg",
+    "largura": 2048,
+    "altura": 2048
+  },
+  "calibracao": {
+    "_nota": "dois pontos conhecidos: coordenada do jogo -> pixel na imagem",
+    "ponto1": {
+      "jogo": {
+        "x": -1000,
+        "y": -1000
+      },
+      "pixel": {
+        "x": 256,
+        "y": 1792
+      }
+    },
+    "ponto2": {
+      "jogo": {
+        "x": 1000,
+        "y": 1000
+      },
+      "pixel": {
+        "x": 1792,
+        "y": 256
+      }
+    }
+  },
+  "categorias": {
+    "base": {
+      "nome": "Nossas bases",
+      "cor": "#8fbf6a"
+    },
+    "minerio": {
+      "nome": "Minério",
+      "cor": "#c9a06a"
+    },
+    "quartzo": {
+      "nome": "Quartzo puro",
+      "cor": "#9fd4e8"
+    },
+    "carvao": {
+      "nome": "Carvão",
+      "cor": "#7d7d7d"
+    },
+    "enxofre": {
+      "nome": "Enxofre",
+      "cor": "#d9c95c"
+    },
+    "petroleo": {
+      "nome": "Petróleo",
+      "cor": "#8f7fc9"
+    },
+    "torre": {
+      "nome": "Torres",
+      "cor": "#d4756b"
+    },
+    "alpha": {
+      "nome": "Pal Alfa",
+      "cor": "#e08c4a"
+    },
+    "santuario": {
+      "nome": "Zona de Caça Proibida",
+      "cor": "#6fc9a0"
+    },
+    "mercador": {
+      "nome": "Mercadores",
+      "cor": "#d4b158"
+    },
+    "viagem": {
+      "nome": "Viagem rápida",
+      "cor": "#9fb8d4"
+    }
+  },
+  "marcadores": [
+    {
+      "nome": "Base 1 · Produção",
+      "categoria": "base",
+      "x": -432,
+      "y": -51,
+      "nota": "Western Fortress Plateau. Terreno plano e amplo, boa para fábrica de linha e fornos."
+    },
+    {
+      "nome": "Base 2 · Garimpo",
+      "categoria": "base",
+      "x": 290,
+      "y": -100,
+      "nota": "Minério, quartzo puro e enxofre no mesmo raio. Não exige resistência ao frio. Hostis de nível médio."
+    },
+    {
+      "nome": "Base 3 · Fazenda",
+      "categoria": "base",
+      "x": -198,
+      "y": -702,
+      "nota": "Southern Production Field. Plantações, fazendas de criação e panelas."
+    },
+    {
+      "nome": "Base 4 · Acasalamento",
+      "categoria": "base",
+      "x": 137,
+      "y": -597,
+      "nota": "Costa. Poucos trabalhadores, então quase nunca sofre invasão séria."
+    },
+    {
+      "nome": "Ore Galore",
+      "categoria": "minerio",
+      "x": 156,
+      "y": -396,
+      "nota": "Cerca de 7 nós de minério. Hostis de nível 20 a 25."
+    },
+    {
+      "nome": "Pico do Guardião",
+      "categoria": "carvao",
+      "x": 180,
+      "y": -39,
+      "nota": "Cerca de 8 de minério e 6 de carvão juntos. Hostis 20 a 25."
+    },
+    {
+      "nome": "Southern Ore Field",
+      "categoria": "minerio",
+      "x": 7,
+      "y": -515,
+      "nota": "Minério acessível cedo."
+    },
+    {
+      "nome": "Verdant Brook",
+      "categoria": "minerio",
+      "x": 259,
+      "y": -225,
+      "nota": "Cerca de 8 nós de minério."
+    },
+    {
+      "nome": "Unthawable Lake",
+      "categoria": "quartzo",
+      "x": -212,
+      "y": 250,
+      "nota": "9 de quartzo puro e 1 de minério. Exige resistência ao frio nível 2 de dia e 3 à noite."
+    },
+    {
+      "nome": "Land of Absolute Zero",
+      "categoria": "quartzo",
+      "x": -256,
+      "y": 392,
+      "nota": "8 de quartzo puro e 2 de minério."
+    },
+    {
+      "nome": "Torre da Unidade de Pesquisas Genéticas",
+      "categoria": "quartzo",
+      "x": -134,
+      "y": 575,
+      "nota": "9 de quartzo puro na entrada."
+    },
+    {
+      "nome": "Mount Obsidian",
+      "categoria": "enxofre",
+      "x": -744,
+      "y": -442,
+      "nota": "Cerca de 7 nós de enxofre. Hostis de 25 a 36."
+    },
+    {
+      "nome": "Moonflower Oil Plateau",
+      "categoria": "petroleo",
+      "x": -646,
+      "y": 270,
+      "nota": "Petróleo, carvão e enxofre juntos. Dá para pôr dois extratores no mesmo nó."
+    },
+    {
+      "nome": "Feybreak",
+      "categoria": "petroleo",
+      "x": -1340,
+      "y": -1285,
+      "nota": "Exoquartzo e petróleo. Hostis nível 52 ou mais."
+    },
+    {
+      "nome": "Zoe e Grizzbolt",
+      "categoria": "torre",
+      "x": 112,
+      "y": -434,
+      "nota": "Torre 1, nível 10. Fraqueza: Terra."
+    },
+    {
+      "nome": "Lily e Lyleen",
+      "categoria": "torre",
+      "x": -180,
+      "y": -598,
+      "nota": "Torre 2, nível 20 a 25. Fraqueza: Fogo. Ela cura, mate rápido."
+    },
+    {
+      "nome": "Axel e Orserk",
+      "categoria": "torre",
+      "x": -691,
+      "y": -518,
+      "nota": "Torre 3, nível 30 a 40. Precisa de Gelo E Terra, é tipo duplo."
+    },
+    {
+      "nome": "Marcus e Faleris",
+      "categoria": "torre",
+      "x": -523,
+      "y": 493,
+      "nota": "Torre 4, nível 40 a 45. Fraqueza: Água."
+    },
+    {
+      "nome": "Victor e Shadowbeak",
+      "categoria": "torre",
+      "x": -103,
+      "y": 523,
+      "nota": "Torre 5, nível 50. Fraqueza: Dragão."
+    },
+    {
+      "nome": "Bjorn e Bastigor",
+      "categoria": "torre",
+      "x": -1294,
+      "y": -1669,
+      "nota": "Torre 7, nível 60 a 70. Fraqueza: Fogo. Derrotar aqui abre o portal para as ilhas flutuantes."
+    },
+    {
+      "nome": "Zona de Caça Proibida I",
+      "categoria": "santuario",
+      "x": 95,
+      "y": -730,
+      "nota": "Níveis 15 a 20. Penking, Azurobe, Elphidran."
+    },
+    {
+      "nome": "Zona de Caça Proibida II",
+      "categoria": "santuario",
+      "x": -662,
+      "y": -116,
+      "nota": "Níveis 40 a 45. Jormuntide Ignis, Quivern."
+    },
+    {
+      "nome": "Zona de Caça Proibida III",
+      "categoria": "santuario",
+      "x": 665,
+      "y": 645,
+      "nota": "O maior atalho de poder do mid game. Shadowbeak, Blazamut, Astegon, Orserk, Faleris e Lyleen como spawns normais."
+    },
+    {
+      "nome": "Mercador clandestino",
+      "categoria": "mercador",
+      "x": 34,
+      "y": -421,
+      "nota": "Abandoned Mineshaft. Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar."
+    }
+  ]
+}

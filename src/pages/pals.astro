@@ -1,0 +1,206 @@
+---
+import Base from '../layouts/Base.astro';
+import dados from '../data/pals.json';
+import { termo } from '../lib/termos.js';
+
+const { aptidoes, pals } = dados;
+const chavesApt = Object.keys(aptidoes);
+// liga a chave curta da aptidão ao identificador do dicionário bilíngue
+const ID_APT = {
+  acender: 'apt_emitflame', rega: 'apt_watering', plantio: 'apt_seeding',
+  energia: 'apt_generateelectricity', manual: 'apt_handcraft', coleta: 'apt_collection',
+  madeira: 'apt_deforest', garimpo: 'apt_mining', manipulacao: 'apt_productmedicine',
+  refrigeracao: 'apt_cool', transporte: 'apt_transport', fazenda: 'apt_monsterfarm',
+};
+const rot = (k) => ({ pt: termo(ID_APT[k], 'pt'), en: termo(ID_APT[k], 'en') });
+const fases = [
+  { chave: 'mid',       rotulo: 'Acessível agora' },
+  { chave: 'endgame',   rotulo: 'Endgame' },
+  { chave: 'aura',      rotulo: 'Dá aura' },
+  { chave: 'utilidade', rotulo: 'Utilidade' },
+  { chave: 'fazenda',   rotulo: 'Fazenda de criação' },
+  { chave: 'combate',   rotulo: 'Combate' },
+];
+---
+<Base
+  titulo="Banco de Pals"
+  descricao="Pals de Palworld 1.0 com aptidões de trabalho em português, filtráveis por função, fase do jogo e nível."
+>
+  <article>
+    <h1>Banco de Pals</h1>
+    <p class="subtitulo">{pals.length} Pals catalogados, com as aptidões nos nomes em português do jogo.</p>
+    <div class="carimbo">Escala de 1 a 10 · nenhum Pal nasce com 10 · clique numa coluna para ordenar</div>
+
+    <div class="controles">
+      <input type="search" id="txt" placeholder="Filtrar por nome, local ou anotação..." />
+      <select id="apt">
+        <option value="">Todas as aptidões</option>
+        {chavesApt.map((k) => <option value={k} data-rot-pt={rot(k).pt} data-rot-en={rot(k).en}>{rot(k).pt}</option>)}
+      </select>
+      <select id="fase">
+        <option value="">Todas as fases</option>
+        {fases.map((f) => <option value={f.chave}>{f.rotulo}</option>)}
+      </select>
+      <button id="limpar" type="button">Limpar</button>
+    </div>
+
+    <p class="contagem" id="contagem"></p>
+
+    <div class="rolagem">
+      <table id="tabela">
+        <thead>
+          <tr>
+            <th data-ord="nome" class="ordenavel">Pal</th>
+            <th data-ord="apt" class="ordenavel">Aptidões</th>
+            <th>Onde conseguir</th>
+            <th>Observação</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pals.map((p) => (
+            <tr
+              data-nome={p.nome.toLowerCase()}
+              data-fase={p.fase}
+              data-apt={Object.keys(p.apt || {}).join(' ')}
+              data-max={Math.max(0, ...Object.values(p.apt || {}))}
+              data-busca={`${p.nome} ${p.onde || ''} ${p.nota || ''} ${p.efeito || ''} ${(p.elementos || []).join(' ')}`.toLowerCase()}
+            >
+              <td>
+                <strong>{p.nome}</strong>
+                {p.elementos && <div class="elem">{p.elementos.join(' · ')}</div>}
+              </td>
+              <td>
+                {Object.entries(p.apt || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => (
+                  <span class={`apt n${v}`}><span data-rot-pt={rot(k).pt} data-rot-en={rot(k).en}>{rot(k).pt}</span> <b>{v}</b></span>
+                ))}
+                {p.aura && <span class="apt aura">aura de <span data-rot-pt={rot(p.aura).pt} data-rot-en={rot(p.aura).en}>{rot(p.aura).pt}</span></span>}
+                {p.efeito && <div class="efeito">{p.efeito}</div>}
+              </td>
+              <td class="onde">{p.onde || ''}</td>
+              <td class="nota">{p.nota || ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Como ler os números</h2>
+    <p>
+      A escala foi de 4 para 10 níveis no 1.0, e a curva é fortemente não linear. Em Acender fogo,
+      o nível 1 rende 50 pontos de trabalho, o 7 rende 1.100, o 8 rende 1.900 e o 10 rende 5.400.
+      Como referência, o antigo nível 4 já rendia 5.400: ou seja, um Pal nível 8 de hoje é pior que
+      o nível 4 de antes, e só o 10 empata.
+    </p>
+    <p>
+      A consequência prática é que <strong>Pal de função única vence Pal versátil</strong> para trabalho.
+      Cada rank de condensação sobe apenas uma aptidão, então num Pal com três funções o ganho se
+      espalha. Anubis começa em Trabalho manual 6 e para em 8 mesmo no 4 estrelas, enquanto Jormuntide
+      Ignis começa em Acender fogo 7 e chega a 10 com três estrelas.
+    </p>
+
+    <aside class="adm adm-destaque" data-rotulo="Importante">
+      <p>
+        Esta base é mantida à mão e cobre os Pals que a wiki realmente usa, não os 287 do Paldeck.
+        Para adicionar um Pal, edite <code>src/data/pals.json</code> pelo GitHub: copie um bloco,
+        cole no fim e ajuste. Se não souber um número, omita em vez de chutar.
+      </p>
+    </aside>
+  </article>
+</Base>
+
+<style>
+  .controles { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0 12px; font-family: var(--sans); }
+  .controles input, .controles select, .controles button {
+    background: var(--cartao);
+    border: 1px solid var(--linha);
+    color: var(--texto);
+    padding: 9px 12px;
+    border-radius: 3px;
+    font-size: 13.5px;
+    font-family: var(--sans);
+    outline: none;
+  }
+  .controles input { flex: 1; min-width: 200px; }
+  .controles input:focus, .controles select:focus { border-color: var(--acento); }
+  .controles button { cursor: pointer; color: var(--apagado); }
+  .controles button:hover { border-color: var(--acento); color: var(--acento); }
+  .contagem { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-bottom: 6px; }
+  .rolagem { overflow-x: auto; }
+  th.ordenavel { cursor: pointer; user-select: none; }
+  th.ordenavel:hover { color: #fff; }
+  .elem { font-size: 12px; color: var(--apagado); font-family: var(--sans); margin-top: 2px; }
+  .apt {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 11.5px;
+    padding: 2px 7px;
+    margin: 0 4px 4px 0;
+    border-radius: 3px;
+    background: #232820;
+    color: var(--texto-2);
+    white-space: nowrap;
+  }
+  .apt b { color: #fff; }
+  .apt.n7, .apt.n8 { background: #2a3520; color: #b7d99a; }
+  .apt.n8 b { color: var(--acento); }
+  .apt.aura { background: #2f2a1a; color: var(--dica); }
+  .efeito { font-size: 13px; color: var(--texto-2); margin-top: 4px; font-style: italic; }
+  .onde { font-size: 13.5px; color: var(--apagado); }
+  .nota { font-size: 13.5px; }
+  tr.escondido { display: none; }
+</style>
+
+<script>
+  const txt = document.getElementById('txt');
+  const selApt = document.getElementById('apt');
+  const selFase = document.getElementById('fase');
+  const limpar = document.getElementById('limpar');
+  const corpo = document.querySelector('#tabela tbody');
+  const contagem = document.getElementById('contagem');
+  const linhas = Array.from(corpo.querySelectorAll('tr'));
+
+  function filtrar() {
+    const t = txt.value.trim().toLowerCase();
+    const a = selApt.value;
+    const f = selFase.value;
+    let visiveis = 0;
+    for (const tr of linhas) {
+      const ok =
+        (!t || tr.dataset.busca.includes(t)) &&
+        (!a || tr.dataset.apt.split(' ').includes(a)) &&
+        (!f || tr.dataset.fase === f);
+      tr.classList.toggle('escondido', !ok);
+      if (ok) visiveis++;
+    }
+    contagem.textContent =
+      visiveis === linhas.length
+        ? `${linhas.length} Pals`
+        : `${visiveis} de ${linhas.length} Pals`;
+  }
+
+  let ordemAsc = false;
+  document.querySelectorAll('th.ordenavel').forEach((th) => {
+    th.addEventListener('click', () => {
+      const campo = th.dataset.ord;
+      ordemAsc = !ordemAsc;
+      const ordenadas = linhas.slice().sort((x, y) => {
+        if (campo === 'nome') {
+          const r = x.dataset.nome.localeCompare(y.dataset.nome, 'pt-BR');
+          return ordemAsc ? r : -r;
+        }
+        const r = Number(x.dataset.max) - Number(y.dataset.max);
+        return ordemAsc ? r : -r;
+      });
+      ordenadas.forEach((tr) => corpo.appendChild(tr));
+    });
+  });
+
+  [txt, selApt, selFase].forEach((el) => el.addEventListener('input', filtrar));
+  limpar.addEventListener('click', () => {
+    txt.value = ''; selApt.value = ''; selFase.value = ''; filtrar();
+  });
+
+  // ordena por maior aptidão logo de cara
+  document.querySelector('th[data-ord="apt"]').click();
+  filtrar();
+</script>

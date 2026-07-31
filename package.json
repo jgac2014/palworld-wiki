@@ -1,0 +1,36 @@
+{
+  "name": "palworld-wiki",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "node scripts/gerar-conteudo-ia.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "ia:atualizar": "node scripts/gerar-conteudo-ia.mjs",
+    "termos:atualizar": "node scripts/atualizar-termos.mjs",
+    "patch:verificar": "node scripts/verificar-patch.mjs",
+    "patch:registrar": "node scripts/verificar-patch.mjs --registrar",
+    "termos:auditar": "node scripts/auditar-termos.mjs",
+    "conteudo:padronizar": "node scripts/padronizar-conteudo.mjs",
+    "conteudo:auditar": "node scripts/auditar-termos.mjs",
+    "verificar": "node scripts/verificar-tudo.mjs",
+    "offline": "node scripts/gerar-offline.mjs",
+    "pals:conferir": "node scripts/conferir-pals.mjs",
+    "catalogo:importar": "node scripts/importar-catalogo.mjs",
+    "testar": "node scripts/testar-navegador.mjs",
+    "portao": "npm run verificar && npm run build && npm run offline && npm run testar"
+  },
+  "dependencies": {
+    "astro": "^5.18.2",
+    "astro-pagefind": "^2.0.1",
+    "leaflet": "^1.9.4",
+    "pagefind": "^1.5.2",
+    "remark-directive": "^4.0.0",
+    "unist-util-visit": "^5.1.0"
+  },
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}

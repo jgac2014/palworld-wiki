@@ -1,0 +1,5601 @@
+{
+  "_leia_isto": [
+    "ARQUIVO GERADO. Não edite à mão: rode \"npm run catalogo:importar\".",
+    "",
+    "Catálogo completo dos Pals, importado do paldb nos dois idiomas. Serve de",
+    "cobertura: é o que garante que a wiki responda sobre qualquer Pal do jogo.",
+    "",
+    "A curadoria fica em pals.json, que é escrito à mão e tem nota, onde achar e",
+    "fase. Os dois se cruzam pelo nome em inglês."
+  ],
+  "fonte": "paldb.cc",
+  "importado_em": "2026-07-31",
+  "total": 299,
+  "pals": [
+    {
+      "numero": "1",
+      "chave": "Lamball",
+      "id": "SheepBall",
+      "en": "Lamball",
+      "pt": "Lamball",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "transporte": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "2",
+      "chave": "Cattiva",
+      "id": "PinkCat",
+      "en": "Cattiva",
+      "pt": "Cattiva",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "coleta": 1,
+        "garimpo": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "3",
+      "chave": "Chikipi",
+      "id": "ChickenPal",
+      "en": "Chikipi",
+      "pt": "Chikipi",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "4",
+      "chave": "Lifmunk",
+      "id": "Carbunclo",
+      "en": "Lifmunk",
+      "pt": "Lifmunk",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 1,
+        "manual": 1,
+        "coleta": 1,
+        "madeira": 1,
+        "manipulacao": 1
+      }
+    },
+    {
+      "numero": "5",
+      "chave": "Fuack",
+      "id": "BluePlatypus",
+      "en": "Fuack",
+      "pt": "Fuack",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "manual": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "5B",
+      "chave": "Fuack_Ignis",
+      "id": "BluePlatypus_Fire",
+      "en": "Fuack Ignis",
+      "pt": "Fuack Ignis",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 2,
+        "rega": 2,
+        "manual": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "6",
+      "chave": "Vixy",
+      "id": "CuteFox",
+      "en": "Vixy",
+      "pt": "Vixy",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "7",
+      "chave": "Celaray",
+      "id": "FlyingManta",
+      "en": "Celaray",
+      "pt": "Celaray",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "7B",
+      "chave": "Celaray_Lux",
+      "id": "FlyingManta_Thunder",
+      "en": "Celaray Lux",
+      "pt": "Celaray Lux",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "energia": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "8",
+      "chave": "Cremis",
+      "id": "WoolFox",
+      "en": "Cremis",
+      "pt": "Cremis",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "fazenda": 2
+      }
+    },
+    {
+      "numero": "9",
+      "chave": "Croajiro",
+      "id": "KendoFrog",
+      "en": "Croajiro",
+      "pt": "Croajiro",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "manual": 1,
+        "coleta": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "9B",
+      "chave": "Croajiro_Noct",
+      "id": "KendoFrog_Dark",
+      "en": "Croajiro Noct",
+      "pt": "Croajiro Noct",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "manual": 2,
+        "coleta": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "10",
+      "chave": "Herbil",
+      "id": "LeafMomonga",
+      "en": "Herbil",
+      "pt": "Herbil",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "plantio": 1,
+        "coleta": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "11",
+      "chave": "Teafant",
+      "id": "Ganesha",
+      "en": "Teafant",
+      "pt": "Teafant",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1
+      }
+    },
+    {
+      "numero": "12",
+      "chave": "Gumoss",
+      "id": "PlantSlime",
+      "en": "Gumoss",
+      "pt": "Gumoss",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "plantio": 1
+      }
+    },
+    {
+      "numero": "13",
+      "chave": "Pupperai",
+      "id": "SamuraiDog",
+      "en": "Pupperai",
+      "pt": "Pupperai",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "madeira": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "14",
+      "chave": "Clovee",
+      "id": "CloverFairy",
+      "en": "Clovee",
+      "pt": "Clovee",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "plantio": 1,
+        "coleta": 1
+      }
+    },
+    {
+      "numero": "15",
+      "chave": "Jolthog",
+      "id": "Hedgehog",
+      "en": "Jolthog",
+      "pt": "Jolthog",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 1
+      }
+    },
+    {
+      "numero": "15B",
+      "chave": "Jolthog_Cryst",
+      "id": "Hedgehog_Ice",
+      "en": "Jolthog Cryst",
+      "pt": "Jolthog Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 1
+      }
+    },
+    {
+      "numero": "16",
+      "chave": "Depresso",
+      "id": "NegativeKoala",
+      "en": "Depresso",
+      "pt": "Depresso",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "garimpo": 1,
+        "transporte": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "17",
+      "chave": "Pengullet",
+      "id": "Penguin",
+      "en": "Pengullet",
+      "pt": "Pengullet",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "manual": 1,
+        "refrigeracao": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "17B",
+      "chave": "Pengullet_Lux",
+      "id": "Penguin_Electric",
+      "en": "Pengullet Lux",
+      "pt": "Pengullet Lux",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "energia": 2,
+        "manual": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "18",
+      "chave": "Penking",
+      "id": "CaptainPenguin",
+      "en": "Penking",
+      "pt": "Penking",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "manual": 2,
+        "garimpo": 3,
+        "refrigeracao": 2,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "18B",
+      "chave": "Penking_Lux",
+      "id": "CaptainPenguin_Black",
+      "en": "Penking Lux",
+      "pt": "Penking Lux",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "energia": 3,
+        "manual": 2,
+        "garimpo": 3,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "19",
+      "chave": "Hoocrates",
+      "id": "WizardOwl",
+      "en": "Hoocrates",
+      "pt": "Hoocrates",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 1
+      }
+    },
+    {
+      "numero": "20",
+      "chave": "Melpaca",
+      "id": "Alpaca",
+      "en": "Melpaca",
+      "pt": "Melpaca",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "fazenda": 2
+      }
+    },
+    {
+      "numero": "21",
+      "chave": "Kingpaca",
+      "id": "KingAlpaca",
+      "en": "Kingpaca",
+      "pt": "Kingpaca",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "21B",
+      "chave": "Kingpaca_Cryst",
+      "id": "KingAlpaca_Ice",
+      "en": "Kingpaca Cryst",
+      "pt": "Kingpaca Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "coleta": 2,
+        "refrigeracao": 4
+      }
+    },
+    {
+      "numero": "22",
+      "chave": "Daedream",
+      "id": "DreamDemon",
+      "en": "Daedream",
+      "pt": "Daedream",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "coleta": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "23",
+      "chave": "Tanzee",
+      "id": "Monkey",
+      "en": "Tanzee",
+      "pt": "Tanzee",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 1,
+        "manual": 1,
+        "coleta": 1,
+        "madeira": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "23B",
+      "chave": "Tanzee_Ignis",
+      "id": "Monkey_Fire",
+      "en": "Tanzee Ignis",
+      "pt": "Tanzee Ignis",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 1,
+        "manual": 1,
+        "madeira": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "24",
+      "chave": "Nox",
+      "id": "NightFox",
+      "en": "Nox",
+      "pt": "Nox",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 1
+      }
+    },
+    {
+      "numero": "25",
+      "chave": "Flambelle",
+      "id": "LavaGirl",
+      "en": "Flambelle",
+      "pt": "Flambelle",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 1,
+        "manual": 1,
+        "transporte": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "26",
+      "chave": "Rooby",
+      "id": "FlameBambi",
+      "en": "Rooby",
+      "pt": "Rooby",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "27",
+      "chave": "Mau",
+      "id": "Bastet",
+      "en": "Mau",
+      "pt": "Mau",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "27B",
+      "chave": "Mau_Cryst",
+      "id": "Bastet_Ice",
+      "en": "Mau Cryst",
+      "pt": "Mau Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "28",
+      "chave": "Rushoar",
+      "id": "Boar",
+      "en": "Rushoar",
+      "pt": "Rushoar",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 1
+      }
+    },
+    {
+      "numero": "29",
+      "chave": "Foxparks",
+      "id": "Kitsunebi",
+      "en": "Foxparks",
+      "pt": "Foxparks",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 1
+      }
+    },
+    {
+      "numero": "29B",
+      "chave": "Foxparks_Cryst",
+      "id": "Kitsunebi_Ice",
+      "en": "Foxparks Cryst",
+      "pt": "Foxparks Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 2
+      }
+    },
+    {
+      "numero": "30",
+      "chave": "Killamari",
+      "id": "NegativeOctopus",
+      "en": "Killamari",
+      "pt": "Killamari",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "coleta": 1,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "30B",
+      "chave": "Killamari_Primo",
+      "id": "NegativeOctopus_Neutral",
+      "en": "Killamari Primo",
+      "pt": "Killamari Primo",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "coleta": 1,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "31",
+      "chave": "Fuddler",
+      "id": "CuteMole",
+      "en": "Fuddler",
+      "pt": "Fuddler",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "garimpo": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "32",
+      "chave": "Eikthyrdeer",
+      "id": "Deer",
+      "en": "Eikthyrdeer",
+      "pt": "Eikthyrdeer",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "madeira": 2
+      }
+    },
+    {
+      "numero": "32B",
+      "chave": "Eikthyrdeer_Terra",
+      "id": "Deer_Ground",
+      "en": "Eikthyrdeer Terra",
+      "pt": "Eikthyrdeer Terra",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "madeira": 2
+      }
+    },
+    {
+      "numero": "33",
+      "chave": "Direhowl",
+      "id": "Garm",
+      "en": "Direhowl",
+      "pt": "Direhowl",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1
+      }
+    },
+    {
+      "numero": "34",
+      "chave": "Caprity",
+      "id": "BerryGoat",
+      "en": "Caprity",
+      "pt": "Caprity",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "34B",
+      "chave": "Caprity_Noct",
+      "id": "BerryGoat_Dark",
+      "en": "Caprity Noct",
+      "pt": "Caprity Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "35",
+      "chave": "Swee",
+      "id": "MopBaby",
+      "en": "Swee",
+      "pt": "Swee",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "refrigeracao": 1
+      }
+    },
+    {
+      "numero": "36",
+      "chave": "Sweepa",
+      "id": "MopKing",
+      "en": "Sweepa",
+      "pt": "Sweepa",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "coleta": 2,
+        "refrigeracao": 3
+      }
+    },
+    {
+      "numero": "37",
+      "chave": "Turtacle",
+      "id": "TentacleTurtle",
+      "en": "Turtacle",
+      "pt": "Turtacle",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "garimpo": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "37B",
+      "chave": "Turtacle_Terra",
+      "id": "TentacleTurtle_Ground",
+      "en": "Turtacle Terra",
+      "pt": "Turtacle Terra",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "garimpo": 3,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "38",
+      "chave": "Hangyu",
+      "id": "WindChimes",
+      "en": "Hangyu",
+      "pt": "Hangyu",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "coleta": 1,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "38B",
+      "chave": "Hangyu_Cryst",
+      "id": "WindChimes_Ice",
+      "en": "Hangyu Cryst",
+      "pt": "Hangyu Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "coleta": 2,
+        "refrigeracao": 2,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "39",
+      "chave": "Woolipop",
+      "id": "SweetsSheep",
+      "en": "Woolipop",
+      "pt": "Woolipop",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "39B",
+      "chave": "Woolipop_Terra",
+      "id": "SweetsSheep_Ground",
+      "en": "Woolipop Terra",
+      "pt": "Woolipop Terra",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "40",
+      "chave": "Mozzarina",
+      "id": "CowPal",
+      "en": "Mozzarina",
+      "pt": "Mozzarina",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "fazenda": 2
+      }
+    },
+    {
+      "numero": "41",
+      "chave": "Azurobe",
+      "id": "BlueDragon",
+      "en": "Azurobe",
+      "pt": "Azurobe",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "rega": 4
+      }
+    },
+    {
+      "numero": "41B",
+      "chave": "Azurobe_Cryst",
+      "id": "BlueDragon_Ice",
+      "en": "Azurobe Cryst",
+      "pt": "Azurobe Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 4
+      }
+    },
+    {
+      "numero": "42",
+      "chave": "Sparkit",
+      "id": "ElecCat",
+      "en": "Sparkit",
+      "pt": "Sparkit",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 1,
+        "manual": 1,
+        "transporte": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "43",
+      "chave": "Kelpsea",
+      "id": "Kelpie",
+      "en": "Kelpsea",
+      "pt": "Kelpsea",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "43B",
+      "chave": "Kelpsea_Ignis",
+      "id": "Kelpie_Fire",
+      "en": "Kelpsea Ignis",
+      "pt": "Kelpsea Ignis",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "44",
+      "chave": "Ribbuny",
+      "id": "PinkRabbit",
+      "en": "Ribbuny",
+      "pt": "Ribbuny",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "coleta": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "44B",
+      "chave": "Ribbuny_Botan",
+      "id": "PinkRabbit_Grass",
+      "en": "Ribbuny Botan",
+      "pt": "Ribbuny Botan",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "manual": 2,
+        "coleta": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "45",
+      "chave": "Jelliette",
+      "id": "JellyfishFairy",
+      "en": "Jelliette",
+      "pt": "Jelliette",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "manual": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "46",
+      "chave": "Jellroy",
+      "id": "JellyfishGhost",
+      "en": "Jellroy",
+      "pt": "Jellroy",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "manual": 1,
+        "manipulacao": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "47",
+      "chave": "Amione",
+      "id": "ClioneTwins",
+      "en": "Amione",
+      "pt": "Amione",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 1,
+        "manual": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "48",
+      "chave": "Gloopie",
+      "id": "OctopusGirl",
+      "en": "Gloopie",
+      "pt": "Gloopie",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "manual": 2,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "48B",
+      "chave": "Gloopie_Primo",
+      "id": "OctopusGirl_Neutral",
+      "en": "Gloopie Primo",
+      "pt": "Gloopie Primo",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "manual": 2,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "49",
+      "chave": "Galeclaw",
+      "id": "Eagle",
+      "en": "Galeclaw",
+      "pt": "Galeclaw",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "50",
+      "chave": "Wispaw",
+      "id": "GhostBlackCat",
+      "en": "Wispaw",
+      "pt": "Wispaw",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "madeira": 1,
+        "manipulacao": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "51",
+      "chave": "Nitewing",
+      "id": "HawkBird",
+      "en": "Nitewing",
+      "pt": "Nitewing",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "52",
+      "chave": "Tombat",
+      "id": "CatBat",
+      "en": "Tombat",
+      "pt": "Tombat",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 2,
+        "garimpo": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "53",
+      "chave": "Tocotoco",
+      "id": "ColorfulBird",
+      "en": "Tocotoco",
+      "pt": "Tocotoco",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1
+      }
+    },
+    {
+      "numero": "54",
+      "chave": "Univolt",
+      "id": "Kirin",
+      "en": "Univolt",
+      "pt": "Univolt",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 3,
+        "madeira": 1
+      }
+    },
+    {
+      "numero": "54B",
+      "chave": "Univolt_Cryst",
+      "id": "Kirin_Ice",
+      "en": "Univolt Cryst",
+      "pt": "Univolt Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "madeira": 3,
+        "refrigeracao": 6
+      }
+    },
+    {
+      "numero": "55",
+      "chave": "Gobfin",
+      "id": "SharkKid",
+      "en": "Gobfin",
+      "pt": "Gobfin",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "manual": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "55B",
+      "chave": "Gobfin_Ignis",
+      "id": "SharkKid_Fire",
+      "en": "Gobfin Ignis",
+      "pt": "Gobfin Ignis",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 2,
+        "manual": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "56",
+      "chave": "Loupmoon",
+      "id": "Werewolf",
+      "en": "Loupmoon",
+      "pt": "Loupmoon",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 2
+      }
+    },
+    {
+      "numero": "56B",
+      "chave": "Loupmoon_Cryst",
+      "id": "Werewolf_Ice",
+      "en": "Loupmoon Cryst",
+      "pt": "Loupmoon Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "manual": 4,
+        "refrigeracao": 4
+      }
+    },
+    {
+      "numero": "57",
+      "chave": "Cawgnito",
+      "id": "DarkCrow",
+      "en": "Cawgnito",
+      "pt": "Cawgnito",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "madeira": 2,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "58",
+      "chave": "Arsox",
+      "id": "FlameBuffalo",
+      "en": "Arsox",
+      "pt": "Arsox",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 3,
+        "madeira": 2
+      }
+    },
+    {
+      "numero": "59",
+      "chave": "Muffly",
+      "id": "FluffyBird",
+      "en": "Muffly",
+      "pt": "Muffly",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "60",
+      "chave": "Bristla",
+      "id": "LittleBriarRose",
+      "en": "Bristla",
+      "pt": "Bristla",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "manual": 2,
+        "coleta": 2,
+        "manipulacao": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "61",
+      "chave": "Cinnamoth",
+      "id": "CuteButterfly",
+      "en": "Cinnamoth",
+      "pt": "Cinnamoth",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "coleta": 2,
+        "manipulacao": 2
+      }
+    },
+    {
+      "numero": "62",
+      "chave": "Puffolt",
+      "id": "ElecPomeranian",
+      "en": "Puffolt",
+      "pt": "Puffolt",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "63",
+      "chave": "Elphidran",
+      "id": "FairyDragon",
+      "en": "Elphidran",
+      "pt": "Elphidran",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "63B",
+      "chave": "Elphidran_Aqua",
+      "id": "FairyDragon_Water",
+      "en": "Elphidran Aqua",
+      "pt": "Elphidran Aqua",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 4,
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "64",
+      "chave": "Vanwyrm",
+      "id": "BirdDragon",
+      "en": "Vanwyrm",
+      "pt": "Vanwyrm",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "acender": 2,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "64B",
+      "chave": "Vanwyrm_Cryst",
+      "id": "BirdDragon_Ice",
+      "en": "Vanwyrm Cryst",
+      "pt": "Vanwyrm Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 2,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "65",
+      "chave": "Felbat",
+      "id": "CatVampire",
+      "en": "Felbat",
+      "pt": "Felbat",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manipulacao": 3
+      }
+    },
+    {
+      "numero": "66",
+      "chave": "Vaelet",
+      "id": "VioletFairy",
+      "en": "Vaelet",
+      "pt": "Vaelet",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 3,
+        "coleta": 3,
+        "manipulacao": 3,
+        "transporte": 2,
+        "fazenda": 2
+      }
+    },
+    {
+      "numero": "67",
+      "chave": "Beegarde",
+      "id": "SoldierBee",
+      "en": "Beegarde",
+      "pt": "Beegarde",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "manual": 2,
+        "coleta": 3,
+        "madeira": 2,
+        "manipulacao": 2,
+        "transporte": 2,
+        "fazenda": 3
+      }
+    },
+    {
+      "numero": "68",
+      "chave": "Elizabee",
+      "id": "QueenBee",
+      "en": "Elizabee",
+      "pt": "Elizabee",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 4,
+        "manual": 4,
+        "coleta": 4,
+        "madeira": 3,
+        "manipulacao": 4
+      }
+    },
+    {
+      "numero": "69",
+      "chave": "Lovander",
+      "id": "PinkLizard",
+      "en": "Lovander",
+      "pt": "Lovander",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "garimpo": 2,
+        "manipulacao": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "70",
+      "chave": "Grintale",
+      "id": "NaughtyCat",
+      "en": "Grintale",
+      "pt": "Grintale",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 3
+      }
+    },
+    {
+      "numero": "71",
+      "chave": "Tarantriss",
+      "id": "PurpleSpider",
+      "en": "Tarantriss",
+      "pt": "Tarantriss",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "coleta": 3,
+        "manipulacao": 2,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "72",
+      "chave": "Polapup",
+      "id": "IceSeal",
+      "en": "Polapup",
+      "pt": "Polapup",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 3,
+        "refrigeracao": 4
+      }
+    },
+    {
+      "numero": "72B",
+      "chave": "Polapup_Terra",
+      "id": "IceSeal_Ground",
+      "en": "Polapup Terra",
+      "pt": "Polapup Terra",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 4,
+        "refrigeracao": 4
+      }
+    },
+    {
+      "numero": "73",
+      "chave": "Leezpunk",
+      "id": "LizardMan",
+      "en": "Leezpunk",
+      "pt": "Leezpunk",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "coleta": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "73B",
+      "chave": "Leezpunk_Ignis",
+      "id": "LizardMan_Fire",
+      "en": "Leezpunk Ignis",
+      "pt": "Leezpunk Ignis",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 2,
+        "manual": 2,
+        "coleta": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "74",
+      "chave": "Gorirat",
+      "id": "Gorilla",
+      "en": "Gorirat",
+      "pt": "Gorirat",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "madeira": 3,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "74B",
+      "chave": "Gorirat_Terra",
+      "id": "Gorilla_Ground",
+      "en": "Gorirat Terra",
+      "pt": "Gorirat Terra",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "garimpo": 3,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "75",
+      "chave": "Surfent",
+      "id": "Serpent",
+      "en": "Surfent",
+      "pt": "Surfent",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 3,
+        "fazenda": 2
+      }
+    },
+    {
+      "numero": "75B",
+      "chave": "Surfent_Terra",
+      "id": "Serpent_Ground",
+      "en": "Surfent Terra",
+      "pt": "Surfent Terra",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "coleta": 3
+      }
+    },
+    {
+      "numero": "76",
+      "chave": "Robinquill",
+      "id": "RobinHood",
+      "en": "Robinquill",
+      "pt": "Robinquill",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "manual": 3,
+        "coleta": 3,
+        "madeira": 2,
+        "manipulacao": 1,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "76B",
+      "chave": "Robinquill_Terra",
+      "id": "RobinHood_Ground",
+      "en": "Robinquill Terra",
+      "pt": "Robinquill Terra",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "coleta": 3,
+        "madeira": 2,
+        "manipulacao": 2,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "77",
+      "chave": "Flopie",
+      "id": "FlowerRabbit",
+      "en": "Flopie",
+      "pt": "Flopie",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "manual": 2,
+        "coleta": 2,
+        "manipulacao": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "78",
+      "chave": "Wixen",
+      "id": "FoxMage",
+      "en": "Wixen",
+      "pt": "Wixen",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 3,
+        "manual": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "78B",
+      "chave": "Wixen_Noct",
+      "id": "FoxMage_Dark",
+      "en": "Wixen Noct",
+      "pt": "Wixen Noct",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "manual": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "79",
+      "chave": "Katress",
+      "id": "CatMage",
+      "en": "Katress",
+      "pt": "Katress",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "manipulacao": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "79B",
+      "chave": "Katress_Ignis",
+      "id": "CatMage_Fire",
+      "en": "Katress Ignis",
+      "pt": "Katress Ignis",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 3,
+        "manual": 3,
+        "manipulacao": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "80",
+      "chave": "Helzephyr",
+      "id": "HadesBird",
+      "en": "Helzephyr",
+      "pt": "Helzephyr",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "80B",
+      "chave": "Helzephyr_Lux",
+      "id": "HadesBird_Electric",
+      "en": "Helzephyr Lux",
+      "pt": "Helzephyr Lux",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 4,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "81",
+      "chave": "Elgrove",
+      "id": "GrassMinotaur",
+      "en": "Elgrove",
+      "pt": "Elgrove",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "coleta": 2,
+        "madeira": 3,
+        "garimpo": 2,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "81B",
+      "chave": "Elgrove_Cryst",
+      "id": "GrassMinotaur_Ice",
+      "en": "Elgrove Cryst",
+      "pt": "Elgrove Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "madeira": 3,
+        "garimpo": 3,
+        "refrigeracao": 5,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "82",
+      "chave": "Lunaris",
+      "id": "Mutant",
+      "en": "Lunaris",
+      "pt": "Lunaris",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 4,
+        "coleta": 2,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "83",
+      "chave": "Fenglope",
+      "id": "FengyunDeeper",
+      "en": "Fenglope",
+      "pt": "Fenglope",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "83B",
+      "chave": "Fenglope_Lux",
+      "id": "FengyunDeeper_Electric",
+      "en": "Fenglope Lux",
+      "pt": "Fenglope Lux",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 5,
+        "madeira": 4
+      }
+    },
+    {
+      "numero": "84",
+      "chave": "Dinossom",
+      "id": "FlowerDinosaur",
+      "en": "Dinossom",
+      "pt": "Dinossom",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "84B",
+      "chave": "Dinossom_Lux",
+      "id": "FlowerDinosaur_Electric",
+      "en": "Dinossom Lux",
+      "pt": "Dinossom Lux",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        },
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "energia": 3,
+        "madeira": 4
+      }
+    },
+    {
+      "numero": "85",
+      "chave": "Bushi",
+      "id": "Ronin",
+      "en": "Bushi",
+      "pt": "Bushi",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 2,
+        "manual": 2,
+        "coleta": 1,
+        "madeira": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "85B",
+      "chave": "Bushi_Noct",
+      "id": "Ronin_Dark",
+      "en": "Bushi Noct",
+      "pt": "Bushi Noct",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "acender": 2,
+        "manual": 2,
+        "coleta": 1,
+        "madeira": 5,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "86",
+      "chave": "Munchill",
+      "id": "IceCrocodile",
+      "en": "Munchill",
+      "pt": "Munchill",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "refrigeracao": 3,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "87",
+      "chave": "Mammorest",
+      "id": "GrassMammoth",
+      "en": "Mammorest",
+      "pt": "Mammorest",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "plantio": 4,
+        "madeira": 4,
+        "garimpo": 4
+      }
+    },
+    {
+      "numero": "87B",
+      "chave": "Mammorest_Cryst",
+      "id": "GrassMammoth_Ice",
+      "en": "Mammorest Cryst",
+      "pt": "Mammorest Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "madeira": 5,
+        "garimpo": 4,
+        "refrigeracao": 5
+      }
+    },
+    {
+      "numero": "88",
+      "chave": "Finsider",
+      "id": "StuffedShark",
+      "en": "Finsider",
+      "pt": "Finsider",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "88B",
+      "chave": "Finsider_Ignis",
+      "id": "StuffedShark_Fire",
+      "en": "Finsider Ignis",
+      "pt": "Finsider Ignis",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 2,
+        "rega": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "89",
+      "chave": "Petallia",
+      "id": "FlowerDoll",
+      "en": "Petallia",
+      "pt": "Petallia",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 4,
+        "manual": 3,
+        "coleta": 3,
+        "manipulacao": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "89B",
+      "chave": "Petallia_Ignis",
+      "id": "FlowerDoll_Fire",
+      "en": "Petallia Ignis",
+      "pt": "Petallia Ignis",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "manual": 3,
+        "coleta": 3,
+        "manipulacao": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "90",
+      "chave": "Leafan",
+      "id": "PandaGirl",
+      "en": "Leafan",
+      "pt": "Leafan",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 3,
+        "coleta": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "91",
+      "chave": "Incineram",
+      "id": "Baphomet",
+      "en": "Incineram",
+      "pt": "Incineram",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "acender": 3,
+        "manual": 2,
+        "garimpo": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "91B",
+      "chave": "Incineram_Noct",
+      "id": "Baphomet_Dark",
+      "en": "Incineram Noct",
+      "pt": "Incineram Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "garimpo": 4,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "92",
+      "chave": "Dazzi",
+      "id": "RaijinDaughter",
+      "en": "Dazzi",
+      "pt": "Dazzi",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 3,
+        "manual": 2,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "92B",
+      "chave": "Dazzi_Noct",
+      "id": "RaijinDaughter_Water",
+      "en": "Dazzi Noct",
+      "pt": "Dazzi Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 1,
+        "manual": 1,
+        "manipulacao": 1,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "93",
+      "chave": "Pyrin",
+      "id": "FireKirin",
+      "en": "Pyrin",
+      "pt": "Pyrin",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "madeira": 2
+      }
+    },
+    {
+      "numero": "93B",
+      "chave": "Pyrin_Noct",
+      "id": "FireKirin_Dark",
+      "en": "Pyrin Noct",
+      "pt": "Pyrin Noct",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "94",
+      "chave": "Relaxaurus",
+      "id": "LazyDragon",
+      "en": "Relaxaurus",
+      "pt": "Relaxaurus",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 3,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "94B",
+      "chave": "Relaxaurus_Lux",
+      "id": "LazyDragon_Electric",
+      "en": "Relaxaurus Lux",
+      "pt": "Relaxaurus Lux",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 4,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "95",
+      "chave": "Foxcicle",
+      "id": "IceFox",
+      "en": "Foxcicle",
+      "pt": "Foxcicle",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 4,
+        "fazenda": 3
+      }
+    },
+    {
+      "numero": "96",
+      "chave": "Beakon",
+      "id": "ThunderBird",
+      "en": "Beakon",
+      "pt": "Beakon",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 4,
+        "coleta": 2,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "96B",
+      "chave": "Beakon_Cryst",
+      "id": "ThunderBird_Ice",
+      "en": "Beakon Cryst",
+      "pt": "Beakon Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "coleta": 2,
+        "refrigeracao": 5,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "97",
+      "chave": "Ghangler",
+      "id": "GhostAnglerfish",
+      "en": "Ghangler",
+      "pt": "Ghangler",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 5,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "97B",
+      "chave": "Ghangler_Ignis",
+      "id": "GhostAnglerfish_Fire",
+      "en": "Ghangler Ignis",
+      "pt": "Ghangler Ignis",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "acender": 5,
+        "rega": 5,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "98",
+      "chave": "Rayhound",
+      "id": "ThunderDog",
+      "en": "Rayhound",
+      "pt": "Rayhound",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 4
+      }
+    },
+    {
+      "numero": "98B",
+      "chave": "Rayhound_Cryst",
+      "id": "ThunderDog_Ice",
+      "en": "Rayhound Cryst",
+      "pt": "Rayhound Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 3
+      }
+    },
+    {
+      "numero": "99",
+      "chave": "Menasting",
+      "id": "DarkScorpion",
+      "en": "Menasting",
+      "pt": "Menasting",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "madeira": 3,
+        "garimpo": 5
+      }
+    },
+    {
+      "numero": "99B",
+      "chave": "Menasting_Terra",
+      "id": "DarkScorpion_Ground",
+      "en": "Menasting Terra",
+      "pt": "Menasting Terra",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "madeira": 3,
+        "garimpo": 6
+      }
+    },
+    {
+      "numero": "100",
+      "chave": "Needoll",
+      "id": "CactusDoll",
+      "en": "Needoll",
+      "pt": "Needoll",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "coleta": 3,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "100B",
+      "chave": "Needoll_Noct",
+      "id": "CactusDoll_Dark",
+      "en": "Needoll Noct",
+      "pt": "Needoll Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "coleta": 3,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "101",
+      "chave": "Reindrix",
+      "id": "IceDeer",
+      "en": "Reindrix",
+      "pt": "Reindrix",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "madeira": 3,
+        "refrigeracao": 3
+      }
+    },
+    {
+      "numero": "102",
+      "chave": "Mossanda",
+      "id": "GrassPanda",
+      "en": "Mossanda",
+      "pt": "Mossanda",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 2,
+        "madeira": 4,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "102B",
+      "chave": "Mossanda_Lux",
+      "id": "GrassPanda_Electric",
+      "en": "Mossanda Lux",
+      "pt": "Mossanda Lux",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 4,
+        "manual": 3,
+        "madeira": 4,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "103",
+      "chave": "Chillet",
+      "id": "WeaselDragon",
+      "en": "Chillet",
+      "pt": "Chillet",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "refrigeracao": 2
+      }
+    },
+    {
+      "numero": "103B",
+      "chave": "Chillet_Ignis",
+      "id": "WeaselDragon_Fire",
+      "en": "Chillet Ignis",
+      "pt": "Chillet Ignis",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "coleta": 3
+      }
+    },
+    {
+      "numero": "104",
+      "chave": "Ragnahawk",
+      "id": "RedArmorBird",
+      "en": "Ragnahawk",
+      "pt": "Ragnahawk",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "105",
+      "chave": "Moldron",
+      "id": "VolcanoDragon",
+      "en": "Moldron",
+      "pt": "Moldron",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "acender": 5,
+        "garimpo": 5
+      }
+    },
+    {
+      "numero": "105B",
+      "chave": "Moldron_Cryst",
+      "id": "VolcanoDragon_Ice",
+      "en": "Moldron Cryst",
+      "pt": "Moldron Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 5,
+        "refrigeracao": 5
+      }
+    },
+    {
+      "numero": "106",
+      "chave": "Palumba",
+      "id": "TropicalOstrich",
+      "en": "Palumba",
+      "pt": "Palumba",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 4,
+        "coleta": 4,
+        "garimpo": 5
+      }
+    },
+    {
+      "numero": "107",
+      "chave": "Digtoise",
+      "id": "DrillGame",
+      "en": "Digtoise",
+      "pt": "Digtoise",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 4
+      }
+    },
+    {
+      "numero": "108",
+      "chave": "Broncherry",
+      "id": "SakuraSaurus",
+      "en": "Broncherry",
+      "pt": "Broncherry",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 5
+      }
+    },
+    {
+      "numero": "108B",
+      "chave": "Broncherry_Aqua",
+      "id": "SakuraSaurus_Water",
+      "en": "Broncherry Aqua",
+      "pt": "Broncherry Aqua",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 5
+      }
+    },
+    {
+      "numero": "109",
+      "chave": "Dumud",
+      "id": "LazyCatfish",
+      "en": "Dumud",
+      "pt": "Dumud",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "garimpo": 2,
+        "transporte": 1,
+        "fazenda": 1
+      }
+    },
+    {
+      "numero": "109B",
+      "chave": "Dumud_Gild",
+      "id": "LazyCatfish_Gold",
+      "en": "Dumud Gild",
+      "pt": "Dumud Gild",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 2,
+        "garimpo": 2,
+        "transporte": 1,
+        "fazenda": 4
+      }
+    },
+    {
+      "numero": "110",
+      "chave": "Braloha",
+      "id": "Plesiosaur",
+      "en": "Braloha",
+      "pt": "Braloha",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "plantio": 5,
+        "coleta": 5,
+        "garimpo": 3
+      }
+    },
+    {
+      "numero": "111",
+      "chave": "Kitsun",
+      "id": "AmaterasuWolf",
+      "en": "Kitsun",
+      "pt": "Kitsun",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 3
+      }
+    },
+    {
+      "numero": "111B",
+      "chave": "Kitsun_Noct",
+      "id": "AmaterasuWolf_Dark",
+      "en": "Kitsun Noct",
+      "pt": "Kitsun Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "acender": 4
+      }
+    },
+    {
+      "numero": "112",
+      "chave": "Blazehowl",
+      "id": "Manticore",
+      "en": "Blazehowl",
+      "pt": "Blazehowl",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 5,
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "112B",
+      "chave": "Blazehowl_Noct",
+      "id": "Manticore_Dark",
+      "en": "Blazehowl Noct",
+      "pt": "Blazehowl Noct",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "acender": 5,
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "113",
+      "chave": "Warsect",
+      "id": "HerculesBeetle",
+      "en": "Warsect",
+      "pt": "Warsect",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        },
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 3,
+        "madeira": 4,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "113B",
+      "chave": "Warsect_Terra",
+      "id": "HerculesBeetle_Ground",
+      "en": "Warsect Terra",
+      "pt": "Warsect Terra",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "garimpo": 5,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "114",
+      "chave": "Frostplume",
+      "id": "SnowPeafowl",
+      "en": "Frostplume",
+      "pt": "Frostplume",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "coleta": 2,
+        "refrigeracao": 4
+      }
+    },
+    {
+      "numero": "115",
+      "chave": "Majex",
+      "id": "DarkFlameFox",
+      "en": "Majex",
+      "pt": "Majex",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "manual": 5,
+        "manipulacao": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "116",
+      "chave": "Sibelyx",
+      "id": "WhiteMoth",
+      "en": "Sibelyx",
+      "pt": "Sibelyx",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "manipulacao": 3,
+        "refrigeracao": 3,
+        "fazenda": 3
+      }
+    },
+    {
+      "numero": "116B",
+      "chave": "Sibelyx_Primo",
+      "id": "WhiteMoth_Neutral",
+      "en": "Sibelyx Primo",
+      "pt": "Sibelyx Primo",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manipulacao": 3,
+        "fazenda": 4
+      }
+    },
+    {
+      "numero": "117",
+      "chave": "Maraith",
+      "id": "GhostBeast",
+      "en": "Maraith",
+      "pt": "Maraith",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 4,
+        "garimpo": 4
+      }
+    },
+    {
+      "numero": "118",
+      "chave": "Shroomer",
+      "id": "MushroomDragon",
+      "en": "Shroomer",
+      "pt": "Shroomer",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 2,
+        "coleta": 3,
+        "madeira": 2,
+        "fazenda": 3
+      }
+    },
+    {
+      "numero": "118B",
+      "chave": "Shroomer_Noct",
+      "id": "MushroomDragon_Dark",
+      "en": "Shroomer Noct",
+      "pt": "Shroomer Noct",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 3,
+        "coleta": 3,
+        "madeira": 2
+      }
+    },
+    {
+      "numero": "119",
+      "chave": "Icelyn",
+      "id": "IceWitch",
+      "en": "Icelyn",
+      "pt": "Icelyn",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "manual": 5,
+        "manipulacao": 4,
+        "refrigeracao": 5,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "120",
+      "chave": "Gildra",
+      "id": "MummyPal",
+      "en": "Gildra",
+      "pt": "Gildra",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 5,
+        "manipulacao": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "121",
+      "chave": "Jormuntide",
+      "id": "Umihebi",
+      "en": "Jormuntide",
+      "pt": "Jormuntide",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 7
+      }
+    },
+    {
+      "numero": "121B",
+      "chave": "Jormuntide_Ignis",
+      "id": "Umihebi_Fire",
+      "en": "Jormuntide Ignis",
+      "pt": "Jormuntide Ignis",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 7
+      }
+    },
+    {
+      "numero": "122",
+      "chave": "Suzaku",
+      "id": "Suzaku",
+      "en": "Suzaku",
+      "pt": "Suzaku",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 5
+      }
+    },
+    {
+      "numero": "122B",
+      "chave": "Suzaku_Aqua",
+      "id": "Suzaku_Water",
+      "en": "Suzaku Aqua",
+      "pt": "Suzaku Aqua",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 6
+      }
+    },
+    {
+      "numero": "123",
+      "chave": "Dazemu",
+      "id": "FeatherOstrich",
+      "en": "Dazemu",
+      "pt": "Dazemu",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "124",
+      "chave": "Quivern",
+      "id": "SkyDragon",
+      "en": "Quivern",
+      "pt": "Quivern",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "coleta": 3,
+        "garimpo": 4,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "124B",
+      "chave": "Quivern_Botan",
+      "id": "SkyDragon_Grass",
+      "en": "Quivern Botan",
+      "pt": "Quivern Botan",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 5,
+        "manual": 2,
+        "coleta": 4,
+        "garimpo": 3,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "125",
+      "chave": "Lullu",
+      "id": "LeafPrincess",
+      "en": "Lullu",
+      "pt": "Lullu",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 3,
+        "coleta": 2,
+        "manipulacao": 3
+      }
+    },
+    {
+      "numero": "126",
+      "chave": "Kikit",
+      "id": "SmallArmadillo",
+      "en": "Kikit",
+      "pt": "Kikit",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 1
+      }
+    },
+    {
+      "numero": "127",
+      "chave": "Yakumo",
+      "id": "GuardianDog",
+      "en": "Yakumo",
+      "pt": "Yakumo",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "128",
+      "chave": "Skutlass",
+      "id": "SwordCutlassfish",
+      "en": "Skutlass",
+      "pt": "Skutlass",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 4,
+        "coleta": 1,
+        "madeira": 4
+      }
+    },
+    {
+      "numero": "128B",
+      "chave": "Skutlass_Ignis",
+      "id": "SwordCutlassfish_Fire",
+      "en": "Skutlass Ignis",
+      "pt": "Skutlass Ignis",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 3,
+        "rega": 2,
+        "coleta": 2,
+        "madeira": 3
+      }
+    },
+    {
+      "numero": "129",
+      "chave": "Reptyro",
+      "id": "VolcanicMonster",
+      "en": "Reptyro",
+      "pt": "Reptyro",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "acender": 5,
+        "garimpo": 5
+      }
+    },
+    {
+      "numero": "129B",
+      "chave": "Reptyro_Cryst",
+      "id": "VolcanicMonster_Ice",
+      "en": "Reptyro Cryst",
+      "pt": "Reptyro Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 5,
+        "refrigeracao": 5
+      }
+    },
+    {
+      "numero": "130",
+      "chave": "Starryon",
+      "id": "NightBlueHorse",
+      "en": "Starryon",
+      "pt": "Starryon",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 5
+      }
+    },
+    {
+      "numero": "130B",
+      "chave": "Starryon_Primo",
+      "id": "NightBlueHorse_Neutral",
+      "en": "Starryon Primo",
+      "pt": "Starryon Primo",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 7
+      }
+    },
+    {
+      "numero": "131",
+      "chave": "Pierdon",
+      "id": "RockBeast",
+      "en": "Pierdon",
+      "pt": "Pierdon",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 5
+      }
+    },
+    {
+      "numero": "131B",
+      "chave": "Pierdon_Cryst",
+      "id": "RockBeast_Ice",
+      "en": "Pierdon Cryst",
+      "pt": "Pierdon Cryst",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "garimpo": 5,
+        "refrigeracao": 6
+      }
+    },
+    {
+      "numero": "132",
+      "chave": "Cryolinx",
+      "id": "WhiteTiger",
+      "en": "Cryolinx",
+      "pt": "Cryolinx",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "madeira": 4,
+        "refrigeracao": 4,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "132B",
+      "chave": "Cryolinx_Terra",
+      "id": "WhiteTiger_Ground",
+      "en": "Cryolinx Terra",
+      "pt": "Cryolinx Terra",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "madeira": 6,
+        "garimpo": 5,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "133",
+      "chave": "Snugloo",
+      "id": "SmallYeti",
+      "en": "Snugloo",
+      "pt": "Snugloo",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "manual": 2,
+        "garimpo": 3,
+        "refrigeracao": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "134",
+      "chave": "Wumpo",
+      "id": "Yeti",
+      "en": "Wumpo",
+      "pt": "Wumpo",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "madeira": 5,
+        "refrigeracao": 5,
+        "transporte": 6
+      }
+    },
+    {
+      "numero": "134B",
+      "chave": "Wumpo_Botan",
+      "id": "Yeti_Grass",
+      "en": "Wumpo Botan",
+      "pt": "Wumpo Botan",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 3,
+        "madeira": 5,
+        "transporte": 6
+      }
+    },
+    {
+      "numero": "135",
+      "chave": "Sootseer",
+      "id": "CandleGhost",
+      "en": "Sootseer",
+      "pt": "Sootseer",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 3,
+        "manual": 3,
+        "coleta": 2,
+        "garimpo": 3,
+        "fazenda": 2
+      }
+    },
+    {
+      "numero": "136",
+      "chave": "Carnibora",
+      "id": "VenusFlytrap",
+      "en": "Carnibora",
+      "pt": "Carnibora",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 6,
+        "manual": 4,
+        "coleta": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "137",
+      "chave": "Blazamut",
+      "id": "KingBahamut",
+      "en": "Blazamut",
+      "pt": "Blazamut",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 6,
+        "garimpo": 7
+      }
+    },
+    {
+      "numero": "137B",
+      "chave": "Blazamut_Ryu",
+      "id": "KingBahamut_Dragon",
+      "en": "Blazamut Ryu",
+      "pt": "Blazamut Ryu",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 6,
+        "garimpo": 7
+      }
+    },
+    {
+      "numero": "138",
+      "chave": "Dualith",
+      "id": "GrassGolem",
+      "en": "Dualith",
+      "pt": "Dualith",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        },
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "coleta": 3,
+        "madeira": 5,
+        "garimpo": 6,
+        "transporte": 6
+      }
+    },
+    {
+      "numero": "138B",
+      "chave": "Dualith_Noct",
+      "id": "GrassGolem_Dark",
+      "en": "Dualith Noct",
+      "pt": "Dualith Noct",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "coleta": 3,
+        "madeira": 5,
+        "garimpo": 6,
+        "transporte": 6
+      }
+    },
+    {
+      "numero": "139",
+      "chave": "Anubis",
+      "id": "Anubis",
+      "en": "Anubis",
+      "pt": "Anubis",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 6,
+        "garimpo": 6,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "140",
+      "chave": "Sekhmet",
+      "id": "Sekhmet",
+      "en": "Sekhmet",
+      "pt": "Sekhmet",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 6,
+        "garimpo": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "141",
+      "chave": "Prixter",
+      "id": "ScorpionMan",
+      "en": "Prixter",
+      "pt": "Prixter",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "coleta": 2,
+        "madeira": 4,
+        "manipulacao": 2
+      }
+    },
+    {
+      "numero": "141B",
+      "chave": "Prixter_Lux",
+      "id": "ScorpionMan_Electric",
+      "en": "Prixter Lux",
+      "pt": "Prixter Lux",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "energia": 3,
+        "coleta": 2,
+        "madeira": 4,
+        "manipulacao": 2
+      }
+    },
+    {
+      "numero": "142",
+      "chave": "Tetroise",
+      "id": "CubeTurtle",
+      "en": "Tetroise",
+      "pt": "Tetroise",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 4
+      }
+    },
+    {
+      "numero": "142B",
+      "chave": "Tetroise_Primo",
+      "id": "CubeTurtle_Neutral",
+      "en": "Tetroise Primo",
+      "pt": "Tetroise Primo",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "garimpo": 6
+      }
+    },
+    {
+      "numero": "143",
+      "chave": "Nyafia",
+      "id": "BadCatgirl",
+      "en": "Nyafia",
+      "pt": "Nyafia",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 4,
+        "coleta": 4,
+        "madeira": 2,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "144",
+      "chave": "Mimog",
+      "id": "MimicDog",
+      "en": "Mimog",
+      "pt": "Mimog",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "145",
+      "chave": "Xenovader",
+      "id": "DarkAlien",
+      "en": "Xenovader",
+      "pt": "Xenovader",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "madeira": 3,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "146",
+      "chave": "Xenogard",
+      "id": "WhiteAlienDragon",
+      "en": "Xenogard",
+      "pt": "Xenogard",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "garimpo": 4
+      }
+    },
+    {
+      "numero": "147",
+      "chave": "Prunelia",
+      "id": "BlueberryFairy",
+      "en": "Prunelia",
+      "pt": "Prunelia",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 1,
+        "coleta": 2,
+        "manipulacao": 3,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "148",
+      "chave": "Nitemary",
+      "id": "GhostRabbit",
+      "en": "Nitemary",
+      "pt": "Nitemary",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "148B",
+      "chave": "Nitemary_Botan",
+      "id": "GhostRabbit_Grass",
+      "en": "Nitemary Botan",
+      "pt": "Nitemary Botan",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 3,
+        "manual": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "149",
+      "chave": "Smokie",
+      "id": "BlackPuppy",
+      "en": "Smokie",
+      "pt": "Smokie",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "149B",
+      "chave": "Smokie_Cryst",
+      "id": "BlackPuppy_Ice",
+      "en": "Smokie Cryst",
+      "pt": "Smokie Cryst",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "coleta": 2,
+        "refrigeracao": 2
+      }
+    },
+    {
+      "numero": "150",
+      "chave": "Omascul",
+      "id": "MysteryMask",
+      "en": "Omascul",
+      "pt": "Omascul",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 5
+      }
+    },
+    {
+      "numero": "151",
+      "chave": "Whalaska",
+      "id": "IceNarwhal",
+      "en": "Whalaska",
+      "pt": "Whalaska",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 5,
+        "refrigeracao": 6
+      }
+    },
+    {
+      "numero": "151B",
+      "chave": "Whalaska_Ignis",
+      "id": "IceNarwhal_Fire",
+      "en": "Whalaska Ignis",
+      "pt": "Whalaska Ignis",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 5,
+        "refrigeracao": 6
+      }
+    },
+    {
+      "numero": "152",
+      "chave": "Verdash",
+      "id": "GrassRabbitMan",
+      "en": "Verdash",
+      "pt": "Verdash",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 4,
+        "manual": 5,
+        "coleta": 5,
+        "madeira": 3,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "153",
+      "chave": "Splatterina",
+      "id": "GrimGirl",
+      "en": "Splatterina",
+      "pt": "Splatterina",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 6,
+        "madeira": 3,
+        "manipulacao": 5,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "154",
+      "chave": "Gildane",
+      "id": "GoldenHorse",
+      "en": "Gildane",
+      "pt": "Gildane",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "coleta": 5
+      }
+    },
+    {
+      "numero": "155",
+      "chave": "Dogen",
+      "id": "SifuDog",
+      "en": "Dogen",
+      "pt": "Dogen",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 4,
+        "coleta": 3,
+        "madeira": 3,
+        "manipulacao": 2,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "156",
+      "chave": "Bulldosu",
+      "id": "SumoDog",
+      "en": "Bulldosu",
+      "pt": "Bulldosu",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 4,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "157",
+      "chave": "Celesdir",
+      "id": "WhiteDeer",
+      "en": "Celesdir",
+      "pt": "Celesdir",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 4,
+        "madeira": 7
+      }
+    },
+    {
+      "numero": "157B",
+      "chave": "Celesdir_Noct",
+      "id": "WhiteDeer_Dark",
+      "en": "Celesdir Noct",
+      "pt": "Celesdir Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 4,
+        "madeira": 8
+      }
+    },
+    {
+      "numero": "158",
+      "chave": "Astegon",
+      "id": "BlackMetalDragon",
+      "en": "Astegon",
+      "pt": "Astegon",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "garimpo": 7
+      }
+    },
+    {
+      "numero": "159",
+      "chave": "Knocklem",
+      "id": "WingGolem",
+      "en": "Knocklem",
+      "pt": "Knocklem",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "coleta": 4,
+        "garimpo": 7,
+        "transporte": 7
+      }
+    },
+    {
+      "numero": "159B",
+      "chave": "Knocklem_Ignis",
+      "id": "WingGolem_Fire",
+      "en": "Knocklem Ignis",
+      "pt": "Knocklem Ignis",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 5,
+        "garimpo": 7,
+        "transporte": 7
+      }
+    },
+    {
+      "numero": "160",
+      "chave": "Silvegis",
+      "id": "WhiteShieldDragon",
+      "en": "Silvegis",
+      "pt": "Silvegis",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "madeira": 6
+      }
+    },
+    {
+      "numero": "161",
+      "chave": "Azurmane",
+      "id": "BlueThunderHorse",
+      "en": "Azurmane",
+      "pt": "Azurmane",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 5
+      }
+    },
+    {
+      "numero": "162",
+      "chave": "Valentail",
+      "id": "LongCat",
+      "en": "Valentail",
+      "pt": "Valentail",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "163",
+      "chave": "Snock",
+      "id": "ElecSnail",
+      "en": "Snock",
+      "pt": "Snock",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 4
+      }
+    },
+    {
+      "numero": "163B",
+      "chave": "Snock_Lux",
+      "id": "ElecSnail_Ground",
+      "en": "Snock Lux",
+      "pt": "Snock Lux",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "energia": 4
+      }
+    },
+    {
+      "numero": "164",
+      "chave": "Souffline",
+      "id": "DandelionGirl",
+      "en": "Souffline",
+      "pt": "Souffline",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 2,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "165",
+      "chave": "Lapiron",
+      "id": "BrownRabbit",
+      "en": "Lapiron",
+      "pt": "Lapiron",
+      "elementos": [
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "coleta": 4,
+        "garimpo": 2,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "166",
+      "chave": "Hoodle",
+      "id": "HoodGhost",
+      "en": "Hoodle",
+      "pt": "Hoodle",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 1,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "167",
+      "chave": "Slowatt",
+      "id": "ElecLizard",
+      "en": "Slowatt",
+      "pt": "Slowatt",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 3
+      }
+    },
+    {
+      "numero": "168",
+      "chave": "Bakemi",
+      "id": "OniGhostGirl",
+      "en": "Bakemi",
+      "pt": "Bakemi",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 3,
+        "manipulacao": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "169",
+      "chave": "Solmora",
+      "id": "KingSunfish",
+      "en": "Solmora",
+      "pt": "Solmora",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 4
+      }
+    },
+    {
+      "numero": "169B",
+      "chave": "Solmora_Lux",
+      "id": "KingSunfish_Thunder",
+      "en": "Solmora Lux",
+      "pt": "Solmora Lux",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "rega": 4,
+        "energia": 6
+      }
+    },
+    {
+      "numero": "170",
+      "chave": "Lapure",
+      "id": "SleeveRabbit",
+      "en": "Lapure",
+      "pt": "Lapure",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 6,
+        "coleta": 5
+      }
+    },
+    {
+      "numero": "171",
+      "chave": "Eidrolon",
+      "id": "GhostDragon",
+      "en": "Eidrolon",
+      "pt": "Eidrolon",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "transporte": 6
+      }
+    },
+    {
+      "numero": "171B",
+      "chave": "Eidrolon_Ignis",
+      "id": "GhostDragon_Fire",
+      "en": "Eidrolon Ignis",
+      "pt": "Eidrolon Ignis",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 6,
+        "transporte": 6
+      }
+    },
+    {
+      "numero": "172",
+      "chave": "Dynamoff",
+      "id": "ThunderFluffyBird",
+      "en": "Dynamoff",
+      "pt": "Dynamoff",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 6,
+        "coleta": 3,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "173",
+      "chave": "Tropicaw",
+      "id": "RedFlowerBird",
+      "en": "Tropicaw",
+      "pt": "Tropicaw",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 5,
+        "coleta": 5
+      }
+    },
+    {
+      "numero": "174",
+      "chave": "Flaracle",
+      "id": "FoxExorcist",
+      "en": "Flaracle",
+      "pt": "Flaracle",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 7,
+        "manual": 6,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "175",
+      "chave": "Ophydia",
+      "id": "LotusDragon",
+      "en": "Ophydia",
+      "pt": "Ophydia",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 5,
+        "plantio": 7
+      }
+    },
+    {
+      "numero": "176",
+      "chave": "Dupin",
+      "id": "ClownRabbit",
+      "en": "Dupin",
+      "pt": "Dupin",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 7,
+        "manual": 5,
+        "manipulacao": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "177",
+      "chave": "Roujay",
+      "id": "ThiefBird",
+      "en": "Roujay",
+      "pt": "Roujay",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 5,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "178",
+      "chave": "Venusa",
+      "id": "SnakeGirl",
+      "en": "Venusa",
+      "pt": "Venusa",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 6,
+        "coleta": 6,
+        "manipulacao": 5,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "179",
+      "chave": "Mycora",
+      "id": "MushroomLady",
+      "en": "Mycora",
+      "pt": "Mycora",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 6,
+        "manual": 4,
+        "coleta": 4,
+        "manipulacao": 6
+      }
+    },
+    {
+      "numero": "180",
+      "chave": "Loomen",
+      "id": "LanternButler",
+      "en": "Loomen",
+      "pt": "Loomen",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 4,
+        "manual": 4,
+        "manipulacao": 4
+      }
+    },
+    {
+      "numero": "181",
+      "chave": "Wistella",
+      "id": "MoonChild",
+      "en": "Wistella",
+      "pt": "Wistella",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 6,
+        "manipulacao": 6,
+        "transporte": 1
+      }
+    },
+    {
+      "numero": "182",
+      "chave": "Solenne",
+      "id": "MonochromeQueen",
+      "en": "Solenne",
+      "pt": "Solenne",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 8,
+        "coleta": 4,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "183",
+      "chave": "Renjishi",
+      "id": "KabukiMan",
+      "en": "Renjishi",
+      "pt": "Renjishi",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 8,
+        "manual": 6,
+        "coleta": 5,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "184",
+      "chave": "Aegidron",
+      "id": "DomeArmorDragon",
+      "en": "Aegidron",
+      "pt": "Aegidron",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Ground",
+          "pt": "Terra"
+        }
+      ],
+      "apt": {
+        "garimpo": 8
+      }
+    },
+    {
+      "numero": "185",
+      "chave": "Grizzbolt",
+      "id": "ElecPanda",
+      "en": "Grizzbolt",
+      "pt": "Grizzbolt",
+      "elementos": [
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 5,
+        "manual": 4,
+        "madeira": 3,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "186",
+      "chave": "Lyleen",
+      "id": "LilyQueen",
+      "en": "Lyleen",
+      "pt": "Lyleen",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 7,
+        "manual": 5,
+        "coleta": 6,
+        "manipulacao": 5
+      }
+    },
+    {
+      "numero": "186B",
+      "chave": "Lyleen_Noct",
+      "id": "LilyQueen_Dark",
+      "en": "Lyleen Noct",
+      "pt": "Lyleen Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 5,
+        "coleta": 6,
+        "manipulacao": 7
+      }
+    },
+    {
+      "numero": "187",
+      "chave": "Orserk",
+      "id": "ThunderDragonMan",
+      "en": "Orserk",
+      "pt": "Orserk",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Electric",
+          "pt": "Elétrico"
+        }
+      ],
+      "apt": {
+        "energia": 8,
+        "manual": 3,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "188",
+      "chave": "Faleris",
+      "id": "Horus",
+      "en": "Faleris",
+      "pt": "Faleris",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "acender": 6,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "188B",
+      "chave": "Faleris_Aqua",
+      "id": "Horus_Water",
+      "en": "Faleris Aqua",
+      "pt": "Faleris Aqua",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 6,
+        "transporte": 5
+      }
+    },
+    {
+      "numero": "189",
+      "chave": "Shadowbeak",
+      "id": "BlackGriffon",
+      "en": "Shadowbeak",
+      "pt": "Shadowbeak",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "190",
+      "chave": "Selyne",
+      "id": "MoonQueen",
+      "en": "Selyne",
+      "pt": "Selyne",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "manual": 7,
+        "manipulacao": 6,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "191",
+      "chave": "Bastigor",
+      "id": "SnowTigerBeastman",
+      "en": "Bastigor",
+      "pt": "Bastigor",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "madeira": 6,
+        "garimpo": 5,
+        "refrigeracao": 8
+      }
+    },
+    {
+      "numero": "192",
+      "chave": "Shaolong",
+      "id": "BlueSkyDragon",
+      "en": "Shaolong",
+      "pt": "Shaolong",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        },
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 8,
+        "coleta": 5
+      }
+    },
+    {
+      "numero": "193",
+      "chave": "Silvance",
+      "id": "Mothman",
+      "en": "Silvance",
+      "pt": "Silvance",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "plantio": 6,
+        "manual": 6,
+        "coleta": 4,
+        "manipulacao": 8,
+        "transporte": 2
+      }
+    },
+    {
+      "numero": "194",
+      "chave": "Dandilord",
+      "id": "FlowerPrince",
+      "en": "Dandilord",
+      "pt": "Dandilord",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        },
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "plantio": 8,
+        "manual": 6,
+        "coleta": 5,
+        "manipulacao": 6,
+        "transporte": 3
+      }
+    },
+    {
+      "numero": "195",
+      "chave": "Bellanoir",
+      "id": "NightLady",
+      "en": "Bellanoir",
+      "pt": "Bellanoir",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 5,
+        "manipulacao": 5,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "195B",
+      "chave": "Bellanoir_Libero",
+      "id": "NightLady_Dark",
+      "en": "Bellanoir Libero",
+      "pt": "Bellanoir Libero",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "manual": 6,
+        "manipulacao": 7,
+        "transporte": 4
+      }
+    },
+    {
+      "numero": "196",
+      "chave": "Xenolord",
+      "id": "DarkMechaDragon",
+      "en": "Xenolord",
+      "pt": "Xenolord",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        },
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "coleta": 2
+      }
+    },
+    {
+      "numero": "197",
+      "chave": "Hartalis",
+      "id": "LegendDeer",
+      "en": "Hartalis",
+      "pt": "Hartalis",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 7,
+        "madeira": 7
+      }
+    },
+    {
+      "numero": "198",
+      "chave": "Paladius",
+      "id": "SaintCentaur",
+      "en": "Paladius",
+      "pt": "Paladius",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "madeira": 6,
+        "garimpo": 6
+      }
+    },
+    {
+      "numero": "199",
+      "chave": "Necromus",
+      "id": "BlackCentaur",
+      "en": "Necromus",
+      "pt": "Necromus",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "madeira": 6,
+        "garimpo": 6
+      }
+    },
+    {
+      "numero": "200",
+      "chave": "Frostallion",
+      "id": "IceHorse",
+      "en": "Frostallion",
+      "pt": "Frostallion",
+      "elementos": [
+        {
+          "en": "Ice",
+          "pt": "Gelo"
+        }
+      ],
+      "apt": {
+        "refrigeracao": 7
+      }
+    },
+    {
+      "numero": "200B",
+      "chave": "Frostallion_Noct",
+      "id": "IceHorse_Dark",
+      "en": "Frostallion Noct",
+      "pt": "Frostallion Noct",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "coleta": 7
+      }
+    },
+    {
+      "numero": "201",
+      "chave": "Neptilius",
+      "id": "PoseidonOrca",
+      "en": "Neptilius",
+      "pt": "Neptilius",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "rega": 7
+      }
+    },
+    {
+      "numero": "202",
+      "chave": "Jetragon",
+      "id": "JetDragon",
+      "en": "Jetragon",
+      "pt": "Jetragon",
+      "elementos": [
+        {
+          "en": "Dragon",
+          "pt": "Dracônico"
+        }
+      ],
+      "apt": {
+        "coleta": 8
+      }
+    },
+    {
+      "numero": "203",
+      "chave": "Panthalus",
+      "id": "KingWhale",
+      "en": "Panthalus",
+      "pt": "Panthalus",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {}
+    },
+    {
+      "numero": "204",
+      "chave": "Astralym",
+      "id": "WorldTreeDragon",
+      "en": "Astralym",
+      "pt": "Astralym",
+      "elementos": [],
+      "apt": {}
+    },
+    {
+      "numero": null,
+      "chave": "Blue_Slime",
+      "id": "YakushimaMonster001_Blue",
+      "en": "Blue Slime",
+      "pt": "Geleia Azul",
+      "elementos": [
+        {
+          "en": "Water",
+          "pt": "Água"
+        }
+      ],
+      "apt": {
+        "transporte": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Cave_Bat",
+      "id": "YakushimaMonster003",
+      "en": "Cave Bat",
+      "pt": "Morcego de Caverna",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Demon_Eye",
+      "id": "YakushimaBoss001_Small",
+      "en": "Demon Eye",
+      "pt": "Olho Demoníaco",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "transporte": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Enchanted_Sword",
+      "id": "YakushimaMonster002",
+      "en": "Enchanted Sword",
+      "pt": "Espada Encantada",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "madeira": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Eye_of_Cthulhu",
+      "id": "YakushimaBoss001",
+      "en": "Eye of Cthulhu",
+      "pt": "Olho de Cthulhu",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "transporte": 4
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Green_Slime",
+      "id": "YakushimaMonster001",
+      "en": "Green Slime",
+      "pt": "Geleia verde",
+      "elementos": [
+        {
+          "en": "Grass",
+          "pt": "Grama"
+        }
+      ],
+      "apt": {
+        "transporte": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Illuminant_Bat",
+      "id": "YakushimaMonster003_Purple",
+      "en": "Illuminant Bat",
+      "pt": "Morcego Luminoso",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "coleta": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Illuminant_Slime",
+      "id": "YakushimaMonster001_Pink",
+      "en": "Illuminant Slime",
+      "pt": "Geleia Luminosa",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "transporte": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Purple_Slime",
+      "id": "YakushimaMonster001_Purple",
+      "en": "Purple Slime",
+      "pt": "Geleia roxa",
+      "elementos": [
+        {
+          "en": "Dark",
+          "pt": "Escuridão"
+        }
+      ],
+      "apt": {
+        "transporte": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Rainbow_Slime",
+      "id": "YakushimaMonster001_Rainbow",
+      "en": "Rainbow Slime",
+      "pt": "Geleia do Arco-íris",
+      "elementos": [
+        {
+          "en": "Neutral",
+          "pt": "Não elemental"
+        }
+      ],
+      "apt": {
+        "transporte": 1
+      }
+    },
+    {
+      "numero": null,
+      "chave": "Red_Slime",
+      "id": "YakushimaMonster001_Red",
+      "en": "Red Slime",
+      "pt": "Geleia vermelha",
+      "elementos": [
+        {
+          "en": "Fire",
+          "pt": "Fogo"
+        }
+      ],
+      "apt": {
+        "transporte": 1
+      }
+    }
+  ]
+}

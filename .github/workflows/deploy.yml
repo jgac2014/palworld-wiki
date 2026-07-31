@@ -1,0 +1,60 @@
+name: Publicar wiki
+
+# Toda vez que alguém salvar uma alteração na branch main, o site é
+# reconstruído e publicado sozinho. Leva de 1 a 2 minutos.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar o Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Construir o site
+        run: npm run build
+        env:
+          CI: true
+          # Precisam bater com o seu usuário e o nome do repositório.
+          GH_USER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+
+      - name: Preparar o Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar o site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

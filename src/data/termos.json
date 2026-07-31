@@ -1,0 +1,922 @@
+{
+  "_leia_isto": [
+    "Dicionário bilíngue gerado por scripts/atualizar-termos.mjs a partir do paldb.cc,",
+    "que serve os dados dataminados do jogo em português e inglês.",
+    "",
+    "Para acrescentar um termo, adicione o identificador e o slug do paldb na lista",
+    "ENTIDADES do script e rode: npm run termos:atualizar",
+    "",
+    "Também dá para corrigir um termo à mão aqui: valores editados manualmente só são",
+    "sobrescritos se você rodar o script com --forcar."
+  ],
+  "atualizado_em": "2026-07-30",
+  "fonte": "https://paldb.cc",
+  "termos": {
+    "apt": {
+      "en": "Work Suitability",
+      "pt": "Aptidão para trabalho",
+      "fonte": "i18n"
+    },
+    "apt_emitflame": {
+      "en": "Kindling",
+      "pt": "Acender fogo",
+      "fonte": "i18n"
+    },
+    "apt_watering": {
+      "en": "Watering",
+      "pt": "Rega",
+      "fonte": "i18n"
+    },
+    "apt_seeding": {
+      "en": "Planting",
+      "pt": "Plantio",
+      "fonte": "i18n"
+    },
+    "apt_generateelectricity": {
+      "en": "Generating Electricity",
+      "pt": "Geração de energia",
+      "fonte": "i18n"
+    },
+    "apt_handcraft": {
+      "en": "Handiwork",
+      "pt": "Trabalho manual",
+      "fonte": "i18n"
+    },
+    "apt_collection": {
+      "en": "Gathering",
+      "pt": "Coleta",
+      "fonte": "i18n"
+    },
+    "apt_deforest": {
+      "en": "Lumbering",
+      "pt": "Cortar árvores",
+      "fonte": "i18n"
+    },
+    "apt_mining": {
+      "en": "Mining",
+      "pt": "Garimpo",
+      "fonte": "i18n"
+    },
+    "apt_productmedicine": {
+      "en": "Medicine Production",
+      "pt": "Manipulação",
+      "fonte": "i18n"
+    },
+    "apt_cool": {
+      "en": "Cooling",
+      "pt": "Refrigeração",
+      "fonte": "i18n"
+    },
+    "apt_transport": {
+      "en": "Transporting",
+      "pt": "Transporte",
+      "fonte": "i18n"
+    },
+    "apt_monsterfarm": {
+      "en": "Farming",
+      "pt": "Fazenda",
+      "fonte": "i18n"
+    },
+    "apt_oilextraction": {
+      "en": "Crude Oil Extraction",
+      "pt": "Extração de petróleo bruto",
+      "fonte": "i18n"
+    },
+    "ingame_main_menu_inventory": {
+      "en": "Inventory",
+      "pt": "Inventário",
+      "fonte": "i18n"
+    },
+    "ingame_main_menu_technology": {
+      "en": "Technology",
+      "pt": "Tecnologias",
+      "fonte": "i18n"
+    },
+    "mapobject_name_breedfarm": {
+      "en": "Breeding Farm",
+      "pt": "Fazenda de Acasalamento",
+      "fonte": "i18n"
+    },
+    "breeding_farm": {
+      "en": "Breeding Farm",
+      "pt": "Fazenda de Acasalamento",
+      "fonte": "paldb",
+      "slug": "Breeding_Farm"
+    },
+    "ranch": {
+      "en": "Ranch",
+      "pt": "Fazenda de Criação",
+      "fonte": "paldb",
+      "slug": "Ranch"
+    },
+    "palbox": {
+      "en": "Palbox",
+      "pt": "Caixa de Pal",
+      "fonte": "paldb",
+      "slug": "Palbox"
+    },
+    "egg_incubator": {
+      "en": "Egg Incubator",
+      "pt": "Incubadora de Ovos",
+      "fonte": "paldb",
+      "slug": "Egg_Incubator"
+    },
+    "large_incubator": {
+      "en": "Large Incubator",
+      "pt": "Máquina Incubadora de Ovos Grande",
+      "fonte": "paldb",
+      "slug": "Large_Incubator"
+    },
+    "cooking_pot": {
+      "en": "Cooking Pot",
+      "pt": "Panela",
+      "fonte": "paldb",
+      "slug": "Cooking_Pot"
+    },
+    "feed_box": {
+      "en": "Feed Box",
+      "pt": "Ração",
+      "fonte": "paldb",
+      "slug": "Feed_Box"
+    },
+    "hot_spring": {
+      "en": "Hot Spring",
+      "pt": "Águas Termais",
+      "fonte": "paldb",
+      "slug": "Hot_Spring"
+    },
+    "condenser": {
+      "en": "Pal Essence Condenser",
+      "pt": "Casulo de Condensação de Pal",
+      "fonte": "paldb",
+      "slug": "Pal_Essence_Condenser"
+    },
+    "production_line": {
+      "en": "Production Assembly Line",
+      "pt": "Fábrica de Linha",
+      "fonte": "paldb",
+      "slug": "Production_Assembly_Line"
+    },
+    "electric_furnace": {
+      "en": "Electric Furnace",
+      "pt": "Forno Elétrico",
+      "fonte": "paldb",
+      "slug": "Electric_Furnace"
+    },
+    "power_generator": {
+      "en": "Power Generator",
+      "pt": "Gerador Elétrico",
+      "fonte": "paldb",
+      "slug": "Power_Generator"
+    },
+    "guild_chest": {
+      "en": "Guild Chest",
+      "pt": "Baú de Guilda",
+      "fonte": "paldb",
+      "slug": "Guild_Chest"
+    },
+    "ore_mining_site": {
+      "en": "Ore Mining Site",
+      "pt": "Garimpo de Metais",
+      "fonte": "paldb",
+      "slug": "Ore_Mining_Site"
+    },
+    "wheat_plantation": {
+      "en": "Wheat Plantation",
+      "pt": "Plantação de Trigo",
+      "fonte": "paldb",
+      "slug": "Wheat_Plantation"
+    },
+    "berry_plantation": {
+      "en": "Berry Plantation",
+      "pt": "Plantação de Frutinhas",
+      "fonte": "paldb",
+      "slug": "Berry_Plantation"
+    },
+    "mill": {
+      "en": "Mill",
+      "pt": "Moenda",
+      "fonte": "paldb",
+      "slug": "Mill"
+    },
+    "statue_of_power": {
+      "en": "Statue of Power",
+      "pt": "Estátua da Força",
+      "fonte": "paldb",
+      "slug": "Statue_of_Power"
+    },
+    "cake": {
+      "en": "Cake",
+      "pt": "Bolo",
+      "fonte": "paldb",
+      "slug": "Cake"
+    },
+    "vegetable_cake": {
+      "en": "Vegetable Cake",
+      "pt": "Bolo de Verduras",
+      "fonte": "paldb",
+      "slug": "Vegetable_Cake"
+    },
+    "mushroom_cake": {
+      "en": "Mushroom Cake",
+      "pt": "Bolo de Cogumelos",
+      "fonte": "paldb",
+      "slug": "Mushroom_Cake"
+    },
+    "special_cake": {
+      "en": "Special Cake",
+      "pt": "Bolo Especial",
+      "fonte": "paldb",
+      "slug": "Special_Cake"
+    },
+    "pal_sphere": {
+      "en": "Pal Sphere",
+      "pt": "pt-BR_Text",
+      "fonte": "paldb",
+      "slug": "Pal_Sphere"
+    },
+    "paldium_fragment": {
+      "en": "Paldium Fragment",
+      "pt": "Fragmento de Palúdio",
+      "fonte": "paldb",
+      "slug": "Paldium_Fragment"
+    },
+    "pure_quartz": {
+      "en": "Pure Quartz",
+      "pt": "Quartzo Puro",
+      "fonte": "paldb",
+      "slug": "Pure_Quartz"
+    },
+    "ring_of_mercy": {
+      "en": "Ring of Mercy",
+      "pt": "Anel de Clemência",
+      "fonte": "paldb",
+      "slug": "Ring_of_Mercy"
+    },
+    "lifmunk_effigy": {
+      "en": "Lifmunk Effigy",
+      "pt": "Estátua de Lifmunk",
+      "fonte": "paldb",
+      "slug": "Lifmunk_Effigy"
+    },
+    "ancient_parts": {
+      "en": "Ancient Civilization Parts",
+      "pt": "Peça da Civilização Antiga",
+      "fonte": "paldb",
+      "slug": "Ancient_Civilization_Parts"
+    },
+    "artisan": {
+      "en": "Artisan",
+      "pt": "Espírito artesão",
+      "efeito": "Velocidade de trabalho +50%",
+      "fonte": "conferido"
+    },
+    "serious": {
+      "en": "Serious",
+      "pt": "Dedicado",
+      "efeito": "Velocidade de trabalho +20%",
+      "fonte": "conferido"
+    },
+    "lucky": {
+      "en": "Lucky",
+      "pt": "Da sorte",
+      "efeito": "Ataque +15%, trabalho +20%",
+      "fonte": "conferido"
+    },
+    "legend": {
+      "en": "Legend",
+      "pt": "Lendário",
+      "efeito": "Ataque, defesa e velocidade +20%",
+      "fonte": "conferido"
+    },
+    "ranch_master": {
+      "en": "Ranch Master",
+      "pt": "Mestre Pecuarista",
+      "efeito": "Fazenda +2",
+      "fonte": "conferido"
+    },
+    "farmhand": {
+      "en": "Farmhand",
+      "pt": "Jovem Pecuarista",
+      "efeito": "Fazenda +1",
+      "fonte": "conferido"
+    },
+    "musclehead": {
+      "en": "Musclehead",
+      "pt": "Brutamontes",
+      "efeito": "Ataque +30%, trabalho -50%",
+      "fonte": "conferido"
+    },
+    "destructive": {
+      "en": "Destructive",
+      "pt": "Tendência suicida",
+      "efeito": "Perda de SAN +15%",
+      "fonte": "conferido"
+    },
+    "slacker": {
+      "en": "Slacker",
+      "pt": "Tendência ao ócio",
+      "efeito": "Velocidade de trabalho -30%",
+      "fonte": "conferido"
+    },
+    "clumsy": {
+      "en": "Clumsy",
+      "pt": "Desajeitado",
+      "efeito": "Velocidade de trabalho -10%",
+      "fonte": "conferido"
+    },
+    "diamond_body": {
+      "en": "Diamond Body",
+      "pt": "Corpo de Diamante",
+      "efeito": "Defesa +30%, imune a flinch",
+      "fonte": "conferido"
+    },
+    "demon_god": {
+      "en": "Demon God",
+      "pt": "Deus Inclemente",
+      "efeito": "Ataque +30%, defesa +5%",
+      "fonte": "conferido"
+    },
+    "serenity": {
+      "en": "Serenity",
+      "pt": "Sossegado",
+      "efeito": "Recarga de habilidade -30%",
+      "fonte": "conferido"
+    },
+    "immortality": {
+      "en": "Immortality",
+      "pt": "Imortalidade",
+      "efeito": "Roubo de vida, só de mutação",
+      "fonte": "conferido"
+    },
+    "babysitter": {
+      "en": "Babysitter",
+      "pt": "Babá",
+      "efeito": "Ovos e incubação +30%",
+      "fonte": "conferido"
+    },
+    "swift": {
+      "en": "Swift",
+      "pt": "Vertiginoso",
+      "efeito": "Movimento +30%",
+      "fonte": "conferido"
+    },
+    "runner": {
+      "en": "Runner",
+      "pt": "Bom corredor",
+      "efeito": "Movimento +20%",
+      "fonte": "conferido"
+    },
+    "nimble": {
+      "en": "Nimble",
+      "pt": "Ligeiro",
+      "efeito": "Movimento +10%",
+      "fonte": "conferido"
+    },
+    "workaholic": {
+      "en": "Workaholic",
+      "pt": "Viciado no trabalho",
+      "efeito": "Manutenção de SAN +15%",
+      "fonte": "conferido"
+    },
+    "ancient_core": {
+      "en": "Ancient Civilization Core",
+      "pt": "Núcleo da Civilização Antiga",
+      "fonte": "paldb",
+      "slug": "Ancient_Civilization_Core"
+    },
+    "drafting_table": {
+      "en": "Drafting Table",
+      "pt": "Mesa de Projetos",
+      "fonte": "paldb",
+      "slug": "Drafting_Table"
+    },
+    "ancient_hatchery": {
+      "en": "Ancient Hatchery",
+      "pt": "Reprodutor da Civilização Antiga",
+      "fonte": "paldb",
+      "slug": "Ancient_Hatchery"
+    },
+    "electric_incubator": {
+      "en": "Electric Egg Incubator",
+      "pt": "Incubadora de Ovos Elétrica",
+      "fonte": "paldb",
+      "slug": "Electric_Egg_Incubator"
+    },
+    "large_power_gen": {
+      "en": "Large Power Generator",
+      "pt": "Gerador Elétrico Grande",
+      "fonte": "paldb",
+      "slug": "Large_Power_Generator"
+    },
+    "coal_mine": {
+      "en": "Coal Mine",
+      "pt": "Garimpo de Carvão",
+      "fonte": "paldb",
+      "slug": "Coal_Mine"
+    },
+    "sulfur_mine": {
+      "en": "Sulfur Mine",
+      "pt": "Garimpo de Enxofre",
+      "fonte": "paldb",
+      "slug": "Sulfur_Mine"
+    },
+    "gold_coin_line": {
+      "en": "Gold Coin Assembly Line",
+      "pt": "Fábrica de Dinheiro",
+      "fonte": "paldb",
+      "slug": "Gold_Coin_Assembly_Line"
+    },
+    "weapon_line": {
+      "en": "Weapon Assembly Line",
+      "pt": "Fábrica de Linha de Armas",
+      "fonte": "paldb",
+      "slug": "Weapon_Assembly_Line"
+    },
+    "sphere_line": {
+      "en": "Sphere Assembly Line",
+      "pt": "Fábrica de Linha de Esferas",
+      "fonte": "paldb",
+      "slug": "Sphere_Assembly_Line"
+    },
+    "ancient_furnace": {
+      "en": "Ancient Furnace",
+      "pt": "Forno da Civilização Antiga",
+      "fonte": "paldb",
+      "slug": "Ancient_Furnace"
+    },
+    "improved_furnace": {
+      "en": "Improved Furnace",
+      "pt": "Forno Melhorado",
+      "fonte": "paldb",
+      "slug": "Improved_Furnace"
+    },
+    "accumulator": {
+      "en": "Accumulator",
+      "pt": "Capacitor",
+      "fonte": "paldb",
+      "slug": "Accumulator"
+    },
+    "electric_pylon": {
+      "en": "Electric Pylon",
+      "pt": "Torre de Transmissão",
+      "fonte": "paldb",
+      "slug": "Electric_Pylon"
+    },
+    "palbox_terminal": {
+      "en": "Palbox Control Device",
+      "pt": "Terminal para Operar Caixa de Pals",
+      "fonte": "paldb",
+      "slug": "Palbox_Control_Device"
+    },
+    "expedition_station": {
+      "en": "Pal Expedition Station",
+      "pt": "Escritório de Expedição de Pals",
+      "fonte": "paldb",
+      "slug": "Pal_Expedition_Station"
+    },
+    "mounted_crossbow": {
+      "en": "Mounted Crossbow",
+      "pt": "Besta Fixa",
+      "fonte": "paldb",
+      "slug": "Mounted_Crossbow"
+    },
+    "mounted_machinegun": {
+      "en": "Mounted Machine Gun",
+      "pt": "Metralhadora Fixa",
+      "fonte": "paldb",
+      "slug": "Mounted_Machine_Gun"
+    },
+    "ore_mining_site_2": {
+      "en": "Ore Mining Site II",
+      "pt": "Garimpo de Metais II",
+      "fonte": "paldb",
+      "slug": "Ore_Mining_Site_II"
+    },
+    "ancient_synth": {
+      "en": "Ancient Material Synthesizer",
+      "pt": "Gerador de Materiais da Civilização Antiga",
+      "fonte": "paldb",
+      "slug": "Ancient_Material_Synthesizer"
+    },
+    "relic_recycler": {
+      "en": "Ancient Relic Recycler",
+      "pt": "Conversor de Relíquias Antigas",
+      "fonte": "paldb",
+      "slug": "Ancient_Relic_Recycler"
+    },
+    "soralite_quarry": {
+      "en": "Soralite Quarry",
+      "pt": "Garimpo de Soralite",
+      "fonte": "paldb",
+      "slug": "Soralite_Quarry"
+    },
+    "extravagant_cake": {
+      "en": "Extravagant Vegetable Cake",
+      "pt": "Bolo de Verduras Extravagante",
+      "fonte": "paldb",
+      "slug": "Extravagant_Vegetable_Cake"
+    },
+    "holy_water": {
+      "en": "World Tree Holy Water",
+      "pt": "Água Benta da Árvore Mundial",
+      "fonte": "paldb",
+      "slug": "World_Tree_Holy_Water"
+    },
+    "crude_oil": {
+      "en": "Crude Oil",
+      "pt": "Óleo cru",
+      "fonte": "paldb",
+      "slug": "Crude_Oil"
+    },
+    "soralite": {
+      "en": "Soralite",
+      "pt": "Soralite",
+      "fonte": "paldb",
+      "slug": "Soralite"
+    },
+    "paloxite": {
+      "en": "Paloxite",
+      "pt": "Paloxita",
+      "fonte": "paldb",
+      "slug": "Paloxite"
+    },
+    "hexolite": {
+      "en": "Hexolite Quartz",
+      "pt": "Exoquartzo",
+      "fonte": "paldb",
+      "slug": "Hexolite_Quartz"
+    },
+    "polymer": {
+      "en": "Polymer",
+      "pt": "Polímero",
+      "fonte": "paldb",
+      "slug": "Polymer"
+    },
+    "circuit_board": {
+      "en": "Circuit Board",
+      "pt": "Circuito Elétrico",
+      "fonte": "paldb",
+      "slug": "Circuit_Board"
+    },
+    "carbon_fiber": {
+      "en": "Carbon Fiber",
+      "pt": "Fibra de Carbono",
+      "fonte": "paldb",
+      "slug": "Carbon_Fiber"
+    },
+    "cement": {
+      "en": "Cement",
+      "pt": "Cimento",
+      "fonte": "paldb",
+      "slug": "Cement"
+    },
+    "nail": {
+      "en": "Nail",
+      "pt": "Prego",
+      "fonte": "paldb",
+      "slug": "Nail"
+    },
+    "ingot": {
+      "en": "Ingot",
+      "pt": "Lingote de Metal",
+      "fonte": "paldb",
+      "slug": "Ingot"
+    },
+    "refined_ingot": {
+      "en": "Refined Ingot",
+      "pt": "Lingote de Metal Refinado",
+      "fonte": "paldb",
+      "slug": "Refined_Ingot"
+    },
+    "pal_metal_ingot": {
+      "en": "Pal Metal Ingot",
+      "pt": "Lingote de Metal Pal",
+      "fonte": "paldb",
+      "slug": "Pal_Metal_Ingot"
+    },
+    "high_quality_cloth": {
+      "en": "High Quality Cloth",
+      "pt": "Pano Requintado",
+      "fonte": "paldb",
+      "slug": "High_Quality_Cloth"
+    },
+    "cotton_candy": {
+      "en": "Cotton Candy",
+      "pt": "Algodão-Doce",
+      "fonte": "paldb",
+      "slug": "Cotton_Candy"
+    },
+    "flour": {
+      "en": "Flour",
+      "pt": "Farinha de Trigo",
+      "fonte": "paldb",
+      "slug": "Flour"
+    },
+    "honey": {
+      "en": "Honey",
+      "pt": "Mel",
+      "fonte": "paldb",
+      "slug": "Honey"
+    },
+    "milk": {
+      "en": "Milk",
+      "pt": "Leite",
+      "fonte": "paldb",
+      "slug": "Milk"
+    },
+    "egg_item": {
+      "en": "Egg",
+      "pt": "Ovo",
+      "fonte": "paldb",
+      "slug": "Egg"
+    },
+    "tomato": {
+      "en": "Tomato",
+      "pt": "Tomate",
+      "fonte": "paldb",
+      "slug": "Tomato"
+    },
+    "lettuce": {
+      "en": "Lettuce",
+      "pt": "Alface",
+      "fonte": "paldb",
+      "slug": "Lettuce"
+    },
+    "mushroom": {
+      "en": "Mushroom",
+      "pt": "Cogumelo",
+      "fonte": "paldb",
+      "slug": "Mushroom"
+    },
+    "cavern_mushroom": {
+      "en": "Cavern Mushroom",
+      "pt": "Cogumelo de Caverna",
+      "fonte": "paldb",
+      "slug": "Cavern_Mushroom"
+    },
+    "metal_detector": {
+      "en": "Metal Detector",
+      "pt": "Detector de Metais",
+      "fonte": "paldb",
+      "slug": "Metal_Detector"
+    },
+    "plasma_multicutter": {
+      "en": "Plasma Multicutter",
+      "pt": "Cortador a Plasma Múltiplo",
+      "fonte": "paldb",
+      "slug": "Plasma_Multicutter"
+    },
+    "corrosive_mask": {
+      "en": "Corrosive Mist Mask",
+      "pt": "Máscara de Névoa Corrosiva",
+      "fonte": "paldb",
+      "slug": "Corrosive_Mist_Mask"
+    },
+    "echoing_flute": {
+      "en": "Echoing Flute",
+      "pt": "Flauta Ecoante",
+      "fonte": "paldb",
+      "slug": "Echoing_Flute"
+    },
+    "memory_wiping": {
+      "en": "Memory Wiping Medicine",
+      "pt": "Limpador de Memória",
+      "fonte": "paldb",
+      "slug": "Memory_Wiping_Medicine"
+    },
+    "small_pal_soul": {
+      "en": "Small Pal Soul",
+      "pt": "Alma de Pal Pequena",
+      "fonte": "paldb",
+      "slug": "Small_Pal_Soul"
+    },
+    "gold_coin": {
+      "en": "Gold Coin",
+      "pt": "Moeda de Ouro",
+      "fonte": "paldb",
+      "slug": "Gold_Coin"
+    },
+    "ancient_manual": {
+      "en": "Ancient Technical Manual",
+      "pt": "Manual Técnico Antigo",
+      "fonte": "paldb",
+      "slug": "Ancient_Technical_Manual"
+    },
+    "local_u_female_nomad01_v05": {
+      "en": "Ancient Civilization Researcher",
+      "pt": "Cientista da civilização antiga",
+      "fonte": "mapa",
+      "ident": "U_Female_Nomad01_v05"
+    },
+    "local_darktrader": {
+      "en": "Black Marketeer",
+      "pt": "Comerciante furtivo",
+      "fonte": "mapa",
+      "ident": "DarkTrader"
+    },
+    "local_arenashop": {
+      "en": "Arena Merchant",
+      "pt": "Comerciante do Coliseu",
+      "fonte": "mapa",
+      "ident": "ArenaShop"
+    },
+    "local_darktrader03": {
+      "en": "Black Marketeer",
+      "pt": "Comerciante furtivo",
+      "fonte": "mapa",
+      "ident": "DarkTrader03"
+    },
+    "local_volcano_1": {
+      "en": "Mount Obsidian",
+      "pt": "Vulcão Obsidiano",
+      "fonte": "mapa",
+      "ident": "REGION_Volcano_1"
+    },
+    "local_skyisland01": {
+      "en": "The Azure Tapestry",
+      "pt": "Fissura do Cerúleo Remoto",
+      "fonte": "mapa",
+      "ident": "REGION_Skyisland01"
+    },
+    "local_arena": {
+      "en": "Arena",
+      "pt": "Coliseu",
+      "fonte": "mapa",
+      "ident": "REGION_Arena"
+    },
+    "local_new_smallisland04": {
+      "en": "Bicornis Islet",
+      "pt": "Ilha Solitária dos Chifres Duplos",
+      "fonte": "mapa",
+      "ident": "REGION_New_SmallIsland04"
+    },
+    "local_forest_1": {
+      "en": "Crescent Moon Shore",
+      "pt": "Beira-Lago da Lua Ausente",
+      "fonte": "mapa",
+      "ident": "REGION_Forest_1"
+    },
+    "local_pvp_4": {
+      "en": "Eastern Wild Island",
+      "pt": "Ilha Desolada Oriental",
+      "fonte": "mapa",
+      "ident": "REGION_PvP_4"
+    },
+    "local_frost_1": {
+      "en": "Astral Mountains",
+      "pt": "Montanha Sagrada da Prata Alva",
+      "fonte": "mapa",
+      "ident": "REGION_Frost_1"
+    },
+    "local_skyisland04": {
+      "en": "Farcry Marsh",
+      "pt": "Pântano da Lama e das Nuvens",
+      "fonte": "mapa",
+      "ident": "REGION_Skyisland04"
+    },
+    "local_skyisland07": {
+      "en": "Enchanted Firmament",
+      "pt": "Terra Encantada Celeste",
+      "fonte": "mapa",
+      "ident": "REGION_Skyisland07"
+    },
+    "local_skyisland06": {
+      "en": "Crystalline Archipelago",
+      "pt": "Arquipélago de Cristal",
+      "fonte": "mapa",
+      "ident": "REGION_Skyisland06"
+    },
+    "local_preserve1": {
+      "en": "No. 1 Wildlife Sanctuary",
+      "pt": "Zona de Caça Proibida I",
+      "fonte": "mapa",
+      "ident": "REGION_Preserve1"
+    },
+    "local_world_tree": {
+      "en": "World Tree",
+      "pt": "Árvore Mundial",
+      "fonte": "conferido"
+    },
+    "local_sakurajima": {
+      "en": "Sakurajima",
+      "pt": "Ilha das Cerejeiras",
+      "fonte": "conferido"
+    },
+    "local_sanctuary": {
+      "en": "Wildlife Sanctuary",
+      "pt": "Zona de Caça Proibida",
+      "fonte": "conferido"
+    },
+    "local_palpagos": {
+      "en": "Palpagos",
+      "pt": "Palpagos",
+      "fonte": "conferido"
+    },
+    "radiant_gem": {
+      "en": "Radiant Gem",
+      "pt": "Fulgorita",
+      "fonte": "conferido"
+    },
+    "clinic": {
+      "en": "Clinic",
+      "pt": "Clínica",
+      "fonte": "conferido"
+    },
+    "ancient_clinic": {
+      "en": "Ancient Clinic",
+      "pt": "Clínica da Civilização Antiga",
+      "fonte": "conferido"
+    },
+    "paldeck": {
+      "en": "Paldeck",
+      "pt": "Palpédia",
+      "fonte": "conferido"
+    },
+    "capture_bonus": {
+      "en": "Capture Bonus",
+      "pt": "Bônus da Palpédia",
+      "fonte": "conferido"
+    },
+    "partner_skill": {
+      "en": "Partner Skill",
+      "pt": "Habilidade de companheiro",
+      "fonte": "conferido"
+    },
+    "active_skill": {
+      "en": "Active Skill",
+      "pt": "Habilidade ativa",
+      "fonte": "conferido"
+    },
+    "passive_skill": {
+      "en": "Passive Skill",
+      "pt": "Habilidade passiva",
+      "fonte": "conferido"
+    },
+    "raid": {
+      "en": "Raid",
+      "pt": "Invasão",
+      "fonte": "conferido"
+    },
+    "alpha_pal": {
+      "en": "Alpha Pal",
+      "pt": "Pal Alfa",
+      "fonte": "conferido"
+    },
+    "lucky_pal": {
+      "en": "Lucky Pal",
+      "pt": "Pal Sortudo",
+      "fonte": "conferido"
+    },
+    "tower_boss": {
+      "en": "Tower Boss",
+      "pt": "Chefe de torre",
+      "fonte": "conferido"
+    },
+    "fast_travel": {
+      "en": "Fast Travel",
+      "pt": "Viagem rápida",
+      "fonte": "conferido"
+    },
+    "guild": {
+      "en": "Guild",
+      "pt": "Guilda",
+      "fonte": "conferido"
+    },
+    "schematic": {
+      "en": "Schematic",
+      "pt": "Esquema",
+      "fonte": "conferido"
+    },
+    "condensation": {
+      "en": "Condensation",
+      "pt": "Condensação",
+      "fonte": "conferido"
+    },
+    "work_speed": {
+      "en": "Work Speed",
+      "pt": "Velocidade de trabalho",
+      "fonte": "conferido"
+    },
+    "applied_handbook": {
+      "en": "Applied Handbook",
+      "pt": "Ciência Aplicada",
+      "fonte": "conferido"
+    },
+    "surgery_table": {
+      "en": "Surgery Table",
+      "pt": "Mesa de Operação de Pals",
+      "fonte": "conferido"
+    },
+    "base_camp": {
+      "en": "Base Camp",
+      "pt": "Base",
+      "fonte": "conferido"
+    },
+    "sanity": {
+      "en": "Sanity",
+      "pt": "SAN",
+      "fonte": "conferido"
+    }
+  }
+}

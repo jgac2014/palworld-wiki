@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Search from 'astro-pagefind/components/Search.astro';
+import Chat from '../components/Chat.astro';
+import SeletorIdioma from '../components/SeletorIdioma.astro';
+import '../styles/global.css';
+
+interface Props {
+  titulo: string;
+  descricao?: string;
+  atualizado?: Date;
+  arquivoFonte?: string;
+}
+
+const { titulo, descricao = '', atualizado, arquivoFonte } = Astro.props;
+
+const paginas = (await getCollection('wiki', ({ data }) => !data.rascunho))
+  .sort((a, b) => a.data.ordem - b.data.ordem);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const atual = Astro.url.pathname.replace(/\/$/, '');
+const eh = (href: string) => atual === href.replace(/\/$/, '');
+
+const REPO = 'https://github.com/nederreis/PalCrew';
+---
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{titulo} · Wiki Palworld 1.0</title>
+  <meta name="description" content={descricao} />
+  <meta property="og:title" content={`${titulo} · Wiki Palworld 1.0`} />
+  <meta property="og:description" content={descricao} />
+  <meta property="og:type" content="article" />
+  <meta name="generator" content={Astro.generator} />
+  <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+</head>
+<body>
+<div class="casca">
+
+  <nav class="lateral">
+    <a class="marca" href={`${base}/`}>Wiki Palworld 1.0</a>
+    <SeletorIdioma />
+    <div class="marca-sub">
+      Em português · mid game · co-op<br />
+      Versão do jogo 1.0.2.101103
+    </div>
+
+    <div class="grupo">Ferramentas</div>
+    <a class="item" href={`${base}/mapa`} aria-current={eh(`${base}/mapa`) ? 'page' : undefined}>Mapa interativo</a>
+    <a class="item" href={`${base}/pals`} aria-current={eh(`${base}/pals`) ? 'page' : undefined}>Banco de Pals</a>
+
+    <div class="grupo">Guias</div>
+    {paginas.map((p) => (
+      <a
+        class="item"
+        href={`${base}/${p.id}`}
+        aria-current={eh(`${base}/${p.id}`) ? 'page' : undefined}
+      >{p.data.titulo}</a>
+    ))}
+
+    <div class="grupo">Projeto</div>
+    <a class="item" href={REPO}>Contribuir no GitHub</a>
+  </nav>
+
+  <main class="conteudo">
+    <div class="caixa-busca">
+      <Search id="busca" className="pagefind-ui" uiOptions={{
+        showImages: false,
+        excerptLength: 22,
+        translations: {
+          placeholder: 'Buscar na wiki: Pal, item, passiva, mecânica...',
+          zero_results: 'Nada encontrado para [SEARCH_TERM]',
+          many_results: '[COUNT] resultados para [SEARCH_TERM]',
+          one_result: '1 resultado para [SEARCH_TERM]',
+          searching: 'Buscando...',
+          load_more: 'Ver mais resultados',
+          clear_search: 'Limpar',
+        },
+      }} />
+    </div>
+
+    <slot />
+
+    <footer class="rodape-pagina">
+      <span>
+        {atualizado && <>Revisado em {atualizado.toLocaleDateString('pt-BR')} · </>}
+        Conteúdo aberto, contribuições bem-vindas
+      </span>
+      {arquivoFonte && (
+        <a href={`${REPO}/edit/main/src/content/wiki/${arquivoFonte}`}>
+          Corrigir esta página
+        </a>
+      )}
+    </footer>
+  </main>
+</div>
+
+<Chat />
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="escuro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protótipo · Wiki Palworld do grupo</title>
+<style>
+/* ------------------------------------------------------------------ tokens
+   Paleta de dados validada com o verificador de contraste e daltonismo:
+   #199e70 / #d95926 / #3987e5 passam banda de luminosidade, piso de croma,
+   separação CVD e contraste na superfície escura. Cor nunca aparece sozinha:
+   toda série tem rótulo escrito ao lado.                                     */
+:root {
+  --fundo:        #0b1113;
+  --superficie:   #121b1d;
+  --superficie-2: #172225;
+  --linha:        #22302f;
+  --linha-forte:  #2e403e;
+
+  --tinta:        #e9f1ec;
+  --tinta-2:      #9db0a8;
+  --tinta-3:      #6d817b;
+
+  --dado-1: #199e70;   /* magnitude, "temos" */
+  --dado-2: #d95926;   /* falta, atenção */
+  --dado-3: #3987e5;   /* terceira série */
+
+  --bom:      #199e70;
+  --atencao:  #c98500;
+  --serio:    #d95926;
+  --critico:  #e66767;
+
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --raio: 10px;
+  --sombra: 0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.28);
+}
+:root[data-tema="claro"] {
+  --fundo:        #f7f8f6;
+  --superficie:   #ffffff;
+  --superficie-2: #f0f3f0;
+  --linha:        #e0e5e1;
+  --linha-forte:  #c9d2cc;
+  --tinta:        #101614;
+  --tinta-2:      #4f5b56;
+  --tinta-3:      #78857f;
+  --dado-1: #1baf7a;
+  --dado-2: #eb6834;
+  --dado-3: #2a78d6;
+  --bom: #1baf7a; --atencao: #eda100; --serio: #eb6834; --critico: #e34948;
+  --sombra: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.06);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--fundo); color: var(--tinta);
+  font-family: var(--sans); font-size: 15px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+
+/* ------------------------------------------------------------------ topo */
+.topo {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; gap: 18px;
+  padding: 12px 26px;
+  background: color-mix(in srgb, var(--fundo) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--linha);
+}
+.marca { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.01em; }
+.esfera {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: linear-gradient(160deg, var(--dado-1) 0 48%, #f2f6f3 48% 52%, var(--superficie-2) 52%);
+  border: 1.5px solid var(--linha-forte); flex: none;
+}
+.busca-topo {
+  flex: 1; max-width: 460px; padding: 8px 13px;
+  background: var(--superficie); color: inherit; font: inherit;
+  border: 1px solid var(--linha); border-radius: 8px;
+}
+.busca-topo:focus { outline: 2px solid var(--dado-1); outline-offset: 1px; }
+.controles { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.pilula {
+  display: inline-flex; background: var(--superficie); border: 1px solid var(--linha);
+  border-radius: 8px; overflow: hidden;
+}
+.pilula button {
+  background: none; border: 0; color: var(--tinta-2); font: inherit; font-size: 13px;
+  padding: 6px 11px; cursor: pointer;
+}
+.pilula button[aria-pressed="true"] { background: var(--dado-1); color: #04120c; font-weight: 700; }
+:root[data-tema="claro"] .pilula button[aria-pressed="true"] { color: #fff; }
+
+/* ------------------------------------------------------------------ casca */
+.casca { display: grid; grid-template-columns: 232px 1fr; gap: 0; }
+.lateral {
+  border-right: 1px solid var(--linha); padding: 22px 16px 60px;
+  position: sticky; top: 53px; height: calc(100vh - 53px); overflow-y: auto;
+}
+.lateral .grupo {
+  font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--tinta-3); margin: 20px 0 7px; font-weight: 700;
+}
+.lateral a.item {
+  display: block; padding: 6px 10px; border-radius: 7px;
+  color: var(--tinta-2); text-decoration: none; font-size: 14px;
+}
+.lateral a.item:hover { background: var(--superficie); color: var(--tinta); }
+.lateral a.item.ativo { background: var(--superficie-2); color: var(--tinta); font-weight: 600; }
+main { padding: 34px 40px 100px; max-width: 1080px; }
+
+h1 { font-family: var(--serif); font-size: 40px; line-height: 1.12; margin: 0 0 6px; letter-spacing: -.02em; }
+h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .12em; color: var(--dado-1);
+     margin: 52px 0 16px; font-weight: 700; }
+h3 { font-size: 18px; margin: 30px 0 10px; }
+.sub { color: var(--tinta-2); font-size: 17px; margin: 0 0 4px; font-family: var(--serif); font-style: italic; }
+.carimbo { font-size: 12px; color: var(--tinta-3); letter-spacing: .06em; text-transform: uppercase; }
+
+/* ------------------------------------------------ painel do save (KPI row) */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px,1fr)); gap: 12px; margin: 22px 0 0; }
+.kpi {
+  background: var(--superficie); border: 1px solid var(--linha);
+  border-radius: var(--raio); padding: 15px 16px 14px;
+}
+.kpi .rot { font-size: 12px; color: var(--tinta-2); letter-spacing: .04em; }
+.kpi .num { font-family: var(--serif); font-size: 34px; line-height: 1.05; margin: 5px 0 3px; letter-spacing: -.02em; }
+.kpi .num small { font-size: 16px; color: var(--tinta-3); font-family: var(--sans); }
+.medidor { height: 5px; background: var(--superficie-2); border-radius: 3px; overflow: hidden; margin-top: 9px; }
+.medidor i { display: block; height: 100%; border-radius: 3px; background: var(--dado-1); }
+.kpi .obs { font-size: 12px; color: var(--tinta-3); margin-top: 7px; }
+
+/* ------------------------------------------------------------- gargalos */
+.gargalos { display: grid; grid-template-columns: repeat(auto-fit, minmax(232px,1fr)); gap: 12px; margin-top: 14px; }
+.gargalo {
+  display: flex; gap: 11px; align-items: flex-start;
+  background: var(--superficie); border: 1px solid var(--linha);
+  border-left: 3px solid var(--nivel, var(--tinta-3));
+  border-radius: var(--raio); padding: 13px 15px;
+}
+.gargalo .sinal { font-size: 15px; line-height: 1.3; flex: none; }
+.gargalo b { display: block; font-size: 14px; }
+.gargalo span { font-size: 12.5px; color: var(--tinta-2); }
+.g-critico { --nivel: var(--critico); }
+.g-serio   { --nivel: var(--serio); }
+.g-atencao { --nivel: var(--atencao); }
+.g-bom     { --nivel: var(--bom); }
+
+/* ------------------------------------------------------------ ficha do Pal */
+.grade-pals { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px,1fr)); gap: 13px; }
+.cartao {
+  background: var(--superficie); border: 1px solid var(--linha);
+  border-radius: var(--raio); padding: 15px 16px 14px; position: relative;
+  transition: border-color .13s, transform .13s;
+}
+.cartao:hover { border-color: var(--linha-forte); transform: translateY(-1px); }
+.cartao header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+.cartao h4 { margin: 0; font-size: 16.5px; font-weight: 700; letter-spacing: -.01em; }
+.posse {
+  margin-left: auto; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px;
+  border: 1px solid; letter-spacing: .03em; white-space: nowrap;
+}
+.posse.tem   { color: var(--bom);     border-color: color-mix(in srgb, var(--bom) 45%, transparent); }
+.posse.falta { color: var(--tinta-3); border-color: var(--linha-forte); }
+.elems { display: flex; gap: 5px; margin: 6px 0 12px; flex-wrap: wrap; }
+.elem {
+  font-size: 11px; padding: 2px 8px; border-radius: 5px; font-weight: 600;
+  border: 1px solid; background: var(--superficie-2);
+}
+/* Cor de elemento é identidade e vem sempre com o nome escrito, nunca sozinha. */
+.e-Fogo{color:#e8703a;border-color:#e8703a55}.e-Água{color:#4aa3e8;border-color:#4aa3e855}
+.e-Terra{color:#c49a5e;border-color:#c49a5e55}.e-Elétrico{color:#e0c341;border-color:#e0c34155}
+.e-Grama{color:#5fb85f;border-color:#5fb85f55}.e-Gelo{color:#6fd0d6;border-color:#6fd0d655}
+.e-Dragão{color:#a877dd;border-color:#a877dd55}.e-Sombrio{color:#9b8fb5;border-color:#9b8fb555}
+.e-Neutro{color:#a9b4af;border-color:#a9b4af55}
+
+.apt-linha { display: grid; grid-template-columns: 118px 1fr 22px; align-items: center; gap: 9px; margin: 5px 0; }
+.apt-linha .nome { font-size: 12.5px; color: var(--tinta-2); }
+.apt-barra { height: 7px; background: var(--superficie-2); border-radius: 4px; overflow: hidden; }
+/* ponta arredondada de 4px ancorada na base, conforme spec de marca */
+.apt-barra i { display: block; height: 100%; background: var(--dado-1); border-radius: 0 4px 4px 0; }
+.apt-linha .v { font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right; color: var(--tinta); font-weight: 600; }
+.cartao .nota { font-size: 12.5px; color: var(--tinta-2); margin: 11px 0 0; padding-top: 10px; border-top: 1px solid var(--linha); }
+
+/* ------------------------------------------------------------------ filtros */
+.filtros { display: flex; gap: 7px; flex-wrap: wrap; margin: 0 0 16px; }
+.filtros button {
+  background: var(--superficie); border: 1px solid var(--linha); color: var(--tinta-2);
+  padding: 5px 11px; border-radius: 20px; font: inherit; font-size: 13px; cursor: pointer;
+}
+.filtros button:hover { border-color: var(--linha-forte); color: var(--tinta); }
+.filtros button[aria-pressed="true"] { background: var(--dado-1); border-color: var(--dado-1); color: #04120c; font-weight: 700; }
+:root[data-tema="claro"] .filtros button[aria-pressed="true"] { color: #fff; }
+
+/* --------------------------------------------------------------- popover */
+.pal-inline {
+  border-bottom: 1.5px dotted var(--dado-1); cursor: help; font-weight: 600;
+}
+#popover {
+  position: absolute; z-index: 90; width: 300px; padding: 14px 15px;
+  background: var(--superficie); border: 1px solid var(--linha-forte);
+  border-radius: var(--raio); box-shadow: var(--sombra);
+  opacity: 0; pointer-events: none; transition: opacity .1s;
+}
+#popover[data-aberto="1"] { opacity: 1; }
+
+/* ------------------------------------------------------------ calculadora */
+.calc { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 20px 22px; }
+.calc-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+@media (max-width: 820px) { .calc-grade { grid-template-columns: 1fr; } .casca { grid-template-columns: 1fr; } .lateral { display: none; } main { padding: 24px 18px 80px; } }
+.ingr { display: grid; grid-template-columns: 128px 1fr 96px; align-items: center; gap: 10px; margin: 9px 0; }
+.ingr .nome { font-size: 13px; color: var(--tinta-2); }
+.ingr-barra { height: 9px; background: var(--superficie-2); border-radius: 5px; overflow: hidden; display: flex; }
+.ingr-barra i { display: block; height: 100%; }
+.ingr-barra i.tem   { background: var(--dado-1); border-radius: 0 4px 4px 0; }
+.ingr-barra i.falta { background: var(--dado-2); border-radius: 0 4px 4px 0; margin-left: 2px; }
+.ingr .v { font-size: 12.5px; text-align: right; font-variant-numeric: tabular-nums; color: var(--tinta-2); }
+.legenda { display: flex; gap: 16px; font-size: 12px; color: var(--tinta-2); margin-top: 14px; }
+.legenda span { display: flex; align-items: center; gap: 6px; }
+.chave { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+.heroi { font-family: var(--serif); font-size: 54px; line-height: 1; letter-spacing: -.03em; margin: 4px 0 2px; }
+.heroi-rot { font-size: 13px; color: var(--tinta-2); }
+.trava { font-size: 13px; margin-top: 16px; padding: 12px 14px; background: var(--superficie-2); border-radius: 8px; border-left: 3px solid var(--serio); }
+.campo { display: flex; align-items: center; gap: 8px; margin: 14px 0 4px; font-size: 13px; color: var(--tinta-2); }
+.campo input { width: 92px; padding: 6px 9px; background: var(--fundo); border: 1px solid var(--linha-forte); border-radius: 7px; color: inherit; font: inherit; font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------- tabela alt */
+details.tabela { margin-top: 14px; font-size: 13px; }
+details.tabela summary { cursor: pointer; color: var(--tinta-2); }
+details.tabela table { border-collapse: collapse; margin-top: 10px; width: 100%; }
+details.tabela th, details.tabela td { text-align: left; padding: 5px 10px 5px 0; border-bottom: 1px solid var(--linha); font-variant-numeric: tabular-nums; }
+details.tabela th { color: var(--tinta-3); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+
+/* ------------------------------------------------------------------ rodapé */
+.aviso {
+  margin: 60px 0 0; padding: 18px 20px; border: 1px dashed var(--linha-forte);
+  border-radius: var(--raio); font-size: 13.5px; color: var(--tinta-2);
+}
+.antes-depois { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+@media (max-width: 820px) { .antes-depois { grid-template-columns: 1fr; } }
+.ad { background: var(--superficie); border: 1px solid var(--linha); border-radius: var(--raio); padding: 15px 17px; }
+.ad h5 { margin: 0 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--tinta-3); }
+.ad p { margin: 0; font-size: 13.5px; color: var(--tinta-2); }
+.ad.dep { border-color: color-mix(in srgb, var(--dado-1) 40%, var(--linha)); }
+.ad.dep h5 { color: var(--dado-1); }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="marca"><span class="esfera" aria-hidden="true"></span> Wiki do grupo</div>
+  <input class="busca-topo" type="search" placeholder="Buscar Pal, item, receita, coordenada…" aria-label="Buscar">
+  <div class="controles">
+    <div class="pilula" role="group" aria-label="Idioma dos nomes do jogo">
+      <button type="button" data-idioma="pt" aria-pressed="true">PT</button>
+      <button type="button" data-idioma="en" aria-pressed="false">EN</button>
+    </div>
+    <div class="pilula" role="group" aria-label="Tema">
+      <button type="button" data-tema-btn="escuro" aria-pressed="true">Escuro</button>
+      <button type="button" data-tema-btn="claro" aria-pressed="false">Claro</button>
+    </div>
+  </div>
+</header>
+
+<div class="casca">
+  <nav class="lateral">
+    <div class="grupo">Nosso save</div>
+    <a class="item ativo" href="#painel">Painel</a>
+    <a class="item" href="#pals">Banco de Pals</a>
+    <a class="item" href="#calc">Calculadoras</a>
+    <a class="item" href="#texto">Guias</a>
+    <div class="grupo">Guias</div>
+    <a class="item" href="#texto">O que mudou no 1.0</a>
+    <a class="item" href="#texto">Combate e squad</a>
+    <a class="item" href="#texto">Cruzamentos</a>
+    <a class="item" href="#texto">Base e trabalho</a>
+    <a class="item" href="#texto">Torres e bosses</a>
+    <div class="grupo">Protótipo</div>
+    <a class="item" href="#comparacao">O que muda</a>
+  </nav>
+
+  <main>
+    <span class="carimbo">Protótipo de interface · 30.07.2026</span>
+    <h1>Painel do save</h1>
+    <p class="sub">A única wiki de Palworld que sabe o que você já tem.</p>
+
+    <!-- ============================================================ PAINEL -->
+    <section id="painel">
+      <h2>Onde estamos agora</h2>
+      <div class="kpis" id="kpis"></div>
+
+      <h3>O que está travando</h3>
+      <div class="gargalos" id="gargalos"></div>
+    </section>
+
+    <!-- ============================================================== PALS -->
+    <section id="pals">
+      <h2>Banco de Pals</h2>
+      <p style="color:var(--tinta-2);margin:0 0 14px">
+        Filtre pela aptidão que falta na sua base. O que você já tem no Palbox aparece marcado,
+        então a lista responde <em>o que capturar</em>, não <em>o que existe</em>.
+      </p>
+      <div class="filtros" id="filtros"></div>
+      <div class="grade-pals" id="grade"></div>
+    </section>
+
+    <!-- ======================================================= CALCULADORA -->
+    <section id="calc">
+      <h2>Calculadora de bolo</h2>
+      <div class="calc">
+        <div class="calc-grade">
+          <div>
+            <div class="heroi-rot">Com o estoque de hoje você faz</div>
+            <div class="heroi" id="qtd-bolo">—</div>
+            <div class="heroi-rot" id="qtd-rot">bolos</div>
+
+            <div class="campo">
+              <label for="trigo">Trigo no baú</label>
+              <input id="trigo" type="number" value="137" min="0" step="1">
+            </div>
+            <div class="campo">
+              <label for="farinha">Farinha pronta</label>
+              <input id="farinha" type="number" value="26" min="0" step="1">
+            </div>
+
+            <div class="trava" id="trava"></div>
+          </div>
+
+          <div>
+            <div class="heroi-rot" style="margin-bottom:10px">Por ingrediente, para 20 bolos</div>
+            <div id="ingredientes"></div>
+            <div class="legenda">
+              <span><i class="chave" style="background:var(--dado-1)"></i> temos</span>
+              <span><i class="chave" style="background:var(--dado-2)"></i> falta</span>
+            </div>
+            <details class="tabela">
+              <summary>Ver como tabela</summary>
+              <table id="tab-ingr"><thead><tr><th>Ingrediente</th><th>Por bolo</th><th>Para 20</th><th>Temos</th><th>Falta</th></tr></thead><tbody></tbody></table>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= TEXTO -->
+    <section id="texto">
+      <h2>Guia com ficha embutida</h2>
+      <p style="color:var(--tinta-2);margin:0 0 6px">Passe o mouse nos nomes sublinhados.</p>
+      <p>
+        Para a base de garimpo, o erro comum é olhar só a tier list de combate. O
+        <span class="pal-inline" data-pal="Anubis">Anubis</span> é o exemplo perfeito: quase toda wiki
+        em português diz que ele foi rebaixado no 1.0, e ele na verdade é um dos melhores trabalhadores
+        do jogo. Se a base já tem alguém cobrindo Acender fogo, como o
+        <span class="pal-inline" data-pal="Jormuntide Ignis">Jormuntide Ignis</span>, sobra espaço para
+        o <span class="pal-inline" data-pal="Reptyro">Reptyro</span>, que além de garimpar reduz o peso
+        do minério. Para a fazenda, <span class="pal-inline" data-pal="Lyleen">Lyleen</span> resolve
+        plantio e manipulação de uma vez, e ainda cura o time em campo.
+      </p>
+      <p style="color:var(--tinta-2);font-size:13.5px">
+        A ficha do popover vem do mesmo JSON que alimenta o banco de Pals. Quando sai patch e o número
+        muda, ele muda aqui também, sem ninguém reescrever parágrafo.
+      </p>
+    </section>
+
+    <!-- ======================================================== COMPARAÇÃO -->
+    <section id="comparacao">
+      <h2>O que muda em relação às wikis que existem</h2>
+      <div class="antes-depois">
+        <div class="ad"><h5>Wiki comum</h5><p>"Bolo: 5 farinha, 8 frutas vermelhas, 7 leite, 8 ovos, 2 mel."</p></div>
+        <div class="ad dep"><h5>Aqui</h5><p>"Você faz 0 bolos. A trava é leite em zero, e o Mozzarina que resolveria está parado no Palbox em vez de na fazenda."</p></div>
+        <div class="ad"><h5>Wiki comum</h5><p>Tabela com os 288 Pals e as 12 aptidões, em ordem de Paldeck.</p></div>
+        <div class="ad dep"><h5>Aqui</h5><p>Filtro pela aptidão que falta na sua base, com o que você já tem no Palbox marcado.</p></div>
+        <div class="ad"><h5>Wiki comum</h5><p>Nome do Pal é texto morto no meio do parágrafo.</p></div>
+        <div class="ad dep"><h5>Aqui</h5><p>Passa o mouse e abre a ficha, alimentada pelo mesmo dado do banco.</p></div>
+      </div>
+
+      <div class="aviso">
+        <strong>Isto é um protótipo de interface, não o site.</strong> Os números do painel e do baú são
+        do save real lido em 30.07.2026. O banco de Pals traz doze fichas de exemplo, já com as aptidões
+        corrigidas contra o paldb. A paleta de dados passou no verificador de contraste e daltonismo, e
+        nenhuma informação depende só de cor: toda série tem rótulo escrito ao lado e a calculadora
+        oferece versão em tabela.
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="popover" role="tooltip" aria-hidden="true"></div>
+
+<script>
+/* ================================================================== dados */
+const APT = {
+  acender:{pt:'Acender fogo',en:'Kindling'}, rega:{pt:'Rega',en:'Watering'},
+  plantio:{pt:'Plantio',en:'Planting'}, energia:{pt:'Geração de energia',en:'Generating Electricity'},
+  manual:{pt:'Trabalho manual',en:'Handiwork'}, coleta:{pt:'Coleta',en:'Gathering'},
+  madeira:{pt:'Cortar árvores',en:'Lumbering'}, garimpo:{pt:'Garimpo',en:'Mining'},
+  manipulacao:{pt:'Manipulação',en:'Medicine Production'}, refrigeracao:{pt:'Refrigeração',en:'Cooling'},
+  transporte:{pt:'Transporte',en:'Transporting'}, fazenda:{pt:'Fazenda',en:'Farming'}
+};
+
+const PALS = [
+  {nome:'Anubis', elementos:['Terra'], apt:{manual:6,garimpo:6,transporte:4}, temos:1,
+   nota:'Manual 6 e Garimpo 6. A fama de rebaixado vem da condensação, que no 1.0 se distribui entre as aptidões.'},
+  {nome:'Jormuntide Ignis', elementos:['Fogo','Dragão'], apt:{acender:7}, temos:1,
+   nota:'Chega a Acender fogo 10 com três estrelas. Também é o melhor dano não lendário do jogo.'},
+  {nome:'Orserk', elementos:['Elétrico','Dragão'], apt:{energia:8,transporte:4,manual:3}, temos:0,
+   nota:'Melhor gerador do jogo. Perdeu a receita de cruzamento no 1.0: só chefe de torre.'},
+  {nome:'Lyleen', elementos:['Grama'], apt:{plantio:7,manipulacao:5,manual:5}, temos:0,
+   nota:'Cura e ressuscita o time fora da base. Em co-op vale mais que um quinto atacante.'},
+  {nome:'Reptyro', elementos:['Fogo','Terra'], apt:{garimpo:5,acender:5}, temos:0,
+   nota:'Reduz o peso de minério em até 60%. Empilha com Reptyro Cryst, não com outro Reptyro.'},
+  {nome:'Frostallion', elementos:['Gelo'], apt:{refrigeracao:7}, temos:0,
+   nota:'Resposta obrigatória a dragões, e a fonte da passiva Lendário para cruzamento.'},
+  {nome:'Grizzbolt', elementos:['Elétrico'], apt:{energia:5,manual:4}, temos:0,
+   nota:'Melhor gerador realista para o mid game, e fácil de conseguir.'},
+  {nome:'Mammorest', elementos:['Grama'], apt:{plantio:4,madeira:4}, temos:1,
+   nota:'Ocupa quatro slots de trabalho na base, então só compensa em base grande.'},
+  {nome:'Eidrolon Ignis', elementos:['Dragão','Fogo'], apt:{acender:6,transporte:6}, temos:1,
+   nota:'A sela só abre no nível 68. Antes disso o valor é o bônus de grupo para aliados de Fogo e Dragão.'},
+  {nome:'Blazehowl Noct', elementos:['Fogo','Sombrio'], apt:{acender:5}, temos:1,
+   nota:'Acender 5 num Pal de combate é raro, então ele rende em base e em campo.'},
+  {nome:'Wispaw', elementos:['Sombrio'], apt:{manual:2,madeira:1,manipulacao:1,transporte:1}, temos:1,
+   nota:'As aptidões são fracas de propósito. O valor é aumentar a taxa de captura pelo bônus nas costas.'},
+  {nome:'Sibelyx', elementos:['Neutro'], apt:{fazenda:3}, temos:1,
+   nota:'Tecido de alta qualidade. Vende a 264 de ouro e é insumo da incubadora grande.'}
+];
+
+const SAVE = {
+  nivel: 52, nivelMax: 80,
+  torres: 6, torresMax: 9,
+  paldeck: 132, paldeckMax: 287,
+  palbox: 300, palboxMax: 330,
+  estoque: { farinha:26, trigo:137, frutas:153, leite:0, ovos:0, mel:270 }
+};
+
+const RECEITA = { farinha:5, frutas:8, leite:7, ovos:8, mel:2 };
+const NOME_ING = { farinha:'Farinha', frutas:'Frutas vermelhas', leite:'Leite', ovos:'Ovos', mel:'Mel' };
+
+/* ================================================================== idioma */
+let idioma = 'pt';
+const rotApt = (k) => APT[k][idioma];
+
+/* ============================================================= painel KPI */
+function pintarKpis() {
+  const tiles = [
+    { rot:'Nível do jogador', v:SAVE.nivel, de:SAVE.nivelMax, obs:'28 níveis até o teto' },
+    { rot:'Torres derrotadas', v:SAVE.torres, de:SAVE.torresMax, obs:'faltam 3' },
+    { rot:'Palpédia', v:SAVE.paldeck, de:SAVE.paldeckMax, obs:'46% catalogado' },
+    { rot:'Palbox ocupado', v:SAVE.palbox, de:SAVE.palboxMax, obs:'quase cheio, hora de condensar' }
+  ];
+  document.getElementById('kpis').innerHTML = tiles.map(t => `
+    <div class="kpi">
+      <div class="rot">${t.rot}</div>
+      <div class="num">${t.v}<small> / ${t.de}</small></div>
+      <div class="medidor"><i style="width:${Math.round(t.v / t.de * 100)}%"></i></div>
+      <div class="obs">${t.obs}</div>
+    </div>`).join('');
+}
+
+function pintarGargalos() {
+  const g = [
+    { n:'critico', s:'✕', t:'Petróleo e carvão em 1', d:'Nenhuma das 4 bases está sobre nó de petróleo. Trava circuito e poliéster.' },
+    { n:'serio',   s:'!', t:'Farinha rende 5 bolos', d:'O gargalo é trigo, não farinha. Sem plantação dedicada o cruzamento não escala.' },
+    { n:'atencao', s:'!', t:'Pedra 675 contra madeira 8.643', d:'Falta um Pal de Garimpo alto numa base com pedregulho.' },
+    { n:'bom',     s:'✓', t:'Minério e quartzo confortáveis', d:'3.447 e 5.253. A base de garimpo está fazendo o trabalho dela.' }
+  ];
+  document.getElementById('gargalos').innerHTML = g.map(x => `
+    <div class="gargalo g-${x.n}">
+      <span class="sinal" style="color:var(--${x.n === 'bom' ? 'bom' : x.n})" aria-hidden="true">${x.s}</span>
+      <div><b>${x.t}</b><span>${x.d}</span></div>
+    </div>`).join('');
+}
+
+/* =============================================================== banco Pals */
+let filtro = null;
+function pintarFiltros() {
+  const usados = [...new Set(PALS.flatMap(p => Object.keys(p.apt)))];
+  document.getElementById('filtros').innerHTML =
+    `<button type="button" data-f="" aria-pressed="${!filtro}">Todos</button>` +
+    usados.map(k => `<button type="button" data-f="${k}" aria-pressed="${filtro === k}" data-rot-apt="${k}">${rotApt(k)}</button>`).join('');
+}
+function pintarGrade() {
+  const lista = filtro ? PALS.filter(p => p.apt[filtro]) : PALS;
+  const ordenada = filtro ? [...lista].sort((a, b) => b.apt[filtro] - a.apt[filtro]) : lista;
+  document.getElementById('grade').innerHTML = ordenada.map(p => `
+    <article class="cartao">
+      <header>
+        <h4>${p.nome}</h4>
+        <span class="posse ${p.temos ? 'tem' : 'falta'}">${p.temos ? '✓ no Palbox' : 'não temos'}</span>
+      </header>
+      <div class="elems">${(p.elementos || []).map(e => `<span class="elem e-${e}">${e}</span>`).join('')}</div>
+      ${Object.entries(p.apt).sort((a, b) => b[1] - a[1]).map(([k, v]) => `
+        <div class="apt-linha">
+          <span class="nome" data-rot-apt="${k}">${rotApt(k)}</span>
+          <span class="apt-barra"><i style="width:${v * 10}%"></i></span>
+          <span class="v">${v}</span>
+        </div>`).join('')}
+      ${p.nota ? `<p class="nota">${p.nota}</p>` : ''}
+    </article>`).join('');
+}
+
+/* ================================================================= popover */
+const pop = document.getElementById('popover');
+function abrirPop(el) {
+  const p = PALS.find(x => x.nome === el.dataset.pal);
+  if (!p) return;
+  pop.innerHTML = `
+    <div style="display:flex;align-items:baseline;gap:8px">
+      <strong style="font-size:16px">${p.nome}</strong>
+      <span class="posse ${p.temos ? 'tem' : 'falta'}" style="margin-left:auto">${p.temos ? '✓ no Palbox' : 'não temos'}</span>
+    </div>
+    <div class="elems">${(p.elementos || []).map(e => `<span class="elem e-${e}">${e}</span>`).join('')}</div>
+    ${Object.entries(p.apt).sort((a, b) => b[1] - a[1]).map(([k, v]) => `
+      <div class="apt-linha"><span class="nome">${rotApt(k)}</span>
+      <span class="apt-barra"><i style="width:${v * 10}%"></i></span><span class="v">${v}</span></div>`).join('')}
+    <p class="nota">${p.nota || ''}</p>`;
+  const r = el.getBoundingClientRect();
+  pop.style.left = Math.min(r.left + window.scrollX, window.innerWidth - 320) + 'px';
+  pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+  pop.dataset.aberto = '1';
+  pop.setAttribute('aria-hidden', 'false');
+}
+function fecharPop() { pop.dataset.aberto = '0'; pop.setAttribute('aria-hidden', 'true'); }
+
+/* ============================================================= calculadora */
+function calcular() {
+  const trigo = Math.max(0, +document.getElementById('trigo').value || 0);
+  const farinhaPronta = Math.max(0, +document.getElementById('farinha').value || 0);
+  // 2 de trigo viram 1 de farinha no moinho
+  const farinhaTotal = farinhaPronta + Math.floor(trigo / 2);
+  const estoque = { ...SAVE.estoque, farinha: farinhaTotal };
+
+  // o bolo sai pelo ingrediente mais escasso
+  let possivel = Infinity, limitante = null;
+  for (const [k, porBolo] of Object.entries(RECEITA)) {
+    const n = Math.floor((estoque[k] || 0) / porBolo);
+    if (n < possivel) { possivel = n; limitante = k; }
+  }
+  document.getElementById('qtd-bolo').textContent = possivel;
+  document.getElementById('qtd-rot').textContent =
+    possivel === 0 ? 'bolos. A linha de cruzamento está parada.'
+    : possivel === 1 ? 'bolo, ou seja uma tentativa de cruzamento'
+    : `bolos, ou seja ${possivel} tentativas de cruzamento`;
+
+  const trava = document.getElementById('trava');
+  if (possivel === 0) {
+    trava.innerHTML = `<strong>Trava total: ${NOME_ING[limitante]} em zero.</strong> ` +
+      (limitante === 'leite' ? 'Você tem Mozzarina duplicado no Palbox e nenhum em fazenda de criação.'
+       : limitante === 'ovos' ? 'Você tem Chikipi duplicado no Palbox e nenhum em fazenda de criação.'
+       : 'Sem isso não sai bolo nenhum.');
+  } else {
+    trava.innerHTML = `<strong>O gargalo é ${NOME_ING[limitante]}.</strong> ` +
+      `Com ${trigo} de trigo você chega a ${farinhaTotal} de farinha no moinho, que dá para ` +
+      `${Math.floor(farinhaTotal / RECEITA.farinha)} bolos. Aumentar moinho não resolve, aumentar plantação sim.`;
+  }
+
+  const alvo = 20;
+  const linhas = Object.entries(RECEITA).map(([k, porBolo]) => {
+    const preciso = porBolo * alvo, tem = Math.min(estoque[k] || 0, preciso), falta = preciso - tem;
+    return { k, porBolo, preciso, tem, falta, total: estoque[k] || 0 };
+  });
+  document.getElementById('ingredientes').innerHTML = linhas.map(l => `
+    <div class="ingr">
+      <span class="nome">${NOME_ING[l.k]}</span>
+      <span class="ingr-barra">
+        ${l.tem ? `<i class="tem" style="width:${l.tem / l.preciso * 100}%"></i>` : ''}
+        ${l.falta ? `<i class="falta" style="width:${l.falta / l.preciso * 100}%"></i>` : ''}
+      </span>
+      <span class="v">${l.total} / ${l.preciso}</span>
+    </div>`).join('');
+
+  document.querySelector('#tab-ingr tbody').innerHTML = linhas.map(l =>
+    `<tr><td>${NOME_ING[l.k]}</td><td>${l.porBolo}</td><td>${l.preciso}</td><td>${l.total}</td><td>${l.falta || '—'}</td></tr>`).join('');
+}
+
+/* =================================================================== liga */
+pintarKpis(); pintarGargalos(); pintarFiltros(); pintarGrade(); calcular();
+
+document.getElementById('filtros').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  filtro = b.dataset.f || null;
+  pintarFiltros(); pintarGrade();
+});
+document.addEventListener('mouseover', (e) => {
+  const el = e.target.closest('.pal-inline');
+  if (el) abrirPop(el);
+});
+document.addEventListener('mouseout', (e) => { if (e.target.closest('.pal-inline')) fecharPop(); });
+document.addEventListener('focusin', (e) => { const el = e.target.closest('.pal-inline'); if (el) abrirPop(el); });
+['trigo', 'farinha'].forEach(id => document.getElementById(id).addEventListener('input', calcular));
+
+document.querySelectorAll('[data-idioma]').forEach(b => b.addEventListener('click', () => {
+  idioma = b.dataset.idioma;
+  document.querySelectorAll('[data-idioma]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  pintarFiltros(); pintarGrade();
+}));
+document.querySelectorAll('[data-tema-btn]').forEach(b => b.addEventListener('click', () => {
+  document.documentElement.dataset.tema = b.dataset.temaBtn;
+  document.querySelectorAll('[data-tema-btn]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+}));
+document.querySelectorAll('.lateral a').forEach(a => a.addEventListener('click', () => {
+  document.querySelectorAll('.lateral a').forEach(x => x.classList.remove('ativo'));
+  a.classList.add('ativo');
+}));
+</script>
+</body>
+</html>

@@ -1,0 +1,1041 @@
+{
+  "_leia_isto": [
+    "Base de Pals da wiki. Dá para editar direto pelo GitHub.",
+    "",
+    "Os números de aptidão vão de 1 a 8, que é o teto natural do jogo. Os níveis 9 e 10",
+    "só existem via condensação, livros de Ciência Aplicada e auras, e não entram aqui.",
+    "",
+    "A curva não é linear: Acender fogo 7 rende cerca de 1.100 pontos de trabalho, 8 rende",
+    "1.900 e 10 rende 5.400. Por isso um Pal de função única costuma valer mais que um versátil.",
+    "",
+    "COMO ADICIONAR: copie um bloco, cole no fim da lista e ajuste. Deixe de fora as",
+    "aptidões que o Pal não tem. Se não souber um número, omita em vez de chutar.",
+    "",
+    "Aptidões válidas: acender, rega, plantio, energia, manual, coleta, madeira,",
+    "garimpo, manipulacao, refrigeracao, transporte, fazenda"
+  ],
+  "aptidoes": {
+    "acender": {
+      "nome": "Acender fogo",
+      "en": "Kindling"
+    },
+    "rega": {
+      "nome": "Rega",
+      "en": "Watering"
+    },
+    "plantio": {
+      "nome": "Plantio",
+      "en": "Planting"
+    },
+    "energia": {
+      "nome": "Geração de energia",
+      "en": "Generating Electricity"
+    },
+    "manual": {
+      "nome": "Trabalho manual",
+      "en": "Handiwork"
+    },
+    "coleta": {
+      "nome": "Coleta",
+      "en": "Gathering"
+    },
+    "madeira": {
+      "nome": "Cortar árvores",
+      "en": "Lumbering"
+    },
+    "garimpo": {
+      "nome": "Garimpo",
+      "en": "Mining"
+    },
+    "manipulacao": {
+      "nome": "Manipulação",
+      "en": "Medicine Production"
+    },
+    "refrigeracao": {
+      "nome": "Refrigeração",
+      "en": "Cooling"
+    },
+    "transporte": {
+      "nome": "Transporte",
+      "en": "Transporting"
+    },
+    "fazenda": {
+      "nome": "Fazenda",
+      "en": "Farming"
+    }
+  },
+  "pals": [
+    {
+      "nome": "Renjishi",
+      "fase": "endgame",
+      "apt": {
+        "acender": 8,
+        "manual": 6,
+        "coleta": 5,
+        "transporte": 5
+      },
+      "onde": "Árvore Mundial",
+      "nota": "Melhor Acender fogo do jogo.",
+      "elementos": [
+        "Fogo"
+      ]
+    },
+    {
+      "nome": "Shaolong",
+      "fase": "endgame",
+      "elementos": [
+        "Dracônico",
+        "Água"
+      ],
+      "apt": {
+        "rega": 8,
+        "coleta": 5
+      },
+      "onde": "Chefe da torre 8 (Auri), em Sunreach, nível 68",
+      "nota": "Também é montaria voadora. É o último chefe de torre antes da final."
+    },
+    {
+      "nome": "Solenne",
+      "fase": "endgame",
+      "elementos": [
+        "Escuridão",
+        "Não elemental"
+      ],
+      "apt": {
+        "manual": 8,
+        "coleta": 4,
+        "transporte": 2
+      },
+      "onde": "Árvore Mundial",
+      "nota": "Não dorme, trabalha 24 horas. Isso vale mais que um ou dois níveis de aptidão."
+    },
+    {
+      "nome": "Aegidron",
+      "fase": "endgame",
+      "apt": {
+        "garimpo": 8
+      },
+      "onde": "Árvore Mundial",
+      "nota": "Função única, então toda condensação vai para Garimpo. Chega ao teto já no rank 2.",
+      "elementos": [
+        "Dracônico",
+        "Terra"
+      ]
+    },
+    {
+      "nome": "Celesdir Noct",
+      "fase": "endgame",
+      "apt": {
+        "madeira": 8,
+        "coleta": 4
+      },
+      "onde": "Árvore Mundial",
+      "elementos": [
+        "Escuridão"
+      ]
+    },
+    {
+      "nome": "Dandilord",
+      "fase": "endgame",
+      "elementos": [
+        "Grama",
+        "Escuridão"
+      ],
+      "apt": {
+        "plantio": 8,
+        "manual": 6,
+        "manipulacao": 6,
+        "coleta": 5
+      },
+      "onde": "Árvore Mundial, chefe",
+      "nota": "Imune a veneno."
+    },
+    {
+      "nome": "Silvance",
+      "fase": "endgame",
+      "apt": {
+        "manipulacao": 8,
+        "manual": 6,
+        "plantio": 6,
+        "coleta": 4
+      },
+      "onde": "Árvore Mundial, chefe",
+      "nota": "Melhor Manipulação. Ideal para a Clínica, que reduz queda de SAN de toda a base.",
+      "elementos": [
+        "Grama"
+      ]
+    },
+    {
+      "nome": "Bastigor",
+      "fase": "endgame",
+      "elementos": [
+        "Gelo"
+      ],
+      "apt": {
+        "refrigeracao": 8,
+        "madeira": 6,
+        "garimpo": 5
+      },
+      "onde": "Chefe da Feybreak Tower"
+    },
+    {
+      "nome": "Orserk",
+      "fase": "endgame",
+      "elementos": [
+        "Dracônico",
+        "Elétrico"
+      ],
+      "apt": {
+        "energia": 8,
+        "transporte": 4,
+        "manual": 3
+      },
+      "onde": "Chefe de torre (Axel). Perdeu a receita de cruzamento no 1.0."
+    },
+    {
+      "nome": "Jetragon",
+      "fase": "endgame",
+      "elementos": [
+        "Dracônico"
+      ],
+      "apt": {
+        "coleta": 8
+      },
+      "onde": "Alfa em Sunreach, nível 70",
+      "nota": "Montaria mais rápida do jogo. Subiu de nível 50 para 70 no 1.0, e a sela foi para o 79."
+    },
+    {
+      "nome": "Dupin",
+      "fase": "mid",
+      "apt": {
+        "acender": 7,
+        "manual": 5,
+        "manipulacao": 4
+      },
+      "onde": "Spawna por toda Palpagos",
+      "nota": "O melhor achado de mid game para Acender fogo. Fácil de conseguir em quantidade para condensar.",
+      "elementos": [
+        "Fogo"
+      ]
+    },
+    {
+      "nome": "Jormuntide Ignis",
+      "fase": "mid",
+      "elementos": [
+        "Dracônico",
+        "Fogo"
+      ],
+      "apt": {
+        "acender": 7
+      },
+      "onde": "Cruzamento",
+      "nota": "Chega a Acender fogo 10 com apenas 3 estrelas. Também é o melhor dano não lendário do jogo."
+    },
+    {
+      "nome": "Jormuntide",
+      "fase": "mid",
+      "elementos": [
+        "Dracônico",
+        "Água"
+      ],
+      "apt": {
+        "rega": 7
+      },
+      "onde": "Cruzamento",
+      "nota": "Serve como montaria aquática bem antes do Neptilius."
+    },
+    {
+      "nome": "Neptilius",
+      "fase": "mid",
+      "elementos": [
+        "Água"
+      ],
+      "apt": {
+        "rega": 7
+      },
+      "onde": "Nível 60",
+      "nota": "Nadador mais rápido, com salto alto para alcançar plataformas."
+    },
+    {
+      "nome": "Knocklem Ignis",
+      "fase": "mid",
+      "elementos": [
+        "Fogo"
+      ],
+      "apt": {
+        "garimpo": 7,
+        "transporte": 7,
+        "acender": 5
+      },
+      "onde": "Bicornis Islet",
+      "nota": "Três empregos num Pal só: garimpa, transporta e acende."
+    },
+    {
+      "nome": "Knocklem",
+      "fase": "mid",
+      "apt": {
+        "transporte": 7,
+        "garimpo": 7
+      },
+      "onde": "Bicornis Islet",
+      "nota": "Maior Transporte natural.",
+      "elementos": [
+        "Terra"
+      ]
+    },
+    {
+      "nome": "Ophydia",
+      "fase": "mid",
+      "elementos": [
+        "Grama",
+        "Água"
+      ],
+      "apt": {
+        "rega": 5,
+        "plantio": 7
+      },
+      "onde": "Mid game",
+      "nota": "A grafia certa é Ophydia, com Y. Rega 5 junto de Plantio 7 no mesmo Pal é raro, e é o que permite montar plantação com menos corpos na base."
+    },
+    {
+      "nome": "Blazamut Ryu",
+      "fase": "mid",
+      "elementos": [
+        "Dracônico",
+        "Fogo"
+      ],
+      "apt": {
+        "garimpo": 7,
+        "acender": 6
+      },
+      "onde": "Chefe de invasão",
+      "nota": "Burst pesado em combate, útil com o limite de 5 minutos das torres."
+    },
+    {
+      "nome": "Astegon",
+      "fase": "mid",
+      "elementos": [
+        "Dracônico",
+        "Escuridão"
+      ],
+      "apt": {
+        "garimpo": 7,
+        "manual": 3
+      },
+      "onde": "Zona de Caça Proibida III",
+      "nota": "Dropa de 3 a 5 de quartzo puro ao ser abatido."
+    },
+    {
+      "nome": "Sekhmet",
+      "fase": "mid",
+      "elementos": [
+        "Terra"
+      ],
+      "apt": {
+        "manual": 6,
+        "garimpo": 3,
+        "transporte": 2
+      },
+      "onde": "Deserto ao norte",
+      "nota": "A versão alfa tem um bug conhecido que dá eficiência muito acima do normal em bancadas."
+    },
+    {
+      "nome": "Splatterina",
+      "fase": "mid",
+      "apt": {
+        "manual": 6,
+        "manipulacao": 5,
+        "madeira": 3
+      },
+      "onde": "Feybreak Island, à noite",
+      "nota": "Não dorme. Em base de produção isso rende mais que aptidão maior.",
+      "elementos": [
+        "Escuridão"
+      ]
+    },
+    {
+      "nome": "Mycora",
+      "fase": "mid",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "plantio": 6,
+        "manipulacao": 6,
+        "manual": 4,
+        "coleta": 4
+      },
+      "aura": "manipulacao",
+      "nota": "Trabalha bem e ainda dá aura. Um dos poucos que paga o próprio slot."
+    },
+    {
+      "nome": "Venusa",
+      "fase": "mid",
+      "elementos": [
+        "Escuridão"
+      ],
+      "apt": {
+        "coleta": 6,
+        "manual": 6,
+        "manipulacao": 5
+      },
+      "onde": "Mid game"
+    },
+    {
+      "nome": "Anubis",
+      "fase": "mid",
+      "elementos": [
+        "Terra"
+      ],
+      "apt": {
+        "manual": 6,
+        "transporte": 4,
+        "garimpo": 6
+      },
+      "onde": "Cruzamento: Vanwyrm com Azurobe",
+      "nota": "Manual 6 e Garimpo 6, o que faz dele um dos melhores Pals de base do jogo, e não o contrário. A fama de rebaixado vem da condensação, que no 1.0 se distribui entre as aptidões: com três delas, cada uma sobe menos. Continua ótimo em combate."
+    },
+    {
+      "nome": "Wumpo",
+      "fase": "mid",
+      "elementos": [
+        "Gelo"
+      ],
+      "apt": {
+        "transporte": 6,
+        "refrigeracao": 5,
+        "madeira": 5,
+        "manual": 3
+      },
+      "aura": "transporte",
+      "nota": "A melhor aura do jogo em custo-benefício: trabalha em três funções e ainda buffa a base."
+    },
+    {
+      "nome": "Grizzbolt",
+      "fase": "mid",
+      "elementos": [
+        "Elétrico"
+      ],
+      "apt": {
+        "energia": 5,
+        "manual": 4
+      },
+      "onde": "Chefe da primeira torre, e spawna perto da Zona de Caça Proibida I",
+      "nota": "Melhor gerador realista para o mid game."
+    },
+    {
+      "nome": "Azurmane",
+      "fase": "mid",
+      "elementos": [
+        "Elétrico"
+      ],
+      "apt": {
+        "energia": 5
+      },
+      "onde": "Mid game",
+      "nota": "Come menos que equivalentes."
+    },
+    {
+      "nome": "Dynamoff",
+      "fase": "mid",
+      "elementos": [
+        "Elétrico"
+      ],
+      "apt": {
+        "energia": 6
+      },
+      "efeito": "Reduz o tempo de incubação de ovos em 20%",
+      "nota": "Obrigatório na base de acasalamento."
+    },
+    {
+      "nome": "Bushi",
+      "fase": "mid",
+      "apt": {
+        "madeira": 3,
+        "manual": 2
+      },
+      "onde": "Mid game",
+      "elementos": [
+        "Fogo"
+      ]
+    },
+    {
+      "nome": "Celesdir",
+      "fase": "mid",
+      "apt": {
+        "madeira": 7
+      },
+      "onde": "Mid game",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Mimog",
+      "fase": "mid",
+      "apt": {
+        "transporte": 2
+      },
+      "nota": "Aptidão baixa, mas velocidade absurda. Em transporte, velocidade vence nível.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Katress Ignis",
+      "fase": "aura",
+      "elementos": [
+        "Escuridão",
+        "Fogo"
+      ],
+      "apt": {
+        "acender": 3,
+        "manual": 3,
+        "manipulacao": 3,
+        "transporte": 2
+      },
+      "aura": "acender"
+    },
+    {
+      "nome": "Tetroise",
+      "fase": "aura",
+      "apt": {
+        "garimpo": 4
+      },
+      "aura": "garimpo",
+      "elementos": [
+        "Terra"
+      ]
+    },
+    {
+      "nome": "Petallia",
+      "fase": "aura",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "plantio": 4,
+        "manipulacao": 4,
+        "manual": 3,
+        "coleta": 3,
+        "transporte": 2
+      },
+      "aura": "plantio"
+    },
+    {
+      "nome": "Cinnamoth",
+      "fase": "aura",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "plantio": 2,
+        "coleta": 2,
+        "manipulacao": 2
+      },
+      "aura": "fazenda",
+      "nota": "Obrigatório na base de comida."
+    },
+    {
+      "nome": "Eikthyrdeer Terra",
+      "fase": "aura",
+      "elementos": [
+        "Terra"
+      ],
+      "apt": {},
+      "aura": "madeira",
+      "nota": "Vários guias atribuem esta aura ao Elgrove, o que é falso."
+    },
+    {
+      "nome": "Ribbuny",
+      "fase": "aura",
+      "apt": {
+        "manual": 1,
+        "coleta": 1,
+        "transporte": 1
+      },
+      "aura": "manual",
+      "nota": "Praticamente um slot morto. Só vale em base ultra especializada.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Amione",
+      "fase": "aura",
+      "apt": {
+        "rega": 1,
+        "manual": 2,
+        "transporte": 1
+      },
+      "aura": "rega",
+      "nota": "Slot caro pelo que entrega.",
+      "elementos": [
+        "Água"
+      ]
+    },
+    {
+      "nome": "Puffolt",
+      "fase": "aura",
+      "elementos": [
+        "Elétrico"
+      ],
+      "apt": {
+        "energia": 2,
+        "transporte": 1
+      },
+      "aura": "energia",
+      "nota": "Vale em base com gerador grande, porque +1 em todo mundo compensa."
+    },
+    {
+      "nome": "Smokie Cryst",
+      "fase": "aura",
+      "elementos": [
+        "Escuridão",
+        "Gelo"
+      ],
+      "apt": {
+        "refrigeracao": 2,
+        "coleta": 2
+      },
+      "aura": "refrigeracao"
+    },
+    {
+      "nome": "Clovee",
+      "fase": "aura",
+      "apt": {},
+      "aura": "coleta",
+      "elementos": [
+        "Grama",
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Lullu",
+      "fase": "utilidade",
+      "apt": {},
+      "efeito": "Crescimento de plantação 50% mais rápido",
+      "nota": "Obrigatório na base de fazenda.",
+      "elementos": [
+        "Grama"
+      ]
+    },
+    {
+      "nome": "Prunelia",
+      "fase": "utilidade",
+      "apt": {
+        "plantio": 3
+      },
+      "efeito": "Aumenta a colheita por ciclo",
+      "elementos": [
+        "Grama",
+        "Escuridão"
+      ]
+    },
+    {
+      "nome": "Shroomer Noct",
+      "fase": "utilidade",
+      "apt": {},
+      "efeito": "Reduz perda de SAN em 10%",
+      "nota": "A Clínica faz melhor e não ocupa slot de Pal na conta de aura.",
+      "elementos": [
+        "Grama",
+        "Escuridão"
+      ]
+    },
+    {
+      "nome": "Woolipop Terra",
+      "fase": "utilidade",
+      "apt": {
+        "fazenda": 1
+      },
+      "efeito": "Reduz perda de fome em 15%",
+      "nota": "Também dropa algodão-doce caramelizado para o Bolo Especial.",
+      "elementos": [
+        "Terra"
+      ]
+    },
+    {
+      "nome": "Braloha",
+      "fase": "utilidade",
+      "apt": {},
+      "efeito": "Reduz o tempo de acasalamento",
+      "elementos": [
+        "Grama",
+        "Terra"
+      ]
+    },
+    {
+      "nome": "Panthalus",
+      "fase": "utilidade",
+      "apt": {},
+      "efeito": "Melhor defensor de base contra invasões",
+      "onde": "Questline da Árvore Mundial",
+      "nota": "Zero aptidão de trabalho, então não atrai invasão mais difícil.",
+      "elementos": [
+        "Água"
+      ]
+    },
+    {
+      "nome": "Grintale",
+      "fase": "utilidade",
+      "apt": {},
+      "efeito": "75% de chance de duplicar o ovo quando em 4 estrelas",
+      "nota": "Precisa da sela craftada, senão não funciona.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Broncherry",
+      "fase": "utilidade",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "plantio": 5
+      },
+      "efeito": "Chance de ovo alfa, 100% quando condensado",
+      "nota": "Precisa da sela."
+    },
+    {
+      "nome": "Reptyro",
+      "fase": "utilidade",
+      "elementos": [
+        "Fogo",
+        "Terra"
+      ],
+      "apt": {
+        "garimpo": 5,
+        "acender": 5
+      },
+      "efeito": "Reduz o peso de minério em até 60%",
+      "nota": "Empilha com Reptyro Cryst, mas não com outro Reptyro. Os dois em 3 estrelas zeram o peso."
+    },
+    {
+      "nome": "Reptyro Cryst",
+      "fase": "utilidade",
+      "elementos": [
+        "Gelo",
+        "Terra"
+      ],
+      "apt": {
+        "refrigeracao": 5,
+        "garimpo": 5
+      },
+      "efeito": "Reduz o peso de minério em até 65%"
+    },
+    {
+      "nome": "Elphidran",
+      "fase": "utilidade",
+      "elementos": [
+        "Dracônico"
+      ],
+      "efeito": "Aumenta em 80% os drops de Pals de Escuridão",
+      "nota": "Precisa da sela. Empilha com Vaelet e Menasting porque são espécies diferentes. A Rega que ele tinha no Early Access foi removida no 1.0: o catálogo atual não lista aptidão de trabalho para ele."
+    },
+    {
+      "nome": "Vaelet",
+      "fase": "utilidade",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "manipulacao": 3,
+        "plantio": 3
+      },
+      "efeito": "Aumenta em 80% os drops de Pals de Terra, e dropa 6 tipos de semente na fazenda"
+    },
+    {
+      "nome": "Mozzarina",
+      "fase": "fazenda",
+      "apt": {
+        "fazenda": 2
+      },
+      "efeito": "Leite",
+      "nota": "O leite estraga rápido, mantenha perto da panela.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Chikipi",
+      "fase": "fazenda",
+      "apt": {
+        "fazenda": 1
+      },
+      "efeito": "Ovo",
+      "nota": "Função única, condensa limpo. Entra em quase toda receita de bolo.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Beegarde",
+      "fase": "fazenda",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "fazenda": 3,
+        "plantio": 2,
+        "coleta": 3
+      },
+      "efeito": "Mel",
+      "nota": "Mel não sai de plantação, só daqui. Trava todas as receitas de bolo."
+    },
+    {
+      "nome": "Shroomer",
+      "fase": "fazenda",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "fazenda": 3
+      },
+      "efeito": "Cogumelo e cogumelo das cavernas",
+      "nota": "Único que dropa os dois insumos do Bolo de Cogumelos ao mesmo tempo. Subvalorizado."
+    },
+    {
+      "nome": "Woolipop",
+      "fase": "fazenda",
+      "apt": {
+        "fazenda": 1
+      },
+      "efeito": "Algodão-doce",
+      "nota": "Só serve a partir do Bolo de Verduras Extravagante, que é a linha de mutação.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Mau",
+      "fase": "fazenda",
+      "elementos": [
+        "Escuridão"
+      ],
+      "apt": {
+        "fazenda": 1
+      },
+      "efeito": "Moedas de ouro, de 30 a 100 por drop no nível máximo",
+      "nota": "Melhor renda passiva do early game."
+    },
+    {
+      "nome": "Sibelyx",
+      "fase": "fazenda",
+      "apt": {
+        "fazenda": 3
+      },
+      "efeito": "Tecido de alta qualidade",
+      "nota": "Vende a 264 de ouro e é insumo da incubadora grande. A melhor fonte passiva depois do Mau.",
+      "elementos": [
+        "Gelo"
+      ]
+    },
+    {
+      "nome": "Caprity",
+      "fase": "fazenda",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "fazenda": 1,
+        "plantio": 2
+      },
+      "efeito": "Frutinhas vermelhas",
+      "nota": "Marginal. A plantação faz o mesmo com throughput melhor."
+    },
+    {
+      "nome": "Melpaca",
+      "fase": "fazenda",
+      "apt": {
+        "fazenda": 2
+      },
+      "efeito": "Lã",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Vixy",
+      "fase": "fazenda",
+      "apt": {
+        "fazenda": 1
+      },
+      "efeito": "Esferas, flechas, moedas e ossos",
+      "nota": "Tabela de drop larga demais para render volume de qualquer coisa.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Lyleen",
+      "fase": "combate",
+      "elementos": [
+        "Grama"
+      ],
+      "apt": {
+        "plantio": 7,
+        "manipulacao": 5,
+        "manual": 5
+      },
+      "onde": "Chefe da torre 2, ou Zona de Caça Proibida III",
+      "nota": "Cura e ressuscita o time todo fora da base. Em co-op vale mais que um quinto atacante."
+    },
+    {
+      "nome": "Shadowbeak",
+      "fase": "combate",
+      "elementos": [
+        "Escuridão"
+      ],
+      "apt": {},
+      "onde": "Zona de Caça Proibida III",
+      "nota": "Dano alto sem preparo, voador rápido. Muito mais acessível que Necromus."
+    },
+    {
+      "nome": "Faleris",
+      "fase": "combate",
+      "elementos": [
+        "Fogo"
+      ],
+      "apt": {
+        "acender": 6
+      },
+      "onde": "Alfa nível 38, ou Zona de Caça Proibida III",
+      "nota": "Melhor voador antes do endgame. A sela foi adiada para o nível 60 no 1.0."
+    },
+    {
+      "nome": "Frostallion",
+      "fase": "combate",
+      "elementos": [
+        "Gelo"
+      ],
+      "apt": {
+        "refrigeracao": 7
+      },
+      "onde": "Alfa lendário",
+      "nota": "Resposta obrigatória a dragões, e fonte da passiva Lendário para cruzamento."
+    },
+    {
+      "nome": "Necromus",
+      "fase": "combate",
+      "elementos": [
+        "Escuridão"
+      ],
+      "apt": {},
+      "onde": "Alfa lendário",
+      "nota": "Fonte da passiva Lendário."
+    },
+    {
+      "nome": "Paladius",
+      "fase": "combate",
+      "apt": {},
+      "onde": "Alfa lendário",
+      "nota": "Maior defesa do jogo. Fonte da passiva Lendário.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Cryolinx",
+      "fase": "combate",
+      "elementos": [
+        "Gelo"
+      ],
+      "apt": {
+        "refrigeracao": 4
+      },
+      "onde": "Mid game",
+      "nota": "Cobertura de Gelo acessível contra dragões."
+    },
+    {
+      "nome": "Fenglope",
+      "fase": "combate",
+      "apt": {},
+      "onde": "Mid game",
+      "nota": "Montaria leve com pulo excelente.",
+      "elementos": [
+        "Não elemental"
+      ]
+    },
+    {
+      "nome": "Hartalis",
+      "fase": "combate",
+      "elementos": [
+        "Não elemental"
+      ],
+      "apt": {},
+      "onde": "Chefe de invasão, nível 65",
+      "nota": "A habilidade de companheiro dá barreira protetora ao time inteiro."
+    },
+    {
+      "nome": "Dumud Gild",
+      "fase": "utilidade",
+      "elementos": [
+        "Terra",
+        "Água"
+      ],
+      "apt": {
+        "garimpo": 2
+      },
+      "efeito": "Vale de 19.900 a 79.600 de ouro na venda, e o dobro se for alfa",
+      "nota": "Base da melhor fábrica de dinheiro do mid game."
+    },
+    {
+      "nome": "Wispaw",
+      "fase": "utilidade",
+      "elementos": [
+        "Escuridão"
+      ],
+      "apt": {
+        "manual": 2,
+        "madeira": 1,
+        "manipulacao": 1,
+        "transporte": 1
+      },
+      "onde": "Spawn noturno em todo o arquipélago e na Árvore Mundial. Também sai de Ovo Sombrio Grande.",
+      "nota": "As aptidões são fracas de propósito: o valor dele é a partner skill Felino que Burla a Morte, que aumenta a taxa de captura quando você acerta o bônus de ataque pelas costas. Leve no grupo em qualquer sessão de captura em série."
+    },
+    {
+      "nome": "Eidrolon Ignis",
+      "fase": "combate",
+      "elementos": [
+        "Dracônico",
+        "Fogo"
+      ],
+      "apt": {
+        "acender": 6,
+        "transporte": 6
+      },
+      "onde": "Árvore Mundial, spawn de nível 75 a 77. Também de ovo.",
+      "nota": "Montaria voadora com partner skill que dá +2% de ataque e de velocidade para cada outro aliado de Dragão ou Fogo no grupo, sem contar ele mesmo. A sela só abre no nível 68, então antes disso ele é só o bônus de grupo."
+    },
+    {
+      "nome": "Blazehowl Noct",
+      "fase": "combate",
+      "elementos": [
+        "Fogo",
+        "Escuridão"
+      ],
+      "apt": {
+        "acender": 5
+      },
+      "onde": "Variante noturna do Blazehowl. Aparece em zonas vulcânicas e de floresta escura.",
+      "nota": "Acender 5 num Pal de combate é raro, então ele rende em base e em campo. Partner skill Leão da Chama Negra: montaria com bônus de itens ao derrotar Pals."
+    },
+    {
+      "nome": "Mammorest",
+      "fase": "fazenda",
+      "elementos": [
+        "Grama",
+        "Terra"
+      ],
+      "apt": {
+        "plantio": 4,
+        "madeira": 4
+      },
+      "onde": "Chefe Alfa e spawn em campo aberto no centro do mapa.",
+      "nota": "Plantio 3 é o motivo de existir. Ocupa quatro slots de trabalho na base, então só compensa em base grande."
+    }
+  ]
+}

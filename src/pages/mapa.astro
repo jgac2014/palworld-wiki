@@ -1,0 +1,202 @@
+---
+import Base from '../layouts/Base.astro';
+import dados from '../data/mapa.json';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const categorias = Object.entries(dados.categorias);
+const total = dados.marcadores.length;
+---
+<Base
+  titulo="Mapa interativo"
+  descricao="Mapa de Palpagos com as coordenadas do jogo: bases da guilda, spots de minério e quartzo, torres e zonas de caça proibida."
+>
+  <article>
+    <h1>Mapa interativo</h1>
+    <p class="subtitulo">{total} pontos marcados, nas mesmas coordenadas que o jogo mostra.</p>
+    <div class="carimbo">Clique num ponto para ver a anotação · arraste para mover · rolagem para zoom</div>
+
+    <div id="filtros" class="filtros">
+      {categorias.map(([chave, cat]) => (
+        <label class="filtro">
+          <input type="checkbox" value={chave} checked />
+          <span class="ponto" style={`background:${cat.cor}`}></span>
+          {cat.nome}
+        </label>
+      ))}
+    </div>
+
+    <div id="mapa"></div>
+
+    <div class="coord-atual" id="coord">Passe o mouse sobre o mapa para ler a coordenada</div>
+
+    <h2>Como adicionar um ponto</h2>
+    <p>
+      Todos os pontos ficam num único arquivo, <code>src/data/mapa.json</code>. Dá para editar direto pelo
+      site do GitHub, sem instalar nada: abra o arquivo, clique no lápis, copie um bloco existente e troque
+      os valores. As coordenadas <code>x</code> e <code>y</code> são exatamente as que aparecem no canto da
+      tela quando você abre o mapa no jogo.
+    </p>
+
+    <aside class="adm adm-atencao" data-rotulo="Atenção">
+      <p>
+        A imagem de fundo não vem no repositório porque é arte do jogo. Enquanto ninguém colocar uma,
+        o mapa desenha uma grade de coordenadas e continua funcionando normalmente.
+      </p>
+      <p>
+        Para pôr o mapa de verdade: salve um print da tela de mapa em <code>public/mapa/mapa.jpg</code> e
+        ajuste os dois pontos de <code>calibracao</code> no JSON. Escolha dois lugares em que você sabe a
+        coordenada do jogo, veja em que pixel eles caem na sua imagem, preencha, e todo o resto se
+        posiciona sozinho.
+      </p>
+    </aside>
+  </article>
+</Base>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+  .filtros { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 18px 0 14px; font-family: var(--sans); font-size: 13px; }
+  .filtro { display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--texto-2); user-select: none; }
+  .filtro input { accent-color: var(--acento); cursor: pointer; }
+  .ponto { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  #mapa {
+    width: 100%;
+    height: 560px;
+    background: #0e100c;
+    border: 1px solid var(--linha);
+    border-radius: 3px;
+  }
+  .coord-atual {
+    font-family: ui-monospace, monospace;
+    font-size: 12.5px;
+    color: var(--apagado);
+    padding: 8px 2px 0;
+  }
+  :global(.leaflet-container) { background: #0e100c; font-family: var(--sans); }
+  :global(.leaflet-popup-content-wrapper) {
+    background: var(--cartao);
+    color: var(--texto);
+    border: 1px solid var(--linha);
+    border-radius: 3px;
+  }
+  :global(.leaflet-popup-tip) { background: var(--cartao); border: 1px solid var(--linha); }
+  :global(.leaflet-popup-content) { margin: 12px 14px; font-size: 13.5px; line-height: 1.55; }
+  :global(.leaflet-popup-content b) { color: #fff; display: block; margin-bottom: 4px; font-size: 14.5px; }
+  :global(.leaflet-popup-content .cd) { color: var(--apagado); font-family: ui-monospace, monospace; font-size: 12px; }
+  :global(.leaflet-control-zoom a) { background: var(--cartao); color: var(--texto); border-color: var(--linha); }
+  :global(.marcador) { border-radius: 50%; border: 2px solid rgba(0,0,0,.55); box-shadow: 0 0 0 1px rgba(255,255,255,.18); }
+  @media (max-width: 860px) { #mapa { height: 400px; } }
+</style>
+
+<script define:vars={{ dados, base }}>
+  import('https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js').then((L) => {
+    const { imagem, calibracao, categorias, marcadores } = dados;
+
+    // --- transformação afim entre coordenada do jogo e pixel da imagem ---
+    const p1 = calibracao.ponto1, p2 = calibracao.ponto2;
+    const escalaX = (p2.pixel.x - p1.pixel.x) / (p2.jogo.x - p1.jogo.x);
+    const escalaY = (p2.pixel.y - p1.pixel.y) / (p2.jogo.y - p1.jogo.y);
+    const jogoParaPixel = (x, y) => [
+      p1.pixel.x + (x - p1.jogo.x) * escalaX,
+      p1.pixel.y + (y - p1.jogo.y) * escalaY,
+    ];
+    const pixelParaJogo = (px, py) => [
+      p1.jogo.x + (px - p1.pixel.x) / escalaX,
+      p1.jogo.y + (py - p1.pixel.y) / escalaY,
+    ];
+    // Leaflet em CRS.Simple usa [lat, lng] = [y invertido, x]
+    const paraLatLng = (x, y) => {
+      const [px, py] = jogoParaPixel(x, y);
+      return [imagem.altura - py, px];
+    };
+
+    const mapa = L.map('mapa', {
+      crs: L.CRS.Simple,
+      minZoom: -3,
+      maxZoom: 2,
+      zoomSnap: 0.25,
+      attributionControl: false,
+    });
+
+    const limites = [[0, 0], [imagem.altura, imagem.largura]];
+
+    // Fundo: imagem do jogo se existir, senão uma grade de coordenadas.
+    const img = new Image();
+    img.onload = () => {
+      L.imageOverlay(base + imagem.arquivo, limites).addTo(mapa);
+    };
+    img.onerror = () => {
+      desenhaGrade();
+    };
+    img.src = base + imagem.arquivo;
+
+    function desenhaGrade() {
+      const passo = 250;
+      const [minX, minY] = pixelParaJogo(0, imagem.altura);
+      const [maxX, maxY] = pixelParaJogo(imagem.largura, 0);
+      const ini = (v) => Math.ceil(v / passo) * passo;
+      for (let x = ini(minX); x <= maxX; x += passo) {
+        const a = paraLatLng(x, minY), b = paraLatLng(x, maxY);
+        L.polyline([a, b], { color: '#2b3125', weight: x === 0 ? 2 : 1 }).addTo(mapa);
+        L.marker(paraLatLng(x, minY), {
+          icon: L.divIcon({ className: 'rot', html: `<span style="color:#5c6152;font:11px monospace">${x}</span>` }),
+          interactive: false,
+        }).addTo(mapa);
+      }
+      for (let y = ini(minY); y <= maxY; y += passo) {
+        const a = paraLatLng(minX, y), b = paraLatLng(maxX, y);
+        L.polyline([a, b], { color: '#2b3125', weight: y === 0 ? 2 : 1 }).addTo(mapa);
+        L.marker(paraLatLng(minX, y), {
+          icon: L.divIcon({ className: 'rot', html: `<span style="color:#5c6152;font:11px monospace">${y}</span>` }),
+          interactive: false,
+        }).addTo(mapa);
+      }
+    }
+
+    // --- marcadores por categoria ---
+    const camadas = {};
+    for (const chave of Object.keys(categorias)) camadas[chave] = L.layerGroup().addTo(mapa);
+
+    for (const m of marcadores) {
+      const cat = categorias[m.categoria] || { cor: '#999', nome: m.categoria };
+      const marcador = L.circleMarker(paraLatLng(m.x, m.y), {
+        radius: m.categoria === 'base' ? 9 : 6,
+        color: 'rgba(0,0,0,.6)',
+        weight: 2,
+        fillColor: cat.cor,
+        fillOpacity: 0.95,
+        className: 'marcador',
+      });
+      marcador.bindPopup(
+        `<b>${m.nome}</b>` +
+        `<span class="cd">${cat.nome} · ${m.x}, ${m.y}</span>` +
+        (m.nota ? `<p style="margin:6px 0 0">${m.nota}</p>` : '')
+      );
+      marcador.addTo(camadas[m.categoria] || mapa);
+    }
+
+    mapa.fitBounds(limites);
+
+    // --- filtros ---
+    document.querySelectorAll('#filtros input').forEach((cx) => {
+      cx.addEventListener('change', () => {
+        const camada = camadas[cx.value];
+        if (!camada) return;
+        cx.checked ? mapa.addLayer(camada) : mapa.removeLayer(camada);
+      });
+    });
+
+    // --- leitura de coordenada ---
+    const saida = document.getElementById('coord');
+    mapa.on('mousemove', (e) => {
+      const px = e.latlng.lng, py = imagem.altura - e.latlng.lat;
+      const [x, y] = pixelParaJogo(px, py);
+      saida.textContent = `coordenada do jogo: ${Math.round(x)}, ${Math.round(y)}`;
+    });
+    mapa.on('click', (e) => {
+      const px = e.latlng.lng, py = imagem.altura - e.latlng.lat;
+      const [x, y] = pixelParaJogo(px, py);
+      saida.textContent = `clicado: ${Math.round(x)}, ${Math.round(y)} — copie para adicionar um ponto no mapa.json`;
+    });
+  });
+</script>
