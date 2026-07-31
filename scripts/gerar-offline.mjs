@@ -128,13 +128,12 @@ const secoes = paginas
   .map((p) => `<article class="pagina" id="pg-${p.rota || 'inicio'}" hidden>${p.corpo}</article>`)
   .join('\n');
 
-const indice = JSON.stringify(
-  paginas.map((p) => ({
-    id: p.rota || 'inicio',
-    titulo: p.titulo,
-    texto: p.corpo.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 20000).toLowerCase(),
-  }))
-);
+const entradas = paginas.map((p) => ({
+  id: p.rota || 'inicio',
+  titulo: p.titulo,
+  texto: p.corpo.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 20000).toLowerCase(),
+}));
+const indice = JSON.stringify(entradas);
 
 const doc = `<!doctype html>
 <html lang="pt-BR">
@@ -217,5 +216,53 @@ ${secoes}
 </html>`;
 
 await writeFile(saida, doc);
+
+// ------------------------------------------------ composição e teto
+//
+// O teto é de 8 MB em bytes, decidido em 31.07.2026 e registrado no PRD com a
+// medição que o gerou. Em bytes e não em tempo de carga porque a variação entre
+// rodadas do mesmo arquivo passou de 60%, o que tornaria instável qualquer
+// asserção de tempo aqui dentro.
+//
+// A composição por seção é impressa SEMPRE, e não só quando estoura. O total
+// sozinho esconde duplicação: uma seção que aparecesse duas vezes no pacote
+// somaria alguns KB no fim da linha e ninguém veria. Separada por seção, ela
+// aparece com o dobro de páginas no log do portão.
+const TETO_BYTES = 8388608;
+
+const bytes = (s) => Buffer.byteLength(s, 'utf-8');
+const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
+
+const secoesMedidas = new Map();
+paginas.forEach((p, i) => {
+  const nome = p.rota === '' ? 'início' : p.rota.split('/')[0];
+  const atual = secoesMedidas.get(nome) ?? { paginas: 0, html: 0, indice: 0 };
+  atual.paginas += 1;
+  atual.html += bytes(p.corpo);
+  atual.indice += bytes(entradas[i].texto);
+  secoesMedidas.set(nome, atual);
+});
+
+const totalBytes = bytes(doc);
+const totalConteudo = [...secoesMedidas.values()].reduce((s, v) => s + v.html + v.indice, 0);
+
 console.log(`  ${paginas.length} páginas empacotadas em ${saida}`);
-console.log(`  ${(doc.length / 1024).toFixed(0)} KB, abre com duplo clique`);
+console.log('  composição por seção (HTML embutido + texto do índice de busca):');
+for (const [nome, v] of [...secoesMedidas].sort((a, b) => b[1].html + b[1].indice - a[1].html - a[1].indice)) {
+  const rotulo = `${v.paginas} ${v.paginas === 1 ? 'página' : 'páginas'}`;
+  console.log(
+    `    ${nome.padEnd(14)} ${rotulo.padStart(12)}   ${kb(v.html).padStart(10)} HTML   ${kb(v.indice).padStart(10)} índice`
+  );
+}
+console.log(`    ${'moldura'.padEnd(14)} ${'CSS e JS'.padStart(12)}   ${kb(totalBytes - totalConteudo).padStart(10)} restante`);
+console.log(`  ${kb(totalBytes)} de teto ${kb(TETO_BYTES)} (${((totalBytes / TETO_BYTES) * 100).toFixed(0)}%), abre com duplo clique`);
+
+if (totalBytes > TETO_BYTES) {
+  console.error(
+    `  ABORTADO: o pacote tem ${totalBytes} bytes (${kb(totalBytes)}) e o teto é ${TETO_BYTES} bytes (${kb(TETO_BYTES)}).`
+  );
+  console.error(
+    `  Passou ${totalBytes - TETO_BYTES} bytes (${kb(totalBytes - TETO_BYTES)}). Veja a composição acima para achar a seção que cresceu.`
+  );
+  process.exit(1);
+}

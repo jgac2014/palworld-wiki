@@ -226,5 +226,11 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
 - **31.07** O pacote offline cobre as duas camadas, guias e catálogo. Medido antes de decidir: as
   299 fichas somam 711 KB de HTML e 95 KB de texto puro, e o arquivo vai de 604 KB para 1,4 MB.
   Custa 800 KB e resolve o caso de uso que motivou o offline, que é consultar um Pal sem internet.
+- **31.07** Teto do pacote offline: 8 MB, medido em 31.07.2026. Aos 3151 KB o arquivo tem 33.539
+  nós, carrega em 0,9 a 1,6 s com CPU 4x mais lenta e comprime para 353 KB. Inflado a 8,3 MB e
+  100 mil nós, a carga vai a 2,2 s e o layout não muda. O teto é em bytes e não em tempo porque a
+  variação entre rodadas do mesmo arquivo passou de 60%, o que tornaria instável qualquer asserção
+  de tempo no portão. O teto é verificado por `scripts/gerar-offline.mjs`, que aborta com código 1
+  ao estourar e imprime a composição por seção em toda execução.
 - **30.07** O repositório de destino é `nederreis/PalCrew`. Enquanto ele for privado e sem acesso
   liberado, este repositório é a fonte da verdade.

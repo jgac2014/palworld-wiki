@@ -133,6 +133,10 @@ Não repita estas. Cada uma custou uma reversão.
   comprovado sabotando a correção e vendo o portão passar. Por isso `testar-navegador.mjs` sobe um
   servidor estático e testa o site por HTTP. O pacote offline continua em `file://`, e ali está
   certo, porque o CSS dele é embutido.
+- **Asserção que depende de estado deixado por outro teste passa por acidente.** Um teste de idioma
+  passou porque o teste anterior tinha deixado a página em inglês, não porque a troca funcionava.
+  Todo teste tem que estabelecer o estado de que precisa antes de afirmar qualquer coisa, e a prova
+  continua sendo sabotar a correção e ver o portão acusar.
 - **Tradução de elemento tem três pegadinhas oficiais:** Dark é "Escuridão" (não "Sombrio"),
   Dragon é "Dracônico" (não "Dragão"), Neutral é "Não elemental" (não "Neutro"). Conferido nos
   tooltips da página PT do paldb, que serve as strings do jogo.

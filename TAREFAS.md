@@ -238,25 +238,21 @@ Três páginas de índice filtrável, no mesmo padrão visual do banco de Pals, 
 - Nenhum registro é omitido em silêncio: se o índice mostrar menos que o total do JSON, a página
   diz quantos e por quê.
 
-**Entregue, e com um impedimento aberto que não é dela.** Os quatro critérios passaram: as três
+**Entregue, e o impedimento que ela levantou está fechado.** Os quatro critérios passaram: as três
 páginas existem e filtram, o Pagefind indexa as 321, a busca acha um item que só existe em
 `itens.json`, o build ficou em 12,3s e as 46 entradas internas escondidas são contadas e explicadas
 na página.
 
-O que travou é o **pacote offline, que chegou a 3151 KB e passou do teto de 3 MB** combinado na E6.
-Ninguém estourou sozinho: a D4 levou o banco de Pals de 77 linhas para 299 cartões mais tabela
+O que travou foi o **pacote offline, que chegou a 3151 KB e passou do teto de 3 MB** combinado na
+E6. Ninguém estourou sozinho: a D4 levou o banco de Pals de 77 linhas para 299 cartões mais tabela
 (596 KB) e a E7 acrescentou os três índices (681 + 273 + 207 KB). As 299 fichas somam outros 711 KB.
 
-Três saídas, e a escolha é de produto:
-
-1. **Subir o teto.** O arquivo ainda abre com duplo clique e ainda vai por mensagem. O teto de 3 MB
-   foi estimado quando o offline tinha 18 páginas.
-2. **Deixar os três índices de fora do offline**, dizendo isso no cabeçalho do arquivo. Custa
-   justamente a consulta que mais faz sentido sem internet, que é procurar um item.
-3. **Emagrecer o pacote**, tirando a tabela alternativa do banco de Pals só na versão offline. Rende
-   pouco mais de 150 KB e sacrifica a alternativa em tabela que o R5.8 exige.
-
-Enquanto não houver decisão, o portão continua passando e o arquivo continua sendo gerado inteiro.
+**Escolhida a saída 1, subir o teto, em 31.07.** As outras duas custavam conteúdo: a 2 tirava
+justamente a consulta que mais faz sentido sem internet, que é procurar um item, e a 3 rendia pouco
+mais de 150 KB sacrificando a alternativa em tabela que o R5.8 exige. O teto novo é 8 MB, com a
+medição que o justifica registrada nas decisões do `PRD.md`, e deixou de ser prosa numa tarefa:
+`scripts/gerar-offline.mjs` aborta com código 1 ao estourar e imprime a composição por seção em toda
+execução, para duplicação acidental aparecer no log do portão em vez de sumir dentro do total.
 
 ### [x] E6 — O pacote offline inclui as fichas de Pal
 
@@ -283,7 +279,9 @@ real, não só o primeiro nível.
   ABORTA dizendo qual ficou de fora. Se não abortar, o aviso continua cego.
 - Uma asserção nova em testar-navegador.mjs cobrindo isso, com prova de que
   acusa quando sabotada.
-- Se o arquivo passar de 3 MB, pare e me diga antes de seguir.
+- O teto é de 8 MB (8388608 bytes), subido de 3 MB em 31.07 com a medição
+  registrada nas decisões do `PRD.md`. Quem verifica é o próprio
+  `gerar-offline.mjs`, que aborta com código 1 e mostra o quanto passou.
 
 ## Bloco D — Trazer o protótipo para o site
 
