@@ -126,6 +126,13 @@ Não repita estas. Cada uma custou uma reversão.
   Separar por espaço descarta essas em silêncio: a primeira importação saiu sem energia,
   manipulação e petróleo em 299 Pals. O importador atual casa o par nome+nível com regex e
   ABORTA sem gravar se alguma aptidão inteira sumir.
+- **Teste de estilo por `file://` é placebo.** O CSS do site é referenciado por caminho
+  absoluto (`/_astro/...`), que em `file://` aponta para a raiz do disco e não carrega: a página
+  abre sem estilo nenhum. Toda asserção com `getComputedStyle` passa por acidente. Foi assim que o
+  teste do painel do assistente ficou aprovando o próprio bug que ele existia para pegar,
+  comprovado sabotando a correção e vendo o portão passar. Por isso `testar-navegador.mjs` sobe um
+  servidor estático e testa o site por HTTP. O pacote offline continua em `file://`, e ali está
+  certo, porque o CSS dele é embutido.
 - **Tradução de elemento tem três pegadinhas oficiais:** Dark é "Escuridão" (não "Sombrio"),
   Dragon é "Dracônico" (não "Dragão"), Neutral é "Não elemental" (não "Neutro"). Conferido nos
   tooltips da página PT do paldb, que serve as strings do jogo.

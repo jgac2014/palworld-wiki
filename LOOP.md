@@ -23,13 +23,17 @@ Ele encadeia quatro coisas e sai com código 1 se qualquer uma falhar:
 | `verificar` | Dados e conteúdo íntegros. Catálogo cruzado com a curadoria, números batendo entre páginas, frontmatter válido |
 | `build` | O site gera |
 | `offline` | O pacote de um arquivo só continua completo |
-| `testar` | Dez asserções no navegador de verdade |
+| `testar` | Asserções num navegador de verdade, com o site **servido por HTTP**, não aberto como arquivo |
 
-Os dez testes de navegador não são genéricos: **cada um existe porque a coisa que ele
+Os testes de navegador não são genéricos: **cada um existe porque a coisa que ele
 checa já quebrou uma vez neste projeto.** Painel do assistente nascendo aberto, menu
 destacando duas páginas, termo acentuado travado em português, link interno apontando
 para rota que não existe. Nenhum desses quebrava o build. Se um falhar, é regressão de
 algo que já foi consertado, não regra nova.
+
+**Como saber se um teste novo vale alguma coisa:** sabote a correção que ele cobre, reconstrua e
+veja se ele acusa. Se passar mesmo com o bug de volta, o teste é placebo. Foi assim que
+descobrimos que testar por `file://` não carrega o CSS e invalidava toda asserção de estilo.
 
 O mesmo portão roda em CI a cada push, pelo `.github/workflows/portao.yml`.
 

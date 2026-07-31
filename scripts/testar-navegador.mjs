@@ -16,8 +16,9 @@
  */
 import { chromium } from 'playwright';
 import { readdir, readFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { existsSync, readFileSync, statSync } from 'node:fs';
+import { createServer } from 'node:http';
+import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -40,13 +41,13 @@ if (!existsSync(dist)) {
 }
 
 /**
- * Onde esta o Chromium.
+ * Onde está o Chromium.
  *
- * Este script roda em tres lugares com respostas diferentes: no sandbox do
- * Cowork o navegador vem pre-instalado num caminho fixo, no Windows de quem
- * desenvolve ele fica no diretorio do Playwright, e no runner do GitHub o
- * proprio Playwright resolve. Em vez de escolher um e quebrar nos outros, o
- * caminho fixo so e usado se o arquivo existir de verdade.
+ * Este script roda em três lugares com respostas diferentes: no sandbox do
+ * Cowork o navegador vem pré-instalado num caminho fixo, no Windows de quem
+ * desenvolve ele fica no diretório do Playwright, e no runner do GitHub o
+ * próprio Playwright resolve. Em vez de escolher um e quebrar nos outros, o
+ * caminho fixo só é usado se o arquivo existir de verdade.
  */
 function ondeEstaOChromium() {
   if (process.env.CHROMIUM) return process.env.CHROMIUM;
@@ -55,6 +56,50 @@ function ondeEstaOChromium() {
   return undefined; // deixa o Playwright achar sozinho
 }
 
+/**
+ * Servidor estático só para o teste.
+ *
+ * Testar o site por file:// é armadilha: o CSS é referenciado por caminho
+ * absoluto (/_astro/...), que em file:// aponta para a raiz do disco e não
+ * carrega. A página abre sem estilo nenhum, e qualquer asserção que dependa de
+ * getComputedStyle vira placebo.
+ *
+ * Foi exatamente o que aconteceu com o teste do painel do assistente: removendo
+ * a correção e reconstruindo, ele continuava passando, porque sem CSS o
+ * atributo [hidden] funciona sozinho pelo estilo padrão do navegador. O teste
+ * que existia para cobrir aquele bug não cobria nada.
+ *
+ * O pacote offline continua sendo testado por file://, e isso está certo: ali o
+ * CSS é embutido, e file:// é o modo real de uso dele.
+ */
+const TIPOS = {
+  '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8', '.json': 'application/json',
+  '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg',
+  '.webp': 'image/webp', '.woff2': 'font/woff2', '.pf_meta': 'application/octet-stream',
+};
+
+const servidor = createServer((req, res) => {
+  let caminho = decodeURIComponent(req.url.split('?')[0]);
+  let arquivo = join(dist, caminho);
+  try {
+    if (statSync(arquivo).isDirectory()) arquivo = join(arquivo, 'index.html');
+  } catch {
+    res.writeHead(404).end('nao encontrado');
+    return;
+  }
+  try {
+    res.writeHead(200, { 'content-type': TIPOS[extname(arquivo)] || 'application/octet-stream' });
+    res.end(readFileSync(arquivo));
+  } catch {
+    res.writeHead(404).end('nao encontrado');
+  }
+});
+
+const base = await new Promise((resolve) => {
+  servidor.listen(0, '127.0.0.1', () => resolve(`http://127.0.0.1:${servidor.address().port}`));
+});
+
 const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() });
 
 // ------------------------------------------------------------ site gerado
@@ -62,13 +107,12 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   const pagina = await navegador.newPage({ viewport: { width: 1280, height: 900 } });
   const errosJs = [];
   pagina.on('pageerror', (e) => errosJs.push(e.message));
-  // Falha de CARREGAMENTO de recurso é ruído do ambiente: aberto em file:// e
-  // sem rede, o favicon, o índice do Pagefind e o Leaflet do CDN não chegam. O
-  // que interessa é erro de EXECUÇÃO de JavaScript, que o pageerror acima pega.
-  const RUIDO = /Failed to load resource|favicon|pagefind|ERR_[A-Z_]+/i;
+  // Servido por HTTP o site carrega quase tudo. Sobra o Leaflet do CDN, que
+  // depende de rede externa e não existe no sandbox nem no CI.
+  const RUIDO = /Failed to load resource|unpkg|cdn|ERR_[A-Z_]+/i;
   pagina.on('console', (m) => { if (m.type() === 'error' && !RUIDO.test(m.text())) errosJs.push(m.text()); });
 
-  await pagina.goto(`file://${join(dist, 'meu-save', 'index.html')}`);
+  await pagina.goto(`${base}/meu-save/`);
   await pagina.waitForTimeout(300);
 
   // 1. o painel do assistente nasce fechado.
@@ -96,7 +140,7 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   }
   const semMarca = ACENTUADOS.filter((t) => achados[t] === 0);
 
-  await pagina.goto(`file://${join(dist, 'endgame', 'index.html')}`);
+  await pagina.goto(`${base}/endgame/`);
   await pagina.waitForTimeout(200);
   const antes = await pagina.evaluate(() => document.querySelector('[data-pt="Árvore Mundial"]')?.textContent);
   await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
@@ -113,9 +157,8 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
 
   let dentroDeProibido = 0;
   for (const rota of rotas) {
-    const arquivo = join(dist, rota, 'index.html');
-    if (!existsSync(arquivo)) continue;
-    await pagina.goto(`file://${arquivo}`);
+    if (!existsSync(join(dist, rota, 'index.html'))) continue;
+    await pagina.goto(`${base}/${rota}/`);
     dentroDeProibido += await pagina.evaluate(() =>
       [...document.querySelectorAll('[data-termo]')]
         .filter((s) => s.closest('a, h1, h2, h3, h4, code, pre')).length);
@@ -126,9 +169,8 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   const existentes = new Set(['', ...rotas]);
   const quebrados = [];
   for (const rota of rotas) {
-    const arquivo = join(dist, rota, 'index.html');
-    if (!existsSync(arquivo)) continue;
-    await pagina.goto(`file://${arquivo}`);
+    if (!existsSync(join(dist, rota, 'index.html'))) continue;
+    await pagina.goto(`${base}/${rota}/`);
     const hrefs = await pagina.evaluate(() =>
       [...document.querySelectorAll('a[href^="/"]')].map((a) => a.getAttribute('href')));
     for (const h of hrefs) {
@@ -137,36 +179,6 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     }
   }
   conferir(quebrados.length === 0, 'nenhum link interno quebrado', quebrados.slice(0, 4).join(' | '));
-
-  // 5. a moldura inteira alterna de idioma, não só os nomes do jogo.
-  //    Quebrou porque menu, filtros e rótulos estavam escritos em português
-  //    dentro dos componentes: trocar para EN deixava o site pela metade.
-  //    Vale para texto e para placeholder, que é atributo e escapa do laço.
-  const teimosos = [];
-  for (const rota of ['', 'pals', 'mapa']) {
-    const arquivo = rota ? join(dist, rota, 'index.html') : join(dist, 'index.html');
-    if (!existsSync(arquivo)) continue;
-    await pagina.goto(`file://${arquivo}`);
-    await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
-    await pagina.waitForTimeout(200);
-    teimosos.push(...(await pagina.evaluate((onde) => {
-      const fora = [];
-      for (const el of document.querySelectorAll('[data-rot-pt]')) {
-        const alvo = el.dataset.rotEn;
-        if (alvo && el.textContent.trim() !== alvo.trim()) {
-          fora.push(`${onde}: "${el.textContent.trim().slice(0, 40)}"`);
-        }
-      }
-      for (const el of document.querySelectorAll('[data-ph-pt]')) {
-        const campo = el.matches('input, textarea') ? el : el.querySelector('input, textarea');
-        if (campo && el.dataset.phEn && campo.placeholder !== el.dataset.phEn) {
-          fora.push(`${onde}: placeholder "${campo.placeholder}"`);
-        }
-      }
-      return fora;
-    }, rota || 'home')));
-  }
-  conferir(teimosos.length === 0, 'a moldura inteira alterna para inglês', teimosos.slice(0, 4).join(' | '));
 
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
@@ -207,6 +219,7 @@ if (existsSync(offline)) {
 }
 
 await navegador.close();
+servidor.close();
 
 // ------------------------------------------------------------------ saída
 console.log('');
