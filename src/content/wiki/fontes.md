@@ -1,6 +1,8 @@
 ---
 titulo: "Fontes e incertezas"
 descricao: "O que está em disputa entre fontes e de onde veio cada dado."
+titulo_en: "Sources and uncertainty"
+descricao_en: "What sources disagree on and where each figure came from."
 ordem: 15
 atualizado: 2026-07-30
 ---

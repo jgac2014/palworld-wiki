@@ -1,6 +1,8 @@
 ---
 titulo: "Co-op e servidor"
 descricao: "O que compartilha, limites do mundo por convite e configurações."
+titulo_en: "Co-op and server"
+descricao_en: "What is shared, invite world limits and settings."
 ordem: 11
 atualizado: 2026-07-30
 ---

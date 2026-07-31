@@ -1,6 +1,8 @@
 ---
 titulo: "Armadilhas e bugs"
 descricao: "Erros caros, bugs ativos e truques validados pela comunidade."
+titulo_en: "Pitfalls and bugs"
+descricao_en: "Costly mistakes, active bugs and community-tested tricks."
 ordem: 14
 atualizado: 2026-07-30
 ---

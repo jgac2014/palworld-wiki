@@ -1,6 +1,8 @@
 ---
 titulo: "Cruzamentos e mutação"
 descricao: "Herança de passivas, bolos, mutação e a cadeia de produção de Pals."
+titulo_en: "Breeding and mutation"
+descricao_en: "Passive inheritance, cakes, mutation and the Pal production chain."
 ordem: 6
 atualizado: 2026-07-30
 ---

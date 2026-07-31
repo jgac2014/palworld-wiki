@@ -1,6 +1,8 @@
 ---
 titulo: "Onde estamos hoje"
 descricao: "Fotografia do save: personagem, squad, Palbox, baú de guilda e os gargalos reais."
+titulo_en: "Where we are now"
+descricao_en: "Snapshot of the save: character, squad, Palbox, guild chest and the real bottlenecks."
 ordem: 2
 atualizado: 2026-07-30
 ---

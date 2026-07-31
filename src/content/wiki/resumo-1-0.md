@@ -1,6 +1,8 @@
 ---
 titulo: "O que mudou no 1.0"
 descricao: "Panorama do lançamento, level cap, contagem de Pals e histórico de patches."
+titulo_en: "What changed in 1.0"
+descricao_en: "Launch overview, level cap, Pal count and patch history."
 ordem: 1
 atualizado: 2026-07-30
 ---

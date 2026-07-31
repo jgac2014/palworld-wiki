@@ -15,6 +15,11 @@ const wiki = defineCollection({
     titulo: z.string(),
     // Uma linha explicando a página. Aparece na home e no Google.
     descricao: z.string(),
+    // Os dois acima em inglês, para o seletor de idioma. São opcionais de
+    // propósito: página sem tradução continua mostrando o português em vez
+    // de quebrar o build.
+    titulo_en: z.string().optional(),
+    descricao_en: z.string().optional(),
     // Posição no menu. Menor number aparece primeiro.
     ordem: z.number().default(99),
     // Data da última revisão de conteúdo.

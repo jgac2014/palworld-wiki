@@ -1,6 +1,8 @@
 ---
 titulo: "Torres e bosses"
 descricao: "As 9 torres em ordem, alphas e zonas de caça proibida."
+titulo_en: "Towers and bosses"
+descricao_en: "All 9 towers in order, alphas and wildlife sanctuaries."
 ordem: 8
 atualizado: 2026-07-30
 ---

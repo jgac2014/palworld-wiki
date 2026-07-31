@@ -1,6 +1,8 @@
 ---
 titulo: "No controle"
 descricao: "Gamepad no 1.0: dash com mira, botões do dia a dia e configurações."
+titulo_en: "On a controller"
+descricao_en: "Gamepad in 1.0: dash while aiming, daily buttons and settings."
 ordem: 12
 atualizado: 2026-07-30
 ---

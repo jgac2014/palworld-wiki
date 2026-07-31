@@ -1,6 +1,8 @@
 ---
 titulo: "Combate e squad"
 descricao: "Tier list, passivas de combate, armas, montarias e arena."
+titulo_en: "Combat and squad"
+descricao_en: "Tier list, combat passives, weapons, mounts and arena."
 ordem: 7
 atualizado: 2026-07-30
 ---

@@ -55,8 +55,8 @@ const carimbo = (l) => `${ui('home_cobre', l)} 1.0.2, build 1.100.933 · ${ui('h
     <div class="blocos">
       {paginas.map((p) => (
         <a class="bloco" href={`${base}/${p.id}`}>
-          <div class="t">{p.data.titulo}</div>
-          <div class="d">{p.data.descricao}</div>
+          <div class="t" data-rot-pt={p.data.titulo} data-rot-en={p.data.titulo_en || p.data.titulo}>{p.data.titulo}</div>
+          <div class="d" data-rot-pt={p.data.descricao} data-rot-en={p.data.descricao_en || p.data.descricao}>{p.data.descricao}</div>
         </a>
       ))}
     </div>

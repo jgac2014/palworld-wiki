@@ -1,6 +1,8 @@
 ---
 titulo: "Base e trabalho"
 descricao: "Aptidão para trabalho, auras, layout de base e defesa contra invasões."
+titulo_en: "Bases and work"
+descricao_en: "Work suitability, auras, base layout and raid defence."
 ordem: 5
 atualizado: 2026-07-30
 ---

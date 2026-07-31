@@ -1,6 +1,8 @@
 ---
 titulo: "Economia e farm"
 descricao: "Ouro, recursos raros, expedições e linha de bolo."
+titulo_en: "Economy and farming"
+descricao_en: "Gold, rare resources, expeditions and the cake line."
 ordem: 10
 atualizado: 2026-07-30
 ---

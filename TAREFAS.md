@@ -61,7 +61,7 @@ dois casos da seção 1.4 que a lógica atual não cobre: `<option>` dentro de `
   filtros continuar em português.
 - `npm run verificar && npm run build` passam.
 
-### [ ] A3 — Título e descrição das páginas em dois idiomas
+### [x] A3 — Título e descrição das páginas em dois idiomas
 
 **Requisito:** R2.5
 **Território:** compartilhado (schema é código, conteúdo é dados)

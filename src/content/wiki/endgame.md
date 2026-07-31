@@ -1,6 +1,8 @@
 ---
 titulo: "Endgame"
 descricao: "Sunreach, Árvore Mundial, Despertar e Wing Pack."
+titulo_en: "Endgame"
+descricao_en: "Sunreach, World Tree, Awakening and the Wing Pack."
 ordem: 9
 atualizado: 2026-07-30
 ---

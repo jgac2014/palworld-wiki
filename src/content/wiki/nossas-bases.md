@@ -1,6 +1,8 @@
 ---
 titulo: "Nossas 4 bases"
 descricao: "Blueprint por base, roster nominal e ordem de desbloqueio."
+titulo_en: "Our 4 bases"
+descricao_en: "Blueprint per base, roster and unlock order."
 ordem: 4
 atualizado: 2026-07-30
 ---

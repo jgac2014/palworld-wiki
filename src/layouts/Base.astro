@@ -75,6 +75,8 @@ const REPO = 'https://github.com/nederreis/PalCrew';
         class="item"
         href={`${base}/${p.id}`}
         aria-current={eh(`${base}/${p.id}`) ? 'page' : undefined}
+        data-rot-pt={p.data.titulo}
+        data-rot-en={p.data.titulo_en || p.data.titulo}
       >{p.data.titulo}</a>
     ))}
 

@@ -1,6 +1,8 @@
 ---
 titulo: "Glossário PT ↔ EN"
 descricao: "Terminologia oficial em português do jogo, dataminada do paldb."
+titulo_en: "Glossary PT ↔ EN"
+descricao_en: "Official Portuguese terminology, datamined from paldb."
 ordem: 13
 atualizado: 2026-07-30
 ---

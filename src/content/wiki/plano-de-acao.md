@@ -1,6 +1,8 @@
 ---
 titulo: "Plano de ação"
 descricao: "Ordem de operações para quebrar o muro do mid game em co-op."
+titulo_en: "Action plan"
+descricao_en: "Order of operations to break through the mid game in co-op."
 ordem: 3
 atualizado: 2026-07-30
 ---
