@@ -47,6 +47,14 @@
   "pals_de":            { "pt": "de",                 "en": "of" },
   "pals_como_ler":      { "pt": "Como ler os números","en": "How to read the numbers" },
 
+  "pal_elementos":      { "pt": "Elementos",          "en": "Elements" },
+  "pal_nossa_analise":  { "pt": "A nossa análise",    "en": "Our take" },
+  "pal_sem_curadoria":  { "pt": "Ainda não escrevemos análise nossa deste Pal. A ficha acima é o dado do jogo, importado.", "en": "We haven't written our own take on this Pal yet. The card above is imported game data." },
+  "pal_contribuir":     { "pt": "Como escrever uma",  "en": "How to write one" },
+  "pal_sem_apt":        { "pt": "Nenhuma aptidão para trabalho.", "en": "No work suitability." },
+  "pal_nos_guias":      { "pt": "Onde aparece nos guias", "en": "Where the guides mention it" },
+  "pal_sem_guias":      { "pt": "Nenhum guia cita este Pal ainda.", "en": "No guide mentions this Pal yet." },
+
   "fase_mid":           { "pt": "Acessível agora",    "en": "Available now" },
   "fase_endgame":       { "pt": "Endgame",            "en": "Endgame" },
   "fase_aura":          { "pt": "Dá aura",            "en": "Gives aura" },

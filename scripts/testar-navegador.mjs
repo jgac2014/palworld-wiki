@@ -219,6 +219,32 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     conferir(marcados > 0, 'a moldura tem rótulos marcados para alternar', 'nenhum [data-rot-pt] encontrado: a marcação sumiu dos componentes');
   }
 
+  // 6. a barra de aptidão tem largura proporcional ao nível.
+  //    R5.5 do PRD: aptidão é barra para comparar de relance, sem ler tabela.
+  //    Uma barra que existe mas não acompanha o número é pior que número solto,
+  //    porque mente com cara de gráfico. Só dá para testar com o CSS carregado,
+  //    e é por isso que este arquivo serve o site por HTTP.
+  await pagina.goto(`${base}/pal/anubis/`);
+  await pagina.waitForTimeout(200);
+  const barras = await pagina.evaluate(() =>
+    [...document.querySelectorAll('.apt-barra')].map((b) => {
+      const preenchida = b.querySelector('i');
+      return {
+        nivel: Number(preenchida?.dataset.nivel),
+        proporcao: preenchida.getBoundingClientRect().width / b.getBoundingClientRect().width,
+      };
+    }));
+  // Tolerância de 2 pontos percentuais: arredondamento de pixel, não desenho.
+  const tortas = barras.filter((b) => !b.nivel || Math.abs(b.proporcao - b.nivel / 10) > 0.02);
+  const niveisDistintos = new Set(barras.map((b) => b.nivel)).size;
+  conferir(
+    barras.length >= 2 && niveisDistintos >= 2 && tortas.length === 0,
+    'barra de aptidão é proporcional ao nível',
+    barras.length < 2 ? 'menos de duas barras na página' :
+    niveisDistintos < 2 ? 'todos os níveis iguais, o teste não distingue nada' :
+    tortas.map((b) => `nível ${b.nivel} desenhou ${(b.proporcao * 100).toFixed(1)}%`).join(' | '),
+  );
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 }

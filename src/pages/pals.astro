@@ -1,18 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import dados from '../data/pals.json';
-import { termo, ui } from '../lib/termos.js';
+import { ui, rotuloApt } from '../lib/termos.js';
 
 const { aptidoes, pals } = dados;
 const chavesApt = Object.keys(aptidoes);
-// liga a chave curta da aptidão ao identificador do dicionário bilíngue
-const ID_APT = {
-  acender: 'apt_emitflame', rega: 'apt_watering', plantio: 'apt_seeding',
-  energia: 'apt_generateelectricity', manual: 'apt_handcraft', coleta: 'apt_collection',
-  madeira: 'apt_deforest', garimpo: 'apt_mining', manipulacao: 'apt_productmedicine',
-  refrigeracao: 'apt_cool', transporte: 'apt_transport', fazenda: 'apt_monsterfarm',
-};
-const rot = (k) => ({ pt: termo(ID_APT[k], 'pt'), en: termo(ID_APT[k], 'en') });
+const rot = rotuloApt;
 const fases = ['mid', 'endgame', 'aura', 'utilidade', 'fazenda', 'combate'];
 // A contagem é montada no script, então os dois idiomas vão junto para lá
 const subtitulo = (l) => ui('pals_sub', l).replace('{n}', pals.length);

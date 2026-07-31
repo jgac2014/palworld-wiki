@@ -21,6 +21,23 @@ export function termo(id, idioma = 'pt') {
 }
 
 /**
+ * Liga a chave curta da aptidão, usada em pals.json e catalogo.json, ao
+ * identificador do dicionário bilíngue. Fica aqui porque a página do banco e a
+ * ficha de cada Pal precisam da mesma tradução, e duas cópias divergem.
+ */
+export const ID_APT = {
+  acender: 'apt_emitflame', rega: 'apt_watering', plantio: 'apt_seeding',
+  energia: 'apt_generateelectricity', manual: 'apt_handcraft', coleta: 'apt_collection',
+  madeira: 'apt_deforest', garimpo: 'apt_mining', manipulacao: 'apt_productmedicine',
+  refrigeracao: 'apt_cool', transporte: 'apt_transport', fazenda: 'apt_monsterfarm',
+};
+
+/** Nome da aptidão nos dois idiomas, pronto para os atributos data-rot-*. */
+export function rotuloApt(chave) {
+  return { pt: termo(ID_APT[chave], 'pt'), en: termo(ID_APT[chave], 'en') };
+}
+
+/**
  * Índice de busca por texto: mapeia qualquer grafia conhecida (PT ou EN)
  * de volta para o identificador. Usado para marcar os termos no texto
  * dos guias automaticamente, sem o autor precisar anotar nada.

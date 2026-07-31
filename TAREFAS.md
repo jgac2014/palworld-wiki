@@ -131,7 +131,7 @@ overlay de progresso sobre uma wiki que só conhece 77 Pals.
 Exceção de ordem: **E3 depende de D1**, que está no bloco D. Ao chegar em E3, execute D1 primeiro e
 volte. É a única dependência cruzada entre os blocos.
 
-### [ ] E1 — Uma página por Pal, gerada do catálogo
+### [x] E1 — Uma página por Pal, gerada do catálogo
 
 **Requisito:** R1.7
 **Território:** código e visual

@@ -1,0 +1,176 @@
+---
+/**
+ * Uma página por Pal do catálogo, 299 no total.
+ *
+ * O dado vem inteiro de catalogo.json, que é importado do paldb e nunca
+ * digitado. Quando existe entrada em pals.json, a curadoria entra em destaque
+ * ACIMA da ficha: opinião nossa vale mais que tabela, e é o que nenhuma wiki
+ * grande consegue copiar. Sem curadoria a página continua útil e diz, com
+ * todas as letras, que ainda não temos análise.
+ */
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import catalogo from '../../data/catalogo.json';
+import curadoria from '../../data/pals.json';
+import { termo, ui, rotuloApt } from '../../lib/termos.js';
+
+const REPO = 'https://github.com/nederreis/PalCrew';
+
+/** Endereço do Pal a partir da chave interna do jogo: Fuack_Ignis -> fuack-ignis. */
+export const enderecoPal = (chave) =>
+  chave.toLowerCase().replace(/_/g, '-').replace(/[^a-z0-9-]/g, '');
+
+export async function getStaticPaths() {
+  const paginas = await getCollection('wiki', ({ data }) => !data.rascunho);
+
+  // Que guias citam cada Pal.
+  //
+  // Uma alternância única, ordenada do nome mais longo para o mais curto, para
+  // "Reptyro" não casar dentro de "Reptyro Cryst": o regex escolhe o mais longo
+  // que começa na mesma posição. E lookaround Unicode em vez de \b, que é ASCII
+  // e não casa antes de letra acentuada.
+  const nomes = [...new Set(catalogo.pals.flatMap((p) => [p.en, p.pt]))]
+    .sort((a, b) => b.length - a.length)
+    .map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const varredura = new RegExp(
+    `(?<![\\p{L}\\p{N}_])(${nomes.join('|')})(?![\\p{L}\\p{N}_])`,
+    'gu',
+  );
+
+  const citacoes = new Map();
+  for (const pagina of paginas) {
+    for (const achado of pagina.body.matchAll(varredura)) {
+      const nome = achado[1];
+      if (!citacoes.has(nome)) citacoes.set(nome, new Map());
+      citacoes.get(nome).set(pagina.id, pagina.data);
+    }
+  }
+
+  const porNome = new Map(curadoria.pals.map((p) => [p.nome, p]));
+
+  return catalogo.pals.map((pal) => {
+    const guias = new Map([
+      ...(citacoes.get(pal.en) || []),
+      ...(citacoes.get(pal.pt) || []),
+    ]);
+    return {
+      params: { pal: enderecoPal(pal.chave) },
+      props: {
+        pal,
+        nossa: porNome.get(pal.en) || null,
+        guias: [...guias.entries()].map(([id, data]) => ({ id, ...data })),
+      },
+    };
+  });
+}
+
+const { pal, nossa, guias } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Ordenado do maior para o menor: quem lê quer saber para que o Pal serve, e
+// isso é a aptidão mais alta, não a ordem alfabética da chave.
+const aptidoes = Object.entries(pal.apt || {}).sort((a, b) => b[1] - a[1]);
+// Os onze Pals de colaboração não têm número de Palpédia, e imprimir "#null"
+// é pior que não imprimir nada. São também os únicos com nome diferente nos
+// dois idiomas, então é neles que a linha dos dois nomes aparece.
+const dosDoisIdiomas = pal.pt !== pal.en;
+const carimbo = (l) => [
+  pal.numero ? `${termo('paldeck', l)} #${pal.numero}` : null,
+  dosDoisIdiomas ? `PT ${pal.pt} · EN ${pal.en}` : null,
+].filter(Boolean).join(' · ');
+---
+<Base
+  titulo={pal.pt}
+  descricao={`${pal.pt} em Palworld 1.0: número ${pal.numero} na Palpédia, elementos e aptidões para trabalho com os nomes oficiais em português.`}
+>
+  <article data-pagefind-body>
+    <h1 data-rot-pt={pal.pt} data-rot-en={pal.en}>{pal.pt}</h1>
+    {carimbo('pt') && <div class="carimbo" data-rot-pt={carimbo('pt')} data-rot-en={carimbo('en')}>{carimbo('pt')}</div>}
+
+    {pal.elementos?.length > 0 && (
+      <p class="elementos">
+        {pal.elementos.map((e) => (
+          <span class="elemento" data-rot-pt={e.pt} data-rot-en={e.en}>{e.pt}</span>
+        ))}
+      </p>
+    )}
+
+    {nossa && (
+      <aside class="adm adm-destaque" data-rotulo={ui('pal_nossa_analise', 'pt')}>
+        {nossa.efeito && <p><strong>{nossa.efeito}</strong></p>}
+        {nossa.onde && <p>{nossa.onde}</p>}
+        {nossa.nota && <p>{nossa.nota}</p>}
+        {nossa.aura && (
+          <p>
+            <span data-rot-pt={ui('pals_aura', 'pt')} data-rot-en={ui('pals_aura', 'en')}>{ui('pals_aura', 'pt')}</span>{' '}
+            <span data-rot-pt={rotuloApt(nossa.aura).pt} data-rot-en={rotuloApt(nossa.aura).en}>{rotuloApt(nossa.aura).pt}</span>
+          </p>
+        )}
+      </aside>
+    )}
+
+    <h2 data-rot-pt={termo('apt', 'pt')} data-rot-en={termo('apt', 'en')}>{termo('apt', 'pt')}</h2>
+    {aptidoes.length === 0 ? (
+      <p data-rot-pt={ui('pal_sem_apt', 'pt')} data-rot-en={ui('pal_sem_apt', 'en')}>{ui('pal_sem_apt', 'pt')}</p>
+    ) : (
+      <div class="aptidoes">
+        {aptidoes.map(([chave, nivel]) => (
+          <div class="apt-linha">
+            <span class="nome" data-rot-pt={rotuloApt(chave).pt} data-rot-en={rotuloApt(chave).en}>{rotuloApt(chave).pt}</span>
+            <span class="apt-barra" role="img" aria-label={`${rotuloApt(chave).pt} ${nivel} de 10`}>
+              <i data-nivel={nivel} style={`width:${nivel * 10}%`}></i>
+            </span>
+            <span class="v">{nivel}</span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {!nossa && (
+      <p class="sem-curadoria">
+        <span data-rot-pt={ui('pal_sem_curadoria', 'pt')} data-rot-en={ui('pal_sem_curadoria', 'en')}>{ui('pal_sem_curadoria', 'pt')}</span>{' '}
+        <a
+          href={`${REPO}/blob/main/CONTRIBUINDO.md`}
+          data-rot-pt={ui('pal_contribuir', 'pt')}
+          data-rot-en={ui('pal_contribuir', 'en')}
+        >{ui('pal_contribuir', 'pt')}</a>
+      </p>
+    )}
+
+    <h2 data-rot-pt={ui('pal_nos_guias', 'pt')} data-rot-en={ui('pal_nos_guias', 'en')}>{ui('pal_nos_guias', 'pt')}</h2>
+    {guias.length === 0 ? (
+      <p data-rot-pt={ui('pal_sem_guias', 'pt')} data-rot-en={ui('pal_sem_guias', 'en')}>{ui('pal_sem_guias', 'pt')}</p>
+    ) : (
+      <ul class="guias">
+        {guias.map((g) => (
+          <li>
+            <a href={`${base}/${g.id}`} data-rot-pt={g.titulo} data-rot-en={g.titulo_en || g.titulo}>{g.titulo}</a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </article>
+</Base>
+
+<style>
+  .elementos { display: flex; gap: 7px; flex-wrap: wrap; margin: 14px 0 4px; }
+  .elemento {
+    font-family: var(--sans); font-size: 12px; padding: 2px 9px;
+    border: 1px solid var(--linha); border-radius: 20px; color: var(--texto-2);
+  }
+  .aptidoes { margin: 14px 0 4px; max-width: 460px; }
+  .apt-linha {
+    display: grid; grid-template-columns: 150px 1fr 22px;
+    align-items: center; gap: 10px; margin: 6px 0;
+    font-family: var(--sans);
+  }
+  .apt-linha .nome { font-size: 12.5px; color: var(--texto-2); }
+  .apt-barra { height: 7px; background: var(--cartao); border-radius: 4px; overflow: hidden; }
+  .apt-barra i { display: block; height: 100%; background: var(--acento); border-radius: 0 4px 4px 0; }
+  .apt-linha .v {
+    font-size: 12.5px; text-align: right; color: var(--texto);
+    font-weight: 600; font-variant-numeric: tabular-nums;
+  }
+  .sem-curadoria { font-size: 14px; color: var(--apagado); margin-top: 16px; }
+  .guias { margin: 10px 0 0 20px; }
+</style>
