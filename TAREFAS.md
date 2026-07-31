@@ -180,7 +180,7 @@ entra "desatualizado". Vazio honesto vale mais que número velho.
 - A escolha persiste entre páginas, como o idioma e o tema.
 - Sem JavaScript, o site continua sendo a wiki completa. O overlay é adição, nunca requisito.
 
-### [ ] E4 — Importar itens, estruturas e tecnologias
+### [x] E4 — Importar itens, estruturas e tecnologias
 
 **Requisito:** R1.8
 **Território:** conteúdo e dados

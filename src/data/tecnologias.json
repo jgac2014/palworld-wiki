@@ -1,0 +1,4716 @@
+{
+  "_leia_isto": [
+    "ARQUIVO GERADO. Não edite à mão: rode \"npm run catalogo:importar\".",
+    "",
+    "A árvore de tecnologia com nível de desbloqueio e custo em pontos, importada do paldb."
+  ],
+  "fonte": "paldb.cc",
+  "importado_em": "2026-07-31",
+  "total": 588,
+  "itens": [
+    {
+      "chave": "Workbench",
+      "en": "Primitive Workbench",
+      "pt": "Bancada Primitiva",
+      "nivel": 1,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_Axe_Grade_01",
+      "en": "Stone Axe",
+      "pt": "Machado de Pedra",
+      "nivel": 1,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Pickaxe_Grade_01",
+      "en": "Stone Pickaxe",
+      "pt": "Picareta de Pedra",
+      "nivel": 1,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "HandTorch",
+      "en": "Hand-Held Torch",
+      "pt": "Tocha Portátil",
+      "nivel": 1,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_MeleeWeapon_Bat",
+      "en": "Wooden Club",
+      "pt": "Clava de Madeira",
+      "nivel": 1,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PALBOX",
+      "en": "Palbox",
+      "pt": "Caixa de Pal",
+      "nivel": 2,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Special_PalSphere_Grade_01",
+      "en": "Pal Sphere",
+      "pt": "Esfera de Pal",
+      "nivel": 2,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Cooking_Grade_01",
+      "en": "Campfire",
+      "pt": "Fogueira",
+      "nivel": 2,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Infra_ItemChest_Grade_01",
+      "en": "Wooden Chest",
+      "pt": "Baú de Madeira",
+      "nivel": 2,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "RepairBench",
+      "en": "Repair Bench",
+      "pt": "Bancada de Conserto",
+      "nivel": 2,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Wooden_houseset",
+      "en": "Wooden Structure Set",
+      "pt": "Kit de construção de madeira",
+      "nivel": 2,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkinChange",
+      "en": "Pal Dressing Facility",
+      "pt": "Dispositivo de Enfeite de Pal",
+      "nivel": 2,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_Bow1",
+      "en": "Old Bow",
+      "pt": "Arco Deteriorado",
+      "nivel": 3,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Arrow",
+      "en": "Arrow",
+      "pt": "Flecha",
+      "nivel": 3,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Spear",
+      "en": "Stone Spear",
+      "pt": "Lança de Pedra",
+      "nivel": 3,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Infra_PlayerBed_Grade_01",
+      "en": "Shoddy Bed",
+      "pt": "Cama Simples",
+      "nivel": 3,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Infra_PalBed_Grade_01",
+      "en": "Straw Pal Bed",
+      "pt": "Cama de Palha para Pals",
+      "nivel": 3,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "GlobalPalStorage",
+      "en": "Global Palbox",
+      "pt": "Caixa Global de Pals",
+      "nivel": 3,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Shield_01",
+      "en": "Common Shield",
+      "pt": "Escudo Normal",
+      "nivel": 4,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_01_Cloth",
+      "en": "Cloth Outfit",
+      "pt": "Roupas de Pano",
+      "nivel": 4,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Cloth",
+      "en": "Cloth",
+      "pt": "Pano",
+      "nivel": 4,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PalFoodBox",
+      "en": "Feed Box",
+      "pt": "Ração",
+      "nivel": 4,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_Farm_Berries",
+      "en": "Berry Plantation",
+      "pt": "Plantação de Frutinhas",
+      "nivel": 5,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "MonsterFarm",
+      "en": "Ranch",
+      "pt": "Fazenda de Criação",
+      "nivel": 5,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_Glider_Grade_01",
+      "en": "Normal Parachute",
+      "pt": "Paraquedas Normal",
+      "nivel": 5,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_1",
+      "en": "Wooden Living Room Furniture Set",
+      "pt": "Kit de mobília de sala de estar de madeira",
+      "nivel": 5,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_3",
+      "en": "Wooden Tavern Furniture Set",
+      "pt": "Kit de mobília de bar de madeira",
+      "nivel": 5,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_2",
+      "en": "Wooden Tavern Cabinet Furniture Set",
+      "pt": "Kit de mobília de bar de madeira para armazenamento",
+      "nivel": 5,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_WorkBench_SkillUnlock",
+      "en": "Pal Gear Workbench",
+      "pt": "Fábrica de Engrenagens Pal",
+      "nivel": 6,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Arrow_Fire",
+      "en": "Fire Arrow",
+      "pt": "Flecha de Fogo",
+      "nivel": 6,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Torch",
+      "en": "Mounted Torch",
+      "pt": "Tocha Fixa",
+      "nivel": 6,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Signboard",
+      "en": "Sign",
+      "pt": "Placa",
+      "nivel": 6,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "WallSignboard",
+      "en": "Wall-Mounted Sign",
+      "pt": "Placa de Parede",
+      "nivel": 6,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Boar",
+      "en": "Rushoar Saddle",
+      "pt": "Sela de Rushoar",
+      "nivel": 6,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Kitsunebi",
+      "en": "Foxparks' Harness",
+      "pt": "Arreios de Foxparks",
+      "nivel": 6,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_9",
+      "en": "Houseplant Set",
+      "pt": "Kit de plantas ornamentais",
+      "nivel": 6,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BaseCampWorkHard",
+      "en": "Monitoring Stand",
+      "pt": "Plataforma de Monitoramento",
+      "nivel": 7,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_MeleeWeapon_Bat2",
+      "en": "Bat",
+      "pt": "Bastão",
+      "nivel": 7,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_StationDeforest",
+      "en": "Logging Site",
+      "pt": "Madeireira",
+      "nivel": 7,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_StonePit",
+      "en": "Stone Pit",
+      "pt": "Pedreira",
+      "nivel": 7,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "DefenseWait",
+      "en": "Sandbag",
+      "pt": "Saco de Areia",
+      "nivel": 7,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BaseCampBattleDirector",
+      "en": "Alarm Bell",
+      "pt": "Sino de Alarme",
+      "nivel": 7,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Alpaca",
+      "en": "Melpaca Saddle",
+      "pt": "Sela de Melpaca",
+      "nivel": 7,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_4",
+      "en": "Wall-Mounted Houseplant Set",
+      "pt": "Kit de plantas ornamentais de parede",
+      "nivel": 7,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Crusher",
+      "en": "Crusher",
+      "pt": "Triturador",
+      "nivel": 8,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Arrow_Poison",
+      "en": "Poison Arrow",
+      "pt": "Flecha de Veneno",
+      "nivel": 8,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "DefenseWall_Wood",
+      "en": "Wooden Defensive Wall",
+      "pt": "Barreira de Madeira",
+      "nivel": 8,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Wood_Gate",
+      "en": "Wooden Gate",
+      "pt": "Portão de Madeira",
+      "nivel": 8,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Trap_Noose",
+      "en": "Hanging Trap",
+      "pt": "Armadilha de Laço",
+      "nivel": 8,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_28",
+      "en": "Fireplace Set",
+      "pt": "Kit de aquecedores",
+      "nivel": 8,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BuildableGoddessStatue",
+      "en": "Statue of Power",
+      "pt": "Estátua da Força",
+      "nivel": 9,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "AutoMealPouch_Tier1",
+      "en": "Small Feed Bag",
+      "pt": "Saco de Ração Pequeno",
+      "nivel": 9,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_01_Cloth_Heat",
+      "en": "Tropical Outfit",
+      "pt": "Roupas de Povo Tropical",
+      "nivel": 9,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_01_Cloth_Cold",
+      "en": "Tundra Outfit",
+      "pt": "Roupas de Povo Glacial",
+      "nivel": 9,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Spa",
+      "en": "Hot Spring",
+      "pt": "Águas Termais",
+      "nivel": 9,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Garm",
+      "en": "Direhowl's Saddled Harness",
+      "pt": "Arreios e sela de Direhowl",
+      "nivel": 9,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_17",
+      "en": "Carpet Set",
+      "pt": "Kit de tapetes",
+      "nivel": 9,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_Ingot_Grade_01_Copper",
+      "en": "Primitive Furnace",
+      "pt": "Forno Primitivo",
+      "nivel": 10,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_Bow3",
+      "en": "Three Shot Bow",
+      "pt": "Arco de Três Disparos",
+      "nivel": 10,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Helm_Grade_02_Fur",
+      "en": "Feathered Hair Band",
+      "pt": "Adorno de Plumas",
+      "nivel": 10,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Infra_MachineParts",
+      "en": "Nail",
+      "pt": "Prego",
+      "nivel": 10,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Wooden_ladder",
+      "en": "Ladder",
+      "pt": "Escada",
+      "nivel": 10,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Trap_LegHold",
+      "en": "Bear Trap (Small)",
+      "pt": "Armadilha de Urso (P)",
+      "nivel": 10,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_21",
+      "en": "Antique Storage Set",
+      "pt": "Kit de armazenamento antigo",
+      "nivel": 10,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Special_HatchingPalEgg",
+      "en": "Egg Incubator",
+      "pt": "Incubadora de Ovos",
+      "nivel": 10,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_Axe_Grade_02",
+      "en": "Metal Axe",
+      "pt": "Machado de Metal",
+      "nivel": 11,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Pickaxe_Grade_02",
+      "en": "Metal Pickaxe",
+      "pt": "Picareta de Metal",
+      "nivel": 11,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Factory_Hard_Grade_01",
+      "en": "High Quality Workbench",
+      "pt": "Bancada de Alta Qualidade",
+      "nivel": 11,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "HunterFlagSet",
+      "en": "Rayne Syndicate Flag Set",
+      "pt": "Kit de bandeiras dos Caçadores Clandestinos",
+      "nivel": 11,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_WeaselDragon",
+      "en": "Chillet Saddle",
+      "pt": "Sela de Chillet",
+      "nivel": 11,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Carbunclo",
+      "en": "Lifmunk's Submachine Gun",
+      "pt": "Submetralhadora de Lifmunk",
+      "nivel": 11,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_19",
+      "en": "Antique Chair Set",
+      "pt": "Kit de cadeiras antigas",
+      "nivel": 11,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_Armor_Grade_02_Fur",
+      "en": "Pelt Armor",
+      "pt": "Armadura de Pele",
+      "nivel": 12,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MeatCutterKnife",
+      "en": "Meat Cleaver",
+      "pt": "Cutelo",
+      "nivel": 12,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Medicine_Grade_01",
+      "en": "Medieval Medicine Workbench",
+      "pt": "Boticário Medieval",
+      "nivel": 12,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Monkey",
+      "en": "Tanzee's Assault Rifle",
+      "pt": "Fuzil de assalto de Tanzee",
+      "nivel": 12,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Deer",
+      "en": "Eikthyrdeer Saddle",
+      "pt": "Sela de Eikthyrdeer",
+      "nivel": 12,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureTree_Green",
+      "en": "Faux Greenery Set",
+      "pt": "Kit de árvores artificias",
+      "nivel": 12,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "TableCircular",
+      "en": "Tidy Table Set",
+      "pt": "Kit de mesas arrumadas",
+      "nivel": 12,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "GrapplingGun",
+      "en": "Grappling Gun",
+      "pt": "Arpéu",
+      "nivel": 12,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_BowGun",
+      "en": "Crossbow",
+      "pt": "Besta",
+      "nivel": 13,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Spear_2",
+      "en": "Metal Spear",
+      "pt": "Lança de Metal",
+      "nivel": 13,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Infra_ItemChest_Grade_02",
+      "en": "Metal Chest",
+      "pt": "Baú de Metal",
+      "nivel": 13,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "CoolerBox",
+      "en": "Cooler Box",
+      "pt": "Caixa Térmica",
+      "nivel": 13,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "DamagedScarecrow",
+      "en": "Training Dummy",
+      "pt": "Boneco de Pancada",
+      "nivel": 13,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Monkey_Fire",
+      "en": "Tanzee Ignis's Assault Rifle",
+      "pt": "Fuzil de Assalto de Tanzee Ignis",
+      "nivel": 13,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_22",
+      "en": "Antique Storage Cabinet Set",
+      "pt": "Kit de cômodas antigas",
+      "nivel": 13,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Special_PalSphere_Grade_02",
+      "en": "Mega Sphere",
+      "pt": "Esfera Mega",
+      "nivel": 14,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Special_SphereFactory_Black_Grade_01",
+      "en": "Sphere Workbench",
+      "pt": "Oficina de Esferas",
+      "nivel": 14,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "AutoMealPouch_Tier2",
+      "en": "Average Feed Bag",
+      "pt": "Saco de Ração Razoável",
+      "nivel": 14,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WallTorch",
+      "en": "Wall Torch",
+      "pt": "Tocha de Parede",
+      "nivel": 14,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Kirin",
+      "en": "Univolt Saddle",
+      "pt": "Sela de Univolt",
+      "nivel": 14,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureTree_Red",
+      "en": "Faux Crimson Foliage Set",
+      "pt": "Kit de árvores artificiais de folhas vermelhas",
+      "nivel": 14,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_24",
+      "en": "Antique Desk Set",
+      "pt": "Kit de escrivaninhas antigas",
+      "nivel": 14,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Special_PalRankUp",
+      "en": "Pal Essence Condenser",
+      "pt": "Casulo de Condensação de Pal",
+      "nivel": 14,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FishingSet1",
+      "en": "Beginner Fishing Set",
+      "pt": "Kit de pesca iniciante",
+      "nivel": 15,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Farm_wheat",
+      "en": "Wheat Plantation",
+      "pt": "Plantação de Trigo",
+      "nivel": 15,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FlourMill",
+      "en": "Mill",
+      "pt": "Moenda",
+      "nivel": 15,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Processed_Wood",
+      "en": "Wooden Board",
+      "pt": "Tábua de Madeira",
+      "nivel": 15,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "DisplayCharacter",
+      "en": "Viewing Cage",
+      "pt": "Gaiola para Apreciação",
+      "nivel": 15,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_FlameBuffalo",
+      "en": "Arsox Saddle",
+      "pt": "Sela de Arsox",
+      "nivel": 15,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_HawkBird",
+      "en": "Nitewing Saddle",
+      "pt": "Sela de Nitewing",
+      "nivel": 15,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Lantern",
+      "en": "Hip Lantern",
+      "pt": "Lampião de Cintura",
+      "nivel": 15,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Shield_02",
+      "en": "Mega Shield",
+      "pt": "Escudo Mega",
+      "nivel": 16,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_02_Fur_Heat",
+      "en": "Heat Resistant Pelt Armor",
+      "pt": "Armadura de Pele Refrescante",
+      "nivel": 16,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Serpent",
+      "en": "Surfent Saddle",
+      "pt": "Sela de Surfent",
+      "nivel": 16,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureTree_Yellow",
+      "en": "Faux Golden Foliage Set",
+      "pt": "Kit de árvores artificiais de folhas amarelas",
+      "nivel": 16,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_20",
+      "en": "Antique Bath Set",
+      "pt": "Kit de banho antigo",
+      "nivel": 16,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_16",
+      "en": "Antique Mirror Set",
+      "pt": "Kit de espelhos antigos",
+      "nivel": 16,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Unlock_Picking_Tier1",
+      "en": "Lockpicking Tool v1",
+      "pt": "Ferramenta de Destravar Simples",
+      "nivel": 16,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "BronzeSword",
+      "en": "Primitive Sword",
+      "pt": "Espada Primitiva",
+      "nivel": 17,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Cooking_Grade_02",
+      "en": "Cooking Pot",
+      "pt": "Panela",
+      "nivel": 17,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Heater",
+      "en": "Heater",
+      "pt": "Aquecedor a Fogo",
+      "nivel": 17,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Headstone",
+      "en": "Tombstone",
+      "pt": "Lápide",
+      "nivel": 17,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Penguin",
+      "en": "Pengullet Rocket Launcher",
+      "pt": "Lança-foguetes de Pengullet",
+      "nivel": 17,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_15",
+      "en": "Piano Furniture Set",
+      "pt": "Kit de pianos",
+      "nivel": 17,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_30",
+      "en": "Metal Shelf Set",
+      "pt": "Kit de estantes de metal",
+      "nivel": 17,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "GrapplingGun2",
+      "en": "Mega Grappling Gun",
+      "pt": "Arpéu Mega",
+      "nivel": 17,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Glider_Grade_02",
+      "en": "Mega Glider",
+      "pt": "Planador Mega",
+      "nivel": 18,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_02_Fur_Cold",
+      "en": "Cold Resistant Pelt Armor",
+      "pt": "Armadura de Pele Acalentadora",
+      "nivel": 18,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Cooler",
+      "en": "Cooler",
+      "pt": "Resfriador a Gelo",
+      "nivel": 18,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_ColorfulBird",
+      "en": "Tocotoco's Gloves",
+      "pt": "Luvas de Tocotoco",
+      "nivel": 18,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Penguin_Electric",
+      "en": "Pengullet Lux's Rocket Launcher",
+      "pt": "Lança-foguetes de Pengullet Lux",
+      "nivel": 18,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_25",
+      "en": "Bathroom Set",
+      "pt": "Kit de vasos sanitários",
+      "nivel": 18,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_32",
+      "en": "Antique High Quality Furniture Set",
+      "pt": "Kit de mobília de luxo antiga",
+      "nivel": 18,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Accessory_Nonkilling",
+      "en": "Ring of Mercy",
+      "pt": "Anel de Clemência",
+      "nivel": 18,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Lab",
+      "en": "Pal Labor Research Lab",
+      "pt": "Laboratório de Pesquisa de Trabalho de Pals",
+      "nivel": 19,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SphereModule_Heavy",
+      "en": "Heavy Weight Module",
+      "pt": "Módulo de Peso Pesado",
+      "nivel": 19,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Cement",
+      "en": "Cement",
+      "pt": "Cimento",
+      "nivel": 19,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Stone_houseset",
+      "en": "Stone Structure Set",
+      "pt": "Kit de construção de pedra",
+      "nivel": 19,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "DefenseWall",
+      "en": "Defensive Wall",
+      "pt": "Barreira",
+      "nivel": 19,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Stone_Gate",
+      "en": "Stone Gate",
+      "pt": "Portão de Pedra",
+      "nivel": 19,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_NaughtyCat",
+      "en": "Grintale Saddle",
+      "pt": "Sela de Grintale",
+      "nivel": 19,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "BreedFarm",
+      "en": "Breeding Farm",
+      "pt": "Fazenda de Acasalamento",
+      "nivel": 19,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Special_PalSphere_Grade_03",
+      "en": "Giga Sphere",
+      "pt": "Esfera Giga",
+      "nivel": 20,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_WeaponFactory_Dirty_Grade_01",
+      "en": "Weapon Workbench",
+      "pt": "Fábrica de Armas",
+      "nivel": 20,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ToolBoxV1",
+      "en": "Large Toolbox",
+      "pt": "Caixa de Ferramentas Grande",
+      "nivel": 20,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BelieverFlagSet",
+      "en": "Free Pal Alliance Flag Set",
+      "pt": "Kit de bandeiras da Associação de Proteção aos Pals",
+      "nivel": 20,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_FairyDragon",
+      "en": "Elphidran Saddle",
+      "pt": "Sela de Elphidran",
+      "nivel": 20,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_PurpleSpider",
+      "en": "Tarantriss Saddle",
+      "pt": "Sela de Tarantriss",
+      "nivel": 20,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_MopKing",
+      "en": "Sweepa Saddle",
+      "pt": "Sela de Sweepa",
+      "nivel": 20,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_18",
+      "en": "Antique Couch Set",
+      "pt": "Kit de sofás antigos",
+      "nivel": 20,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "DimensionPalStorage",
+      "en": "Dimensional Pal Storage",
+      "pt": "Armazenamento Dimensional de Pals",
+      "nivel": 20,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Musket",
+      "en": "Musket",
+      "pt": "Mosquete",
+      "nivel": 21,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_GunPowder_Grade_02",
+      "en": "Gunpowder",
+      "pt": "Pólvora",
+      "nivel": 21,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "RoughBullet",
+      "en": "Coarse Ammo",
+      "pt": "Munição Inferior",
+      "nivel": 21,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Farm_tomato",
+      "en": "Tomato Plantation",
+      "pt": "Plantação de Tomate",
+      "nivel": 21,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "OlympicCauldron",
+      "en": "Flame Cauldron",
+      "pt": "Pira da Chama Sagrada",
+      "nivel": 21,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Trap_LegHold_Big",
+      "en": "Bear Trap (Large)",
+      "pt": "Armadilha de Urso (G)",
+      "nivel": 21,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_BirdDragon",
+      "en": "Vanwyrm Saddle",
+      "pt": "Sela de Vanwyrm",
+      "nivel": 21,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Deer_Ground",
+      "en": "Eikthyrdeer Terra Saddle",
+      "pt": "Sela de Eikthyrdeer Terra",
+      "nivel": 21,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "TableDresser01_Stone",
+      "en": "Antique Dresser",
+      "pt": "Penteadeira Antiga",
+      "nivel": 21,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Expedition",
+      "en": "Pal Expedition Station",
+      "pt": "Escritório de Expedição de Pals",
+      "nivel": 22,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ElecBaton",
+      "en": "Stun Baton",
+      "pt": "Bastão de Choque",
+      "nivel": 22,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FishingBait_2",
+      "en": "High Quality Bait",
+      "pt": "Isca Requintada",
+      "nivel": 22,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ItemBooth",
+      "en": "Flea Market (Items)",
+      "pt": "Mercado de Pulgas (Itens)",
+      "nivel": 22,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "PalBooth",
+      "en": "Flea Market (Pals)",
+      "pt": "Mercado de Pulgas (Pals)",
+      "nivel": 22,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_BirdDragon_Ice",
+      "en": "Vanwyrm Cryst Saddle",
+      "pt": "Sela de Vanwyrm Cryst",
+      "nivel": 22,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_23",
+      "en": "Clock Set",
+      "pt": "Kit de relógios",
+      "nivel": 22,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_13",
+      "en": "Metal Chair and Desk Set",
+      "pt": "Kit de cadeiras e escrivaninhas de metal",
+      "nivel": 22,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Homeward",
+      "en": "Homeward Thundercloud",
+      "pt": "Nuvens de Trovão do Regresso",
+      "nivel": 22,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_03_Copper",
+      "en": "Metal Armor",
+      "pt": "Armadura de Metal",
+      "nivel": 23,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Helm_Grade_03_Copper",
+      "en": "Metal Helm",
+      "pt": "Elmo de Metal",
+      "nivel": 23,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SphereModule_Curve",
+      "en": "Curve Module",
+      "pt": "Módulo de Curva",
+      "nivel": 23,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AutoMealPouch_Tier3",
+      "en": "Large Feed Bag",
+      "pt": "Saco de Ração Grande",
+      "nivel": 23,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Fountain",
+      "en": "Water Fountain",
+      "pt": "Chafariz",
+      "nivel": 23,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_KingAlpaca",
+      "en": "Kingpaca Saddle",
+      "pt": "Sela de Kingpaca",
+      "nivel": 23,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureTree_Bamboo",
+      "en": "Faux Bamboo Set",
+      "pt": "Kit de bambus artificiais",
+      "nivel": 23,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_6",
+      "en": "Storage Container Set",
+      "pt": "Kit de contêiners",
+      "nivel": 23,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "MakeshiftHandgun",
+      "en": "Makeshift Handgun",
+      "pt": "Pistola de Sucata",
+      "nivel": 24,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Infra_PalBed_Grade_02",
+      "en": "Fluffy Pal Bed",
+      "pt": "Cama Macia para Pals",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "PalMedicineBox",
+      "en": "Medicine Rack",
+      "pt": "Armário de Remédios",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Clinic",
+      "en": "Clinic",
+      "pt": "Clínica",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FlowerBed",
+      "en": "Flower Bed",
+      "pt": "Canteiro de Flores",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Kitsunebi_Ice",
+      "en": "Foxparks Cryst's Harness",
+      "pt": "Arreios de Foxparks Cryst",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BlueDragon",
+      "en": "Azurobe Saddle",
+      "pt": "Sela de Azurobe",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_FlowerDinosaur",
+      "en": "Dinossom Saddle",
+      "pt": "Sela de Dinossom",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_CopperPit",
+      "en": "Ore Mining Site",
+      "pt": "Garimpo de Metais",
+      "nivel": 24,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "PalDopingShot",
+      "en": "Boost Gun",
+      "pt": "Arma Estimulante",
+      "nivel": 25,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PalDopingShotBullet",
+      "en": "Boost Gun Ammo",
+      "pt": "Bala de Arma Estimulante",
+      "nivel": 25,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_03_Copper_Heat",
+      "en": "Heat Resistant Metal Armor",
+      "pt": "Armadura de Metal Refrescante",
+      "nivel": 25,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Farm_Lettuce",
+      "en": "Lettuce Plantation",
+      "pt": "Plantação de Alface",
+      "nivel": 25,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Silo",
+      "en": "Silo",
+      "pt": "Silo",
+      "nivel": 25,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade",
+      "en": "Frag Grenade",
+      "pt": "Granada de Fragmentação",
+      "nivel": 25,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Serpent_Ground",
+      "en": "Surfent Terra Saddle",
+      "pt": "Sela de Surfent Terra",
+      "nivel": 25,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_HadesBird",
+      "en": "Helzephyr Saddle",
+      "pt": "Sela de Helzephyr",
+      "nivel": 25,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Unlock_Picking_Tier2",
+      "en": "Lockpicking Tool v2",
+      "pt": "Ferramenta de Destravar Requintada",
+      "nivel": 25,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MakeshiftSubmachineGun",
+      "en": "Makeshift SMG",
+      "pt": "Submetralhadora Desgastada",
+      "nivel": 26,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Infra_ElectricGenerator_Grade_01",
+      "en": "Power Generator",
+      "pt": "Gerador Elétrico",
+      "nivel": 26,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Lamp",
+      "en": "Lamp",
+      "pt": "Lâmpada Fixa",
+      "nivel": 26,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ManualElectricGenerator",
+      "en": "Human-Powered Generator",
+      "pt": "Gerador Elétrico Manual",
+      "nivel": 26,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_Defense_BowGun",
+      "en": "Mounted Crossbow",
+      "pt": "Besta Fixa",
+      "nivel": 26,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_FengyunDeeper",
+      "en": "Fenglope Saddle",
+      "pt": "Sela de Fenglope",
+      "nivel": 26,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_IceSeal",
+      "en": "Polapup Saddle",
+      "pt": "Sela de Polapup",
+      "nivel": 26,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_29",
+      "en": "Antique Lamp Set",
+      "pt": "Kit de iluminação antiga",
+      "nivel": 26,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_SphereLauncher_Once",
+      "en": "Single-Shot Sphere Launcher",
+      "pt": "Lança-Esferas de Tiro Único",
+      "nivel": 26,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Special_PalSphere_Grade_04",
+      "en": "Hyper Sphere",
+      "pt": "Esfera Tera",
+      "nivel": 27,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Special_SphereFactory_Black_Grade_02",
+      "en": "Sphere Assembly Line",
+      "pt": "Fábrica de Linha de Esferas",
+      "nivel": 27,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_Armor_Grade_03_Copper_Cold",
+      "en": "Cold Resistant Metal Armor",
+      "pt": "Armadura de Metal Acalentadora",
+      "nivel": 27,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AdditionalInventory_001",
+      "en": "Small Pouch",
+      "pt": "Bolsa de Expansão Pequena",
+      "nivel": 27,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "CeilingLamp",
+      "en": "Ceiling Lamp",
+      "pt": "Lâmpada de Teto",
+      "nivel": 27,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade_Elec",
+      "en": "Shock Grenade",
+      "pt": "Granada Elétrica",
+      "nivel": 27,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BlueDragon_Ice",
+      "en": "Azurobe Cryst Saddle",
+      "pt": "Sela de Azurobe Cryst",
+      "nivel": 27,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureTree_Tropical",
+      "en": "Faux Tropical Greenery Set",
+      "pt": "Kit de árvores tropicais artificias",
+      "nivel": 27,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "UnlockEquipmentSlot_Weapon_01",
+      "en": "Extra Weapon Holster",
+      "pt": "Suporte Adicional para Arma",
+      "nivel": 27,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_HandGun",
+      "en": "Handgun",
+      "pt": "Pistola",
+      "nivel": 28,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "HandgunBullet",
+      "en": "Handgun Ammo",
+      "pt": "Bala de Pistola",
+      "nivel": 28,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Infra_PlayerBed_Grade_02",
+      "en": "Fine Bed",
+      "pt": "Cama de Luxo",
+      "nivel": 28,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BaseCampWorkHard02",
+      "en": "High Quality Monitoring Stand",
+      "pt": "Plataforma de Monitoramento Requintada",
+      "nivel": 28,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Stump",
+      "en": "Stump and Axe",
+      "pt": "Toco e Machado",
+      "nivel": 28,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FireCultFlagSet",
+      "en": "Brothers of the Eternal Pyre Flag Set",
+      "pt": "Kit de bandeiras dos Amigos da Chama Eterna",
+      "nivel": 28,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_FeatherOstrich",
+      "en": "Dazemu Saddle",
+      "pt": "Sela de Dazemu",
+      "nivel": 28,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GrassMammoth",
+      "en": "Mammorest Saddle",
+      "pt": "Sela de Mammorest",
+      "nivel": 28,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Accessory_JumpPower_Increase",
+      "en": "Anti-Gravity Belt",
+      "pt": "Cinto Antigravidade",
+      "nivel": 28,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Shield_03",
+      "en": "Giga Shield",
+      "pt": "Escudo Giga",
+      "nivel": 29,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_MeleeWeapon_Sword",
+      "en": "Sword",
+      "pt": "Espada",
+      "nivel": 29,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FishingRod_02_1",
+      "en": "Intermediate Fishing Rod (Cattiva)",
+      "pt": "Vara Intermediária (Cattiva)",
+      "nivel": 29,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Factory_Hard_Grade_02",
+      "en": "Production Assembly Line",
+      "pt": "Fábrica de Linha",
+      "nivel": 29,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_Farm_Potato",
+      "en": "Potato Plantation",
+      "pt": "Plantação de Batatas",
+      "nivel": 29,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade_Ice",
+      "en": "Ice Grenade",
+      "pt": "Granada Regelante",
+      "nivel": 29,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_FireKirin",
+      "en": "Pyrin Saddle",
+      "pt": "Sela de Pyrin",
+      "nivel": 29,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_ThunderBird",
+      "en": "Beakon Saddle",
+      "pt": "Sela de Beakon",
+      "nivel": 29,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Lantern_High",
+      "en": "Enhanced Hip Lantern",
+      "pt": "Lampião de Cintura Melhorado",
+      "nivel": 29,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MakeshiftShotgun",
+      "en": "Makeshift Shotgun",
+      "pt": "Espingarda Desgastada",
+      "nivel": 30,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Trap_MineAttack",
+      "en": "Mine",
+      "pt": "Mina Terrestre",
+      "nivel": 30,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Metal_houseset",
+      "en": "Metal Structure Set",
+      "pt": "Kit de construção de metal",
+      "nivel": 30,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "DefenseWall_Metal",
+      "en": "Metal Defensive Wall",
+      "pt": "Barreira de Metal",
+      "nivel": 30,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Metal_Gate",
+      "en": "Iron Gate",
+      "pt": "Portão de Ferro",
+      "nivel": 30,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "MiningTool",
+      "en": "Pickaxe and Helmet",
+      "pt": "Picareta e Capacete",
+      "nivel": 30,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Cake02",
+      "en": "Mushroom Cake",
+      "pt": "Bolo de Cogumelos",
+      "nivel": 30,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_ThunderDog",
+      "en": "Rayhound Saddle",
+      "pt": "Sela de Rayhound",
+      "nivel": 30,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "YakushimaBlade",
+      "en": "Meowmere",
+      "pt": "Espada-Gato",
+      "nivel": 30,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MakeshiftAssaultRifle",
+      "en": "Makeshift Assault Rifle",
+      "pt": "Fuzil de Assalto Desgastado",
+      "nivel": 31,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SphereModule_Sniper",
+      "en": "Sniper Module",
+      "pt": "Módulo de Mira",
+      "nivel": 31,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Bio_Coolant",
+      "en": "Cryogenic Coolant",
+      "pt": "Material de Refrigeração Absoluta",
+      "nivel": 31,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FishingPond1",
+      "en": "Fishing Pond",
+      "pt": "Tanque de Pesca",
+      "nivel": 31,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Spa2",
+      "en": "High Quality Hot Spring",
+      "pt": "Águas Termais de Luxo",
+      "nivel": 31,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade_Fire",
+      "en": "Incendiary Grenade",
+      "pt": "Granada Incendiária",
+      "nivel": 31,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GhostAnglerfish",
+      "en": "Ghangler Saddle",
+      "pt": "Sela de Ghangler",
+      "nivel": 31,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_IceDeer",
+      "en": "Reindrix Saddle",
+      "pt": "Sela de Reindrix",
+      "nivel": 31,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "GrapplingGun3",
+      "en": "Giga Grappling Gun",
+      "pt": "Arpéu Giga",
+      "nivel": 31,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_WeaponFactory_Dirty_Grade_02",
+      "en": "Weapon Assembly Line",
+      "pt": "Fábrica de Linha de Armas",
+      "nivel": 32,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "PalHealingGrenade",
+      "en": "Pal Recovery Grenade",
+      "pt": "Granada Curadora de Pals",
+      "nivel": 32,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Farm_Carrot",
+      "en": "Carrot Plantation",
+      "pt": "Plantação de Cenouras",
+      "nivel": 32,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Cauldron",
+      "en": "Witch Cauldron",
+      "pt": "Caldeirão de Bruxa",
+      "nivel": 32,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BaseCampWorkerExtraStation",
+      "en": "Palbox Control Device",
+      "pt": "Terminal para Operar Caixa de Pals",
+      "nivel": 32,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_FairyDragon_Water",
+      "en": "Elphidran Aqua Saddle",
+      "pt": "Sela de Elphidran Aqua",
+      "nivel": 32,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GrassPanda",
+      "en": "Mossanda's Grenade Launcher",
+      "pt": "Lança-granadas de Mossanda",
+      "nivel": 32,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Thunderdog_Ice",
+      "en": "Rayhound Cryst Saddle",
+      "pt": "Sela de Rayhound Cryst",
+      "nivel": 32,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "OctaviaSet01",
+      "en": "ULTRAKILL Collab Set 1",
+      "pt": "Kit da Colaboração com ULTRAKILL 1",
+      "nivel": 32,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_OldRevolver",
+      "en": "Old Revolver",
+      "pt": "Revólver Deteriorado",
+      "nivel": 33,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Polymer",
+      "en": "Polymer",
+      "pt": "Polímero",
+      "nivel": 33,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Trap_MineElecShock",
+      "en": "Electric Mine",
+      "pt": "Mina Elétrica",
+      "nivel": 33,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade_Water",
+      "en": "Water Grenade",
+      "pt": "Granada Inundante",
+      "nivel": 33,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Snowman",
+      "en": "Snowman",
+      "pt": "Boneco de Neve",
+      "nivel": 33,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Manticore",
+      "en": "Blazehowl Saddle",
+      "pt": "Sela de Blazehowl",
+      "nivel": 33,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_RedArmorBird",
+      "en": "Ragnahawk Saddle",
+      "pt": "Sela de Ragnahawk",
+      "nivel": 33,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_SakuraSaurus",
+      "en": "Broncherry Saddle",
+      "pt": "Sela de Broncherry",
+      "nivel": 33,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Altar",
+      "en": "Summoning Altar",
+      "pt": "Altar de Invocação",
+      "nivel": 33,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_Ingot_Grade_02_Iron",
+      "en": "Improved Furnace",
+      "pt": "Forno Melhorado",
+      "nivel": 34,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_Axe_Grade_03",
+      "en": "Refined Metal Axe",
+      "pt": "Machado de Metal Refinado",
+      "nivel": 34,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Pickaxe_Grade_03",
+      "en": "Refined Metal Pickaxe",
+      "pt": "Picareta de Metal Refinado",
+      "nivel": 34,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Spear_3",
+      "en": "Refined Metal Spear",
+      "pt": "Lança de Metal Refinado",
+      "nivel": 34,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_FireKirin_Dark",
+      "en": "Pyrin Noct Saddle",
+      "pt": "Sela de Pyrin Noct",
+      "nivel": 34,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GrassPanda_Electric",
+      "en": "Mossanda Lux's Grenade Launcher",
+      "pt": "Lança-granadas de Mossanda Lux",
+      "nivel": 34,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_FlowerDinosaur_Electric",
+      "en": "Dinossom Lux Saddle",
+      "pt": "Sela de Dinossom Lux",
+      "nivel": 34,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_5",
+      "en": "Metal Barrel Set",
+      "pt": "Kit de tonéis",
+      "nivel": 34,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Accessory_TalentChecker",
+      "en": "Ability Glasses",
+      "pt": "Óculos de Talento",
+      "nivel": 34,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Special_PalSphere_Grade_05",
+      "en": "Ultra Sphere",
+      "pt": "Esfera Ultra",
+      "nivel": 35,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Special_SphereFactory_Black_Grade_03",
+      "en": "Sphere Assembly Line II",
+      "pt": "Fábrica de Linha de Esferas II",
+      "nivel": 35,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Infra_ElectronicCircuit",
+      "en": "Circuit Board",
+      "pt": "Circuito Elétrico",
+      "nivel": 35,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "CarbonFiber",
+      "en": "Carbon Fiber",
+      "pt": "Fibra de Carbono",
+      "nivel": 35,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FragGrenade_Leaf",
+      "en": "Grass Grenade",
+      "pt": "Granada Verdejante",
+      "nivel": 35,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Manticore_Dark",
+      "en": "Blazehowl Noct Saddle",
+      "pt": "Sela de Blazehowl Noct",
+      "nivel": 35,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_TropicalOstrich",
+      "en": "Palumba Saddle",
+      "pt": "Sela de Palumba",
+      "nivel": 35,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_14",
+      "en": "Ironwood Table Set",
+      "pt": "Kit de mesas de pau-ferro",
+      "nivel": 35,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Accessory_AirDash1",
+      "en": "Air Dash Boots",
+      "pt": "Botas de Corrida Aérea",
+      "nivel": 35,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_Rifle",
+      "en": "Single-Shot Rifle",
+      "pt": "Fuzil de Tiro Único",
+      "nivel": 36,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "RifleBullet",
+      "en": "Rifle Ammo",
+      "pt": "Bala de Fuzil",
+      "nivel": 36,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Farm_Onion",
+      "en": "Onion Plantation",
+      "pt": "Plantação de Cebolas",
+      "nivel": 36,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Cloth2",
+      "en": "High Quality Cloth",
+      "pt": "Pano Requintado",
+      "nivel": 36,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MedicalPalBed_04",
+      "en": "Large Pal Bed",
+      "pt": "Cama Grande para Pals",
+      "nivel": 36,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "AutoMealPouch_Tier4",
+      "en": "Huge Feed Bag",
+      "pt": "Saco de Ração Gigante",
+      "nivel": 36,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Plesiosaur",
+      "en": "Braloha Saddle",
+      "pt": "Sela de Braloha",
+      "nivel": 36,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_VolcanoDragon",
+      "en": "Moldron Saddle",
+      "pt": "Sela de Moldron",
+      "nivel": 36,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Special_ElectricHatchingPalEgg",
+      "en": "Electric Egg Incubator",
+      "pt": "Incubadora de Ovos Elétrica",
+      "nivel": 36,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_SubmachineGun",
+      "en": "SMG",
+      "pt": "Submetralhadora",
+      "nivel": 37,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_03_Iron",
+      "en": "Refined Metal Armor",
+      "pt": "Armadura de Metal Refinado",
+      "nivel": 37,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Helm_Grade_04_Iron",
+      "en": "Refined Metal Helm",
+      "pt": "Elmo de Metal Refinado",
+      "nivel": 37,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Corrosive_Solvent",
+      "en": "Corrosive Solvent",
+      "pt": "Corrosivo",
+      "nivel": 37,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "EnergyStorage_Electric",
+      "en": "Accumulator",
+      "pt": "Capacitor",
+      "nivel": 37,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_GhostBeast",
+      "en": "Maraith Saddle",
+      "pt": "Sela de Maraith",
+      "nivel": 37,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureTree_Desert",
+      "en": "Faux Desert Greenery Set",
+      "pt": "Kit de árvores artificias de deserto",
+      "nivel": 37,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_31",
+      "en": "Outdoor Furniture Set",
+      "pt": "Kit de mobília externa",
+      "nivel": 37,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_CoalPit",
+      "en": "Coal Mine",
+      "pt": "Garimpo de Carvão",
+      "nivel": 37,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "OperatingTable",
+      "en": "Pal Surgery Table",
+      "pt": "Mesa de Operação de Pals",
+      "nivel": 38,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Launcher_Meteor",
+      "en": "Meteor Launcher",
+      "pt": "Lança-Meteoros",
+      "nivel": 38,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FishingBait_3",
+      "en": "Deluxe Bait",
+      "pt": "Isca Extravagante",
+      "nivel": 38,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Refrigerator",
+      "en": "Refrigerator",
+      "pt": "Refrigerador",
+      "nivel": 38,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Trap_MineFreeze",
+      "en": "Ice Mine",
+      "pt": "Mina Congelante",
+      "nivel": 38,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade_Ground",
+      "en": "Ground Grenade",
+      "pt": "Granada Soterrante",
+      "nivel": 38,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_SkyDragon",
+      "en": "Quivern Saddle",
+      "pt": "Sela de Quivern",
+      "nivel": 38,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_7",
+      "en": "Leather Chair Set",
+      "pt": "Kit de cadeiras de couro",
+      "nivel": 38,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_SphereLauncher",
+      "en": "Scatter Sphere Launcher",
+      "pt": "Lança-Esferas de Dispersão",
+      "nivel": 38,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PoliceFlagSet",
+      "en": "PIDF Flag Set",
+      "pt": "Kit de bandeiras da Milícia Popular",
+      "nivel": 39,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_ShotGun",
+      "en": "Double-Barreled Shotgun",
+      "pt": "Espingarda de Cano Duplo",
+      "nivel": 39,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ShotGunBullet",
+      "en": "Shotgun Shell",
+      "pt": "Cartucho de Espingarda",
+      "nivel": 39,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SphereModule_Curve2",
+      "en": "Slider Module",
+      "pt": "Módulo Deslizante",
+      "nivel": 39,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Infra_ItemChest_Grade_03",
+      "en": "Refined Metal Chest",
+      "pt": "Baú de Metal Refinado",
+      "nivel": 39,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_BlackMetalDragon",
+      "en": "Astegon Saddle",
+      "pt": "Sela de Astegon",
+      "nivel": 39,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_MushroomDragon",
+      "en": "Shroomer Saddle",
+      "pt": "Sela de Shroomer",
+      "nivel": 39,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_MushroomDragon_Dark",
+      "en": "Shroomer Noct Saddle",
+      "pt": "Sela de Shroomer Noct",
+      "nivel": 39,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_CopperPit_2",
+      "en": "Ore Mining Site II",
+      "pt": "Garimpo de Metais II",
+      "nivel": 39,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Bat3",
+      "en": "Metal Bat",
+      "pt": "Bastão de Metal",
+      "nivel": 40,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_03_Iron_Heat",
+      "en": "Heat Resistant Refined Metal Armor",
+      "pt": "Armadura de Metal Refinado Refrescante",
+      "nivel": 40,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Glider_Grade_03",
+      "en": "Giga Glider",
+      "pt": "Planador Giga",
+      "nivel": 40,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Defense_MachineGun",
+      "en": "Mounted Machine Gun",
+      "pt": "Metralhadora Fixa",
+      "nivel": 40,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade_Dark",
+      "en": "Dark Grenade",
+      "pt": "Granada Enegrecedora",
+      "nivel": 40,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Umihebi",
+      "en": "Jormuntide Saddle",
+      "pt": "Sela de Jormuntide",
+      "nivel": 40,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_ElecPanda",
+      "en": "Grizzbolt's Minigun",
+      "pt": "Minigun de Grizzbolt",
+      "nivel": 40,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_WeaselDragon_Fire",
+      "en": "Chillet Ignis Saddle",
+      "pt": "Sela de Chillet Ignis",
+      "nivel": 40,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Accessory_JumpCount_Increase1",
+      "en": "Double Jump Boots",
+      "pt": "Botas de Pulo Duplo",
+      "nivel": 40,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_SemiAutoRifle",
+      "en": "Semi-Auto Rifle",
+      "pt": "Fuzil Semiautomático",
+      "nivel": 41,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_03_Iron_Cold",
+      "en": "Cold Resistant Refined Metal Armor",
+      "pt": "Armadura de Metal Refinado Acalentadora",
+      "nivel": 41,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Cooking_Grade_03",
+      "en": "Electric Kitchen",
+      "pt": "Cozinha Elétrica",
+      "nivel": 41,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SanityDecrease1",
+      "en": "Alpha Wave Generator",
+      "pt": "Emissor de Ondas Alfa",
+      "nivel": 41,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ElectricHeater",
+      "en": "Electric Heater",
+      "pt": "Aquecedor Elétrico",
+      "nivel": 41,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_WhiteAlienDragon",
+      "en": "Xenogard Saddle",
+      "pt": "Sela de Xenogard",
+      "nivel": 41,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GuardianDog",
+      "en": "Yakumo Saddle",
+      "pt": "Sela de Yakumo",
+      "nivel": 41,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GrassMammoth_Ice",
+      "en": "Mammorest Cryst Saddle",
+      "pt": "Sela de Mammorest Cryst",
+      "nivel": 41,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "GuildChest",
+      "en": "Guild Chest",
+      "pt": "Baú de Guilda",
+      "nivel": 41,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_CompoundBow",
+      "en": "Compound Bow",
+      "pt": "Arco Composto",
+      "nivel": 42,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ReinforcedArrow",
+      "en": "Reinforced Arrow",
+      "pt": "Flecha Reforçada",
+      "nivel": 42,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Factory_Hard_Grade_03",
+      "en": "Production Assembly Line II",
+      "pt": "Fábrica de Linha II",
+      "nivel": 42,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ElectricCooler",
+      "en": "Electric Cooler",
+      "pt": "Resfriador Elétrico",
+      "nivel": 42,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FragGrenade_Dragon",
+      "en": "Dragon Grenade",
+      "pt": "Granada Dracônica",
+      "nivel": 42,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_IceNarwhal",
+      "en": "Whalaska Saddle",
+      "pt": "Sela de Whalaska",
+      "nivel": 42,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GhostAnglerfish_Fire",
+      "en": "Ghangler Ignis Saddle",
+      "pt": "Sela de Ghangler Ignis",
+      "nivel": 42,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_VolcanicMonster",
+      "en": "Reptyro Saddle",
+      "pt": "Sela de Reptyro",
+      "nivel": 42,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_ShotGun_Multi",
+      "en": "Pump-Action Shotgun",
+      "pt": "Espingarda de Bombeamento",
+      "nivel": 43,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Shield_04",
+      "en": "Hyper Shield",
+      "pt": "Escudo Tera",
+      "nivel": 43,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AdditionalInventory_002",
+      "en": "Medium Pouch",
+      "pt": "Bolsa de Expansão Mediana",
+      "nivel": 43,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "HighGrade_Processed_Wood",
+      "en": "High Quality Wooden Board",
+      "pt": "Tábua de Madeira Requintada",
+      "nivel": 43,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Medicine_Grade_02",
+      "en": "Electric Medicine Workbench",
+      "pt": "Produção de Remédios Elétrica",
+      "nivel": 43,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Suzaku",
+      "en": "Suzaku Saddle",
+      "pt": "Sela de Suzaku",
+      "nivel": 43,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_VolcanicMonster_Ice",
+      "en": "Reptyro Cryst Saddle",
+      "pt": "Sela de Reptyro Cryst",
+      "nivel": 43,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_StationDeforest2",
+      "en": "Logging Site II",
+      "pt": "Madeireira II",
+      "nivel": 43,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Special_PalSphere_Grade_06",
+      "en": "Legendary Sphere",
+      "pt": "Esfera Lendária",
+      "nivel": 44,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_Ingot_Grade_03_Steal",
+      "en": "Electric Furnace",
+      "pt": "Forno Elétrico",
+      "nivel": 44,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Bio_Battery",
+      "en": "Bio Battery",
+      "pt": "Biobateria",
+      "nivel": 44,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Katana",
+      "en": "Katana",
+      "pt": "Katana",
+      "nivel": 44,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_MeleeWeapon_Pickaxe_Steal",
+      "en": "Pal Metal Pickaxe",
+      "pt": "Picareta de Metal Pal",
+      "nivel": 44,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_MeleeWeapon_Axe_Steal",
+      "en": "Pal Metal Axe",
+      "pt": "Machado de Metal Pal",
+      "nivel": 44,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Suzaku_Water",
+      "en": "Suzaku Aqua Saddle",
+      "pt": "Sela de Suzaku Aqua",
+      "nivel": 44,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_SakuraSaurus_Water",
+      "en": "Broncherry Aqua Saddle",
+      "pt": "Sela de Broncherry Aqua",
+      "nivel": 44,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Glass_houseset",
+      "en": "Glass Structure Set",
+      "pt": "Kit de construção de vidro",
+      "nivel": 45,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_AssaultRifle",
+      "en": "Assault Rifle",
+      "pt": "Fuzil de Assalto",
+      "nivel": 45,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AssaultRifleBullet",
+      "en": "Assault Rifle Ammo",
+      "pt": "Bala de Fuzil de Assalto",
+      "nivel": 45,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FishingRod_03_1",
+      "en": "Advanced Fishing Rod (Pengullet)",
+      "pt": "Vara Avançada (Pengullet)",
+      "nivel": 45,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "CompositeDesk",
+      "en": "Drafting Table",
+      "pt": "Mesa de Projetos",
+      "nivel": 45,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_SkyDragon_Grass",
+      "en": "Quivern Botan Saddle",
+      "pt": "Sela de Quivern Botan",
+      "nivel": 45,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_LazyDragon",
+      "en": "Relaxaurus' Missile Launcher",
+      "pt": "Lança-mísseis de Relaxaurus",
+      "nivel": 45,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Yeti",
+      "en": "Wumpo Saddle",
+      "pt": "Sela de Wumpo",
+      "nivel": 45,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "DecalGunSet",
+      "en": "Decal Gun Set",
+      "pt": "Kit de armas de decalque",
+      "nivel": 45,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_04_Steal",
+      "en": "Pal Metal Armor",
+      "pt": "Armadura de Metal Pal",
+      "nivel": 46,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Helm_Grade_05_Steal",
+      "en": "Pal Metal Helm",
+      "pt": "Elmo de Metal Pal",
+      "nivel": 46,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WorkSpeedIncrease1",
+      "en": "Beta Wave Generator",
+      "pt": "Emissor de Ondas Beta",
+      "nivel": 46,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "LargeLamp",
+      "en": "Large Mounted Lamp",
+      "pt": "Lâmpada Grande Fixa",
+      "nivel": 46,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_KingBahamut",
+      "en": "Blazamut Saddle",
+      "pt": "Sela de Blazamut",
+      "nivel": 46,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_KingAlpaca_Ice",
+      "en": "Kingpaca Cryst Saddle",
+      "pt": "Sela de Kingpaca Cryst",
+      "nivel": 46,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_27",
+      "en": "Street Lamp Set",
+      "pt": "Kit de postes de luz",
+      "nivel": 46,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_26",
+      "en": "Amusement Furniture Set",
+      "pt": "Kit de mobília de lazer",
+      "nivel": 46,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Product_SulfurPit",
+      "en": "Sulfur Mine",
+      "pt": "Garimpo de Enxofre",
+      "nivel": 46,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_SemiAutoShotgun",
+      "en": "Semi-Auto Shotgun",
+      "pt": "Espingarda Semiautomática",
+      "nivel": 47,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_WeaponFactory_Dirty_Grade_03",
+      "en": "Weapon Assembly Line II",
+      "pt": "Fábrica de Linha de Armas II",
+      "nivel": 47,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Cake03",
+      "en": "Vegetable Cake",
+      "pt": "Bolo de Verduras",
+      "nivel": 47,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AutoMealPouch_Tier5",
+      "en": "Giant Feed Bag",
+      "pt": "Saco de Ração Colossal",
+      "nivel": 47,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "LargeCeilingLamp",
+      "en": "Large Ceiling Lamp",
+      "pt": "Lâmpada Grande de Teto",
+      "nivel": 47,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_HadesBird_Electric",
+      "en": "Helzephyr Lux Saddle",
+      "pt": "Sela de Helzephyr Lux",
+      "nivel": 47,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BlackGriffon",
+      "en": "Shadowbeak Saddle",
+      "pt": "Sela de Shadowbeak",
+      "nivel": 47,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_8",
+      "en": "Emergency Exit Sign Set",
+      "pt": "Kit de placas de saída de emergência",
+      "nivel": 47,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_Armor_Grade_04_Steal_Heat",
+      "en": "Heat Resistant Pal Metal Armor",
+      "pt": "Armadura de Metal Pal Refrescante",
+      "nivel": 48,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SphereModule_Sniper2",
+      "en": "Sniper Module II",
+      "pt": "Módulo de Mira II",
+      "nivel": 48,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "TransmissionTower",
+      "en": "Electric Pylon",
+      "pt": "Torre de Transmissão",
+      "nivel": 48,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_LazyDragon_Electric",
+      "en": "Relaxaurus Lux's Missile Launcher",
+      "pt": "Lança-mísseis de Relaxaurus Lux",
+      "nivel": 48,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GrassGolem",
+      "en": "Dualith Saddle",
+      "pt": "Sela de Dualith",
+      "nivel": 48,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_CubeTurtle",
+      "en": "Tetroise Saddle",
+      "pt": "Sela de Tetroise",
+      "nivel": 48,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_11",
+      "en": "Traffic Control Set",
+      "pt": "Kit de controle de tráfego",
+      "nivel": 48,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "MultiHatchingPalEgg",
+      "en": "Large Incubator",
+      "pt": "Máquina Incubadora de Ovos Grande",
+      "nivel": 48,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BaseCampItemDispenser",
+      "en": "Item Retrieval Machine",
+      "pt": "Distribuidor de Itens",
+      "nivel": 49,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "HugeKitchen",
+      "en": "Large-Scale Stone Oven",
+      "pt": "Cozinha Grande",
+      "nivel": 49,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "JapaneseStyle_houseset",
+      "en": "Japanese-Style Structure Set",
+      "pt": "Kit de construção japonesa",
+      "nivel": 49,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureTree_Snow",
+      "en": "Faux Snowy Greenery Set",
+      "pt": "Kit de árvores artificiais cobertas de neve",
+      "nivel": 49,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_12",
+      "en": "Road Sign Set",
+      "pt": "Kit de sinais de trânsito",
+      "nivel": 49,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureSet_10",
+      "en": "Barricade Set",
+      "pt": "Kit de barricadas",
+      "nivel": 49,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "GrapplingGun4",
+      "en": "Hyper Grappling Gun",
+      "pt": "Arpéu Tera",
+      "nivel": 49,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_04_Steal_Cold",
+      "en": "Cold Resistant Pal Metal Armor",
+      "pt": "Armadura de Metal Pal Acalentadora",
+      "nivel": 50,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "OilPump",
+      "en": "Crude Oil Extractor",
+      "pt": "Extrator de Petróleo",
+      "nivel": 50,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Plastic",
+      "en": "Plasteel",
+      "pt": "Plastiaço",
+      "nivel": 50,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Computer",
+      "en": "Computer",
+      "pt": "Computador",
+      "nivel": 50,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Defense_Missile",
+      "en": "Mounted Missile Launcher",
+      "pt": "Lança-Mísseis Fixo",
+      "nivel": 50,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ScientistFlagSet",
+      "en": "PAL Genetic Research Unit Flag Set",
+      "pt": "Kit de bandeiras da Unidade de Pesquisas Genéticas",
+      "nivel": 50,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ElectricGenerator_Large",
+      "en": "Large Power Generator",
+      "pt": "Gerador Elétrico Grande",
+      "nivel": 50,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Special_PalSphere_Grade_07",
+      "en": "Ultimate Sphere",
+      "pt": "Esfera Suprema",
+      "nivel": 51,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_05_Plastic",
+      "en": "Plasteel Armor",
+      "pt": "Armadura de Plastiaço",
+      "nivel": 51,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Helm_Grade_06_Plastic",
+      "en": "Plasteel Helmet",
+      "pt": "Elmo de Plastiaço",
+      "nivel": 51,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_LaserRifle",
+      "en": "Laser Rifle",
+      "pt": "Fuzil Laser",
+      "nivel": 51,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "LaserBullet",
+      "en": "Energy Cartridge",
+      "pt": "Cartucho de Energia",
+      "nivel": 51,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "CoolerPalFoodBox",
+      "en": "Cold Food Box",
+      "pt": "Caixa de Ração Refrigerada",
+      "nivel": 51,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Yeti_Grass",
+      "en": "Wumpo Botan Saddle",
+      "pt": "Sela de Wumpo Botan",
+      "nivel": 51,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "OilPump02",
+      "en": "High-Pressure Crude Oil Extractor",
+      "pt": "Extrator de Petróleo de Alta Pressão",
+      "nivel": 51,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_Glider_Grade_04",
+      "en": "Hyper Glider",
+      "pt": "Planador Tera",
+      "nivel": 52,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_FlameThrower",
+      "en": "Flamethrower",
+      "pt": "Lança-chamas",
+      "nivel": 52,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FlamethrowerBullet",
+      "en": "Flamethrower Fuel",
+      "pt": "Combustível de Lança-Chamas",
+      "nivel": 52,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FishingBait_3_A",
+      "en": "Alluring Bait",
+      "pt": "Isca Sedutora",
+      "nivel": 52,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BadCatgirl",
+      "en": "Nyafia's Shotgun",
+      "pt": "Espingarda de Nyafia",
+      "nivel": 52,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Product_QuartzPit",
+      "en": "Pure Quartz Quarry",
+      "pt": "Garimpo de Quartzo Puro",
+      "nivel": 52,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "AdditionalInventory_003",
+      "en": "Large Pouch",
+      "pt": "Bolsa de Expansão Grande",
+      "nivel": 53,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_05_Plastic_Heat",
+      "en": "Heat Resistant Plasteel Armor",
+      "pt": "Armadura de Plastiaço Resistente a Calor",
+      "nivel": 53,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_GrenadeLauncher",
+      "en": "Grenade Launcher",
+      "pt": "Lança-Granadas",
+      "nivel": 53,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "GrenadeBullet",
+      "en": "Grenade Ammo",
+      "pt": "Granada",
+      "nivel": 53,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FragGrenade_Super",
+      "en": "Frag Grenade Mk2",
+      "pt": "Granada de Fragmentação Melhorada",
+      "nivel": 53,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_MoonQueen",
+      "en": "Selyne Saddle",
+      "pt": "Sela de Selyne",
+      "nivel": 53,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_SumoDog",
+      "en": "Bulldosu Saddle",
+      "pt": "Sela de Bulldosu",
+      "nivel": 53,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Unlock_Picking_Tier3",
+      "en": "Lockpicking Tool v3",
+      "pt": "Ferramenta de Destravar Profissional",
+      "nivel": 53,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "LaserMiningTool",
+      "en": "Plasma Multicutter",
+      "pt": "Cortador a Plasma Múltiplo",
+      "nivel": 54,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_05_Plastic_Cold",
+      "en": "Cold Resistant Plasteel Armor",
+      "pt": "Armadura de Plastiaço Resistente a Frio",
+      "nivel": 54,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_GatlingGun",
+      "en": "Gatling Gun",
+      "pt": "Gatling Gun",
+      "nivel": 54,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "GatlingBullet",
+      "en": "Gatling Gun Ammo",
+      "pt": "Bala de Gatling",
+      "nivel": 54,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "IceCrusher",
+      "en": "Refrigerated Crusher",
+      "pt": "Triturador de Gelo",
+      "nivel": 54,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_GoldenHorse",
+      "en": "Gildane Saddle",
+      "pt": "Sela de Gildane",
+      "nivel": 54,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_WhiteDeer",
+      "en": "Celesdir Saddle",
+      "pt": "Sela de Celesdir",
+      "nivel": 54,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "UnlockEquipmentSlot_Weapon_02",
+      "en": "Extra Weapon Holster 2",
+      "pt": "Suporte Adicional para Arma 2",
+      "nivel": 54,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Spear_ForestBoss",
+      "en": "Lily's Spear",
+      "pt": "Lança da Lily",
+      "nivel": 55,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Shield_05",
+      "en": "Ultra Shield",
+      "pt": "Escudo Ultra",
+      "nivel": 55,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_Armor_Grade_05_Plastic_Weight",
+      "en": "Lightweight Plasteel Armor",
+      "pt": "Armadura de Plastiaço Leve",
+      "nivel": 55,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_IceSeal_Ground",
+      "en": "Polapup Terra Saddle",
+      "pt": "Sela de Polapup Terra",
+      "nivel": 55,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_KingBahamut_Dragon",
+      "en": "Blazamut Ryu Saddle",
+      "pt": "Sela de Blazamut Ryu",
+      "nivel": 55,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FurnitureSet_Japanese",
+      "en": "Japanese-Style Furniture Set",
+      "pt": "Kit de mobília japonesa",
+      "nivel": 55,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "NinjaFlagSet",
+      "en": "Moonflower Flag Set",
+      "pt": "Kit de bandeiras do Bando das Flores e da Lua",
+      "nivel": 55,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_HomingSphereLauncher",
+      "en": "Homing Sphere Launcher",
+      "pt": "Lança-Esferas com Rastreador",
+      "nivel": 55,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Battle_RangeWeapon_GuidedMissileLauncher",
+      "en": "Guided Missile Launcher",
+      "pt": "Lança-Mísseis",
+      "nivel": 56,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MissileBullet",
+      "en": "Missile Ammo",
+      "pt": "Míssil",
+      "nivel": 56,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "DismantlingConveyor",
+      "en": "Pal Disassembly Conveyor",
+      "pt": "Transportador para Talho de Pal",
+      "nivel": 56,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "MedicalPalBed_05",
+      "en": "Pal Pod",
+      "pt": "Cápsula de Pals de Civilização Avançada",
+      "nivel": 56,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "FurnitureTree_Cherry",
+      "en": "Faux Cherry Blossoms Set",
+      "pt": "Kit de cerejeiras artificiais",
+      "nivel": 56,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "OctaviaSet02",
+      "en": "ULTRAKILL Collab Set 2",
+      "pt": "Kit da Colaboração com ULTRAKILL 2",
+      "nivel": 56,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SFBow",
+      "en": "Advanced Bow",
+      "pt": "Arco Avançado",
+      "nivel": 57,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SFArrow",
+      "en": "Advanced Arrow",
+      "pt": "Flecha Avançada",
+      "nivel": 57,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AdditionalInventory_004",
+      "en": "Giant Pouch",
+      "pt": "Bolsa de Expansão Gigantesca",
+      "nivel": 57,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "BeamSword",
+      "en": "Beam Sword",
+      "pt": "Espada de Raio",
+      "nivel": 57,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_NightBlueHorse",
+      "en": "Starryon Saddle",
+      "pt": "Sela de Starryon",
+      "nivel": 57,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_FengyunDeeper_Electric",
+      "en": "Fenglope Lux Saddle",
+      "pt": "Sela de Fenglope Lux",
+      "nivel": 57,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_AmaterasuWolf",
+      "en": "Kitsun Saddle",
+      "pt": "Sela de Kitsun",
+      "nivel": 57,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PalSphere_Exotic",
+      "en": "Exotic Sphere",
+      "pt": "Esfera da Infinidade",
+      "nivel": 58,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SphereFactory_Black_04",
+      "en": "Advanced Sphere Assembly Line",
+      "pt": "Fábrica de Esferas de Civilização Avançada",
+      "nivel": 58,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "StainlessSteel",
+      "en": "Hexolite",
+      "pt": "Exolita",
+      "nivel": 58,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "BlastFurnace4",
+      "en": "Gigantic Furnace",
+      "pt": "pt-BR_Text",
+      "nivel": 58,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "MetalDetector",
+      "en": "Metal Detector",
+      "pt": "Detector de Metais",
+      "nivel": 58,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BlackPuppy",
+      "en": "Smokie's Harness",
+      "pt": "Arreios de Smokie",
+      "nivel": 58,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BlueThunderHorse",
+      "en": "Azurmane Saddle",
+      "pt": "Sela de Azurmane",
+      "nivel": 58,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MultiElectricHatchingPalEgg",
+      "en": "Large-Scale Electric Egg Incubator",
+      "pt": "Incubadora de Ovos Elétrica Grande",
+      "nivel": 58,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "ItemChest_04",
+      "en": "Advanced Chest",
+      "pt": "Baú de Civilização Avançada",
+      "nivel": 59,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "LaserGatlingGun",
+      "en": "Laser Gatling Gun",
+      "pt": "Gatling Gun Laser",
+      "nivel": 59,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "LaserGatlingBullet",
+      "en": "Laser Gatling Cartridge",
+      "pt": "Cartucho de Laser para Gatling Gun",
+      "nivel": 59,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SFArmor",
+      "en": "Hexolite Armor",
+      "pt": "Armadura de Exolita",
+      "nivel": 59,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Thermal_Core",
+      "en": "Thermal Core",
+      "pt": "Núcleo Hipertérmico",
+      "nivel": 59,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Umihebi_Fire",
+      "en": "Jormuntide Ignis Saddle",
+      "pt": "Sela de Jormuntide Ignis",
+      "nivel": 59,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_AmaterasuWolf_Dark",
+      "en": "Kitsun Noct Saddle",
+      "pt": "Sela de Kitsun Noct",
+      "nivel": 59,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Shield_SF",
+      "en": "Advanced Shield",
+      "pt": "Escudo Avançado",
+      "nivel": 60,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SFHelmet",
+      "en": "Hexolite Helmet",
+      "pt": "Elmo de Exolita",
+      "nivel": 60,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Cake04",
+      "en": "Extravagant Vegetable Cake",
+      "pt": "Bolo de Verduras Extravagante",
+      "nivel": 60,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "DarkIslandFlagSet",
+      "en": "Feybreak Flag Set",
+      "pt": "Kit de bandeiras do Povo Decaído",
+      "nivel": 60,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Horus",
+      "en": "Faleris Saddle",
+      "pt": "Sela de Faleris",
+      "nivel": 60,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_Horus_Water",
+      "en": "Faleris Aqua Saddle",
+      "pt": "Sela de Faleris Aqua",
+      "nivel": 60,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_WhiteShieldDragon",
+      "en": "Silvegis Saddle",
+      "pt": "Sela de Silvegis",
+      "nivel": 60,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "EnergyRocketLauncher",
+      "en": "Plasma Cannon",
+      "pt": "Canhão de Plasma",
+      "nivel": 61,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "EnergyLauncherBullet",
+      "en": "Plasma Cartridge",
+      "pt": "Cartucho de Plasma",
+      "nivel": 61,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Potion_Extreme",
+      "en": "Advanced Recovery Meds",
+      "pt": "Poção Sublime",
+      "nivel": 61,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PalRevive",
+      "en": "Revival Potion",
+      "pt": "Revivificante",
+      "nivel": 61,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MedicineFacility_03",
+      "en": "Advanced Medicine Workbench",
+      "pt": "pt-BR_Text",
+      "nivel": 61,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_SaintCentaur",
+      "en": "Paladius Saddle",
+      "pt": "Sela de Paladius",
+      "nivel": 61,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BlackCentaur",
+      "en": "Necromus Saddle",
+      "pt": "Sela de Necromus",
+      "nivel": 61,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Accessory_AirDash2",
+      "en": "Double Air Dash Boots",
+      "pt": "Botas de Corrida Aérea Dupla",
+      "nivel": 61,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Salvage_TreasureBoxKey02",
+      "en": "Powerful Fishing Magnet",
+      "pt": "Ímã de Pesca Poderoso",
+      "nivel": 62,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ManganeseIngot",
+      "en": "Coralum Ingot",
+      "pt": "Lingote de Marganês",
+      "nivel": 62,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Factory_Hard_04",
+      "en": "Advanced Workshop",
+      "pt": "Fábrica de Civilização Avançada",
+      "nivel": 62,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SF_houseset",
+      "en": "Futuristic Structure Set",
+      "pt": "Kit de construção futurística",
+      "nivel": 62,
+      "custo": 2,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_IceHorse",
+      "en": "Frostallion Saddle",
+      "pt": "Sela de Frostallion",
+      "nivel": 62,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_IceHorse_Dark",
+      "en": "Frostallion Noct Saddle",
+      "pt": "Sela de Frostallion Noct",
+      "nivel": 62,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "CrystalPit",
+      "en": "Hexolite Quartz Mine",
+      "pt": "Garimpo de Exoquartzo",
+      "nivel": 62,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "EnergyShotgun",
+      "en": "Energy Shotgun",
+      "pt": "Espingarda de Energia",
+      "nivel": 63,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "EnergyShotgunBullet",
+      "en": "Energy Shotgun Ammo",
+      "pt": "Cartucho de Espingarda de Energia",
+      "nivel": 63,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WeaponFactory_Dirty_04",
+      "en": "Advanced Weapon Assembly Line",
+      "pt": "Fábrica de Armas de Civilização Avançada",
+      "nivel": 63,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SFArmorHeat",
+      "en": "Heat Resistant Hexolite Armor",
+      "pt": "Armadura de Exolita Refrescante",
+      "nivel": 63,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PalDopingShot_2",
+      "en": "Megaboost Gun",
+      "pt": "Arma Estimulante Mega",
+      "nivel": 63,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "GrapplingGun5",
+      "en": "Ultra Grappling Gun",
+      "pt": "Arpéu Ultra",
+      "nivel": 63,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "OverheatRifle",
+      "en": "Overheat Rifle",
+      "pt": "Fuzil de Superaquecimento",
+      "nivel": 64,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "OverheatRifleBullet",
+      "en": "Overheat Rifle Ammo",
+      "pt": "Bala de Fuzil de Superaquecimento",
+      "nivel": 64,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SFArmorCold",
+      "en": "Cold Resistant Hexolite Armor",
+      "pt": "Armadura de Exolita Aquecida",
+      "nivel": 64,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Spa3",
+      "en": "Japanese-Style Hot Spring",
+      "pt": "Águas Termais Japonesas",
+      "nivel": 64,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_Kirin_Ice",
+      "en": "Univolt Cryst Saddle",
+      "pt": "Sela de Univolt Cryst",
+      "nivel": 64,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_PoseidonOrca",
+      "en": "Neptilius Saddle",
+      "pt": "Sela de Neptilius",
+      "nivel": 64,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "IceHorseStatue",
+      "en": "Frostallion Statue",
+      "pt": "Estátua de Frostallion",
+      "nivel": 64,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Battle_RangeWeapon_RocketLauncher",
+      "en": "Rocket Launcher",
+      "pt": "Lança-Foguetes",
+      "nivel": 65,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "LauncherBullet",
+      "en": "Rocket Ammo",
+      "pt": "Foguete",
+      "nivel": 65,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ChargeLaserRifle",
+      "en": "Charge Rifle",
+      "pt": "Fuzil de Carga",
+      "nivel": 65,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ChargeLaserRifleBullet",
+      "en": "Charge Rifle Ammo",
+      "pt": "Bala de Fuzil de Carga",
+      "nivel": 65,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SFArmorWeight",
+      "en": "Lightweight Hexolite Armor",
+      "pt": "Armadura de Exolita Leve",
+      "nivel": 65,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_KingSunfish",
+      "en": "Solmora Saddle",
+      "pt": "Sela de Solmora",
+      "nivel": 65,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Accessory_AirDash3",
+      "en": "Triple Air Dash Boots",
+      "pt": "Botas de Corrida Aérea Tripla",
+      "nivel": 65,
+      "custo": 6,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientBlastFurnace",
+      "en": "Ancient Furnace",
+      "pt": "Forno da Civilização Antiga",
+      "nivel": 66,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkyislandIngot",
+      "en": "Soralite Ingot",
+      "pt": "Lingote de Soralite",
+      "nivel": 66,
+      "custo": 3,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_KingSunfish_Thunder",
+      "en": "Solmora Lux Saddle",
+      "pt": "Sela de Solmora Lux",
+      "nivel": 66,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_ThunderFluffyBird",
+      "en": "Dynamoff Saddle",
+      "pt": "Sela de Dynamoff",
+      "nivel": 66,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_DarkMechaDragon",
+      "en": "Xenolord Saddle",
+      "pt": "Sela de Xenolord",
+      "nivel": 66,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WaterBuildKit",
+      "en": "Aquatic Construction Kit",
+      "pt": "Kit de Construção na Água",
+      "nivel": 66,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PalSphere_Ancient_1",
+      "en": "Sol Sphere",
+      "pt": "Esfera Soralítica",
+      "nivel": 67,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyBow",
+      "en": "Mechanical Bow",
+      "pt": "Arco Mecânico",
+      "nivel": 67,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyBowArrow",
+      "en": "Mechanical Bow Ammo",
+      "pt": "Flecha de Arco Mecânico",
+      "nivel": 67,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AIcore",
+      "en": "AI Core",
+      "pt": "Núcleo de IA",
+      "nivel": 67,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientWorkBench",
+      "en": "Ancient Workbench",
+      "pt": "Bancada da Civilização Antiga",
+      "nivel": 67,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Ancient_Houseset",
+      "en": "Ancient Structure Set",
+      "pt": "Kit de construção da civilização antiga",
+      "nivel": 67,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Spear_ForestBoss2",
+      "en": "Enhanced Lily's Spear",
+      "pt": "Lança da Lily Fortalecida",
+      "nivel": 68,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkySubmachineGun",
+      "en": "Combat SMG",
+      "pt": "Submetralhadora de Combate",
+      "nivel": 68,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkySubmachineGunBullet",
+      "en": "Combat SMG Ammo",
+      "pt": "Munição de Submetralhadora de Combate",
+      "nivel": 68,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientArmor",
+      "en": "Ancient Armor",
+      "pt": "Armadura Antiga",
+      "nivel": 68,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientHelmet",
+      "en": "Ancient Helm",
+      "pt": "Elmo Antigo",
+      "nivel": 68,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GhostDragon",
+      "en": "Eidrolon Saddle",
+      "pt": "Sela de Eidrolon",
+      "nivel": 68,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyShotgun",
+      "en": "Prototype Shotgun",
+      "pt": "Espingarda-Protótipo",
+      "nivel": 69,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyShotgunBullet",
+      "en": "Prototype Shotgun Ammo",
+      "pt": "Cartucho de Espingarda-Protótipo",
+      "nivel": 69,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SphereModule_Homing",
+      "en": "Homing Module",
+      "pt": "Módulo Rastreador",
+      "nivel": 69,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "FishingPond2",
+      "en": "Large Fishing Pond",
+      "pt": "Grande Tanque de Pesca",
+      "nivel": 69,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_GrassGolem_Dark",
+      "en": "Dualith Noct Saddle",
+      "pt": "Sela de Dualith Noct",
+      "nivel": 69,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyAssaultRifle",
+      "en": "Heavy Assault Rifle",
+      "pt": "Fuzil de Assalto Pesado",
+      "nivel": 70,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyAssaultRifleBullet",
+      "en": "Heavy Assault Rifle Ammo",
+      "pt": "Munição de Fuzil de Assalto Pesado",
+      "nivel": 70,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientCookingStove",
+      "en": "Ancient Kitchen",
+      "pt": "Cozinha da Civilização Antiga",
+      "nivel": 70,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_LegendDeer",
+      "en": "Hartalis Saddle",
+      "pt": "Sela de Hartalis",
+      "nivel": 70,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_VolcanoDragon_Ice",
+      "en": "Moldron Cryst Saddle",
+      "pt": "Sela de Moldron Cryst",
+      "nivel": 70,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Accessory_JumpCount_Increase2",
+      "en": "Triple Jump Boots",
+      "pt": "Botas de Pulo Triplo",
+      "nivel": 70,
+      "custo": 6,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Shield_07",
+      "en": "Ancient Shield",
+      "pt": "Escudo Antigo",
+      "nivel": 71,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "BaseCampWorkHard03",
+      "en": "Ancient Monitoring Stand",
+      "pt": "Plataforma de Monitoramento da Civilização Antiga",
+      "nivel": 71,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Farm_SkillFruits",
+      "en": "Skillfruit Orchard",
+      "pt": "Plantação de Frutos de Técnica",
+      "nivel": 71,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkyIslandFlagSet",
+      "en": "Azure Covenant Flag Set",
+      "pt": "Kit de bandeiras da Aliança Celeste",
+      "nivel": 71,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_ThunderBird_Ice",
+      "en": "Beakon Cryst Saddle",
+      "pt": "Sela de Beakon Cryst",
+      "nivel": 71,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_IceNarwhal_Fire",
+      "en": "Whalaska Ignis Saddle",
+      "pt": "Sela de Whalaska Ignis",
+      "nivel": 71,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyGrenadeLauncher",
+      "en": "Tactical Grenade Launcher",
+      "pt": "Lança-Granadas Tático",
+      "nivel": 72,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyGrenadeLauncherBullet",
+      "en": "Tactical Grenade Launcher Ammo",
+      "pt": "Carga de Lança-Granadas Tático",
+      "nivel": 72,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_ThiefBird",
+      "en": "Roujay Saddle",
+      "pt": "Sela de Roujay",
+      "nivel": 72,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_LotusDragon",
+      "en": "Ophydia Saddle",
+      "pt": "Sela de Ophydia",
+      "nivel": 72,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkyIslandOrePit",
+      "en": "Soralite Quarry",
+      "pt": "Garimpo de Soralite",
+      "nivel": 72,
+      "custo": 7,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkyBeamSword",
+      "en": "Laser Sword",
+      "pt": "Espada de Laser",
+      "nivel": 73,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Factory_Money",
+      "en": "Gold Coin Assembly Line",
+      "pt": "Fábrica de Dinheiro",
+      "nivel": 73,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Ancient_Clinic",
+      "en": "Ancient Clinic",
+      "pt": "Clínica da Civilização Antiga",
+      "nivel": 73,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Ancient_MedicalPalBed",
+      "en": "Ancient Pal Bed",
+      "pt": "Cama para Pals da Civilização Antiga",
+      "nivel": 73,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_SnowTigerBeastman",
+      "en": "Bastigor's Hammer",
+      "pt": "Martelo de Bastigor",
+      "nivel": 73,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WorldTreeIngot",
+      "en": "Paloxite Ingot",
+      "pt": "Lingote de Paloxita",
+      "nivel": 74,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "PalSphere_Ancient_2",
+      "en": "Ancient Sphere",
+      "pt": "Esfera Antiga",
+      "nivel": 74,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientRelicRecycler",
+      "en": "Ancient Relic Recycler",
+      "pt": "Conversor de Relíquias Antigas",
+      "nivel": 74,
+      "custo": 3,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "Cake05",
+      "en": "Special Cake",
+      "pt": "Bolo Especial",
+      "nivel": 74,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WidePenetrateShotgun",
+      "en": "Beam Scatter",
+      "pt": "Dispersora de Raios",
+      "nivel": 75,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WidePenetrateShotgunBullet",
+      "en": "Beam Scatter Ammo",
+      "pt": "Cartucho de Dispersora de Raios",
+      "nivel": 75,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientArmorHeat",
+      "en": "Heat-Resistant Ancient Armor",
+      "pt": "Armadura Antiga Refrescante",
+      "nivel": 75,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientElectricGenerator",
+      "en": "Ancient Power Generator",
+      "pt": "Gerador Elétrico da Civilização Antiga",
+      "nivel": 75,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_CubeTurtle_Neutral",
+      "en": "Tetroise Primo Saddle",
+      "pt": "Sela de Tetroise Primo",
+      "nivel": 75,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Ancient_Spa",
+      "en": "Ancient Hot Spring",
+      "pt": "Água Termal da Civilização Antiga",
+      "nivel": 76,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "GasMask",
+      "en": "Corrosive Mist Mask",
+      "pt": "Máscara de Névoa Corrosiva",
+      "nivel": 76,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Accessory_ExplosionResist",
+      "en": "Explosion-Resistant Undershirt",
+      "pt": "Roupa de Baixo Antiexplosão",
+      "nivel": 76,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_GhostDragon_Fire",
+      "en": "Eidrolon Ignis Saddle",
+      "pt": "Sela de Eidrolon Ignis",
+      "nivel": 76,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "MultiElectricHatchingPalEggWithBreed",
+      "en": "Ancient Hatchery",
+      "pt": "Reprodutor da Civilização Antiga",
+      "nivel": 76,
+      "custo": 8,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "DroneLauncher",
+      "en": "Drone Launcher",
+      "pt": "Lança-Drones",
+      "nivel": 77,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientArmorCold",
+      "en": "Cold-Resistant Ancient Armor",
+      "pt": "Armadura Antiga Acalentadora",
+      "nivel": 77,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_NightBlueHorse_Neutral",
+      "en": "Starryon Primo Saddle",
+      "pt": "Sela de Starryon Primo",
+      "nivel": 77,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_BlueSkyDragon",
+      "en": "Shaolong Saddle",
+      "pt": "Sela de Shaolong",
+      "nivel": 77,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ElectricArcAssaultRifle",
+      "en": "Plasma Rifle",
+      "pt": "Fuzil de Plasma",
+      "nivel": 78,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "ElectricArcAssaultRifleBullet",
+      "en": "Plasma Rifle Ammo",
+      "pt": "Munição de Fuzil de Plasma",
+      "nivel": 78,
+      "custo": 1,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientMultiProduct",
+      "en": "Ancient Material Synthesizer",
+      "pt": "Gerador de Materiais da Civilização Antiga",
+      "nivel": 78,
+      "custo": 5,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "AncientFarmBlock",
+      "en": "Ancient Farm",
+      "pt": "Dispositivo de Plantio da Civilização Antiga",
+      "nivel": 78,
+      "custo": 4,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "SkillUnlock_WhiteDeer_Dark",
+      "en": "Celesdir Noct Saddle",
+      "pt": "Sela de Celesdir Noct",
+      "nivel": 78,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "AncientArmorWeight",
+      "en": "Lightweight Ancient Armor",
+      "pt": "Armadura Antiga Leve",
+      "nivel": 79,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "Supplement",
+      "en": "Nutrient Tonic",
+      "pt": "Energético",
+      "nivel": 79,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_DomeArmorDragon",
+      "en": "Aegidron Saddle",
+      "pt": "Sela de Aegidron",
+      "nivel": 79,
+      "custo": 4,
+      "tipo": "Items"
+    },
+    {
+      "chave": "SkillUnlock_JetDragon",
+      "en": "Jetragon's Missile Launcher",
+      "pt": "Lança-mísseis de Jetragon",
+      "nivel": 79,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "JetDragonStatue",
+      "en": "Jetragon Statue",
+      "pt": "Estátua de Jetragon",
+      "nivel": 79,
+      "custo": 1,
+      "tipo": "Structures"
+    },
+    {
+      "chave": "BeamLauncher",
+      "en": "Beam Launcher",
+      "pt": "Lança-Raios",
+      "nivel": 80,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "BeamLauncherBullet",
+      "en": "Beam Launcher Ammo",
+      "pt": "Carga de Lança-Raios",
+      "nivel": 80,
+      "custo": 2,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WingGlider_Fuel",
+      "en": "Wing Cell",
+      "pt": "Célula Alada",
+      "nivel": 80,
+      "custo": 5,
+      "tipo": "Items"
+    },
+    {
+      "chave": "WingGlider",
+      "en": "Wing Pack",
+      "pt": "Mochila Alada",
+      "nivel": 80,
+      "custo": 9,
+      "tipo": "Items"
+    }
+  ]
+}

@@ -1,10 +1,20 @@
 /**
- * Importa o catálogo completo de Pals do paldb, nos dois idiomas.
+ * Importa o catálogo do jogo do paldb, nos dois idiomas.
  *
  *   npm run catalogo:importar
  *
- * Gera src/data/catalogo.json com todos os Pals do jogo: número da Palpédia,
- * nome em inglês e em português, elementos e aptidões com nível.
+ * Gera quatro arquivos, um por coleção:
+ *
+ *   src/data/catalogo.json    Pals, com número da Palpédia, elementos e aptidões
+ *   src/data/itens.json       tudo que entra no inventário
+ *   src/data/estruturas.json  o que dá para construir na base, por categoria
+ *   src/data/tecnologias.json a árvore de tecnologia, com nível e custo
+ *
+ * Cada tipo tem um markup diferente no paldb, e é por isso que há três
+ * extratores em vez de um. Eles foram lidos do HTML de verdade, não adivinhados:
+ * Pal usa `div.col[data-filters]`, item usa `div.col > div.d-flex.border.rounded`,
+ * estrutura usa `div.col > div.card.itemPopup` e tecnologia usa `div.hoverTech`
+ * dentro de uma linha por nível.
  *
  * Por que gerado e não escrito: a wiki precisa cobrir os 288 Pals para competir
  * com as grandes, e ninguém digita 288 fichas sem errar. A conferência de 30.07
@@ -25,6 +35,26 @@ import { fileURLToPath } from 'node:url';
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SAIDA = join(raiz, 'src/data/catalogo.json');
 
+/**
+ * As abas de construção do jogo saem do próprio menu do paldb, e não de uma
+ * lista escrita aqui.
+ *
+ * Não existe índice único de estruturas: o menu "Construction" leva a uma
+ * página por categoria. Uma lista fixa aqui envelheceria em silêncio no dia
+ * em que o jogo ganhasse uma aba nova, e a coleção sairia incompleta sem
+ * ninguém perceber, que é exatamente o erro que este arquivo já cometeu com
+ * as aptidões.
+ */
+function abasDeConstrucao(html) {
+  const i = html.indexOf('common_work_type_architecture');
+  if (i === -1) return [];
+  const menu = html.slice(i, html.indexOf('</ul>', i));
+  return [...new Set([...menu.matchAll(/href="\/en\/([A-Za-z_]+)"/g)].map((m) => m[1]))];
+}
+
+// Uma pausa curta entre requisições. São 26 no total, e o paldb é de graça.
+const respirar = () => new Promise((r) => setTimeout(r, 700));
+
 // aptidão no paldb -> nossa chave
 const APTIDOES = {
   Kindling: 'acender', Watering: 'rega', Planting: 'plantio',
@@ -44,12 +74,109 @@ const ELEMENTOS = {
   Dragon: 'Dracônico',
 };
 
-async function baixar(idioma) {
-  const r = await fetch(`https://paldb.cc/${idioma}/Pals`, {
+async function baixar(idioma, pagina = 'Pals') {
+  const r = await fetch(`https://paldb.cc/${idioma}/${pagina}`, {
     headers: { 'User-Agent': 'wiki-palworld-do-grupo (importacao de catalogo)' },
   });
-  if (!r.ok) throw new Error(`paldb ${idioma} respondeu ${r.status}`);
+  if (!r.ok) throw new Error(`paldb ${idioma}/${pagina} respondeu ${r.status}`);
   return r.text();
+}
+
+/** Primeiro link de nome dentro de um bloco já recortado. */
+const primeiroNome = (bloco) => {
+  const m = bloco.match(/<a class="itemname"[^>]*href="([^"]+)"[^>]*>([^<]+)</);
+  return m ? { chave: decodeURIComponent(m[1]), nome: m[2].trim() } : null;
+};
+
+/**
+ * Itens. Um bloco por item, e o primeiro link é o nome: os outros são as
+ * citações dentro da descrição, que apontam para outros itens.
+ */
+function extrairItens(html) {
+  return html
+    .split('<div class="col"><div class="d-flex border rounded">')
+    .slice(1)
+    .map(primeiroNome)
+    .filter(Boolean);
+}
+
+/** Estruturas. Trazem a categoria de construção junto, já traduzida. */
+function extrairEstruturas(html) {
+  const achados = [];
+  for (const bloco of html.split('<div class="col"><div class="card itemPopup">').slice(1)) {
+    const item = primeiroNome(bloco);
+    if (!item) continue;
+    item.categoria = bloco.match(/<span class="me-auto"[^>]*>([^<]*)</)?.[1]?.trim() || null;
+    achados.push(item);
+  }
+  return achados;
+}
+
+/**
+ * Tecnologias. A página é uma linha por nível de desbloqueio, e cada linha tem
+ * as tecnologias daquele nível. O nível vem da coluna estreita da esquerda.
+ *
+ * Devolve também quantas tecnologias existem no documento inteiro, para o
+ * chamador poder abortar se alguma ficou fora das linhas. Perder tecnologia em
+ * silêncio é o mesmo erro que já apagou três aptidões de 299 Pals aqui.
+ */
+const UMA_TECNOLOGIA = /hoverTech[^"]*"[^>]*data-hover="\?s=Technology\/([^"]+)"[^>]*>\s*<div class="hoverTechCost badge">(\d+)<\/div>\s*<div class="hoverTechHeader">([^<]*)<\/div>\s*<div class="hoverTechFooter">([^<]*)</g;
+
+function extrairTecnologias(html) {
+  const achados = [];
+  for (const linha of html.split('<div class="col pt-2 pb-1 border-bottom">').slice(1)) {
+    const nivel = linha.match(/style="width:32px;"><div>(\d+)<\/div>/)?.[1];
+    for (const m of linha.matchAll(UMA_TECNOLOGIA)) {
+      achados.push({
+        chave: decodeURIComponent(m[1]),
+        custo: Number(m[2]),
+        tipo: m[3].trim(),
+        nome: m[4].trim(),
+        nivel: nivel ? Number(nivel) : null,
+      });
+    }
+  }
+  return { achados, noDocumento: [...html.matchAll(UMA_TECNOLOGIA)].length };
+}
+
+/**
+ * Casa a lista em inglês com a em português pela chave do endereço, que é a
+ * mesma nos dois idiomas, e devolve a coleção pronta para gravar.
+ */
+function juntarIdiomas(en, pt, extras = () => ({})) {
+  const porChave = new Map(pt.map((x) => [x.chave, x]));
+  return en.map((x) => ({
+    chave: x.chave,
+    en: x.nome,
+    pt: porChave.get(x.chave)?.nome || x.nome,
+    ...extras(x, porChave.get(x.chave)),
+  }));
+}
+
+/** Grava uma coleção, ou aborta se ela veio pequena demais para ser verdade. */
+async function gravar(arquivo, colecao, minimo, descricao) {
+  if (colecao.length < minimo) {
+    console.error(`\n  ABORTADO: só ${colecao.length} em ${arquivo} (mínimo ${minimo}). O paldb mudou o markup ou respondeu página de erro. Nada foi escrito.`);
+    process.exit(1);
+  }
+  const traduzidos = colecao.filter((x) => x.pt !== x.en).length;
+  if (!traduzidos) {
+    console.error(`\n  ABORTADO: nenhum item de ${arquivo} tem nome diferente em português. O índice em PT não foi lido. Nada foi escrito.`);
+    process.exit(1);
+  }
+  const caminho = join(raiz, 'src/data', arquivo);
+  await writeFile(caminho, JSON.stringify({
+    _leia_isto: [
+      'ARQUIVO GERADO. Não edite à mão: rode "npm run catalogo:importar".',
+      '',
+      descricao,
+    ],
+    fonte: 'paldb.cc',
+    importado_em: process.env.DATA_IMPORTACAO || null,
+    total: colecao.length,
+    itens: colecao,
+  }, null, 2) + '\n');
+  console.log(`  ${String(colecao.length).padStart(4)} em ${arquivo} (${traduzidos} com nome próprio em português)`);
 }
 
 /**
@@ -179,3 +306,94 @@ console.log(`  ${traduzidos} com nome diferente em português`);
 console.log(`  ${comId} com id interno do save mapeado`);
 if (semPt) console.log(`  ${semPt} sem correspondência no índice em português`);
 console.log(`\n  escrito em ${SAIDA.replace(raiz + '/', '')}`);
+
+// --------------------------------------------------- itens, estruturas, tecnologias
+console.log('\n  baixando itens...');
+await respirar();
+const [itensEn, itensPt] = [extrairItens(await baixar('en', 'Items')), null];
+await respirar();
+const itensPtLista = extrairItens(await baixar('pt', 'Items'));
+
+// O índice repete item que aparece em mais de uma aba. Desduplicar pela chave
+// e DIZER quantos caíram: corte em silêncio é o que este repositório proíbe.
+const vistos = new Set();
+const itensUnicos = itensEn.filter((i) => !vistos.has(i.chave) && vistos.add(i.chave));
+console.log(`  índice de itens: ${itensEn.length} entradas, ${itensUnicos.length} chaves únicas, ${itensEn.length - itensUnicos.length} repetidas descartadas`);
+// O paldb lista o dado bruto do jogo, e parte dele nunca aparece em tela, com
+// nome tipo "NPC_WEAPON". Entram assim mesmo: filtrar é julgamento, e este
+// script importa. Quem for montar a página de itens decide o que esconder.
+const internos = itensUnicos.filter((i) => /_/.test(i.nome)).length;
+if (internos) console.log(`  ${internos} entradas parecem internas do jogo (nome com underscore). Importadas mesmo assim`);
+await gravar(
+  'itens.json',
+  juntarIdiomas(itensUnicos, itensPtLista),
+  1200,
+  'Tudo que entra no inventário, importado do índice de itens do paldb nos dois idiomas.',
+);
+
+const construcao = abasDeConstrucao(htmlEn);
+if (construcao.length < 8) {
+  console.error(`\n  ABORTADO: o menu de construção do paldb rendeu ${construcao.length} links, poucos demais para conter as abas do jogo. O menu mudou de forma. Nada foi escrito.`);
+  process.exit(1);
+}
+console.log(`\n  baixando ${construcao.length} links de construção lidos do menu...`);
+const estruturasEn = [];
+const estruturasPt = [];
+const semNada = [];
+const falharam = [];
+for (const aba of construcao) {
+  try {
+    await respirar();
+    const daAba = extrairEstruturas(await baixar('en', aba));
+    await respirar();
+    estruturasPt.push(...extrairEstruturas(await baixar('pt', aba)));
+    estruturasEn.push(...daAba);
+    // O menu mistura aba de categoria com página de artigo. As de artigo não
+    // têm estrutura nenhuma, e isso é normal: ficam listadas para ninguém
+    // achar que sumiram.
+    if (!daAba.length) semNada.push(aba);
+  } catch (e) {
+    falharam.push(`${aba} (${e.message})`);
+  }
+}
+if (semNada.length) console.log(`  sem estrutura nenhuma, provavelmente página de artigo: ${semNada.join(', ')}`);
+if (falharam.length) console.log(`  não abriram: ${falharam.join(', ')}`);
+const vistasEstrutura = new Set();
+const estruturasUnicas = estruturasEn.filter((e) => !vistasEstrutura.has(e.chave) && vistasEstrutura.add(e.chave));
+const categoriasPt = new Map(estruturasPt.map((e) => [e.chave, e.categoria]));
+await gravar(
+  'estruturas.json',
+  juntarIdiomas(estruturasUnicas, estruturasPt, (e) => ({
+    categoria: e.categoria,
+    categoria_pt: categoriasPt.get(e.chave) || e.categoria,
+  })),
+  250,
+  'O que dá para construir na base, com a categoria de construção do jogo, importado das dez abas do paldb.',
+);
+
+console.log('\n  baixando a árvore de tecnologia...');
+await respirar();
+const tecEn = extrairTecnologias(await baixar('en', 'Technologies'));
+await respirar();
+const tecPt = extrairTecnologias(await baixar('pt', 'Technologies'));
+
+// Tecnologia que existe no documento e não caiu em nenhuma linha de nível some
+// sem aviso. Melhor abortar: o arquivo antigo continua valendo.
+if (tecEn.achados.length !== tecEn.noDocumento) {
+  console.error(`\n  ABORTADO: ${tecEn.noDocumento} tecnologias no documento e só ${tecEn.achados.length} dentro das linhas de nível. O agrupamento por nível mudou. Nada foi escrito.`);
+  process.exit(1);
+}
+const vistasTec = new Set();
+const tecUnicas = tecEn.achados.filter((t) => !vistasTec.has(t.chave) && vistasTec.add(t.chave));
+await gravar(
+  'tecnologias.json',
+  juntarIdiomas(tecUnicas, tecPt.achados, (t) => ({
+    nivel: t.nivel,
+    custo: t.custo,
+    tipo: t.tipo,
+  })),
+  400,
+  'A árvore de tecnologia com nível de desbloqueio e custo em pontos, importada do paldb.',
+);
+
+console.log('\n  as quatro coleções foram atualizadas.');

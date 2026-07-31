@@ -122,6 +122,52 @@ if (catalogo && pals) {
   passou(`catálogo: ${catalogo.total} Pals do jogo, ${pals.pals.length} com curadoria nossa (${cobertura}%), aptidões e elementos conferidos`);
 }
 
+// ------------------------------- itens, estruturas e tecnologias (E4)
+// Mesma desconfiança que vale para o catálogo de Pals: coleção importada que
+// encolhe é markup do paldb que mudou, e é melhor o build quebrar do que o
+// site publicar meia verdade. O mínimo é folgado de propósito, para acusar
+// quebra e não variação de patch.
+const COLECOES = [
+  { arquivo: 'itens.json', rotulo: 'itens', minimo: 1200 },
+  { arquivo: 'estruturas.json', rotulo: 'estruturas', minimo: 250, exige: ['categoria'] },
+  { arquivo: 'tecnologias.json', rotulo: 'tecnologias', minimo: 400, exige: ['nivel', 'custo', 'tipo'] },
+];
+
+for (const { arquivo, rotulo, minimo, exige = [] } of COLECOES) {
+  const dados = await lerJson(`src/data/${arquivo}`);
+  if (!dados) continue;
+  const lista = dados.itens || [];
+
+  if (lista.length < minimo) {
+    erro(rotulo, `só ${lista.length} ${rotulo} (mínimo ${minimo}). Importação quebrada? Rode npm run catalogo:importar`);
+  }
+  if (dados.total !== lista.length) {
+    erro(rotulo, `o campo total diz ${dados.total} e a lista tem ${lista.length}`);
+  }
+
+  const chaves = new Set();
+  let semPar = 0, semExtra = 0;
+  for (const x of lista) {
+    if (!x.chave || !x.en || !x.pt) { semPar++; continue; }
+    if (chaves.has(x.chave)) erro(rotulo, `chave duplicada: ${x.chave}`);
+    chaves.add(x.chave);
+    for (const campo of exige) {
+      if (x[campo] === null || x[campo] === undefined || x[campo] === '') semExtra++;
+    }
+  }
+  if (semPar) erro(rotulo, `${semPar} entradas sem chave, sem nome em inglês ou sem nome em português`);
+  if (semExtra) erro(rotulo, `${semExtra} campos obrigatórios vazios (${exige.join(', ')})`);
+
+  if (rotulo === 'tecnologias') {
+    const fora = lista.filter((t) => !(t.nivel >= 1 && t.nivel <= 80));
+    if (fora.length) erro(rotulo, `${fora.length} com nível fora de 1 a 80, o teto do jogo. Ex: ${fora[0]?.en}`);
+  }
+
+  const traduzidos = lista.filter((x) => x.pt !== x.en).length;
+  if (!traduzidos) erro(rotulo, 'nenhum nome em português. O índice em PT não foi lido na importação');
+  passou(`${arquivo}: ${lista.length} ${rotulo}, ${traduzidos} com nome próprio em português, sem chave repetida`);
+}
+
 // ------------------------------------------------- estado do grupo (D1)
 // O que o jogo compartilha em co-op fica em guilda.json; o que é de cada
 // pessoa, em saves/<nome>.json. Nome de Pal aqui é conferido contra o

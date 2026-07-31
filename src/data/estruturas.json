@@ -1,0 +1,3484 @@
+{
+  "_leia_isto": [
+    "ARQUIVO GERADO. Não edite à mão: rode \"npm run catalogo:importar\".",
+    "",
+    "O que dá para construir na base, com a categoria de construção do jogo, importado das dez abas do paldb."
+  ],
+  "fonte": "paldb.cc",
+  "importado_em": "2026-07-31",
+  "total": 496,
+  "itens": [
+    {
+      "chave": "Primitive_Workbench",
+      "en": "Primitive Workbench",
+      "pt": "Bancada Primitiva",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Repair_Bench",
+      "en": "Repair Bench",
+      "pt": "Bancada de Conserto",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Pal_Gear_Workbench",
+      "en": "Pal Gear Workbench",
+      "pt": "Fábrica de Engrenagens Pal",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Stone_Pit",
+      "en": "Stone Pit",
+      "pt": "Pedreira",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Logging_Site",
+      "en": "Logging Site",
+      "pt": "Madeireira",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Crusher",
+      "en": "Crusher",
+      "pt": "Triturador",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Primitive_Furnace",
+      "en": "Primitive Furnace",
+      "pt": "Forno Primitivo",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "High_Quality_Workbench",
+      "en": "High Quality Workbench",
+      "pt": "Bancada de Alta Qualidade",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Medieval_Medicine_Workbench",
+      "en": "Medieval Medicine Workbench",
+      "pt": "Boticário Medieval",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Sphere_Workbench",
+      "en": "Sphere Workbench",
+      "pt": "Oficina de Esferas",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Mill",
+      "en": "Mill",
+      "pt": "Moenda",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Weapon_Workbench",
+      "en": "Weapon Workbench",
+      "pt": "Fábrica de Armas",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Ore_Mining_Site",
+      "en": "Ore Mining Site",
+      "pt": "Garimpo de Metais",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Sphere_Assembly_Line",
+      "en": "Sphere Assembly Line",
+      "pt": "Fábrica de Linha de Esferas",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Production_Assembly_Line",
+      "en": "Production Assembly Line",
+      "pt": "Fábrica de Linha",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Fishing_Pond",
+      "en": "Fishing Pond",
+      "pt": "Tanque de Pesca",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Weapon_Assembly_Line",
+      "en": "Weapon Assembly Line",
+      "pt": "Fábrica de Linha de Armas",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Improved_Furnace",
+      "en": "Improved Furnace",
+      "pt": "Forno Melhorado",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Sphere_Assembly_Line_II",
+      "en": "Sphere Assembly Line II",
+      "pt": "Fábrica de Linha de Esferas II",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Coal_Mine",
+      "en": "Coal Mine",
+      "pt": "Garimpo de Carvão",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Ore_Mining_Site_II",
+      "en": "Ore Mining Site II",
+      "pt": "Garimpo de Metais II",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Production_Assembly_Line_II",
+      "en": "Production Assembly Line II",
+      "pt": "Fábrica de Linha II",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Electric_Medicine_Workbench",
+      "en": "Electric Medicine Workbench",
+      "pt": "Produção de Remédios Elétrica",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Logging_Site_II",
+      "en": "Logging Site II",
+      "pt": "Madeireira II",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Electric_Furnace",
+      "en": "Electric Furnace",
+      "pt": "Forno Elétrico",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Drafting_Table",
+      "en": "Drafting Table",
+      "pt": "Mesa de Projetos",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Sulfur_Mine",
+      "en": "Sulfur Mine",
+      "pt": "Garimpo de Enxofre",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Weapon_Assembly_Line_II",
+      "en": "Weapon Assembly Line II",
+      "pt": "Fábrica de Linha de Armas II",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Crude_Oil_Extractor",
+      "en": "Crude Oil Extractor",
+      "pt": "Extrator de Petróleo",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "High-Pressure_Crude_Oil_Extractor",
+      "en": "High-Pressure Crude Oil Extractor",
+      "pt": "Extrator de Petróleo de Alta Pressão",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Pure_Quartz_Quarry",
+      "en": "Pure Quartz Quarry",
+      "pt": "Garimpo de Quartzo Puro",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Refrigerated_Crusher",
+      "en": "Refrigerated Crusher",
+      "pt": "Triturador de Gelo",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Advanced_Sphere_Assembly_Line",
+      "en": "Advanced Sphere Assembly Line",
+      "pt": "Fábrica de Esferas de Civilização Avançada",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Gigantic_Furnace",
+      "en": "Gigantic Furnace",
+      "pt": "pt-BR_Text",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Advanced_Medicine_Workbench",
+      "en": "Advanced Medicine Workbench",
+      "pt": "pt-BR_Text",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Advanced_Workshop",
+      "en": "Advanced Workshop",
+      "pt": "Fábrica de Civilização Avançada",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Hexolite_Quartz_Mine",
+      "en": "Hexolite Quartz Mine",
+      "pt": "Garimpo de Exoquartzo",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Advanced_Weapon_Assembly_Line",
+      "en": "Advanced Weapon Assembly Line",
+      "pt": "Fábrica de Armas de Civilização Avançada",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Ancient_Furnace",
+      "en": "Ancient Furnace",
+      "pt": "Forno da Civilização Antiga",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Ancient_Workbench",
+      "en": "Ancient Workbench",
+      "pt": "Bancada da Civilização Antiga",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Large_Fishing_Pond",
+      "en": "Large Fishing Pond",
+      "pt": "Grande Tanque de Pesca",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Soralite_Quarry",
+      "en": "Soralite Quarry",
+      "pt": "Garimpo de Soralite",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Gold_Coin_Assembly_Line",
+      "en": "Gold Coin Assembly Line",
+      "pt": "Fábrica de Dinheiro",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Ancient_Relic_Recycler",
+      "en": "Ancient Relic Recycler",
+      "pt": "Conversor de Relíquias Antigas",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Ancient_Material_Synthesizer",
+      "en": "Ancient Material Synthesizer",
+      "pt": "Gerador de Materiais da Civilização Antiga",
+      "categoria": "Production",
+      "categoria_pt": "Produção"
+    },
+    {
+      "chave": "Palbox",
+      "en": "Palbox",
+      "pt": "Caixa de Pal",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Pal_Dressing_Facility",
+      "en": "Pal Dressing Facility",
+      "pt": "Dispositivo de Enfeite de Pal",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Global_Palbox",
+      "en": "Global Palbox",
+      "pt": "Caixa Global de Pals",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Ranch",
+      "en": "Ranch",
+      "pt": "Fazenda de Criação",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Monitoring_Stand",
+      "en": "Monitoring Stand",
+      "pt": "Plataforma de Monitoramento",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Statue_of_Power",
+      "en": "Statue of Power",
+      "pt": "Estátua da Força",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Egg_Incubator",
+      "en": "Egg Incubator",
+      "pt": "Incubadora de Ovos",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Pal_Essence_Condenser",
+      "en": "Pal Essence Condenser",
+      "pt": "Casulo de Condensação de Pal",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Viewing_Cage",
+      "en": "Viewing Cage",
+      "pt": "Gaiola para Apreciação",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Breeding_Farm",
+      "en": "Breeding Farm",
+      "pt": "Fazenda de Acasalamento",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Pal_Labor_Research_Lab",
+      "en": "Pal Labor Research Lab",
+      "pt": "Laboratório de Pesquisa de Trabalho de Pals",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Dimensional_Pal_Storage",
+      "en": "Dimensional Pal Storage",
+      "pt": "Armazenamento Dimensional de Pals",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Pal_Expedition_Station",
+      "en": "Pal Expedition Station",
+      "pt": "Escritório de Expedição de Pals",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "High_Quality_Monitoring_Stand",
+      "en": "High Quality Monitoring Stand",
+      "pt": "Plataforma de Monitoramento Requintada",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Palbox_Control_Device",
+      "en": "Palbox Control Device",
+      "pt": "Terminal para Operar Caixa de Pals",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Summoning_Altar",
+      "en": "Summoning Altar",
+      "pt": "Altar de Invocação",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Electric_Egg_Incubator",
+      "en": "Electric Egg Incubator",
+      "pt": "Incubadora de Ovos Elétrica",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Pal_Surgery_Table",
+      "en": "Pal Surgery Table",
+      "pt": "Mesa de Operação de Pals",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Large_Incubator",
+      "en": "Large Incubator",
+      "pt": "Máquina Incubadora de Ovos Grande",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Pal_Disassembly_Conveyor",
+      "en": "Pal Disassembly Conveyor",
+      "pt": "Transportador para Talho de Pal",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Large-Scale_Electric_Egg_Incubator",
+      "en": "Large-Scale Electric Egg Incubator",
+      "pt": "Incubadora de Ovos Elétrica Grande",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Ancient_Monitoring_Stand",
+      "en": "Ancient Monitoring Stand",
+      "pt": "Plataforma de Monitoramento da Civilização Antiga",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Ancient_Hatchery",
+      "en": "Ancient Hatchery",
+      "pt": "Reprodutor da Civilização Antiga",
+      "categoria": "Pal",
+      "categoria_pt": "Pal"
+    },
+    {
+      "chave": "Wooden_Chest",
+      "en": "Wooden Chest",
+      "pt": "Baú de Madeira",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Wooden_Barrel",
+      "en": "Wooden Barrel",
+      "pt": "Barril de Madeira",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Wooden_Box",
+      "en": "Wooden Box",
+      "pt": "Caixa de Madeira",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Wooden_Shelf",
+      "en": "Wooden Shelf",
+      "pt": "Prateleira de Madeira",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Wooden_Barrel_Shelf",
+      "en": "Wooden Barrel Shelf",
+      "pt": "Barril com Prateleira de Madeira",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Wooden_Wall_Shelf",
+      "en": "Wooden Wall Shelf",
+      "pt": "Prateleira de Parede de Madeira",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Antique_Bookshelf",
+      "en": "Antique Bookshelf",
+      "pt": "Estante Antiga",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Antique_Wardrobe",
+      "en": "Antique Wardrobe",
+      "pt": "Guarda-Roupa Antigo",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Antique_Chest",
+      "en": "Antique Chest",
+      "pt": "Armário Antigo",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Antique_Side_Chest",
+      "en": "Antique Side Chest",
+      "pt": "Mesa de Cabeceira Antiga",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Iron_Wall_Shelf",
+      "en": "Iron Wall Shelf",
+      "pt": "Prateleira de Parede de Ferro",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Metal_Chest",
+      "en": "Metal Chest",
+      "pt": "Baú de Metal",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Cooler_Box",
+      "en": "Cooler Box",
+      "pt": "Caixa Térmica",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Antique_Cabinet",
+      "en": "Antique Cabinet",
+      "pt": "Cômoda Antiga",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Antique_Long_Cabinet",
+      "en": "Antique Long Cabinet",
+      "pt": "Cômoda Larga e Baixa Antiga",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Large_Antique_Cabinet",
+      "en": "Large Antique Cabinet",
+      "pt": "Cômoda Grande Antiga",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Antique_Wall_Cabinet",
+      "en": "Antique Wall Cabinet",
+      "pt": "Cômoda de Parede Antiga",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Iron_Shelf",
+      "en": "Iron Shelf",
+      "pt": "Prateleira Metálica",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Long_Iron_Shelf",
+      "en": "Long Iron Shelf",
+      "pt": "Prateleira Metálica Horizontal",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Orange_Locker",
+      "en": "Orange Locker",
+      "pt": "Armário Laranja",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Locker",
+      "en": "Locker",
+      "pt": "Armário",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Large_Container",
+      "en": "Large Container",
+      "pt": "Contêiner Grande",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Small_Container",
+      "en": "Small Container",
+      "pt": "Contêiner Pequeno",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Cloth_Covered_Container",
+      "en": "Cloth Covered Container",
+      "pt": "Contêiner com Pano",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Refrigerator",
+      "en": "Refrigerator",
+      "pt": "Refrigerador",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Refined_Metal_Chest",
+      "en": "Refined Metal Chest",
+      "pt": "Baú de Metal Refinado",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Guild_Chest",
+      "en": "Guild Chest",
+      "pt": "Baú de Guilda",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Item_Retrieval_Machine",
+      "en": "Item Retrieval Machine",
+      "pt": "Distribuidor de Itens",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Japanese-Style_Chest",
+      "en": "Japanese-Style Chest",
+      "pt": "Armário",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Advanced_Chest",
+      "en": "Advanced Chest",
+      "pt": "Baú de Civilização Avançada",
+      "categoria": "Storage",
+      "categoria_pt": "Armazenamento"
+    },
+    {
+      "chave": "Campfire",
+      "en": "Campfire",
+      "pt": "Fogueira",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Feed_Box",
+      "en": "Feed Box",
+      "pt": "Ração",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Berry_Plantation",
+      "en": "Berry Plantation",
+      "pt": "Plantação de Frutinhas",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Wheat_Plantation",
+      "en": "Wheat Plantation",
+      "pt": "Plantação de Trigo",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Cooking_Pot",
+      "en": "Cooking Pot",
+      "pt": "Panela",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Tomato_Plantation",
+      "en": "Tomato Plantation",
+      "pt": "Plantação de Tomate",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Lettuce_Plantation",
+      "en": "Lettuce Plantation",
+      "pt": "Plantação de Alface",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Potato_Plantation",
+      "en": "Potato Plantation",
+      "pt": "Plantação de Batatas",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Carrot_Plantation",
+      "en": "Carrot Plantation",
+      "pt": "Plantação de Cenouras",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Onion_Plantation",
+      "en": "Onion Plantation",
+      "pt": "Plantação de Cebolas",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Electric_Kitchen",
+      "en": "Electric Kitchen",
+      "pt": "Cozinha Elétrica",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Large-Scale_Stone_Oven",
+      "en": "Large-Scale Stone Oven",
+      "pt": "Cozinha Grande",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Cold_Food_Box",
+      "en": "Cold Food Box",
+      "pt": "Caixa de Ração Refrigerada",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Ancient_Kitchen",
+      "en": "Ancient Kitchen",
+      "pt": "Cozinha da Civilização Antiga",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Skillfruit_Orchard",
+      "en": "Skillfruit Orchard",
+      "pt": "Plantação de Frutos de Técnica",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Ancient_Farm",
+      "en": "Ancient Farm",
+      "pt": "Dispositivo de Plantio da Civilização Antiga",
+      "categoria": "Food",
+      "categoria_pt": "Comida"
+    },
+    {
+      "chave": "Shoddy_Bed",
+      "en": "Shoddy Bed",
+      "pt": "Cama Simples",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Straw_Pal_Bed",
+      "en": "Straw Pal Bed",
+      "pt": "Cama de Palha para Pals",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Hot_Spring",
+      "en": "Hot Spring",
+      "pt": "Águas Termais",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Heater",
+      "en": "Heater",
+      "pt": "Aquecedor a Fogo",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Cooler",
+      "en": "Cooler",
+      "pt": "Resfriador a Gelo",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Fluffy_Pal_Bed",
+      "en": "Fluffy Pal Bed",
+      "pt": "Cama Macia para Pals",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Medicine_Rack",
+      "en": "Medicine Rack",
+      "pt": "Armário de Remédios",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Clinic",
+      "en": "Clinic",
+      "pt": "Clínica",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Power_Generator",
+      "en": "Power Generator",
+      "pt": "Gerador Elétrico",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Human-Powered_Generator",
+      "en": "Human-Powered Generator",
+      "pt": "Gerador Elétrico Manual",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Fine_Bed",
+      "en": "Fine Bed",
+      "pt": "Cama de Luxo",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "High_Quality_Hot_Spring",
+      "en": "High Quality Hot Spring",
+      "pt": "Águas Termais de Luxo",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Large_Pal_Bed",
+      "en": "Large Pal Bed",
+      "pt": "Cama Grande para Pals",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Accumulator",
+      "en": "Accumulator",
+      "pt": "Capacitor",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Electric_Heater",
+      "en": "Electric Heater",
+      "pt": "Aquecedor Elétrico",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Electric_Cooler",
+      "en": "Electric Cooler",
+      "pt": "Resfriador Elétrico",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Large_Power_Generator",
+      "en": "Large Power Generator",
+      "pt": "Gerador Elétrico Grande",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Pal_Pod",
+      "en": "Pal Pod",
+      "pt": "Cápsula de Pals de Civilização Avançada",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Japanese-Style_Hot_Spring",
+      "en": "Japanese-Style Hot Spring",
+      "pt": "Águas Termais Japonesas",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Ancient_Clinic",
+      "en": "Ancient Clinic",
+      "pt": "Clínica da Civilização Antiga",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Ancient_Pal_Bed",
+      "en": "Ancient Pal Bed",
+      "pt": "Cama para Pals da Civilização Antiga",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Ancient_Power_Generator",
+      "en": "Ancient Power Generator",
+      "pt": "Gerador Elétrico da Civilização Antiga",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Ancient_Hot_Spring",
+      "en": "Ancient Hot Spring",
+      "pt": "Água Termal da Civilização Antiga",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Great_Eagle_Statue",
+      "en": "Great Eagle Statue",
+      "pt": "Estátua da Águia Gigante",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Ancient_Air_Conditioner",
+      "en": "Ancient Air Conditioner",
+      "pt": "Condicionador de Ar da Civilização Antiga",
+      "categoria": "Infrastructure",
+      "categoria_pt": "Infraestrutura"
+    },
+    {
+      "chave": "Mounted_Torch",
+      "en": "Mounted Torch",
+      "pt": "Tocha Fixa",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Brick_Fireplace",
+      "en": "Brick Fireplace",
+      "pt": "Lareira",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Fireplace",
+      "en": "Fireplace",
+      "pt": "Aquecedor",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Wall_Torch",
+      "en": "Wall Torch",
+      "pt": "Tocha de Parede",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Lamp",
+      "en": "Lamp",
+      "pt": "Lâmpada Fixa",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Antique_Brown_Floor_Lamp",
+      "en": "Antique Brown Floor Lamp",
+      "pt": "Abajur Marrom Antigo",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Antique_Red_Floor_Lamp",
+      "en": "Antique Red Floor Lamp",
+      "pt": "Abajur Vermelho Antigo",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Chandelier",
+      "en": "Chandelier",
+      "pt": "Lustre",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Wall_Lamp",
+      "en": "Wall Lamp",
+      "pt": "Luminária de Parede",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Ceiling_Lamp",
+      "en": "Ceiling Lamp",
+      "pt": "Lâmpada de Teto",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Large_Mounted_Lamp",
+      "en": "Large Mounted Lamp",
+      "pt": "Lâmpada Grande Fixa",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Simple_Street_Lamp",
+      "en": "Simple Street Lamp",
+      "pt": "Poste de Luz Simples",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Double_Street_Lamp",
+      "en": "Double Street Lamp",
+      "pt": "Poste de Luz Duplo",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Retro_Street_Lamp",
+      "en": "Retro Street Lamp",
+      "pt": "Poste de Luz Retrô",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Stylish_Street_Lamp",
+      "en": "Stylish Street Lamp",
+      "pt": "Poste de Luz Chique",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Large_Ceiling_Lamp",
+      "en": "Large Ceiling Lamp",
+      "pt": "Lâmpada Grande de Teto",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Japanese_Paper_Lantern",
+      "en": "Japanese Paper Lantern",
+      "pt": "Lanterna de papel",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Majestic_Wall_Torch",
+      "en": "Majestic Wall Torch",
+      "pt": "Tocha de Parede Solene",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Majestic_Candlestick",
+      "en": "Majestic Candlestick",
+      "pt": "Castiçal Solene",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Ceremonial_Candlestick",
+      "en": "Ceremonial Candlestick",
+      "pt": "Castiçal para Cerimônias",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Paper_Lantern",
+      "en": "Paper Lantern",
+      "pt": "Lanterna de Papel Portátil",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Red_Wooden_Lantern",
+      "en": "Red Wooden Lantern",
+      "pt": "Lanterna de Santuário",
+      "categoria": "Lighting",
+      "categoria_pt": "Iluminação"
+    },
+    {
+      "chave": "Wooden_Foundation",
+      "en": "Wooden Foundation",
+      "pt": "Fundação de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Wall",
+      "en": "Wooden Wall",
+      "pt": "Muro de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Wall_and_Window",
+      "en": "Wooden Wall and Window",
+      "pt": "Parede com Janela de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Triangular_Wall",
+      "en": "Wooden Triangular Wall",
+      "pt": "Parede Triangular de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Roof",
+      "en": "Wooden Roof",
+      "pt": "Telhado de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Slanted_Roof",
+      "en": "Wooden Slanted Roof",
+      "pt": "Telhado Inclinado de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Stairs",
+      "en": "Wooden Stairs",
+      "pt": "Escada de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Door",
+      "en": "Wooden Door",
+      "pt": "Porta de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Pillar",
+      "en": "Wooden Pillar",
+      "pt": "Pilar de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Fence",
+      "en": "Wooden Fence",
+      "pt": "Cerca de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Triangular_Foundation",
+      "en": "Wooden Triangular Foundation",
+      "pt": "Fundação Triangular de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Diagonal_Wall",
+      "en": "Wooden Diagonal Wall",
+      "pt": "Parede Diagonal de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Triangular_Roof",
+      "en": "Wooden Triangular Roof",
+      "pt": "Telhado Triangular de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Corner_Roof",
+      "en": "Wooden Corner Roof",
+      "pt": "Telhado de Quina de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Triangular_Wall_(Inverted)",
+      "en": "Wooden Triangular Wall (Inverted)",
+      "pt": "Parede Triangular de Madeira (Invertida)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Pal_Passage_Entrance",
+      "en": "Wooden Pal Passage Entrance",
+      "pt": "Passagem para Pals de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Slanted_Triangular_Roof",
+      "en": "Wooden Slanted Triangular Roof",
+      "pt": "Telhado Inclinado Triangular de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Pyramid_Roof",
+      "en": "Wooden Pyramid Roof",
+      "pt": "Telhado de Pirâmide de Madeira",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Wooden_Slanted_Corner_Roof_(Inverted)",
+      "en": "Wooden Slanted Corner Roof (Inverted)",
+      "pt": "Telhado Inclinado Triangular de Madeira (Invertido)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ladder",
+      "en": "Ladder",
+      "pt": "Escada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Foundation",
+      "en": "Stone Foundation",
+      "pt": "Fundação de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Wall",
+      "en": "Stone Wall",
+      "pt": "Muro de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Wall_and_Window",
+      "en": "Stone Wall and Window",
+      "pt": "Parede com Janela de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Triangular_Wall",
+      "en": "Stone Triangular Wall",
+      "pt": "Parede Triangular de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Roof",
+      "en": "Stone Roof",
+      "pt": "Telhado de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Slanted_Roof",
+      "en": "Stone Slanted Roof",
+      "pt": "Telhado Inclinado de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Stairs",
+      "en": "Stone Stairs",
+      "pt": "Escada de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Door",
+      "en": "Stone Door",
+      "pt": "Porta de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Pillar",
+      "en": "Stone Pillar",
+      "pt": "Pilar de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Fence",
+      "en": "Stone Fence",
+      "pt": "Cerca de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Triangular_Foundation",
+      "en": "Stone Triangular Foundation",
+      "pt": "Fundação Triangular de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Diagonal_Wall",
+      "en": "Stone Diagonal Wall",
+      "pt": "Parede Diagonal de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Triangular_Roof",
+      "en": "Stone Triangular Roof",
+      "pt": "Telhado Triangular de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Corner_Roof",
+      "en": "Stone Corner Roof",
+      "pt": "Telhado de Quina de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Triangular_Wall_(Inverted)",
+      "en": "Stone Triangular Wall (Inverted)",
+      "pt": "Parede Triangular de Pedra (Invertida)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Pal_Passage_Entrance",
+      "en": "Stone Pal Passage Entrance",
+      "pt": "Passagem para Pals de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Slanted_Triangular_Roof",
+      "en": "Stone Slanted Triangular Roof",
+      "pt": "Telhado Inclinado Triangular de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Pyramid_Roof",
+      "en": "Stone Pyramid Roof",
+      "pt": "Telhado de Pirâmide de Pedra",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Stone_Slanted_Corner_Roof_(Inverted)",
+      "en": "Stone Slanted Corner Roof (Inverted)",
+      "pt": "Telhado Inclinado Triangular de Pedra (Invertido)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Foundation",
+      "en": "Metal Foundation",
+      "pt": "Fundação de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Wall",
+      "en": "Metal Wall",
+      "pt": "Muro de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Wall_and_Window",
+      "en": "Metal Wall and Window",
+      "pt": "Parede com Janela de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Triangular_Wall",
+      "en": "Metal Triangular Wall",
+      "pt": "Parede Triangular de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Roof",
+      "en": "Metal Roof",
+      "pt": "Telhado de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Slanted_Roof",
+      "en": "Metal Slanted Roof",
+      "pt": "Telhado Inclinado de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Stairs",
+      "en": "Metal Stairs",
+      "pt": "Escada de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Door",
+      "en": "Metal Door",
+      "pt": "Porta de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Pillar",
+      "en": "Metal Pillar",
+      "pt": "Pilar de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Fence",
+      "en": "Metal Fence",
+      "pt": "Cerca de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Triangular_Foundation",
+      "en": "Metal Triangular Foundation",
+      "pt": "Fundação Triangular de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Diagonal_Wall",
+      "en": "Metal Diagonal Wall",
+      "pt": "Parede Diagonal de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Triangular_Roof",
+      "en": "Metal Triangular Roof",
+      "pt": "Telhado Triangular de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Corner_Roof",
+      "en": "Metal Corner Roof",
+      "pt": "Telhado de Quina de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Triangular_Wall_(Inverted)",
+      "en": "Metal Triangular Wall (Inverted)",
+      "pt": "Parede Triangular de Metal (Invertida)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Pal_Passage_Entrance",
+      "en": "Metal Pal Passage Entrance",
+      "pt": "Passagem para Pals de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Slanted_Triangular_Roof",
+      "en": "Metal Slanted Triangular Roof",
+      "pt": "Telhado Inclinado Triangular de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Pyramid_Roof",
+      "en": "Metal Pyramid Roof",
+      "pt": "Telhado de Pirâmide de Metal",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Metal_Slanted_Corner_Roof_(Inverted)",
+      "en": "Metal Slanted Corner Roof (Inverted)",
+      "pt": "Telhado Inclinado Triangular de Metal (Invertido)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Foundation",
+      "en": "Glass Foundation",
+      "pt": "Fundação de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Wall",
+      "en": "Glass Wall",
+      "pt": "Parede de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Wall_and_Window",
+      "en": "Glass Wall and Window",
+      "pt": "Parede com Janela de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Triangular_Wall",
+      "en": "Glass Triangular Wall",
+      "pt": "Parede Triangular de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Roof",
+      "en": "Glass Roof",
+      "pt": "Telhado de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Slanted_Roof",
+      "en": "Glass Slanted Roof",
+      "pt": "Telhado Inclinado de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Stairs",
+      "en": "Glass Stairs",
+      "pt": "Escada de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Wall_and_Door",
+      "en": "Glass Wall and Door",
+      "pt": "Parede com Porta de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Pillar",
+      "en": "Glass Pillar",
+      "pt": "Pilar de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Fence",
+      "en": "Glass Fence",
+      "pt": "Cerca de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Triangular_Foundation",
+      "en": "Glass Triangular Foundation",
+      "pt": "Fundação Triangular de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Diagonal_Wall",
+      "en": "Glass Diagonal Wall",
+      "pt": "Parede Diagonal de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Triangular_Roof",
+      "en": "Glass Triangular Roof",
+      "pt": "Telhado Triangular de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Corner_Roof",
+      "en": "Glass Corner Roof",
+      "pt": "Telhado de Quina de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Triangular_Wall_(Inverted)",
+      "en": "Glass Triangular Wall (Inverted)",
+      "pt": "Parede Triangular de Vidro (Invertida)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Pal_Passage_Entrance",
+      "en": "Glass Pal Passage Entrance",
+      "pt": "Passagem para Pals de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Slanted_Triangular_Roof",
+      "en": "Glass Slanted Triangular Roof",
+      "pt": "Telhado Inclinado Triangular de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Pyramid_Roof",
+      "en": "Glass Pyramid Roof",
+      "pt": "Telhado de Pirâmide de Vidro",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Glass_Slanted_Corner_Roof_(Inverted)",
+      "en": "Glass Slanted Corner Roof (Inverted)",
+      "pt": "Telhado Inclinado Triangular de Vidro (Invertido)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Wall",
+      "en": "Japanese-Style Wall",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Door_A",
+      "en": "Japanese-Style Door A",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Door_B",
+      "en": "Japanese-Style Door B",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Roof_A",
+      "en": "Japanese-Style Roof A",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Roof_B",
+      "en": "Japanese-Style Roof B",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Slanted_Roof",
+      "en": "Japanese-Style Slanted Roof",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Triangular_Wall",
+      "en": "Japanese-Style Triangular Wall",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Wall_and_Window",
+      "en": "Japanese-Style Wall and Window",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Foundation",
+      "en": "Japanese-Style Foundation",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Stairs",
+      "en": "Japanese-Style Stairs",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Pillar",
+      "en": "Japanese-Style Pillar",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Door_C",
+      "en": "Japanese-Style Door C",
+      "pt": "Parede com Porta Japonesa C",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Fence",
+      "en": "Japanese-Style Fence",
+      "pt": "Cerca Japonesa",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Triangular_Foundation",
+      "en": "Japanese-Style Triangular Foundation",
+      "pt": "Fundação Triangular Japonesa",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Diagonal_Wall",
+      "en": "Japanese-Style Diagonal Wall",
+      "pt": "Parede Diagonal Japonesa",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Triangular_Roof_A",
+      "en": "Japanese-Style Triangular Roof A",
+      "pt": "Telhado Triangular Japonês A",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Triangular_Roof_B",
+      "en": "Japanese-Style Triangular Roof B",
+      "pt": "Telhado Triangular Japonês B",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Corner_Roof",
+      "en": "Japanese-Style Corner Roof",
+      "pt": "Telhado de Quina Japonês",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Triangular_Wall_(Inverted)",
+      "en": "Japanese-Style Triangular Wall (Inverted)",
+      "pt": "Parede Triangular Japonesa (Invertida)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Pal_Passage_Entrance",
+      "en": "Japanese-Style Pal Passage Entrance",
+      "pt": "Passagem para Pals Japonesa",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Slanted_Triangular_Roof",
+      "en": "Japanese-Style Slanted Triangular Roof",
+      "pt": "Telhado Inclinado Triangular Japonês",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Pyramid_Roof",
+      "en": "Japanese-Style Pyramid Roof",
+      "pt": "Telhado de Pirâmide Japonês",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Japanese-Style_Slanted_Corner_Roof_(Inverted)",
+      "en": "Japanese-Style Slanted Corner Roof (Inverted)",
+      "pt": "Telhado Inclinado Triangular Japonês (Invertido)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Foundation",
+      "en": "Clean Foundation",
+      "pt": "Fundação Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Wall",
+      "en": "Clean Wall",
+      "pt": "Parede Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Wall_and_Window",
+      "en": "Clean Wall and Window",
+      "pt": "Parede com Janela Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Triangular_Wall",
+      "en": "Clean Triangular Wall",
+      "pt": "Parede Triangular Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Roof",
+      "en": "Clean Roof",
+      "pt": "Telhado Despojado",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Slanted_Roof",
+      "en": "Clean Slanted Roof",
+      "pt": "Telhado Inclinado Despojado",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Stairs",
+      "en": "Clean Stairs",
+      "pt": "Escada Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Wall_and_Door",
+      "en": "Clean Wall and Door",
+      "pt": "Parede com Porta Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Pillar",
+      "en": "Clean Pillar",
+      "pt": "Pilar Despojado",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Fence",
+      "en": "Clean Fence",
+      "pt": "Cerca Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Triangular_Foundation",
+      "en": "Clean Triangular Foundation",
+      "pt": "Fundação Triangular Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Diagonal_Wall",
+      "en": "Clean Diagonal Wall",
+      "pt": "Parede Diagonal Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Triangular_Roof",
+      "en": "Clean Triangular Roof",
+      "pt": "Telhado Triangular Despojado",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Corner_Roof",
+      "en": "Clean Corner Roof",
+      "pt": "Telhado de Quina Despojado",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Triangular_Wall_(Inverted)",
+      "en": "Clean Triangular Wall (Inverted)",
+      "pt": "Parede Triangular Despojada (Invertida)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Pal_Passage_Entrance",
+      "en": "Clean Pal Passage Entrance",
+      "pt": "Passagem para Pals Despojada",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Slanted_Triangular_Roof",
+      "en": "Clean Slanted Triangular Roof",
+      "pt": "Telhado Inclinado Triangular Despojado",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Pyramid_Roof",
+      "en": "Clean Pyramid Roof",
+      "pt": "Telhado de Pirâmide Despojado",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Clean_Slanted_Corner_Roof_(Inverted)",
+      "en": "Clean Slanted Corner Roof (Inverted)",
+      "pt": "Telhado Inclinado Triangular Despojado (Invertido)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Slanted_Triangular_Roof_(Inverted)",
+      "en": "Ancient Slanted Triangular Roof (Inverted)",
+      "pt": "Telhado Inclinado Triangular da Civilização Antiga (Invertido)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Foundation",
+      "en": "Ancient Foundation",
+      "pt": "Fundação da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Wall",
+      "en": "Ancient Wall",
+      "pt": "Parede da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Roof",
+      "en": "Ancient Roof",
+      "pt": "Telhado da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Stairs",
+      "en": "Ancient Stairs",
+      "pt": "Escada da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Wall_and_Door",
+      "en": "Ancient Wall and Door",
+      "pt": "Parede com Porta da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Triangular_Wall",
+      "en": "Ancient Triangular Wall",
+      "pt": "Parede Triangular da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Slanted_Roof",
+      "en": "Ancient Slanted Roof",
+      "pt": "Telhado Inclinado da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Wall_and_Window",
+      "en": "Ancient Wall and Window",
+      "pt": "Parede com Janela da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Pillar",
+      "en": "Ancient Pillar",
+      "pt": "Pilar da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Triangular_Foundation",
+      "en": "Ancient Triangular Foundation",
+      "pt": "Fundação Triangular da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Diagonal_Wall",
+      "en": "Ancient Diagonal Wall",
+      "pt": "Parede Diagonal da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Triangular_Roof",
+      "en": "Ancient Triangular Roof",
+      "pt": "Telhado Triangular da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Corner_Roof",
+      "en": "Ancient Corner Roof",
+      "pt": "Telhado de Quina da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Triangular_Wall_(Inverted)",
+      "en": "Ancient Triangular Wall (Inverted)",
+      "pt": "Parede Triangular da Civilização Antiga (Invertida)",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Pal_Passage_Entrance",
+      "en": "Ancient Pal Passage Entrance",
+      "pt": "Passagem para Pals da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Slanted_Triangular_Roof",
+      "en": "Ancient Slanted Triangular Roof",
+      "pt": "Telhado Inclinado Triangular da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Pyramid_Roof",
+      "en": "Ancient Pyramid Roof",
+      "pt": "Telhado de Pirâmide da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Ancient_Fence",
+      "en": "Ancient Fence",
+      "pt": "Cerca da Civilização Antiga",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "JapaneseStyle_TriangleStairsCorner_02",
+      "en": "JapaneseStyle_TriangleStairsCorner_02",
+      "pt": "pt-BR_Text",
+      "categoria": "Foundations",
+      "categoria_pt": "Construção"
+    },
+    {
+      "chave": "Sandbag",
+      "en": "Sandbag",
+      "pt": "Saco de Areia",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Alarm_Bell",
+      "en": "Alarm Bell",
+      "pt": "Sino de Alarme",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Wooden_Defensive_Wall",
+      "en": "Wooden Defensive Wall",
+      "pt": "Barreira de Madeira",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Wooden_Gate",
+      "en": "Wooden Gate",
+      "pt": "Portão de Madeira",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Hanging_Trap",
+      "en": "Hanging Trap",
+      "pt": "Armadilha de Laço",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Bear_Trap_(Small)",
+      "en": "Bear Trap (Small)",
+      "pt": "Armadilha de Urso (P)",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Defensive_Wall",
+      "en": "Defensive Wall",
+      "pt": "Barreira",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Stone_Gate",
+      "en": "Stone Gate",
+      "pt": "Portão de Pedra",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Bear_Trap_(Large)",
+      "en": "Bear Trap (Large)",
+      "pt": "Armadilha de Urso (G)",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Mounted_Crossbow",
+      "en": "Mounted Crossbow",
+      "pt": "Besta Fixa",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Metal_Defensive_Wall",
+      "en": "Metal Defensive Wall",
+      "pt": "Barreira de Metal",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Iron_Gate",
+      "en": "Iron Gate",
+      "pt": "Portão de Ferro",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Mine",
+      "en": "Mine",
+      "pt": "Mina Terrestre",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Electric_Mine",
+      "en": "Electric Mine",
+      "pt": "Mina Elétrica",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Ice_Mine",
+      "en": "Ice Mine",
+      "pt": "Mina Congelante",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Mounted_Machine_Gun",
+      "en": "Mounted Machine Gun",
+      "pt": "Metralhadora Fixa",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Mounted_Missile_Launcher",
+      "en": "Mounted Missile Launcher",
+      "pt": "Lança-Mísseis Fixo",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Moving_panels",
+      "en": "Moving panels",
+      "pt": "pt-BR_Text",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Ancient_Turret",
+      "en": "Ancient Turret",
+      "pt": "Torre da Civilização Antiga",
+      "categoria": "Defenses",
+      "categoria_pt": "Defesa"
+    },
+    {
+      "chave": "Square_Table",
+      "en": "Square Table",
+      "pt": "Mesa Quadrada",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Round_Table",
+      "en": "Round Table",
+      "pt": "Mesa Redonda",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wooden_Bench",
+      "en": "Wooden Bench",
+      "pt": "Banco de Madeira",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wooden_Stool",
+      "en": "Wooden Stool",
+      "pt": "Banqueta de Madeira",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wooden_Bar_Stool",
+      "en": "Wooden Bar Stool",
+      "pt": "Banqueta Alta de Madeira",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wooden_Chair",
+      "en": "Wooden Chair",
+      "pt": "Cadeira de Madeira",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wooden_Decorative_Wall_Shelf",
+      "en": "Wooden Decorative Wall Shelf",
+      "pt": "Prateleira de Parede Decorativa de Madeira",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wooden_Counter",
+      "en": "Wooden Counter",
+      "pt": "Balcão de Madeira",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Houseplant",
+      "en": "Houseplant",
+      "pt": "Planta Ornamental",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Houseplant_and_Chair",
+      "en": "Houseplant and Chair",
+      "pt": "Planta Ornamental com Banco",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Tabletop_Houseplant",
+      "en": "Tabletop Houseplant",
+      "pt": "Planta Ornamental de Mesa",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Potted_Houseplant",
+      "en": "Potted Houseplant",
+      "pt": "Planta Ornamental de Vaso",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Big_Wall_Ivy",
+      "en": "Big Wall Ivy",
+      "pt": "Trepadeira Grande de Parede",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Small_Wall_Ivy",
+      "en": "Small Wall Ivy",
+      "pt": "Trepadeira Pequena de Parede",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Horizontal_Wall_Ivy",
+      "en": "Horizontal Wall Ivy",
+      "pt": "Trepadeira Horizontal de Parede",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Carpet",
+      "en": "Antique Carpet",
+      "pt": "Tapete Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Red_Carpet",
+      "en": "Antique Red Carpet",
+      "pt": "Tapete Vermelho Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Green_Carpet",
+      "en": "Antique Green Carpet",
+      "pt": "Tapete Verde Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Long_Carpet",
+      "en": "Antique Long Carpet",
+      "pt": "Tapete Comprido Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Wooden_Chair",
+      "en": "Antique Wooden Chair",
+      "pt": "Cadeira de Madeira Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Green_Wooden_Chair",
+      "en": "Antique Green Wooden Chair",
+      "pt": "Cadeira Verde de Madeira Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Stool",
+      "en": "Antique Stool",
+      "pt": "Banqueta Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Rayne_Syndicate_Standard",
+      "en": "Rayne Syndicate Standard",
+      "pt": "Estandarte dos Caçadores Clandestinos",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Rayne_Syndicate_Vertical_Banner",
+      "en": "Rayne Syndicate Vertical Banner",
+      "pt": "Faixa Vertical dos Caçadores Clandestinos",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Greenery_A",
+      "en": "Faux Greenery A",
+      "pt": "Árvore Artificial A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Greenery_B",
+      "en": "Faux Greenery B",
+      "pt": "Árvore Artificial B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Greenery_C",
+      "en": "Faux Greenery C",
+      "pt": "Árvore Artificial C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Bush",
+      "en": "Faux Bush",
+      "pt": "Arbusto Artificial",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Tidy_Round_Table",
+      "en": "Tidy Round Table",
+      "pt": "Mesa Redonda Arrumada",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Tidy_Square_Table",
+      "en": "Tidy Square Table",
+      "pt": "Mesa Quadrada Arrumada",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Desk",
+      "en": "Antique Desk",
+      "pt": "Escrivaninha Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Round_Table",
+      "en": "Antique Round Table",
+      "pt": "Mesa Redonda Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Crimson_Foliage_A",
+      "en": "Faux Crimson Foliage A",
+      "pt": "Árvore Artificial de Folhas Vermelhas A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Crimson_Foliage_B",
+      "en": "Faux Crimson Foliage B",
+      "pt": "Árvore Artificial de Folhas Vermelhas B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Crimson_Foliage_C",
+      "en": "Faux Crimson Foliage C",
+      "pt": "Árvore Artificial de Folhas Vermelhas C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Rock",
+      "en": "Faux Rock",
+      "pt": "Rocha Artificial",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Bathtub",
+      "en": "Antique Bathtub",
+      "pt": "Banheira Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Braided_Basket",
+      "en": "Antique Braided Basket",
+      "pt": "Cesto Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Partition",
+      "en": "Antique Partition",
+      "pt": "Partição Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Towel_Rack",
+      "en": "Antique Towel Rack",
+      "pt": "Porta-Toalha Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Oval_Mirror",
+      "en": "Antique Oval Mirror",
+      "pt": "Espelho Oval Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Mirror",
+      "en": "Antique Mirror",
+      "pt": "Espelho Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Wall_Mirror",
+      "en": "Antique Wall Mirror",
+      "pt": "Espelho de Parede Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Golden_Foliage_A",
+      "en": "Faux Golden Foliage A",
+      "pt": "Árvore Artificial de Folhas Amarelas A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Golden_Foliage_B",
+      "en": "Faux Golden Foliage B",
+      "pt": "Árvore Artificial de Folhas Amarelas B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Golden_Foliage_C",
+      "en": "Faux Golden Foliage C",
+      "pt": "Árvore Artificial de Folhas Amarelas C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Golden_Bush",
+      "en": "Faux Golden Bush",
+      "pt": "Arbusto Artificial de Folhas Amarelas",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Grand_Piano",
+      "en": "Grand Piano",
+      "pt": "Piano de Cauda",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Upright_Piano",
+      "en": "Upright Piano",
+      "pt": "Piano Vertical",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Washstand",
+      "en": "Antique Washstand",
+      "pt": "Pia de Banheiro Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Toilet",
+      "en": "Antique Toilet",
+      "pt": "Vaso Sanitário Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Toilet_Paper_Holder",
+      "en": "Antique Toilet Paper Holder",
+      "pt": "Porta-Papel Higiênico Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Curtain",
+      "en": "Antique Curtain",
+      "pt": "Cortina Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Globe",
+      "en": "Antique Globe",
+      "pt": "Globo Terrestre Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Stove",
+      "en": "Antique Stove",
+      "pt": "Aquecedor Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Armchair",
+      "en": "Antique Armchair",
+      "pt": "Poltrona Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Couch",
+      "en": "Antique Couch",
+      "pt": "Sofá Antigo para Duas Pessoas",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Ottoman",
+      "en": "Antique Ottoman",
+      "pt": "Divã Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Free_Pal_Alliance_Standard",
+      "en": "Free Pal Alliance Standard",
+      "pt": "Estandarte da Associação de Proteção aos Pals",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Free_Pal_Alliance_Vertical_Banner",
+      "en": "Free Pal Alliance Vertical Banner",
+      "pt": "Faixa Vertical da Associação de Proteção aos Pals",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Dresser",
+      "en": "Antique Dresser",
+      "pt": "Penteadeira Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wall_Clock",
+      "en": "Wall Clock",
+      "pt": "Relógio de Parede",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Antique_Grandfather_Clock",
+      "en": "Antique Grandfather Clock",
+      "pt": "Relógio de Pêndulo Antigo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Iron_Chair",
+      "en": "Iron Chair",
+      "pt": "Cadeira de Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Iron_Stool",
+      "en": "Iron Stool",
+      "pt": "Banqueta de Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Round_Iron_Table",
+      "en": "Round Iron Table",
+      "pt": "Mesa Redonda de Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Iron_Desk",
+      "en": "Iron Desk",
+      "pt": "Escrivaninha de Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Bamboo_A",
+      "en": "Faux Bamboo A",
+      "pt": "Bambu Artificial A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Bamboo_B",
+      "en": "Faux Bamboo B",
+      "pt": "Bambu Artificial B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Bamboo_C",
+      "en": "Faux Bamboo C",
+      "pt": "Bambu Artificial C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Flowering_Bush_A",
+      "en": "Faux Flowering Bush A",
+      "pt": "Arbusto Artificial com Flores A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Flowering_Bush_B",
+      "en": "Faux Flowering Bush B",
+      "pt": "Arbusto Artificial com Flores B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Tropical_Greenery_A",
+      "en": "Faux Tropical Greenery A",
+      "pt": "Árvore Tropical Artificial A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Tropical_Greenery_B",
+      "en": "Faux Tropical Greenery B",
+      "pt": "Árvore Tropical Artificial B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Tropical_Greenery_C",
+      "en": "Faux Tropical Greenery C",
+      "pt": "Árvore Tropical Artificial C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Tropical_Bush",
+      "en": "Faux Tropical Bush",
+      "pt": "Arbusto Tropical Artificial",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Brothers_of_the_Eternal_Pyre_Standard",
+      "en": "Brothers of the Eternal Pyre Standard",
+      "pt": "Estandarte dos Amigos da Chama Eterna",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Brothers_of_the_Eternal_Pyre_Vertical_Banner",
+      "en": "Brothers of the Eternal Pyre Vertical Banner",
+      "pt": "Faixa Vertical dos Amigos da Chama Eterna",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Red_Metal_Barrel",
+      "en": "Red Metal Barrel",
+      "pt": "Tonel Vermelho",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Blue_Metal_Barrel",
+      "en": "Blue Metal Barrel",
+      "pt": "Tonel Azul",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Green_Metal_Barrel",
+      "en": "Green Metal Barrel",
+      "pt": "Tonel Verde",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Ironwood_Side_Table",
+      "en": "Ironwood Side Table",
+      "pt": "Mesa de Canto de Pau-Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Ironwood_Table",
+      "en": "Ironwood Table",
+      "pt": "Mesa de Pau-Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Ironwood_Low_Table",
+      "en": "Ironwood Low Table",
+      "pt": "Mesa Baixa de Pau-Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Cable_Reel",
+      "en": "Cable Reel",
+      "pt": "Carretel de Cabo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Garbage_Bag",
+      "en": "Garbage Bag",
+      "pt": "Saco de Lixo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Earthen_Pipe",
+      "en": "Earthen Pipe",
+      "pt": "Cano de Cerâmica",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Tire",
+      "en": "Tire",
+      "pt": "Pneu",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Desert_Greenery_A",
+      "en": "Faux Desert Greenery A",
+      "pt": "Árvore Artificial de Deserto A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Desert_Greenery_B",
+      "en": "Faux Desert Greenery B",
+      "pt": "Árvore Artificial de Deserto B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Desert_Greenery_C",
+      "en": "Faux Desert Greenery C",
+      "pt": "Árvore Artificial de Deserto C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Leather_Chair",
+      "en": "Leather Chair",
+      "pt": "Cadeira de Couro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Leather_Armchair",
+      "en": "Leather Armchair",
+      "pt": "Poltrona de Couro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Leather_Couch",
+      "en": "Leather Couch",
+      "pt": "Sofá de Couro para Duas Pessoas",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Frog_Chair",
+      "en": "Frog Chair",
+      "pt": "Cadeira Sapo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "PIDF_Standard",
+      "en": "PIDF Standard",
+      "pt": "Estandarte da Milícia Popular",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "PIDF_Vertical_Banner",
+      "en": "PIDF Vertical Banner",
+      "pt": "Faixa Vertical da Milícia Popular",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Soccer_Goal",
+      "en": "Soccer Goal",
+      "pt": "Rede de Futebol",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Claw_Crane",
+      "en": "Claw Crane",
+      "pt": "Máquina de Garra",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Cola_Vending_Machine",
+      "en": "Cola Vending Machine",
+      "pt": "Máquina Automática de Refrigerante",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Old_TV",
+      "en": "Old TV",
+      "pt": "Televisão Antiga",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Arcade_Game_Cabinet",
+      "en": "Arcade Game Cabinet",
+      "pt": "Máquina de Fliperama",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Emergency_Exit_Ceiling_Sign",
+      "en": "Emergency Exit Ceiling Sign",
+      "pt": "Placa de Saída de Emergência para Teto",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Emergency_Exit_Wall_Sign",
+      "en": "Emergency Exit Wall Sign",
+      "pt": "Placa de Saída de Emergência para Parede",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Traffic_Cone",
+      "en": "Traffic Cone",
+      "pt": "Cone",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Fat_Traffic_Cone",
+      "en": "Fat Traffic Cone",
+      "pt": "Cone de Trânsito Roliço",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Skinny_Traffic_Cone",
+      "en": "Skinny Traffic Cone",
+      "pt": "Cone de Trânsito Delgado",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Traffic_Light",
+      "en": "Traffic Light",
+      "pt": "Semáforo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "No_Pals_Beyond_Sign",
+      "en": "No Pals Beyond Sign",
+      "pt": "Placa para Proibir Passagem de Pals",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Stop_Sign",
+      "en": "Stop Sign",
+      "pt": "Placa de Parada Obrigatória",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Beware_of_Eikthyrdeer_Sign",
+      "en": "Beware of Eikthyrdeer Sign",
+      "pt": "Placa de Eikthyrdeers na Pista",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Beware_of_Mammorest_Sign",
+      "en": "Beware of Mammorest Sign",
+      "pt": "Placa de Mammorests na Pista",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Barricade",
+      "en": "Barricade",
+      "pt": "Barricada",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Orange_Barricade",
+      "en": "Orange Barricade",
+      "pt": "Barricada Laranja",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Red_Iron_Barricade",
+      "en": "Red Iron Barricade",
+      "pt": "Barricada Vermelha de Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "White_Iron_Barricade",
+      "en": "White Iron Barricade",
+      "pt": "Barricada Branca de Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Iron_Fence",
+      "en": "Iron Fence",
+      "pt": "Cerca de Ferro",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Snowy_Greenery_A",
+      "en": "Faux Snowy Greenery A",
+      "pt": "Árvore Artificial Coberta de Neve A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Snowy_Greenery_B",
+      "en": "Faux Snowy Greenery B",
+      "pt": "Árvore Artificial Coberta de Neve B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Snowy_Greenery_C",
+      "en": "Faux Snowy Greenery C",
+      "pt": "Árvore Artificial Coberta de Neve C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_White_Bush",
+      "en": "Faux White Bush",
+      "pt": "Arbusto Artificial Branco",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "PAL_Genetic_Research_Unit_Standard",
+      "en": "PAL Genetic Research Unit Standard",
+      "pt": "Estandarte da Unidade de Pesquisas Genéticas",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "PAL_Genetic_Research_Unit_Vertical_Banner",
+      "en": "PAL Genetic Research Unit Vertical Banner",
+      "pt": "Faixa Vertical da Unidade de Pesquisas Genéticas",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Folding_Screen",
+      "en": "Folding Screen",
+      "pt": "Biombo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Hanging_Scroll",
+      "en": "Hanging Scroll",
+      "pt": "Pergaminho de parede",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Japanese_Floor_Chair",
+      "en": "Japanese Floor Chair",
+      "pt": "Cadeira sem pernas",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Japanese_Floor_Cushion",
+      "en": "Japanese Floor Cushion",
+      "pt": "Almofada",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Japanese_Hearth",
+      "en": "Japanese Hearth",
+      "pt": "Lareira de chão",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Stone_Lantern",
+      "en": "Stone Lantern",
+      "pt": "Lanterna de pedra",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Deer_Scare",
+      "en": "Deer Scare",
+      "pt": "Fonte de água de bambu",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Bonsai",
+      "en": "Bonsai",
+      "pt": "Bonsai",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Incense_Burner",
+      "en": "Incense Burner",
+      "pt": "Incensário",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Flower_Arrangement",
+      "en": "Flower Arrangement",
+      "pt": "Arranjo floral",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Japanese_Writing_Table",
+      "en": "Japanese Writing Table",
+      "pt": "Escrivaninha",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Moonflower_Standard",
+      "en": "Moonflower Standard",
+      "pt": "Estandarte do Bando das Flores e da Lua",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Moonflower_Vertical_Banner",
+      "en": "Moonflower Vertical Banner",
+      "pt": "Faixa Vertical do Bando das Flores e da Lua",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Cherry_Blossoms_A",
+      "en": "Faux Cherry Blossoms A",
+      "pt": "Cerejeira Artificial A",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Cherry_Blossoms_B",
+      "en": "Faux Cherry Blossoms B",
+      "pt": "Cerejeira Artificial B",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Faux_Cherry_Blossoms_C",
+      "en": "Faux Cherry Blossoms C",
+      "pt": "Cerejeira Artificial C",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Feybreak_Flag",
+      "en": "Feybreak Flag",
+      "pt": "Estandarte do Povo Decaído",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Feybreak_Banner",
+      "en": "Feybreak Banner",
+      "pt": "Faixa Vertical do Povo Decaído",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Frostallion_Statue",
+      "en": "Frostallion Statue",
+      "pt": "Estátua de Frostallion",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Azure_Covenant_Flag",
+      "en": "Azure Covenant Flag",
+      "pt": "Estandarte da Aliança Celeste",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Azure_Covenant_Banner",
+      "en": "Azure Covenant Banner",
+      "pt": "Faixa Vertical da Aliança Celeste",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Jetragon_Statue",
+      "en": "Jetragon Statue",
+      "pt": "Estátua de Jetragon",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Tuppanyan_sticker",
+      "en": "Tuppanyan sticker",
+      "pt": "pt-BR_Text",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Fur_rug",
+      "en": "Fur rug",
+      "pt": "pt-BR_Text",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wire_Fence",
+      "en": "Wire Fence",
+      "pt": "Cerca de Arame",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Lyleen_Statue",
+      "en": "Lyleen Statue",
+      "pt": "Estátua de Lyleen",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Free_Pal_Alliance_Flag",
+      "en": "Free Pal Alliance Flag",
+      "pt": "Bandeira da Associação de Proteção aos Pals",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Free_Pal_Alliance_Horizontal_Banner",
+      "en": "Free Pal Alliance Horizontal Banner",
+      "pt": "Faixa da Associação de Proteção aos Pals",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Rayne_Syndicate_Flag",
+      "en": "Rayne Syndicate Flag",
+      "pt": "Bandeira dos Caçadores Clandestinos",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Aerial_Cage",
+      "en": "Aerial Cage",
+      "pt": "Jaula Vazia",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Wooden_Barricade",
+      "en": "Wooden Barricade",
+      "pt": "Barricada de Madeira",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Laboratory_Desk",
+      "en": "Laboratory Desk",
+      "pt": "Escrivaninha de Laboratório",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Laboratory_Chair",
+      "en": "Laboratory Chair",
+      "pt": "Cadeira de Laboratório",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Yakumo_Statue",
+      "en": "Yakumo Statue",
+      "pt": "Estátua de Yakumo",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Moon_Lord_Statue",
+      "en": "Moon Lord Statue",
+      "pt": "Estátua do Senhor da Lua",
+      "categoria": "Furniture",
+      "categoria_pt": "Mobília"
+    },
+    {
+      "chave": "Sign",
+      "en": "Sign",
+      "pt": "Placa",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Wall-Mounted_Sign",
+      "en": "Wall-Mounted Sign",
+      "pt": "Placa de Parede",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Training_Dummy",
+      "en": "Training Dummy",
+      "pt": "Boneco de Pancada",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Tombstone",
+      "en": "Tombstone",
+      "pt": "Lápide",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Large_Toolbox",
+      "en": "Large Toolbox",
+      "pt": "Caixa de Ferramentas Grande",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Flame_Cauldron",
+      "en": "Flame Cauldron",
+      "pt": "Pira da Chama Sagrada",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Flea_Market_(Items)",
+      "en": "Flea Market (Items)",
+      "pt": "Mercado de Pulgas (Itens)",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Flea_Market_(Pals)",
+      "en": "Flea Market (Pals)",
+      "pt": "Mercado de Pulgas (Pals)",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Water_Fountain",
+      "en": "Water Fountain",
+      "pt": "Chafariz",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Flower_Bed",
+      "en": "Flower Bed",
+      "pt": "Canteiro de Flores",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Silo",
+      "en": "Silo",
+      "pt": "Silo",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Stump_and_Axe",
+      "en": "Stump and Axe",
+      "pt": "Toco e Machado",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Pickaxe_and_Helmet",
+      "en": "Pickaxe and Helmet",
+      "pt": "Picareta e Capacete",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Witch_Cauldron",
+      "en": "Witch Cauldron",
+      "pt": "Caldeirão de Bruxa",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Snowman",
+      "en": "Snowman",
+      "pt": "Boneco de Neve",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Alpha_Wave_Generator",
+      "en": "Alpha Wave Generator",
+      "pt": "Emissor de Ondas Alfa",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Beta_Wave_Generator",
+      "en": "Beta Wave Generator",
+      "pt": "Emissor de Ondas Beta",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "Electric_Pylon",
+      "en": "Electric Pylon",
+      "pt": "Torre de Transmissão",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    },
+    {
+      "chave": "WoodCreator",
+      "en": "WoodCreator",
+      "pt": "pt-BR_Text",
+      "categoria": "Other",
+      "categoria_pt": "Outros"
+    }
+  ]
+}
