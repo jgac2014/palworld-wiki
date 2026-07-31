@@ -13,6 +13,7 @@ import { getCollection } from 'astro:content';
 import catalogo from '../../data/catalogo.json';
 import curadoria from '../../data/pals.json';
 import { termo, ui, rotuloApt } from '../../lib/termos.js';
+import { quemTem } from '../../lib/progresso.js';
 
 const REPO = 'https://github.com/nederreis/PalCrew';
 
@@ -73,6 +74,9 @@ const aptidoes = Object.entries(pal.apt || {}).sort((a, b) => b[1] - a[1]);
 // Os onze Pals de colaboração não têm número de Palpédia, e imprimir "#null"
 // é pior que não imprimir nada. São também os únicos com nome diferente nos
 // dois idiomas, então é neles que a linha dos dois nomes aparece.
+// Overlay do progresso. Só entra no HTML de quem realmente aparece num save
+// lido: as outras 288 fichas não carregam nada nosso, nem escondido.
+const posse = quemTem(pal.en);
 const dosDoisIdiomas = pal.pt !== pal.en;
 const carimbo = (l) => [
   pal.numero ? `${termo('paldeck', l)} #${pal.numero}` : null,
@@ -86,6 +90,23 @@ const carimbo = (l) => [
   <article data-pagefind-body>
     <h1 data-rot-pt={pal.pt} data-rot-en={pal.en}>{pal.pt}</h1>
     {carimbo('pt') && <div class="carimbo" data-rot-pt={carimbo('pt')} data-rot-en={carimbo('en')}>{carimbo('pt')}</div>}
+
+    {posse.length > 0 ? (
+      <p class="posse">
+        {posse.map((p) => (
+          <span class="marca-posse so-com-progresso" data-lido-em={p.lido_em}>
+            <span aria-hidden="true">✓</span>{' '}
+            <span data-rot-pt={ui(p.onde === 'squad' ? 'posse_squad' : 'posse_palbox', 'pt')} data-rot-en={ui(p.onde === 'squad' ? 'posse_squad' : 'posse_palbox', 'en')}>{ui(p.onde === 'squad' ? 'posse_squad' : 'posse_palbox', 'pt')}</span>
+            {' '}{p.pessoa}{p.nivel ? <>, <span data-rot-pt={ui('posse_nivel', 'pt')} data-rot-en={ui('posse_nivel', 'en')}>{ui('posse_nivel', 'pt')}</span> {p.nivel}</> : null}
+          </span>
+        ))}
+        <span class="marca-posse vencida so-vencido" data-lido-em={posse[0].lido_em}>
+          <span data-rot-pt={ui('posse_vencido', 'pt')} data-rot-en={ui('posse_vencido', 'en')}>{ui('posse_vencido', 'pt')}</span>
+        </span>
+      </p>
+    ) : (
+      <p class="posse so-sem-registro" data-rot-pt={ui('posse_sem_registro', 'pt')} data-rot-en={ui('posse_sem_registro', 'en')}>{ui('posse_sem_registro', 'pt')}</p>
+    )}
 
     {pal.elementos?.length > 0 && (
       <p class="elementos">
@@ -153,6 +174,13 @@ const carimbo = (l) => [
 </Base>
 
 <style>
+  .posse { margin: 12px 0 0; font-family: var(--sans); font-size: 13px; }
+  .marca-posse {
+    display: inline-block; padding: 3px 10px; margin: 0 6px 4px 0;
+    border: 1px solid var(--acento-2); border-radius: 20px; color: var(--acento-2);
+  }
+  .marca-posse.vencida { border-color: var(--linha); color: var(--apagado); }
+  .so-sem-registro { color: var(--apagado); }
   .elementos { display: flex; gap: 7px; flex-wrap: wrap; margin: 14px 0 4px; }
   .elemento {
     font-family: var(--sans); font-size: 12px; padding: 2px 9px;

@@ -36,7 +36,7 @@ const rotCoord = {
 
     <div id="filtros" class="filtros">
       {categorias.map(([chave, cat]) => (
-        <label class="filtro">
+        <label class={`filtro${cat.nosso ? ' so-com-progresso' : ''}`}>
           <input type="checkbox" value={chave} checked />
           <span class="ponto" style={`background:${cat.cor}`}></span>
           <span data-rot-pt={rotCat(chave, cat.nome).pt} data-rot-en={rotCat(chave, cat.nome).en}>{rotCat(chave, cat.nome).pt}</span>
@@ -174,7 +174,20 @@ const rotCoord = {
 
     // --- marcadores por categoria ---
     const camadas = {};
-    for (const chave of Object.keys(categorias)) camadas[chave] = L.layerGroup().addTo(mapa);
+    for (const chave of Object.keys(categorias)) camadas[chave] = L.layerGroup();
+
+    // Categoria marcada como nossa no JSON é Camada 2: só entra no mapa com o
+    // overlay ligado. Desligado, o mapa é o mapa do jogo e mais nada.
+    const nossas = Object.keys(categorias).filter((c) => categorias[c].nosso);
+    function aplicarOverlay() {
+      const ligado = document.documentElement.hasAttribute('data-progresso');
+      for (const [chave, camada] of Object.entries(camadas)) {
+        const caixa = document.querySelector(`#filtros input[value="${chave}"]`);
+        const deve = (!nossas.includes(chave) || ligado) && (caixa ? caixa.checked : true);
+        if (deve) mapa.addLayer(camada); else mapa.removeLayer(camada);
+      }
+    }
+    document.addEventListener('progresso:mudou', aplicarOverlay);
 
     for (const m of marcadores) {
       const cat = categorias[m.categoria] || { cor: '#999', nome: m.categoria };
@@ -198,12 +211,9 @@ const rotCoord = {
 
     // --- filtros ---
     document.querySelectorAll('#filtros input').forEach((cx) => {
-      cx.addEventListener('change', () => {
-        const camada = camadas[cx.value];
-        if (!camada) return;
-        cx.checked ? mapa.addLayer(camada) : mapa.removeLayer(camada);
-      });
+      cx.addEventListener('change', aplicarOverlay);
     });
+    aplicarOverlay();
 
     // --- leitura de coordenada ---
     // Guarda os dois idiomas junto do texto: sem isso, trocar de idioma depois

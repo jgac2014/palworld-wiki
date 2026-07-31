@@ -1,0 +1,97 @@
+---
+/**
+ * O interruptor do overlay, a ponte entre as duas camadas do PRD.
+ *
+ * Desligado, o site é uma wiki normal e completa. Ligado, ele passa a dizer o
+ * que já temos por cima do dado do jogo. A escolha persiste como a de idioma.
+ *
+ * Duas regras que a implementação precisa continuar respeitando:
+ *
+ * 1. O overlay é ADIÇÃO, nunca requisito. Tudo que ele mostra nasce escondido
+ *    por CSS, então sem JavaScript o site continua sendo a wiki inteira.
+ * 2. Comparação alimentada por save vencido não aparece. A conta é feita no
+ *    navegador, na hora de olhar, e não no build: um site publicado há vinte
+ *    dias não pode continuar afirmando o que era verdade no dia do build.
+ */
+import { ui } from '../lib/termos.js';
+import { DIAS_ATE_VENCER } from '../lib/progresso.js';
+---
+
+<div class="progresso" role="group" aria-label={ui('progresso_rotulo', 'pt')}>
+  <span class="rotulo" data-rot-pt={ui('progresso_rotulo', 'pt')} data-rot-en={ui('progresso_rotulo', 'en')}>{ui('progresso_rotulo', 'pt')}</span>
+  <button type="button" id="alternar-progresso" aria-pressed="false">
+    <span
+      class="texto"
+      data-rot-pt={ui('progresso_on', 'pt')}
+      data-rot-en={ui('progresso_on', 'en')}
+      data-on-pt={ui('progresso_off', 'pt')}
+      data-on-en={ui('progresso_off', 'en')}
+      data-off-pt={ui('progresso_on', 'pt')}
+      data-off-en={ui('progresso_on', 'en')}
+    >{ui('progresso_on', 'pt')}</span>
+  </button>
+</div>
+
+<style>
+  .progresso { padding: 4px 20px 12px; }
+  .rotulo {
+    display: block; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--apagado); margin-bottom: 6px; font-family: var(--sans);
+  }
+  #alternar-progresso {
+    background: transparent; border: 1px solid var(--linha); border-radius: 3px;
+    color: var(--apagado); cursor: pointer; padding: 5px 14px;
+    font-size: 12px; font-weight: 600; font-family: var(--sans);
+    letter-spacing: .06em; transition: .12s; width: 100%; text-align: left;
+  }
+  #alternar-progresso:hover { color: var(--texto); background: #20241a; }
+  #alternar-progresso[aria-pressed="true"] { background: var(--acento-2); color: #12140f; border-color: var(--acento-2); }
+</style>
+
+<script define:vars={{ DIAS_ATE_VENCER }}>
+  const CHAVE = 'palworld-wiki-progresso';
+
+  function aplicar(ligado) {
+    document.documentElement.toggleAttribute('data-progresso', ligado);
+    const botao = document.getElementById('alternar-progresso');
+    if (botao) {
+      botao.setAttribute('aria-pressed', String(ligado));
+      const texto = botao.querySelector('.texto');
+      // O rótulo diz a AÇÃO, não o estado: ligado, o botão oferece esconder.
+      const par = ligado ? ['onPt', 'onEn'] : ['offPt', 'offEn'];
+      texto.dataset.rotPt = texto.dataset[par[0]];
+      texto.dataset.rotEn = texto.dataset[par[1]];
+      texto.textContent = document.documentElement.dataset.idioma === 'en'
+        ? texto.dataset.rotEn : texto.dataset.rotPt;
+    }
+    try { localStorage.setItem(CHAVE, ligado ? '1' : '0'); } catch {}
+    document.dispatchEvent(new CustomEvent('progresso:mudou', { detail: { ligado } }));
+  }
+
+  /**
+   * Save lido há mais de DIAS_ATE_VENCER dias some da tela e é substituído
+   * pelo aviso de desatualizado. Vazio honesto vale mais que número velho.
+   */
+  function esconderVencidos() {
+    const agora = Date.now();
+    document.querySelectorAll('[data-lido-em]').forEach((el) => {
+      const dias = Math.floor((agora - new Date(el.dataset.lidoEm).getTime()) / 86400000);
+      el.toggleAttribute('data-vencido', !Number.isNaN(dias) && dias > DIAS_ATE_VENCER);
+    });
+  }
+
+  function inicial() {
+    try {
+      const salvo = localStorage.getItem(CHAVE);
+      if (salvo === '1' || salvo === '0') return salvo === '1';
+    } catch {}
+    return false; // a wiki é o padrão: quem chega de fora não vê o nosso save
+  }
+
+  document.getElementById('alternar-progresso')?.addEventListener('click', () => {
+    aplicar(!document.documentElement.hasAttribute('data-progresso'));
+  });
+
+  esconderVencidos();
+  aplicar(inicial());
+</script>

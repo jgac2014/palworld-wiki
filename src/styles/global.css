@@ -65,6 +65,28 @@ body {
   border-bottom: 1px solid var(--linha);
   margin-bottom: 12px;
 }
+/* O overlay do nosso progresso, a ponte entre as duas camadas.
+
+   Nasce escondido e só o JavaScript liga. É de propósito: sem script o site
+   continua sendo a wiki completa, e o overlay nunca vira requisito. Fica em
+   CSS, e não no atributo [hidden] do HTML, que já foi vencido por
+   display:flex uma vez neste repositório.
+
+   A regra só ESCONDE, nunca manda mostrar, e isso custou um teste vermelho
+   para aprender: a primeira versão fazia `display: none` sem estado e
+   `display: revert` com ele, e o `display: inline-block` do componente, que
+   o Astro escopa com atributo e portanto tem especificidade maior, vencia o
+   none e vazava o nosso save com o overlay desligado. Do jeito atual, com o
+   overlay ligado não existe regra nenhuma daqui e cada componente usa o
+   display que quiser. O !important é para ganhar de qualquer componente
+   futuro: vazar o nosso save é pior que um estilo teimoso. */
+html:not([data-progresso]) .so-com-progresso,
+html:not([data-progresso]) .so-sem-registro,
+html:not([data-progresso]) .so-vencido { display: none !important; }
+/* Save vencido: some a comparação e entra o aviso, nunca os dois */
+html[data-progresso] .so-com-progresso[data-vencido] { display: none !important; }
+html[data-progresso] .so-vencido:not([data-vencido]) { display: none !important; }
+
 /* As duas metades do site, decisão 3.0 do PRD. O título de camada é mais forte
    que o de grupo de propósito: quem chega de fora precisa perceber que passou
    da wiki para o nosso save, e não descobrir isso pelo conteúdo da página. */

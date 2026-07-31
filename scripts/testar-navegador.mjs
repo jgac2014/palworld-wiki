@@ -275,6 +275,42 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   const alcancaveis = DA_CAMADA_2.filter((rota) => daSecao.some((h) => h.includes(rota)));
   conferir(alcancaveis.length >= 2, 'a seção do nosso mundo dá acesso às páginas dela', `alcançou ${alcancaveis.length}`);
 
+  // 8. o overlay do progresso é adição, nunca requisito.
+  //    Decisão 3.0 do PRD. Desligado, a Camada 1 não mostra nada do nosso
+  //    save; ligado, mostra. E sem JavaScript continua sendo a wiki inteira,
+  //    que é o motivo de o overlay nascer escondido por CSS e não por
+  //    atributo: [hidden] já foi vencido por display:flex aqui uma vez.
+  const doNossoSave = () => pagina.evaluate(() =>
+    [...document.querySelectorAll('.so-com-progresso, .so-sem-registro')]
+      .filter((el) => el.getBoundingClientRect().height > 0).length);
+
+  await pagina.goto(`${base}/pal/anubis/`);
+  await pagina.waitForTimeout(200);
+  const desligado = await doNossoSave();
+  await pagina.locator('#alternar-progresso').click();
+  await pagina.waitForTimeout(200);
+  const ligado = await doNossoSave();
+  conferir(desligado === 0 && ligado > 0, 'o overlay do progresso liga e desliga o nosso save', `${desligado} visíveis desligado, ${ligado} ligado`);
+
+  // A escolha atravessa páginas, como o idioma.
+  await pagina.goto(`${base}/pal/mozzarina/`);
+  await pagina.waitForTimeout(200);
+  const persistiu = await pagina.evaluate(() => document.documentElement.hasAttribute('data-progresso'));
+  conferir(persistiu, 'a escolha do overlay persiste entre páginas');
+
+  // Sem JavaScript o overlay não existe, e a wiki continua inteira.
+  const semJs = await navegador.newContext({ javaScriptEnabled: false });
+  const pagSemJs = await semJs.newPage();
+  await pagSemJs.goto(`${base}/pal/anubis/`);
+  const vazandoSemJs = await pagSemJs.evaluate(() =>
+    [...document.querySelectorAll('.so-com-progresso, .so-sem-registro')]
+      .filter((el) => el.getBoundingClientRect().height > 0).length);
+  const fichaInteira = await pagSemJs.evaluate(() => document.querySelectorAll('.apt-barra').length);
+  await semJs.close();
+  conferir(vazandoSemJs === 0 && fichaInteira > 0, 'sem JavaScript o site é a wiki completa e sem overlay', `${vazandoSemJs} do save visíveis, ${fichaInteira} barras de aptidão`);
+
+  await pagina.evaluate(() => localStorage.removeItem('palworld-wiki-progresso'));
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 }

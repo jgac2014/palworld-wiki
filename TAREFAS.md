@@ -164,7 +164,7 @@ esbarra na segunda sem querer.
   encontra nada: a home da wiki não menciona o nosso save.
 - As páginas do nosso mundo continuam acessíveis pela seção própria.
 
-### [ ] E3 — Interruptor de overlay do progresso
+### [x] E3 — Interruptor de overlay do progresso
 
 **Requisito:** 3.0 do PRD
 **Território:** código e visual

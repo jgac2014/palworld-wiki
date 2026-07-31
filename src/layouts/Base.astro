@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Search from 'astro-pagefind/components/Search.astro';
 import Chat from '../components/Chat.astro';
 import SeletorIdioma from '../components/SeletorIdioma.astro';
+import SeletorProgresso from '../components/SeletorProgresso.astro';
 import { ui } from '../lib/termos.js';
 import '../styles/global.css';
 
@@ -91,6 +92,7 @@ const REPO = 'https://github.com/nederreis/PalCrew';
     ))}
 
     <div class="camada" data-rot-pt={ui('nav_camada_mundo', 'pt')} data-rot-en={ui('nav_camada_mundo', 'en')}>{ui('nav_camada_mundo', 'pt')}</div>
+    <SeletorProgresso />
     <a
       class="item"
       href={`${base}/nosso-mundo`}

@@ -46,6 +46,7 @@
   },
   "categorias": {
     "base": {
+      "nosso": true,
       "nome": "Nossas bases",
       "cor": "#8fbf6a"
     },
