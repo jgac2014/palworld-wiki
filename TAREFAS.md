@@ -316,7 +316,7 @@ dependência dele destravar. Até lá, preenchimento manual pelas telas.
 - Save individual com `lido_em` mais velho que 14 dias gera AVISO, não erro: é o gatilho para o
   site esconder comparação desatualizada em vez de mentir.
 
-### [ ] D2 — Painel do save na seção do nosso mundo
+### [x] D2 — Painel do save na seção do nosso mundo
 
 **Requisito:** R5.1
 **Território:** código e visual

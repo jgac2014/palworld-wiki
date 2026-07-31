@@ -29,7 +29,7 @@ const guias = paginas.filter((p) => p.data.camada !== 'nosso-mundo');
 const doNossoMundo = paginas.filter((p) => p.data.camada === 'nosso-mundo');
 // As páginas do nosso mundo só aparecem no menu de dentro da própria seção.
 // De fora, quem chegou pelo Google vê a porta, não o conteúdo do nosso save.
-const naSecao = eh(`${base}/nosso-mundo`) || doNossoMundo.some((p) => eh(`${base}/${p.id}`));
+const naSecao = eh(`${base}/nosso-mundo`) || eh(`${base}/painel`) || doNossoMundo.some((p) => eh(`${base}/${p.id}`));
 
 const REPO = 'https://github.com/nederreis/PalCrew';
 ---
@@ -109,6 +109,15 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       data-rot-pt={ui('mundo_visao', 'pt')}
       data-rot-en={ui('mundo_visao', 'en')}
     >{ui('mundo_visao', 'pt')}</a>
+    {naSecao && (
+      <a
+        class="item"
+        href={`${base}/painel`}
+        aria-current={eh(`${base}/painel`) ? 'page' : undefined}
+        data-rot-pt={ui('painel_titulo', 'pt')}
+        data-rot-en={ui('painel_titulo', 'en')}
+      >{ui('painel_titulo', 'pt')}</a>
+    )}
     {naSecao && doNossoMundo.map((p) => (
       <a
         class="item"

@@ -6,8 +6,9 @@
  * O menu da Camada 1 aponta para cá e só para cá; as páginas do nosso mundo
  * aparecem no menu depois que o leitor entrou, por escolha dele.
  *
- * Quando a D2 criar o painel, ele vira a página de destaque desta seção. Até
- * lá, esta é a lista.
+ * O painel da D2 é a página de destaque daqui: ele responde "onde estamos
+ * agora" com número, e as páginas de prosa comentam esse estado sem repetir
+ * os números dele.
  */
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
@@ -24,6 +25,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <p class="subtitulo" data-rot-pt={ui('mundo_sub', 'pt')} data-rot-en={ui('mundo_sub', 'en')}>{ui('mundo_sub', 'pt')}</p>
 
     <div class="blocos">
+      <a class="bloco" href={`${base}/painel`}>
+        <div class="t" data-rot-pt={ui('painel_titulo', 'pt')} data-rot-en={ui('painel_titulo', 'en')}>{ui('painel_titulo', 'pt')}</div>
+        <div class="d" data-rot-pt={ui('painel_sub', 'pt')} data-rot-en={ui('painel_sub', 'en')}>{ui('painel_sub', 'pt')}</div>
+      </a>
       {doNossoMundo.map((p) => (
         <a class="bloco" href={`${base}/${p.id}`}>
           <div class="t" data-rot-pt={p.data.titulo} data-rot-en={p.data.titulo_en || p.data.titulo}>{p.data.titulo}</div>

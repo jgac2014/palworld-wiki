@@ -1,0 +1,142 @@
+---
+/**
+ * Painel do save, a home da SEÇÃO do nosso mundo (R5.1).
+ *
+ * Não é a home do site: a decisão 3.0 do PRD manda a wiki abrir a porta e o
+ * nosso save ficar do outro lado dela. Quem chega pelo Google nunca cai aqui
+ * sem querer.
+ *
+ * Regra dura desta página: nenhum número escrito no .astro. Tudo vem de
+ * guilda.json (o que o jogo compartilha em co-op) e de saves/<nome>.json (o
+ * que é de cada um). Trocar um valor no JSON muda o painel sem tocar em
+ * componente, que é o critério de aceite da D2. As pessoas entram por
+ * import.meta.glob no progresso.js, então acrescentar alguém é criar o arquivo.
+ *
+ * Gravidade nunca é só cor, por R5.7: cada gargalo carrega símbolo próprio e
+ * o nome da gravidade escrito, e a cor é a terceira camada, não a primeira.
+ */
+import Base from '../layouts/Base.astro';
+import { GUILDA, SAVES } from '../lib/progresso.js';
+import { ui } from '../lib/termos.js';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+/** Devolve a string da moldura nos dois idiomas, com o número já no lugar. */
+const rot = (chave, valor = '') => ({
+  pt: ui(chave, 'pt').replace('{n}', String(valor)),
+  en: ui(chave, 'en').replace('{n}', String(valor)),
+});
+
+const dia = (iso) => (iso ? iso.split('-').reverse().join('.') : '');
+const pct = (v, de) => (de > 0 ? Math.round((v / de) * 100) : 0);
+
+const torres = GUILDA.torres || {};
+
+// Um medidor da guilda e três de cada pessoa que tem save lido. Com uma pessoa
+// são os quatro do protótipo; com quatro pessoas a fileira cresce sozinha.
+const medidores = [
+  {
+    rotulo: rot('painel_kpi_torres'),
+    valor: torres.derrotadas ?? 0,
+    de: torres.total ?? 0,
+    obs: rot('painel_obs_faltam', (torres.total ?? 0) - (torres.derrotadas ?? 0)),
+    lido_em: GUILDA.lido_em,
+  },
+  ...SAVES.flatMap((s) => {
+    const caixa = s.palbox || {};
+    const deck = s.paldeck || {};
+    return [
+      {
+        rotulo: rot('painel_kpi_nivel', s.nome),
+        valor: s.nivel ?? 0,
+        de: s.nivel_max ?? 0,
+        obs: rot('painel_obs_niveis', (s.nivel_max ?? 0) - (s.nivel ?? 0)),
+        lido_em: s.lido_em,
+      },
+      {
+        rotulo: rot('painel_kpi_paldeck', s.nome),
+        valor: deck.registrados ?? 0,
+        de: deck.total ?? 0,
+        obs: rot('painel_obs_pct', pct(deck.registrados ?? 0, deck.total ?? 0)),
+        lido_em: s.lido_em,
+      },
+      {
+        rotulo: rot('painel_kpi_palbox', s.nome),
+        valor: caixa.guardados ?? 0,
+        de: caixa.capacidade ?? 0,
+        obs: rot('painel_obs_livre', (caixa.capacidade ?? 0) - (caixa.guardados ?? 0)),
+        lido_em: s.lido_em,
+      },
+    ];
+  }),
+];
+
+// O símbolo separa as quatro gravidades sem depender de cor nenhuma, e por
+// isso "sério" e "atenção" não podem compartilhar o mesmo sinal.
+const SINAL = { critico: '✕', serio: '!!', atencao: '!', bom: '✓' };
+const gargalos = (GUILDA.gargalos || []).map((g) => ({
+  ...g,
+  sinal: SINAL[g.gravidade] || '?',
+  nome: rot(`gravidade_${g.gravidade}`),
+}));
+
+const carimbo = rot('painel_carimbo', dia(GUILDA.lido_em));
+---
+<Base titulo={ui('painel_titulo', 'pt')} descricao={ui('painel_sub', 'pt')}>
+  <article>
+    <h1 data-rot-pt={ui('painel_titulo', 'pt')} data-rot-en={ui('painel_titulo', 'en')}>{ui('painel_titulo', 'pt')}</h1>
+    <p class="subtitulo" data-rot-pt={ui('painel_sub', 'pt')} data-rot-en={ui('painel_sub', 'en')}>{ui('painel_sub', 'pt')}</p>
+    <div class="carimbo" data-rot-pt={carimbo.pt} data-rot-en={carimbo.en}>{carimbo.pt}</div>
+
+    <h2 data-rot-pt={ui('painel_agora', 'pt')} data-rot-en={ui('painel_agora', 'en')}>{ui('painel_agora', 'pt')}</h2>
+
+    <div class="kpis">
+      {medidores.map((m) => (
+        <div class="kpi" data-lido-em={m.lido_em}>
+          <div class="rot" data-rot-pt={m.rotulo.pt} data-rot-en={m.rotulo.en}>{m.rotulo.pt}</div>
+          <div class="num">{m.valor}<small> / {m.de}</small></div>
+          <div class="medidor"><i style={`width:${pct(m.valor, m.de)}%`}></i></div>
+          <div class="obs">
+            <span data-rot-pt={m.obs.pt} data-rot-en={m.obs.en}>{m.obs.pt}</span>
+            {' · '}
+            <span
+              data-rot-pt={rot('painel_lido_em', dia(m.lido_em)).pt}
+              data-rot-en={rot('painel_lido_em', dia(m.lido_em)).en}
+            >{rot('painel_lido_em', dia(m.lido_em)).pt}</span>
+          </div>
+          <div
+            class="vencido"
+            data-rot-pt={ui('painel_desatualizado', 'pt')}
+            data-rot-en={ui('painel_desatualizado', 'en')}
+          >{ui('painel_desatualizado', 'pt')}</div>
+        </div>
+      ))}
+    </div>
+
+    {SAVES.length === 0 && (
+      <p data-rot-pt={ui('painel_sem_save', 'pt')} data-rot-en={ui('painel_sem_save', 'en')}>{ui('painel_sem_save', 'pt')}</p>
+    )}
+
+    <h2 data-rot-pt={ui('painel_travando', 'pt')} data-rot-en={ui('painel_travando', 'en')}>{ui('painel_travando', 'pt')}</h2>
+
+    {gargalos.length === 0 ? (
+      <p data-rot-pt={ui('painel_sem_gargalo', 'pt')} data-rot-en={ui('painel_sem_gargalo', 'en')}>{ui('painel_sem_gargalo', 'pt')}</p>
+    ) : (
+      <div class="gargalos">
+        {gargalos.map((g) => (
+          <div class={`gargalo g-${g.gravidade}`}>
+            <span class="sinal" aria-hidden="true">{g.sinal}</span>
+            <div>
+              <span class="nome" data-rot-pt={g.nome.pt} data-rot-en={g.nome.en}>{g.nome.pt}</span>
+              <b>{g.titulo}</b>
+              <span class="d">{g.explicacao}</span>
+              {g.pagina && (
+                <a href={`${base}${g.pagina}`} data-rot-pt={ui('painel_resolve', 'pt')} data-rot-en={ui('painel_resolve', 'en')}>{ui('painel_resolve', 'pt')}</a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </article>
+</Base>

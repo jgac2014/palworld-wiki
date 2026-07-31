@@ -290,6 +290,50 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   const alcancaveis = DA_CAMADA_2.filter((rota) => daSecao.some((h) => h.includes(rota)));
   conferir(alcancaveis.length >= 2, 'a seção do nosso mundo dá acesso às páginas dela', `alcançou ${alcancaveis.length}`);
 
+  // 7b. o painel do nosso mundo mostra o que está no JSON, e não um número
+  //     digitado no .astro. É o critério de aceite da D2, e é a única forma de
+  //     saber que trocar um valor no arquivo muda a tela: o teste compara os
+  //     medidores desenhados com os arquivos de dados, um por um.
+  const guilda = JSON.parse(await readFile(join(raiz, 'src/data/guilda.json'), 'utf-8'));
+  const saves = [];
+  for (const arq of await readdir(join(raiz, 'src/data/saves'))) {
+    if (arq.endsWith('.json')) saves.push(JSON.parse(await readFile(join(raiz, 'src/data/saves', arq), 'utf-8')));
+  }
+  const esperados = [
+    [guilda.torres.derrotadas, guilda.torres.total],
+    ...saves.flatMap((s) => [
+      [s.nivel, s.nivel_max],
+      [s.paldeck.registrados, s.paldeck.total],
+      [s.palbox.guardados, s.palbox.capacidade],
+    ]),
+  ].map(([v, de]) => `${v}/${de}`);
+
+  await pagina.goto(`${base}/painel/`);
+  await pagina.waitForTimeout(200);
+  const medidos = await pagina.evaluate(() =>
+    [...document.querySelectorAll('.kpi')].map((k) => k.querySelector('.num').textContent.replace(/\s+/g, '')));
+  const faltando = esperados.filter((e) => !medidos.includes(e));
+  conferir(
+    medidos.length === esperados.length && faltando.length === 0,
+    'o painel mostra os números do JSON, não do componente',
+    `${medidos.length} medidores para ${esperados.length} esperados; sem par no JSON: ${faltando.join(', ') || 'nenhum'}`,
+  );
+
+  // Gravidade nunca é só cor, por R5.7: cada gargalo precisa de símbolo E do
+  // nome da gravidade escrito. Cor sozinha some no daltonismo e no preto e
+  // branco, e some inteira para quem usa leitor de tela.
+  const sinais = await pagina.evaluate(() =>
+    [...document.querySelectorAll('.gargalo')].map((g) => ({
+      simbolo: g.querySelector('.sinal')?.textContent.trim() || '',
+      nome: g.querySelector('.nome')?.textContent.trim() || '',
+    })));
+  const semSinal = sinais.filter((s) => !s.simbolo || !s.nome);
+  conferir(
+    sinais.length === (guilda.gargalos || []).length && semSinal.length === 0,
+    'gargalo tem símbolo e texto, não só cor',
+    `${sinais.length} cartões para ${(guilda.gargalos || []).length} gargalos, ${semSinal.length} sem símbolo ou sem nome`,
+  );
+
   // 8. escolher uma aptidão no banco de Pals ordena por ela.
   //    R5.4 do PRD: a pergunta é "qual o melhor de Garimpo", não "quais
   //    existem". Uma lista filtrada em ordem alfabética responde a segunda e

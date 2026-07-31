@@ -259,6 +259,52 @@ tbody tr:hover td { background: #1a1e16; }
 .numero .n { font-size: 30px; color: var(--acento); line-height: 1.1; }
 .numero .l { font-size: 10.5px; color: var(--apagado); text-transform: uppercase; letter-spacing: .14em; font-family: var(--sans); margin-top: 6px; }
 
+/* ---------- painel do save, seção do nosso mundo ----------
+   Mora aqui e não escopado na página porque o pacote offline só embute o CSS
+   que a casca referencia. Estilo de página nova em <style> escopado chegaria
+   ao site e sumiria do arquivo de um HTML só, sem ninguém perceber. */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)); gap: 12px; margin: 20px 0 0; font-family: var(--sans); }
+.kpi { background: var(--cartao); border: 1px solid var(--linha); border-radius: 3px; padding: 15px 16px 14px; }
+.kpi .rot { font-size: 11.5px; color: var(--texto-2); letter-spacing: .04em; }
+.kpi .num { font-family: var(--serif); font-size: 34px; line-height: 1.05; margin: 5px 0 3px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.kpi .num small { font-size: 16px; color: var(--apagado); font-family: var(--sans); }
+.medidor { height: 5px; background: var(--fundo); border-radius: 3px; overflow: hidden; margin-top: 9px; }
+.medidor i { display: block; height: 100%; border-radius: 3px; background: var(--acento); }
+.kpi .obs { font-size: 11.5px; color: var(--apagado); margin-top: 7px; line-height: 1.5; }
+
+/* Save vencido: o número velho perde o destaque e o aviso entra no lugar da
+   observação. Quem marca [data-vencido] é o SeletorProgresso, no navegador e
+   não no build: site publicado há vinte dias não pode afirmar o que era
+   verdade no dia em que foi gerado. */
+.kpi .vencido { display: none; font-size: 11.5px; color: var(--atencao); margin-top: 7px; line-height: 1.5; }
+.kpi[data-vencido] .vencido { display: block; }
+.kpi[data-vencido] .obs { display: none; }
+.kpi[data-vencido] .num,
+.kpi[data-vencido] .medidor { opacity: .4; }
+
+.gargalos { display: grid; grid-template-columns: repeat(auto-fit, minmax(252px, 1fr)); gap: 12px; margin: 16px 0 0; font-family: var(--sans); }
+.gargalo {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  background: var(--cartao);
+  border: 1px solid var(--linha);
+  border-left: 3px solid var(--nivel, var(--apagado));
+  border-radius: 3px;
+  padding: 13px 15px;
+}
+.gargalo .sinal { font-size: 15px; line-height: 1.5; flex: none; color: var(--nivel, var(--texto)); font-weight: 700; }
+.gargalo .nome { display: block; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--nivel, var(--apagado)); font-weight: 700; }
+.gargalo b { display: block; font-size: 14px; margin: 2px 0 3px; }
+.gargalo .d { display: block; font-size: 12.5px; color: var(--texto-2); line-height: 1.55; }
+.gargalo a { display: inline-block; font-size: 12px; margin-top: 7px; }
+/* A cor é a terceira camada, depois do símbolo e do nome escrito. Sozinha ela
+   não informa nada, por R5.7. */
+.g-critico { --nivel: var(--cuidado); }
+.g-serio   { --nivel: var(--atencao); }
+.g-atencao { --nivel: var(--dica); }
+.g-bom     { --nivel: var(--acento); }
+
 /* ---------- rodapé de página ---------- */
 .rodape-pagina {
   margin-top: 54px;
