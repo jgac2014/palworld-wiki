@@ -180,6 +180,45 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   }
   conferir(quebrados.length === 0, 'nenhum link interno quebrado', quebrados.slice(0, 4).join(' | '));
 
+  // 5. a moldura inteira alterna de idioma, não só os nomes do jogo.
+  //    Quebrou porque menu, filtros e rótulos estavam escritos em português
+  //    dentro dos componentes: trocar para EN deixava o site pela metade.
+  //    Vale para texto e para placeholder, que é atributo e escapa do laço.
+  //    Servido por HTTP, não por file://, senão o clique acontece numa página
+  //    sem CSS e o resultado não diz nada sobre o site de verdade.
+  //    Cuidado com o vazio: se ninguém marcou nada, o laço não acha elemento
+  //    algum e a asserção passa sem testar coisa nenhuma. Por isso contamos os
+  //    marcados e, quando o interface.json existe, exigimos que haja marcação.
+  const teimosos = [];
+  let marcados = 0;
+  for (const rota of ['', 'pals', 'mapa']) {
+    if (!existsSync(join(dist, rota, 'index.html'))) continue;
+    await pagina.goto(`${base}/${rota}`);
+    await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
+    await pagina.waitForTimeout(200);
+    marcados += await pagina.evaluate(() => document.querySelectorAll('[data-rot-pt], [data-ph-pt]').length);
+    teimosos.push(...(await pagina.evaluate((onde) => {
+      const fora = [];
+      for (const el of document.querySelectorAll('[data-rot-pt]')) {
+        const alvo = el.dataset.rotEn;
+        if (alvo && el.textContent.trim() !== alvo.trim()) {
+          fora.push(`${onde}: "${el.textContent.trim().slice(0, 40)}"`);
+        }
+      }
+      for (const el of document.querySelectorAll('[data-ph-pt]')) {
+        const campo = el.matches('input, textarea') ? el : el.querySelector('input, textarea');
+        if (campo && el.dataset.phEn && campo.placeholder !== el.dataset.phEn) {
+          fora.push(`${onde}: placeholder "${campo.placeholder}"`);
+        }
+      }
+      return fora;
+    }, rota || 'home')));
+  }
+  conferir(teimosos.length === 0, 'a moldura inteira alterna para inglês', teimosos.slice(0, 4).join(' | '));
+  if (existsSync(join(raiz, 'src/data/interface.json'))) {
+    conferir(marcados > 0, 'a moldura tem rótulos marcados para alternar', 'nenhum [data-rot-pt] encontrado: a marcação sumiu dos componentes');
+  }
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 }
@@ -192,7 +231,7 @@ if (existsSync(offline)) {
   await pagina.goto(`file://${offline}`);
   await pagina.waitForTimeout(300);
 
-  // 5. todo link do menu abre uma página, e só uma.
+  // 6. todo link do menu abre uma página, e só uma.
   //    Quebrou porque os links do site são absolutos e morrem em file://.
   const links = await pagina.evaluate(() =>
     [...document.querySelectorAll('.lateral a[href^="#"]')].map((a) => a.getAttribute('href')));
@@ -207,7 +246,7 @@ if (existsSync(offline)) {
   conferir(links.length >= 15, 'menu offline tem os links das páginas', `${links.length} links`);
   conferir(ruins === 0, 'todo link offline abre exatamente uma página', `${ruins} com problema`);
 
-  // 6. um item ativo por vez no menu.
+  // 7. um item ativo por vez no menu.
   //    Quebrou porque a casca copiada trouxe o aria-current da página de origem.
   const ativos = await pagina.evaluate(() => document.querySelectorAll('.lateral a.ativo, .lateral [aria-current]').length);
   conferir(ativos === 1, 'menu offline destaca um item por vez', `${ativos} destacados`);
