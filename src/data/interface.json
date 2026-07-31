@@ -48,7 +48,10 @@
 
   "pals_titulo":        { "pt": "Banco de Pals",      "en": "Pal database" },
   "pals_sub":           { "pt": "{n} Pals catalogados, com as aptidões nos nomes em português do jogo.", "en": "{n} Pals catalogued, with work suitabilities named as your game shows them." },
-  "pals_carimbo":       { "pt": "Escala de 1 a 10 · nenhum Pal nasce com 10 · clique numa coluna para ordenar", "en": "Scale of 1 to 10 · no Pal is born at 10 · click a column to sort" },
+  "pals_carimbo":       { "pt": "Escala de 1 a 10 · nenhum Pal nasce com 10 · escolher uma aptidão ordena por ela", "en": "Scale of 1 to 10 · no Pal is born at 10 · picking a suitability sorts by it" },
+  "pals_tabela":        { "pt": "Ver os mesmos Pals em tabela", "en": "See the same Pals as a table" },
+  "pals_com_curadoria": { "pt": "Só os que têm análise nossa", "en": "Only the ones we wrote about" },
+  "pals_nenhum":        { "pt": "Nenhum Pal com esse filtro.", "en": "No Pal matches that filter." },
   "pals_filtro":        { "pt": "Filtrar por nome, local ou anotação...", "en": "Filter by name, location or note..." },
   "pals_todas_apt":     { "pt": "Todas as aptidões",  "en": "All work suitabilities" },
   "pals_todas_fases":   { "pt": "Todas as fases",     "en": "All stages" },

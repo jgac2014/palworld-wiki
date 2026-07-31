@@ -290,7 +290,28 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   const alcancaveis = DA_CAMADA_2.filter((rota) => daSecao.some((h) => h.includes(rota)));
   conferir(alcancaveis.length >= 2, 'a seção do nosso mundo dá acesso às páginas dela', `alcançou ${alcancaveis.length}`);
 
-  // 8. o overlay do progresso é adição, nunca requisito.
+  // 8. escolher uma aptidão no banco de Pals ordena por ela.
+  //    R5.4 do PRD: a pergunta é "qual o melhor de Garimpo", não "quais
+  //    existem". Uma lista filtrada em ordem alfabética responde a segunda e
+  //    parece ter respondido a primeira, que é o pior tipo de defeito.
+  await pagina.goto(`${base}/pals/`);
+  await pagina.waitForTimeout(200);
+  await pagina.selectOption('#apt', 'garimpo');
+  await pagina.waitForTimeout(250);
+  const garimpo = await pagina.evaluate(() =>
+    [...document.querySelectorAll('#grade .cartao:not(.escondido)')].map((c) => {
+      const par = c.dataset.apt.split(' ').find((x) => x.startsWith('garimpo:'));
+      return par ? Number(par.split(':')[1]) : 0;
+    }));
+  const semGarimpo = garimpo.filter((v) => v === 0).length;
+  const foraDeOrdem = garimpo.filter((v, i) => i > 0 && garimpo[i - 1] < v).length;
+  conferir(
+    garimpo.length > 5 && semGarimpo === 0 && foraDeOrdem === 0,
+    'filtrar por Garimpo lista só quem tem, em ordem decrescente',
+    `${garimpo.length} cartões, ${semGarimpo} sem a aptidão, ${foraDeOrdem} fora de ordem`,
+  );
+
+  // 9. o overlay do progresso é adição, nunca requisito.
   //    Decisão 3.0 do PRD. Desligado, a Camada 1 não mostra nada do nosso
   //    save; ligado, mostra. E sem JavaScript continua sendo a wiki inteira,
   //    que é o motivo de o overlay nascer escondido por CSS e não por

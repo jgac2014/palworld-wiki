@@ -332,7 +332,7 @@ código ou link; casar do nome mais longo para o mais curto, senão "Reptyro" é
 - Nenhum nome marcado dentro de `<h1>` a `<h4>`, `<code>` ou `<a>`.
 - `npm run build` passa e todas as páginas continuam gerando, sem cair nenhuma.
 
-### [ ] D4 — Banco de Pals com filtro por aptidão e posse
+### [x] D4 — Banco de Pals com filtro por aptidão e posse
 
 **Requisito:** R5.4, R5.5
 **Território:** código e visual

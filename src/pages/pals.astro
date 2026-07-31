@@ -1,29 +1,52 @@
 ---
+/**
+ * Banco de Pals, no formato do protótipo: cartão com barra de aptidão em vez
+ * de número solto numa tabela.
+ *
+ * Cobre os 299 do catálogo, não os 77 com curadoria. A ficha de cada Pal
+ * existe desde a E1, e listar 77 aqui deixaria 222 páginas alcançáveis só pela
+ * busca. Quem filtra por Garimpo quer o melhor Pal de Garimpo do jogo, não o
+ * melhor entre os que a gente já comentou.
+ *
+ * A curadoria não sumiu: quando existe, ela aparece no cartão e dá para filtrar
+ * só por quem tem. Cobertura e opinião convivem, que é a divisão do PRD 3.1.
+ */
 import Base from '../layouts/Base.astro';
-import dados from '../data/pals.json';
 import catalogo from '../data/catalogo.json';
+import curadoria from '../data/pals.json';
 import { ui, rotuloApt } from '../lib/termos.js';
 import { enderecoPal } from '../lib/enderecos.js';
+import { quemTem } from '../lib/progresso.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-// Liga a curadoria à ficha gerada do catálogo. Sem isto as 299 fichas só são
-// alcançáveis pela busca, e o banco de Pals é justamente onde alguém procura.
-const fichas = new Map(catalogo.pals.map((p) => [p.en, `${base}/pal/${enderecoPal(p.chave)}`]));
+const nossa = new Map(curadoria.pals.map((p) => [p.nome, p]));
 
-const { aptidoes, pals } = dados;
-const chavesApt = Object.keys(aptidoes);
-const rot = rotuloApt;
+const pals = catalogo.pals.map((p) => {
+  const c = nossa.get(p.en);
+  return {
+    ...p,
+    endereco: `${base}/pal/${enderecoPal(p.chave)}`,
+    aptOrdenada: Object.entries(p.apt || {}).sort((a, b) => b[1] - a[1]),
+    fase: c?.fase || null,
+    nota: c?.nota || c?.efeito || null,
+    posse: quemTem(p.en),
+  };
+});
+
+// As aptidões que realmente aparecem no catálogo, na ordem do dicionário.
+const chavesApt = Object.keys(curadoria.aptidoes)
+  .filter((k) => pals.some((p) => p.apt?.[k]));
 const fases = ['mid', 'endgame', 'aura', 'utilidade', 'fazenda', 'combate'];
-// A contagem é montada no script, então os dois idiomas vão junto para lá
+
 const subtitulo = (l) => ui('pals_sub', l).replace('{n}', pals.length);
 const rotContagem = {
-  pt: { pals: ui('pals_contagem', 'pt'), de: ui('pals_de', 'pt') },
-  en: { pals: ui('pals_contagem', 'en'), de: ui('pals_de', 'en') },
+  pt: { pals: ui('pals_contagem', 'pt'), de: ui('pals_de', 'pt'), nenhum: ui('pals_nenhum', 'pt') },
+  en: { pals: ui('pals_contagem', 'en'), de: ui('pals_de', 'en'), nenhum: ui('pals_nenhum', 'en') },
 };
 ---
 <Base
   titulo={ui('pals_titulo', 'pt')}
-  descricao="Pals de Palworld 1.0 com aptidões de trabalho em português, filtráveis por função, fase do jogo e nível."
+  descricao="Todos os Pals de Palworld 1.0 com aptidões de trabalho em português, filtráveis por função, fase do jogo e nível."
 >
   <article>
     <h1 data-rot-pt={ui('pals_titulo', 'pt')} data-rot-en={ui('pals_titulo', 'en')}>{ui('pals_titulo', 'pt')}</h1>
@@ -40,7 +63,7 @@ const rotContagem = {
       />
       <select id="apt">
         <option value="" data-rot-pt={ui('pals_todas_apt', 'pt')} data-rot-en={ui('pals_todas_apt', 'en')}>{ui('pals_todas_apt', 'pt')}</option>
-        {chavesApt.map((k) => <option value={k} data-rot-pt={rot(k).pt} data-rot-en={rot(k).en}>{rot(k).pt}</option>)}
+        {chavesApt.map((k) => <option value={k} data-rot-pt={rotuloApt(k).pt} data-rot-en={rotuloApt(k).en}>{rotuloApt(k).pt}</option>)}
       </select>
       <select id="fase">
         <option value="" data-rot-pt={ui('pals_todas_fases', 'pt')} data-rot-en={ui('pals_todas_fases', 'en')}>{ui('pals_todas_fases', 'pt')}</option>
@@ -48,48 +71,78 @@ const rotContagem = {
           <option value={f} data-rot-pt={ui(`fase_${f}`, 'pt')} data-rot-en={ui(`fase_${f}`, 'en')}>{ui(`fase_${f}`, 'pt')}</option>
         ))}
       </select>
+      <label class="so-curadoria">
+        <input type="checkbox" id="curadoria" />
+        <span data-rot-pt={ui('pals_com_curadoria', 'pt')} data-rot-en={ui('pals_com_curadoria', 'en')}>{ui('pals_com_curadoria', 'pt')}</span>
+      </label>
       <button id="limpar" type="button" data-rot-pt={ui('busca_limpar', 'pt')} data-rot-en={ui('busca_limpar', 'en')}>{ui('busca_limpar', 'pt')}</button>
     </div>
 
     <p class="contagem" id="contagem"></p>
 
-    <div class="rolagem">
-      <table id="tabela">
-        <thead>
-          <tr>
-            <th data-ord="nome" class="ordenavel" data-rot-pt={ui('pals_col_pal', 'pt')} data-rot-en={ui('pals_col_pal', 'en')}>{ui('pals_col_pal', 'pt')}</th>
-            <th data-ord="apt" class="ordenavel" data-rot-pt={ui('pals_col_apt', 'pt')} data-rot-en={ui('pals_col_apt', 'en')}>{ui('pals_col_apt', 'pt')}</th>
-            <th data-rot-pt={ui('pals_col_onde', 'pt')} data-rot-en={ui('pals_col_onde', 'en')}>{ui('pals_col_onde', 'pt')}</th>
-            <th data-rot-pt={ui('pals_col_obs', 'pt')} data-rot-en={ui('pals_col_obs', 'en')}>{ui('pals_col_obs', 'pt')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pals.map((p) => (
-            <tr
-              data-nome={p.nome.toLowerCase()}
-              data-fase={p.fase}
-              data-apt={Object.keys(p.apt || {}).join(' ')}
-              data-max={Math.max(0, ...Object.values(p.apt || {}))}
-              data-busca={`${p.nome} ${p.onde || ''} ${p.nota || ''} ${p.efeito || ''} ${(p.elementos || []).join(' ')}`.toLowerCase()}
-            >
-              <td>
-                <strong>{fichas.has(p.nome) ? <a href={fichas.get(p.nome)}>{p.nome}</a> : p.nome}</strong>
-                {p.elementos && <div class="elem">{p.elementos.join(' · ')}</div>}
-              </td>
-              <td>
-                {Object.entries(p.apt || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => (
-                  <span class={`apt n${v}`}><span data-rot-pt={rot(k).pt} data-rot-en={rot(k).en}>{rot(k).pt}</span> <b>{v}</b></span>
-                ))}
-                {p.aura && <span class="apt aura"><span data-rot-pt={ui('pals_aura', 'pt')} data-rot-en={ui('pals_aura', 'en')}>{ui('pals_aura', 'pt')}</span> <span data-rot-pt={rot(p.aura).pt} data-rot-en={rot(p.aura).en}>{rot(p.aura).pt}</span></span>}
-                {p.efeito && <div class="efeito">{p.efeito}</div>}
-              </td>
-              <td class="onde">{p.onde || ''}</td>
-              <td class="nota">{p.nota || ''}</td>
-            </tr>
+    <div class="grade" id="grade">
+      {pals.map((p) => (
+        <article
+          class="cartao"
+          data-nome={p.en.toLowerCase()}
+          data-fase={p.fase || ''}
+          data-curadoria={p.nota ? '1' : ''}
+          data-apt={p.aptOrdenada.map(([k, v]) => `${k}:${v}`).join(' ')}
+          data-busca={`${p.en} ${p.pt} ${(p.elementos || []).map((e) => `${e.en} ${e.pt}`).join(' ')} ${p.nota || ''}`.toLowerCase()}
+        >
+          <header>
+            <a href={p.endereco} data-rot-pt={p.pt} data-rot-en={p.en}>{p.pt}</a>
+            {p.numero && <span class="numero">#{p.numero}</span>}
+          </header>
+          {p.posse.length > 0 && (
+            <p class="posse-cartao so-com-progresso" data-lido-em={p.posse[0].lido_em}>
+              <span aria-hidden="true">✓</span>{' '}
+              <span data-rot-pt={ui(p.posse[0].onde === 'squad' ? 'posse_squad' : 'posse_palbox', 'pt')} data-rot-en={ui(p.posse[0].onde === 'squad' ? 'posse_squad' : 'posse_palbox', 'en')}>{ui(p.posse[0].onde === 'squad' ? 'posse_squad' : 'posse_palbox', 'pt')}</span>
+              {' '}{p.posse[0].pessoa}
+            </p>
+          )}
+          {p.elementos?.length > 0 && (
+            <p class="elems">
+              {p.elementos.map((e) => <span class="elem" data-rot-pt={e.pt} data-rot-en={e.en}>{e.pt}</span>)}
+            </p>
+          )}
+          {p.aptOrdenada.map(([k, v]) => (
+            <div class="apt-linha">
+              <span class="nome" data-rot-pt={rotuloApt(k).pt} data-rot-en={rotuloApt(k).en}>{rotuloApt(k).pt}</span>
+              <span class="apt-barra" role="img" aria-label={`${rotuloApt(k).pt} ${v} de 10`}>
+                <i data-nivel={v} style={`width:${v * 10}%`}></i>
+              </span>
+              <span class="v">{v}</span>
+            </div>
           ))}
-        </tbody>
-      </table>
+          {p.nota && <p class="nota">{p.nota}</p>}
+        </article>
+      ))}
     </div>
+
+    <details class="tabela-alternativa">
+      <summary data-rot-pt={ui('pals_tabela', 'pt')} data-rot-en={ui('pals_tabela', 'en')}>{ui('pals_tabela', 'pt')}</summary>
+      <div class="rolagem">
+        <table>
+          <thead>
+            <tr>
+              <th data-rot-pt={ui('pals_col_pal', 'pt')} data-rot-en={ui('pals_col_pal', 'en')}>{ui('pals_col_pal', 'pt')}</th>
+              <th data-rot-pt={ui('pals_col_apt', 'pt')} data-rot-en={ui('pals_col_apt', 'en')}>{ui('pals_col_apt', 'pt')}</th>
+              <th data-rot-pt={ui('pals_col_obs', 'pt')} data-rot-en={ui('pals_col_obs', 'en')}>{ui('pals_col_obs', 'pt')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pals.map((p) => (
+              <tr>
+                <td><a href={p.endereco} data-rot-pt={p.pt} data-rot-en={p.en}>{p.pt}</a></td>
+                <td>{p.aptOrdenada.map(([k, v]) => `${rotuloApt(k).pt} ${v}`).join(' · ')}</td>
+                <td>{p.nota || ''}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
 
     <h2 data-rot-pt={ui('pals_como_ler', 'pt')} data-rot-en={ui('pals_como_ler', 'en')}>{ui('pals_como_ler', 'pt')}</h2>
     <p>
@@ -107,17 +160,19 @@ const rotContagem = {
 
     <aside class="adm adm-destaque" data-rotulo="Importante">
       <p>
-        Esta base é mantida à mão e cobre os Pals que a wiki realmente usa, não os 287 do Paldeck.
-        Para adicionar um Pal, edite <code>src/data/pals.json</code> pelo GitHub: copie um bloco,
-        cole no fim e ajuste. Se não souber um número, omita em vez de chutar.
+        Os números vêm do catálogo importado do paldb e não são digitados por ninguém. A análise
+        escrita, que aparece no fim de alguns cartões, é nossa e cobre só os Pals que a wiki
+        realmente usa. Para escrever uma, edite <code>src/data/pals.json</code> pelo GitHub: copie
+        um bloco, cole no fim e ajuste. Se não souber um número, omita em vez de chutar, porque o
+        verificador compara o que você escrever com o catálogo.
       </p>
     </aside>
   </article>
 </Base>
 
 <style>
-  .controles { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0 12px; font-family: var(--sans); }
-  .controles input, .controles select, .controles button {
+  .controles { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 20px 0 12px; font-family: var(--sans); }
+  .controles input[type="search"], .controles select, .controles button {
     background: var(--cartao);
     border: 1px solid var(--linha);
     color: var(--texto);
@@ -127,64 +182,89 @@ const rotContagem = {
     font-family: var(--sans);
     outline: none;
   }
-  .controles input { flex: 1; min-width: 200px; }
+  .controles input[type="search"] { flex: 1; min-width: 200px; }
   .controles input:focus, .controles select:focus { border-color: var(--acento); }
   .controles button { cursor: pointer; color: var(--apagado); }
   .controles button:hover { border-color: var(--acento); color: var(--acento); }
-  .contagem { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-bottom: 6px; }
-  .rolagem { overflow-x: auto; }
-  th.ordenavel { cursor: pointer; user-select: none; }
-  th.ordenavel:hover { color: #fff; }
-  .elem { font-size: 12px; color: var(--apagado); font-family: var(--sans); margin-top: 2px; }
-  .apt {
-    display: inline-block;
+  .so-curadoria { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--texto-2); cursor: pointer; }
+  .so-curadoria input { accent-color: var(--acento); cursor: pointer; }
+  .contagem { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-bottom: 10px; }
+
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 12px; }
+  .cartao {
+    background: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 4px;
+    padding: 12px 14px 10px;
     font-family: var(--sans);
-    font-size: 11.5px;
-    padding: 2px 7px;
-    margin: 0 4px 4px 0;
-    border-radius: 3px;
-    background: #232820;
-    color: var(--texto-2);
-    white-space: nowrap;
   }
-  .apt b { color: #fff; }
-  .apt.n7, .apt.n8 { background: #2a3520; color: #b7d99a; }
-  .apt.n8 b { color: var(--acento); }
-  .apt.aura { background: #2f2a1a; color: var(--dica); }
-  .efeito { font-size: 13px; color: var(--texto-2); margin-top: 4px; font-style: italic; }
-  .onde { font-size: 13.5px; color: var(--apagado); }
-  .nota { font-size: 13.5px; }
-  tr.escondido { display: none; }
+  .cartao.escondido { display: none; }
+  .cartao header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+  .cartao header a { font-size: 15px; font-weight: 600; text-decoration: none; }
+  .cartao header a:hover { text-decoration: underline; }
+  .cartao .numero { font-size: 11.5px; color: var(--apagado); margin-left: auto; }
+  .posse-cartao { font-size: 11.5px; color: var(--acento-2); margin: 0 0 6px; }
+  .elems { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 8px; }
+  .elem { font-size: 11px; padding: 1px 8px; border: 1px solid var(--linha); border-radius: 20px; color: var(--texto-2); }
+  .apt-linha { display: grid; grid-template-columns: 108px 1fr 18px; align-items: center; gap: 8px; margin: 4px 0; }
+  .apt-linha .nome { font-size: 11.5px; color: var(--texto-2); }
+  .apt-barra { height: 6px; background: var(--fundo); border-radius: 4px; overflow: hidden; }
+  .apt-barra i { display: block; height: 100%; background: var(--acento); border-radius: 0 4px 4px 0; }
+  .apt-linha .v { font-size: 11.5px; text-align: right; color: var(--texto); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .cartao .nota {
+    font-size: 12px; color: var(--texto-2); margin: 9px 0 0;
+    padding-top: 8px; border-top: 1px solid var(--linha); font-style: italic;
+  }
+
+  .tabela-alternativa { margin: 26px 0 0; font-family: var(--sans); font-size: 13px; }
+  .tabela-alternativa summary { cursor: pointer; color: var(--acento-2); }
+  .rolagem { overflow-x: auto; }
 </style>
 
 <script define:vars={{ rotContagem }}>
   const txt = document.getElementById('txt');
   const selApt = document.getElementById('apt');
   const selFase = document.getElementById('fase');
+  const soCuradoria = document.getElementById('curadoria');
   const limpar = document.getElementById('limpar');
-  const corpo = document.querySelector('#tabela tbody');
+  const grade = document.getElementById('grade');
   const contagem = document.getElementById('contagem');
-  const linhas = Array.from(corpo.querySelectorAll('tr'));
+  const cartoes = Array.from(grade.querySelectorAll('.cartao'));
+
+  const nivelDe = (cartao, chave) => {
+    const par = cartao.dataset.apt.split(' ').find((x) => x.startsWith(chave + ':'));
+    return par ? Number(par.split(':')[1]) : 0;
+  };
 
   function filtrar() {
     const t = txt.value.trim().toLowerCase();
     const a = selApt.value;
     const f = selFase.value;
     let visiveis = 0;
-    for (const tr of linhas) {
+
+    for (const c of cartoes) {
       const ok =
-        (!t || tr.dataset.busca.includes(t)) &&
-        (!a || tr.dataset.apt.split(' ').includes(a)) &&
-        (!f || tr.dataset.fase === f);
-      tr.classList.toggle('escondido', !ok);
+        (!t || c.dataset.busca.includes(t)) &&
+        (!a || nivelDe(c, a) > 0) &&
+        (!f || c.dataset.fase === f) &&
+        (!soCuradoria.checked || c.dataset.curadoria === '1');
+      c.classList.toggle('escondido', !ok);
       if (ok) visiveis++;
     }
-    // A contagem é remontada a cada filtro, então declara os dois idiomas de
-    // novo em vez de esperar o seletor lembrar do texto anterior.
+
+    // Escolher uma aptidão ordena por ela, do maior para o menor: a pergunta
+    // real é "qual o melhor de Garimpo", não "quais existem".
+    if (a) {
+      cartoes
+        .slice()
+        .sort((x, y) => nivelDe(y, a) - nivelDe(x, a) || x.dataset.nome.localeCompare(y.dataset.nome))
+        .forEach((c) => grade.appendChild(c));
+    }
+
     const escrever = (r) =>
-      visiveis === linhas.length
-        ? `${linhas.length} ${r.pals}`
-        : `${visiveis} ${r.de} ${linhas.length} ${r.pals}`;
+      visiveis === 0 ? r.nenhum
+      : visiveis === cartoes.length ? `${cartoes.length} ${r.pals}`
+      : `${visiveis} ${r.de} ${cartoes.length} ${r.pals}`;
     contagem.dataset.rotPt = escrever(rotContagem.pt);
     contagem.dataset.rotEn = escrever(rotContagem.en);
     contagem.textContent =
@@ -193,29 +273,14 @@ const rotContagem = {
         : contagem.dataset.rotPt;
   }
 
-  let ordemAsc = false;
-  document.querySelectorAll('th.ordenavel').forEach((th) => {
-    th.addEventListener('click', () => {
-      const campo = th.dataset.ord;
-      ordemAsc = !ordemAsc;
-      const ordenadas = linhas.slice().sort((x, y) => {
-        if (campo === 'nome') {
-          const r = x.dataset.nome.localeCompare(y.dataset.nome, 'pt-BR');
-          return ordemAsc ? r : -r;
-        }
-        const r = Number(x.dataset.max) - Number(y.dataset.max);
-        return ordemAsc ? r : -r;
-      });
-      ordenadas.forEach((tr) => corpo.appendChild(tr));
-    });
+  [txt, selApt, selFase, soCuradoria].forEach((el) => {
+    el.addEventListener('input', filtrar);
+    el.addEventListener('change', filtrar);
   });
-
-  [txt, selApt, selFase].forEach((el) => el.addEventListener('input', filtrar));
   limpar.addEventListener('click', () => {
-    txt.value = ''; selApt.value = ''; selFase.value = ''; filtrar();
+    txt.value = ''; selApt.value = ''; selFase.value = ''; soCuradoria.checked = false;
+    filtrar();
   });
 
-  // ordena por maior aptidão logo de cara
-  document.querySelector('th[data-ord="apt"]').click();
   filtrar();
 </script>
