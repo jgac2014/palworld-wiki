@@ -14,12 +14,9 @@ import catalogo from '../../data/catalogo.json';
 import curadoria from '../../data/pals.json';
 import { termo, ui, rotuloApt } from '../../lib/termos.js';
 import { quemTem } from '../../lib/progresso.js';
+import { enderecoPal } from '../../lib/enderecos.js';
 
 const REPO = 'https://github.com/nederreis/PalCrew';
-
-/** Endereço do Pal a partir da chave interna do jogo: Fuack_Ignis -> fuack-ignis. */
-export const enderecoPal = (chave) =>
-  chave.toLowerCase().replace(/_/g, '-').replace(/[^a-z0-9-]/g, '');
 
 export async function getStaticPaths() {
   const paginas = await getCollection('wiki', ({ data }) => !data.rascunho);

@@ -103,7 +103,7 @@ Cada requisito tem um identificador estável. As tarefas citam esses identificad
 | R1.5 | Verificador automático que falha em CI se dado ou conteúdo divergir | Feito, `npm run verificar` |
 | R1.6 | **Catálogo completo dos Pals do jogo, importado e não digitado** | Feito, 299 Pals |
 | R1.7 | Página gerada por Pal do catálogo, com ficha e ligação para os guias que o citam | **Pendente**, é o que fecha a Camada 1 |
-| R1.8 | Catálogo de itens, estruturas e tecnologias, também importado | **Pendente** |
+| R1.8 | Catálogo de itens, estruturas e tecnologias, importado e exibido em índice filtrável, **sem página por registro** (decisão de 31.07) | Importado: 1.875 itens, 496 estruturas, 588 tecnologias. **Índices pendentes**, tarefa E7 |
 | R1.9 | Calculadoras universais: cruzamento, taxa de captura, condensação | **Pendente** |
 
 ### R2 — Bilíngue
@@ -216,6 +216,13 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
   escondida e marcada como desatualizada: vazio honesto vale mais que número velho.
 - **31.07** O leitor automático de save existe e fica bloqueado até o `palworld-save-tools`
   suportar o formato 1.0 (issue 179). Ele alimenta os JSONs acima; nunca os substitui como formato.
+- **31.07** **Só Pal ganha página própria.** Item, estrutura e tecnologia entram como índice
+  filtrável, uma página por coleção. O Pal tem curadoria, guias que o citam e ficha rica, e as
+  outras três coleções são listas de nome e número. Página por registro somaria 2.959 páginas às
+  317, e extrapolando os 13,3s da E1 o build passaria de dois minutos, estourando o limite de um
+  minuto que a própria E1 fixou. Três índices entregam mais e custam três páginas.
+- **31.07** **A calculadora de bolo é uma só.** D5 e E5 viraram uma tarefa, porque separadas a
+  mesma calculadora nasceria duas vezes: uma com o nosso estoque e outra sem.
 - **31.07** O pacote offline cobre as duas camadas, guias e catálogo. Medido antes de decidir: as
   299 fichas somam 711 KB de HTML e 95 KB de texto puro, e o arquivo vai de 604 KB para 1,4 MB.
   Custa 800 KB e resolve o caso de uso que motivou o offline, que é consultar um Pal sem internet.

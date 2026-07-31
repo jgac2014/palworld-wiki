@@ -193,20 +193,50 @@ achar a página de índice de cada tipo no paldb e extrair.
 - O verificador confere estrutura de todas, como já faz com Pals.
 - Nenhum campo é digitado à mão.
 
-### [ ] E5 — Calculadoras universais
+### [ ] E5 — As calculadoras, todas de uma vez
 
-**Requisito:** R1.9
+**Requisito:** R1.9 e R5.2
 **Território:** código e visual
-**Bloqueado por:** E1
+**Bloqueado por:** E1, D1
 
-Cruzamento (par para alvo e alvo para par), taxa de captura e condensação. Elas funcionam sem o
-overlay, com o usuário digitando os valores. Com o overlay ligado, os campos já vêm preenchidos com
-os nossos números.
+Fusão da E5 com a antiga D5, decidida em 31.07 e registrada no `PRD.md`. Separadas, a calculadora
+de bolo nascia duas vezes: uma na D5 lendo o nosso estoque e outra na E5 sem ele. É a mesma
+calculadora com o overlay ligado e desligado, então é uma tarefa só.
+
+Quatro calculadoras, todas funcionando sem o overlay, com o usuário digitando os valores, e todas
+com os campos pré-preenchidos pelo nosso estoque quando o overlay estiver ligado:
+
+1. **Bolo.** Entrada editável para os seis valores: trigo, farinha, frutas vermelhas, leite, ovos e
+   mel. A conversão do moinho é 2 de trigo para 1 de farinha. O número de bolos é o piso do
+   ingrediente mais escasso, e a mensagem nomeia qual é. O protótipo só tem campo para trigo e
+   farinha, e isso é defeito dele: o aceite exige mexer em leite e ovos.
+2. **Cruzamento**, par para alvo e alvo para par, usando o CombiRank do catálogo.
+3. **Taxa de captura.**
+4. **Condensação.**
 
 **Aceite:**
 - Cada calculadora funciona com o overlay desligado.
 - Cada uma tem versão em tabela.
 - A de cruzamento usa o CombiRank do catálogo, não uma tabela copiada.
+- Com o estoque real de 30.07 (leite 0, ovos 0) o bolo dá 0 e a mensagem diz que a trava é leite,
+  citando o Mozzarina parado no Palbox.
+- Trocando leite para 180 e ovos para 200, o resultado passa a 18 e a mensagem aponta farinha,
+  dizendo que o gargalo real é trigo.
+
+### [ ] E7 — Índices de item, estrutura e tecnologia
+
+**Requisito:** R1.8 (estendido pela decisão de 31.07 no `PRD.md`)
+**Território:** código e visual
+
+Três páginas de índice filtrável, no mesmo padrão visual do banco de Pals, consumindo `itens.json`,
+`estruturas.json` e `tecnologias.json`.
+
+**Aceite:**
+- As três páginas existem, filtram, e o Pagefind indexa as três.
+- Um item que só existe em `itens.json` é encontrável pela busca do site.
+- O build continua abaixo de um minuto.
+- Nenhum registro é omitido em silêncio: se o índice mostrar menos que o total do JSON, a página
+  diz quantos e por quê.
 
 ### [x] E6 — O pacote offline inclui as fichas de Pal
 
@@ -316,26 +346,11 @@ de posse lido do `save.json`, filtro que ordena por nível da aptidão escolhida
 - O distintivo de posse vem do `save.json`, não está escrito no componente.
 - A página continua indexada pelo Pagefind.
 
-### [ ] D5 — Calculadora de bolo
+### D5 — Calculadora de bolo
 
-**Requisito:** R5.2
-**Território:** código e visual
-**Bloqueado por:** D1
-
-Portar a calculadora do protótipo, com uma correção sobre ele: o protótipo só tem campos para
-trigo e farinha, mas o aceite exige mexer em leite e ovos. A versão do site tem **entrada editável
-para os seis valores**: trigo, farinha, frutas vermelhas, leite, ovos e mel, pré-preenchidos pelo
-estoque de `guilda.json` quando o overlay estiver ligado.
-
-A conversão do moinho é 2 de trigo para 1 de farinha. O número de bolos é o piso do ingrediente
-mais escasso, e a mensagem nomeia qual é.
-
-**Aceite:**
-- Com o estoque real de 30.07 (leite 0, ovos 0) o resultado é 0 e a mensagem diz que a trava é
-  leite, citando o Mozzarina parado no Palbox.
-- Trocando leite para 180 e ovos para 200, o resultado passa a 18 e a mensagem aponta farinha,
-  dizendo que o gargalo real é trigo.
-- Existe versão em tabela dos mesmos números.
+**Fundida na E5 em 31.07.** A calculadora de bolo com o nosso estoque e a calculadora de bolo sem
+ele são a mesma calculadora com o overlay ligado e desligado. Feitas em tarefas separadas, ela
+nasceria duas vezes. O texto inteiro, incluindo os dois números de aceite, está na E5.
 
 ### [ ] D6 — Tema claro e escuro
 

@@ -1,7 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import dados from '../data/pals.json';
+import catalogo from '../data/catalogo.json';
 import { ui, rotuloApt } from '../lib/termos.js';
+import { enderecoPal } from '../lib/enderecos.js';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// Liga a curadoria à ficha gerada do catálogo. Sem isto as 299 fichas só são
+// alcançáveis pela busca, e o banco de Pals é justamente onde alguém procura.
+const fichas = new Map(catalogo.pals.map((p) => [p.en, `${base}/pal/${enderecoPal(p.chave)}`]));
 
 const { aptidoes, pals } = dados;
 const chavesApt = Object.keys(aptidoes);
@@ -66,7 +73,7 @@ const rotContagem = {
               data-busca={`${p.nome} ${p.onde || ''} ${p.nota || ''} ${p.efeito || ''} ${(p.elementos || []).join(' ')}`.toLowerCase()}
             >
               <td>
-                <strong>{p.nome}</strong>
+                <strong>{fichas.has(p.nome) ? <a href={fichas.get(p.nome)}>{p.nome}</a> : p.nome}</strong>
                 {p.elementos && <div class="elem">{p.elementos.join(' · ')}</div>}
               </td>
               <td>

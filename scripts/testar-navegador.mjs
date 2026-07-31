@@ -166,7 +166,22 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   conferir(dentroDeProibido === 0, 'nenhum termo marcado dentro de link, título ou código', `${dentroDeProibido} ocorrências`);
 
   // 4. nenhum link interno aponta para página que não foi gerada.
-  const existentes = new Set(['', ...rotas]);
+  //    A lista de páginas existentes desce a árvore inteira, e não só o
+  //    primeiro nível: as fichas de Pal moram em /pal/<nome>/, e enquanto isto
+  //    olhava só a raiz o banco de Pals apontando para elas era acusado de
+  //    link quebrado. A visita continua sendo só do primeiro nível, porque
+  //    abrir 317 páginas no navegador a cada portão não paga o que acrescenta.
+  const todasAsRotas = async function varrer(pasta, prefixo = '') {
+    const achadas = [];
+    for (const item of await readdir(pasta, { withFileTypes: true })) {
+      if (!item.isDirectory() || ['_astro', 'pagefind'].includes(item.name)) continue;
+      const rota = prefixo ? `${prefixo}/${item.name}` : item.name;
+      if (existsSync(join(pasta, item.name, 'index.html'))) achadas.push(rota);
+      achadas.push(...(await varrer(join(pasta, item.name), rota)));
+    }
+    return achadas;
+  };
+  const existentes = new Set(['', ...(await todasAsRotas(dist))]);
   const quebrados = [];
   for (const rota of rotas) {
     if (!existsSync(join(dist, rota, 'index.html'))) continue;
