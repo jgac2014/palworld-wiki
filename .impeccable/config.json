@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-07-31T19:06:55.857Z",
+        "reason": "Borda de gravidade das caixas .adm, sempre acompanhada de data-rotulo em texto. R5.7 do PRD exige que nenhuma informacao dependa so de cor"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/components/Chat.astro"
+        ],
+        "createdAt": "2026-07-31T19:07:01.109Z",
+        "reason": "Borda separa resposta do assistente de mensagem de erro, junto com fundo e cor de texto distintos. Vem do commit inicial"
+      }
+    ]
+  }
+}

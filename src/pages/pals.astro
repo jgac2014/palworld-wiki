@@ -15,6 +15,7 @@ const ID_APT = {
 const rot = (k) => ({ pt: termo(ID_APT[k], 'pt'), en: termo(ID_APT[k], 'en') });
 const fases = ['mid', 'endgame', 'aura', 'utilidade', 'fazenda', 'combate'];
 // A contagem é montada no script, então os dois idiomas vão junto para lá
+const subtitulo = (l) => ui('pals_sub', l).replace('{n}', pals.length);
 const rotContagem = {
   pt: { pals: ui('pals_contagem', 'pt'), de: ui('pals_de', 'pt') },
   en: { pals: ui('pals_contagem', 'en'), de: ui('pals_de', 'en') },
@@ -26,8 +27,8 @@ const rotContagem = {
 >
   <article>
     <h1 data-rot-pt={ui('pals_titulo', 'pt')} data-rot-en={ui('pals_titulo', 'en')}>{ui('pals_titulo', 'pt')}</h1>
-    <p class="subtitulo">{pals.length} Pals catalogados, com as aptidões nos nomes em português do jogo.</p>
-    <div class="carimbo">Escala de 1 a 10 · nenhum Pal nasce com 10 · clique numa coluna para ordenar</div>
+    <p class="subtitulo" data-rot-pt={subtitulo('pt')} data-rot-en={subtitulo('en')}>{subtitulo('pt')}</p>
+    <div class="carimbo" data-rot-pt={ui('pals_carimbo', 'pt')} data-rot-en={ui('pals_carimbo', 'en')}>{ui('pals_carimbo', 'pt')}</div>
 
     <div class="controles">
       <input

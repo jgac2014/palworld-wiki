@@ -18,6 +18,7 @@ const rotCat = (chave, nome) => {
   const id = porNome.get(nome);
   return id ? { pt: termo(id, 'pt'), en: termo(id, 'en') } : { pt: nome, en: nome };
 };
+const subtitulo = (l) => ui('mapa_sub', l).replace('{n}', total);
 // A leitura de coordenada é escrita pelo script, então os dois idiomas vão junto
 const rotCoord = {
   pt: { atual: ui('mapa_coord_atual', 'pt'), clicado: ui('mapa_clicado', 'pt') },
@@ -30,10 +31,7 @@ const rotCoord = {
 >
   <article>
     <h1 data-rot-pt={ui('mapa_titulo', 'pt')} data-rot-en={ui('mapa_titulo', 'en')}>{ui('mapa_titulo', 'pt')}</h1>
-    <p class="subtitulo">
-      {total}{' '}
-      <span data-rot-pt={ui('mapa_pontos', 'pt')} data-rot-en={ui('mapa_pontos', 'en')}>{ui('mapa_pontos', 'pt')}</span>, nas mesmas coordenadas que o jogo mostra.
-    </p>
+    <p class="subtitulo" data-rot-pt={subtitulo('pt')} data-rot-en={subtitulo('en')}>{subtitulo('pt')}</p>
     <div class="carimbo" data-rot-pt={ui('mapa_dica', 'pt')} data-rot-en={ui('mapa_dica', 'en')}>{ui('mapa_dica', 'pt')}</div>
 
     <div id="filtros" class="filtros">

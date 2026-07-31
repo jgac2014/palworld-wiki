@@ -5,5 +5,7 @@ dist/
 *.log
 .env
 .env.*
+.impeccable/hook.cache.json
+.impeccable/config.local.json
 worker/node_modules/
 worker/.wrangler/

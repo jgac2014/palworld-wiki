@@ -8,10 +8,7 @@ const paginas = (await getCollection('wiki', ({ data }) => !data.rascunho))
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// O subtítulo tem uma segunda frase que o Anexo A não traduz. Em vez de apagar
-// a frase ou inventar tradução, o português fica completo e o inglês fica com
-// o texto oficial do anexo.
-const subtitulo = `${ui('home_sub', 'pt')} Focada em quem joga co-op e está no meio da progressão.`;
+const subtitulo = (l) => `${ui('home_sub', l)} ${ui('home_sub_2', l)}`;
 const carimbo = (l) => `${ui('home_cobre', l)} 1.0.2, build 1.100.933 · ${ui('home_revisao', l)} 30.07.2026`;
 ---
 <Base
@@ -20,9 +17,7 @@ const carimbo = (l) => `${ui('home_cobre', l)} 1.0.2, build 1.100.933 · ${ui('h
 >
   <article>
     <h1 data-rot-pt={ui('marca', 'pt')} data-rot-en={ui('marca', 'en')}>{ui('marca', 'pt')}</h1>
-    <p class="subtitulo" data-rot-pt={subtitulo} data-rot-en={ui('home_sub', 'en')}>
-      {subtitulo}
-    </p>
+    <p class="subtitulo" data-rot-pt={subtitulo('pt')} data-rot-en={subtitulo('en')}>{subtitulo('pt')}</p>
     <div class="carimbo" data-rot-pt={carimbo('pt')} data-rot-en={carimbo('en')}>{carimbo('pt')}</div>
 
     <p>
@@ -43,11 +38,11 @@ const carimbo = (l) => `${ui('home_cobre', l)} 1.0.2, build 1.100.933 · ${ui('h
     <div class="blocos">
       <a class="bloco" href={`${base}/mapa`}>
         <div class="t" data-rot-pt={ui('nav_mapa', 'pt')} data-rot-en={ui('nav_mapa', 'en')}>{ui('nav_mapa', 'pt')}</div>
-        <div class="d">Coordenadas do jogo, spots de recurso, torres e as bases da nossa guilda.</div>
+        <div class="d" data-rot-pt={ui('home_bloco_mapa', 'pt')} data-rot-en={ui('home_bloco_mapa', 'en')}>{ui('home_bloco_mapa', 'pt')}</div>
       </a>
       <a class="bloco" href={`${base}/pals`}>
         <div class="t" data-rot-pt={ui('nav_pals', 'pt')} data-rot-en={ui('nav_pals', 'en')}>{ui('nav_pals', 'pt')}</div>
-        <div class="d">Filtro por aptidão de trabalho, elemento e nível. Nomes em português.</div>
+        <div class="d" data-rot-pt={ui('home_bloco_pals', 'pt')} data-rot-en={ui('home_bloco_pals', 'en')}>{ui('home_bloco_pals', 'pt')}</div>
       </a>
     </div>
 

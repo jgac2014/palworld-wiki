@@ -21,20 +21,25 @@ JSON válido, e os títulos em inglês no Anexo B. Não invente tradução, use 
 **Requisito:** R2.4
 **Território:** conteúdo e dados
 
-Criar `src/data/interface.json` com as 65 strings do Anexo A do `PLANO-BILINGUE.md`, no formato
-`{ "chave": { "pt": "...", "en": "..." } }`.
+Criar `src/data/interface.json` com as strings do Anexo A do `PLANO-BILINGUE.md`, no formato
+`{ "chave": { "pt": "...", "en": "..." } }`. O Anexo A é o ponto de partida, não o teto: o arquivo
+cresce com a copy nossa que a moldura precisar. Chave começando com `_` é comentário, não string.
 
-O Anexo A tem 66 chaves de topo, sendo uma o `_leia_isto`. São 65 strings de verdade.
-
-**Aceite:** este comando imprime 65 e não lança.
+**Aceite:** este comando não lança. Ele mede completude, não tamanho: contagem fixa só travaria o
+arquivo, e foi por isso que a versão anterior deste aceite foi trocada.
 
 ```bash
 node -e "
-const d = require('./src/data/interface.json');
+const fs = require('fs');
+const bruto = fs.readFileSync('./src/data/interface.json', 'utf-8');
+const d = JSON.parse(bruto);
+const noArquivo = [...bruto.matchAll(/\"([^\"]+)\"\s*:\s*\{/g)].map((m) => m[1]);
+const repetidas = noArquivo.filter((k, i) => noArquivo.indexOf(k) !== i);
+if (repetidas.length) throw new Error('chave duplicada: ' + [...new Set(repetidas)].join(', '));
 const e = Object.entries(d).filter(([k]) => !k.startsWith('_'));
 const f = e.filter(([, v]) => !v || !v.pt || !v.en);
 if (f.length) throw new Error('sem par PT/EN: ' + f.map(x => x[0]).join(', '));
-console.log(e.length + ' strings ok');
+console.log(e.length + ' strings completas, nenhuma duplicada');
 "
 ```
 
@@ -79,6 +84,41 @@ Palbox, guild chest and the real bottlenecks.`
 - `npm run build` passa com os 15 arquivos preenchidos.
 - Clicar em EN troca o texto do menu lateral inteiro.
 - `npm run verificar` passa.
+
+### [ ] A4 — Resultados da busca também alternam
+
+**Requisito:** R2.4
+**Território:** código e visual
+
+Hoje o `placeholder` da busca alterna, e o resto do Pagefind não: "Nada encontrado para", "Ver mais
+resultados", "Limpar" e a contagem de resultados nascem em português na inicialização e ficam assim.
+As strings já existem em `interface.json` (`busca_vazio`, `busca_mais`, `busca_limpar`).
+
+O `PagefindUI` aceita um objeto `translations` na inicialização, então a saída é reconstruir a
+instância quando o idioma muda, em vez de tentar reescrever o DOM que ela gerou. Cuidado com o
+estado: quem já digitou uma busca não pode perder o que escreveu na troca.
+
+**Aceite:**
+- Com EN ligado, buscar por algo que não existe mostra a mensagem de vazio em inglês.
+- Trocar de idioma com uma busca digitada mantém o texto no campo.
+- Asserção nova em `scripts/testar-navegador.mjs`, servida por HTTP, e provada sabotando a
+  correção: com o código antigo de volta, ela tem que falhar.
+
+### [ ] A5 — Moldura das páginas de guia
+
+**Requisito:** R2.5
+**Território:** código e visual
+
+A A3 preencheu `titulo_en` e `descricao_en` nos 15 arquivos, e o menu e a home usam. A própria
+página do guia não: o `h1`, o subtítulo e o carimbo continuam em português com o site em EN.
+Falta declarar os dois idiomas em `src/pages/[...slug].astro` e criar a string do carimbo
+(`Palworld 1.0.2 · atualizado 30.07.2026`) em `interface.json`.
+
+O corpo do guia continua em português, por R2.7. Isto é só a moldura da página.
+
+**Aceite:**
+- Abrir qualquer guia com EN ligado e ver título, subtítulo e carimbo em inglês.
+- Página sem `titulo_en` continua mostrando o português, sem quebrar.
 
 ---
 

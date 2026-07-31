@@ -1,7 +1,11 @@
 {
   "_leia_isto": "Strings da moldura do site nos dois idiomas. O conteúdo dos guias fica só em português, por decisão registrada no PLANO-BILINGUE.md.",
+  "_de_onde_vem": "Começou no Anexo A do PLANO-BILINGUE.md e cresce com a copy que a moldura precisar. Nome de coisa do jogo NÃO entra aqui: aquilo tem tradução oficial e mora em termos.json.",
+  "_marcador_n": "{n} é substituído pelo número no componente que usa a string. Traduzir a frase, não mexer no marcador.",
 
   "marca":              { "pt": "Wiki Palworld 1.0",  "en": "Palworld 1.0 Wiki" },
+  "marca_sub":          { "pt": "Em português · mid game · co-op", "en": "In Portuguese · mid game · co-op" },
+  "marca_versao":       { "pt": "Versão do jogo",     "en": "Game version" },
   "nav_ferramentas":    { "pt": "Ferramentas",        "en": "Tools" },
   "nav_guias":          { "pt": "Guias",              "en": "Guides" },
   "nav_projeto":        { "pt": "Projeto",            "en": "Project" },
@@ -16,9 +20,12 @@
   "busca_limpar":       { "pt": "Limpar",             "en": "Clear" },
 
   "home_sub":           { "pt": "Em português, com os nomes como aparecem no jogo.", "en": "In Portuguese, with names as they appear in your game." },
+  "home_sub_2":         { "pt": "Focada em quem joga co-op e está no meio da progressão.", "en": "Aimed at co-op players in the middle of the progression." },
   "home_porque":        { "pt": "Por que esta wiki existe", "en": "Why this wiki exists" },
   "home_cobre":         { "pt": "Cobre a versão",     "en": "Covers version" },
   "home_revisao":       { "pt": "última revisão",     "en": "last reviewed" },
+  "home_bloco_mapa":    { "pt": "Coordenadas do jogo, spots de recurso, torres e as bases da nossa guilda.", "en": "In-game coordinates, resource spots, towers and our guild's bases." },
+  "home_bloco_pals":    { "pt": "Filtro por aptidão de trabalho, elemento e nível. Nomes em português.", "en": "Filter by work suitability, element and level. Names as your game shows them." },
 
   "stat_pals":          { "pt": "Pals no Paldeck",    "en": "Pals in the Paldeck" },
   "stat_level":         { "pt": "Level cap",          "en": "Level cap" },
@@ -26,6 +33,8 @@
   "stat_copias":        { "pt": "Cópias para 4★",     "en": "Copies for 4★" },
 
   "pals_titulo":        { "pt": "Banco de Pals",      "en": "Pal database" },
+  "pals_sub":           { "pt": "{n} Pals catalogados, com as aptidões nos nomes em português do jogo.", "en": "{n} Pals catalogued, with work suitabilities named as your game shows them." },
+  "pals_carimbo":       { "pt": "Escala de 1 a 10 · nenhum Pal nasce com 10 · clique numa coluna para ordenar", "en": "Scale of 1 to 10 · no Pal is born at 10 · click a column to sort" },
   "pals_filtro":        { "pt": "Filtrar por nome, local ou anotação...", "en": "Filter by name, location or note..." },
   "pals_todas_apt":     { "pt": "Todas as aptidões",  "en": "All work suitabilities" },
   "pals_todas_fases":   { "pt": "Todas as fases",     "en": "All stages" },
@@ -46,6 +55,7 @@
   "fase_combate":       { "pt": "Combate",            "en": "Combat" },
 
   "mapa_titulo":        { "pt": "Mapa interativo",    "en": "Interactive map" },
+  "mapa_sub":           { "pt": "{n} pontos marcados, nas mesmas coordenadas que o jogo mostra.", "en": "{n} markers, at the same coordinates the game shows." },
   "mapa_dica":          { "pt": "Clique num ponto para ver a anotação · arraste para mover · rolagem para zoom", "en": "Click a marker for notes · drag to pan · scroll to zoom" },
   "mapa_coord":         { "pt": "Passe o mouse sobre o mapa para ler a coordenada", "en": "Hover over the map to read the coordinate" },
   "mapa_coord_atual":   { "pt": "coordenada do jogo", "en": "in-game coordinate" },
