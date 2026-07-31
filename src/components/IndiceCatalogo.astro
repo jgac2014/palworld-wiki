@@ -1,0 +1,132 @@
+---
+/**
+ * Índice filtrável de uma coleção importada.
+ *
+ * Serve item, estrutura e tecnologia com o mesmo componente porque as três são
+ * a mesma coisa: lista de nome nos dois idiomas mais uns poucos campos. A
+ * decisão de 31.07 do PRD é que elas NÃO ganham página por registro: seriam
+ * 2.959 páginas e o build passaria de dois minutos.
+ *
+ * O paldb lista o dado bruto do jogo, e parte dele nunca aparece em tela, com
+ * nome tipo "NPC_WEAPON". Essas ficam escondidas por padrão, mas continuam no
+ * HTML: a página diz quantas são e por quê, e um checkbox mostra. Esconder sem
+ * dizer é o que o CLAUDE.md chama de corte silencioso.
+ */
+import { ui } from '../lib/termos.js';
+
+interface Props {
+  itens: any[];
+  colunas?: { campo: string; chaveRotulo: string }[];
+  subtituloChave: string;
+}
+
+const { itens, colunas = [], subtituloChave } = Astro.props;
+
+// Entrada interna do jogo se reconhece pelo nome: identificador cru não tem
+// espaço e tem underscore, porque ninguém escreveu uma tradução para ele.
+const ehInterno = (x: any) => /_/.test(x.en);
+const internos = itens.filter(ehInterno).length;
+---
+
+<p class="subtitulo" data-rot-pt={ui(subtituloChave, 'pt')} data-rot-en={ui(subtituloChave, 'en')}>{ui(subtituloChave, 'pt')}</p>
+
+<div class="controles">
+  <input
+    type="search"
+    id="filtro"
+    placeholder={ui('indice_filtro', 'pt')}
+    data-ph-pt={ui('indice_filtro', 'pt')}
+    data-ph-en={ui('indice_filtro', 'en')}
+  />
+  {internos > 0 && (
+    <label class="mostrar-internos">
+      <input type="checkbox" id="internos" />
+      <span data-rot-pt={ui('indice_internos', 'pt')} data-rot-en={ui('indice_internos', 'en')}>{ui('indice_internos', 'pt')}</span>
+    </label>
+  )}
+</div>
+
+<p class="contagem" id="contagem"></p>
+
+{internos > 0 && (
+  <p class="nota-internos">
+    <strong>{internos}</strong>{' '}
+    <span data-rot-pt={ui('indice_internos_nota', 'pt')} data-rot-en={ui('indice_internos_nota', 'en')}>{ui('indice_internos_nota', 'pt')}</span>
+  </p>
+)}
+
+<div class="rolagem">
+  <table id="tabela">
+    <thead>
+      <tr>
+        <th data-rot-pt={ui('indice_col_nome', 'pt')} data-rot-en={ui('indice_col_nome', 'en')}>{ui('indice_col_nome', 'pt')}</th>
+        {colunas.map((c) => (
+          <th data-rot-pt={ui(c.chaveRotulo, 'pt')} data-rot-en={ui(c.chaveRotulo, 'en')}>{ui(c.chaveRotulo, 'pt')}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {itens.map((x) => (
+        <tr
+          data-interno={ehInterno(x) ? '1' : ''}
+          data-busca={`${x.pt} ${x.en}`.toLowerCase()}
+        >
+          <td>
+            <span data-rot-pt={x.pt} data-rot-en={x.en}>{x.pt}</span>
+            {x.pt !== x.en && <span class="en">{x.en}</span>}
+          </td>
+          {colunas.map((c) => <td>{x[c.campo] ?? ''}</td>)}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .controles { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin: 20px 0 10px; font-family: var(--sans); }
+  .controles input[type="search"] {
+    flex: 1; min-width: 220px;
+    background: var(--cartao); border: 1px solid var(--linha); color: var(--texto);
+    padding: 9px 12px; border-radius: 3px; font-size: 13.5px; font-family: var(--sans); outline: none;
+  }
+  .controles input[type="search"]:focus { border-color: var(--acento); }
+  .mostrar-internos { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--texto-2); cursor: pointer; }
+  .mostrar-internos input { accent-color: var(--acento); cursor: pointer; }
+  .contagem { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-bottom: 4px; }
+  .nota-internos { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-bottom: 14px; }
+  .rolagem { overflow-x: auto; }
+  .en { display: block; font-size: 12px; color: var(--apagado); font-family: var(--sans); }
+  tr.escondida { display: none; }
+</style>
+
+<script>
+  const filtro = document.getElementById('filtro') as HTMLInputElement;
+  const internos = document.getElementById('internos') as HTMLInputElement | null;
+  const contagem = document.getElementById('contagem');
+  const linhas = Array.from(document.querySelectorAll('#tabela tbody tr')) as HTMLElement[];
+
+  function aplicar() {
+    const t = filtro.value.trim().toLowerCase();
+    const mostrarInternos = internos ? internos.checked : true;
+    let visiveis = 0;
+    for (const tr of linhas) {
+      const ok =
+        (!t || (tr.dataset.busca || '').includes(t)) &&
+        (mostrarInternos || tr.dataset.interno !== '1');
+      tr.classList.toggle('escondida', !ok);
+      if (ok) visiveis++;
+    }
+    // A contagem diz sempre quantos de quantos, então esconder nunca é mudo.
+    const pt = visiveis === linhas.length ? `${linhas.length} de ${linhas.length}` : `${visiveis} de ${linhas.length}`;
+    const en = visiveis === linhas.length ? `${linhas.length} of ${linhas.length}` : `${visiveis} of ${linhas.length}`;
+    if (contagem) {
+      contagem.dataset.rotPt = pt;
+      contagem.dataset.rotEn = en;
+      contagem.textContent = document.documentElement.dataset.idioma === 'en' ? en : pt;
+    }
+  }
+
+  filtro.addEventListener('input', aplicar);
+  internos?.addEventListener('change', aplicar);
+  aplicar();
+</script>

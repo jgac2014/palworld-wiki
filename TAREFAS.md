@@ -223,7 +223,7 @@ com os campos pré-preenchidos pelo nosso estoque quando o overlay estiver ligad
 - Trocando leite para 180 e ovos para 200, o resultado passa a 18 e a mensagem aponta farinha,
   dizendo que o gargalo real é trigo.
 
-### [ ] E7 — Índices de item, estrutura e tecnologia
+### [x] E7 — Índices de item, estrutura e tecnologia
 
 **Requisito:** R1.8 (estendido pela decisão de 31.07 no `PRD.md`)
 **Território:** código e visual

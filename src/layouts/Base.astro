@@ -64,6 +64,22 @@ const REPO = 'https://github.com/nederreis/PalCrew';
 
     <div class="camada" data-rot-pt={ui('nav_camada_wiki', 'pt')} data-rot-en={ui('nav_camada_wiki', 'en')}>{ui('nav_camada_wiki', 'pt')}</div>
 
+    <div class="grupo" data-rot-pt={ui('nav_catalogo', 'pt')} data-rot-en={ui('nav_catalogo', 'en')}>{ui('nav_catalogo', 'pt')}</div>
+    {[
+      ['pals', 'nav_pals'],
+      ['itens', 'nav_itens'],
+      ['estruturas', 'nav_estruturas'],
+      ['tecnologias', 'nav_tecnologias'],
+    ].map(([rota, chave]) => (
+      <a
+        class="item"
+        href={`${base}/${rota}`}
+        aria-current={eh(`${base}/${rota}`) ? 'page' : undefined}
+        data-rot-pt={ui(chave, 'pt')}
+        data-rot-en={ui(chave, 'en')}
+      >{ui(chave, 'pt')}</a>
+    ))}
+
     <div class="grupo" data-rot-pt={ui('nav_ferramentas', 'pt')} data-rot-en={ui('nav_ferramentas', 'en')}>{ui('nav_ferramentas', 'pt')}</div>
     <a
       class="item"
@@ -72,13 +88,6 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       data-rot-pt={ui('nav_mapa', 'pt')}
       data-rot-en={ui('nav_mapa', 'en')}
     >{ui('nav_mapa', 'pt')}</a>
-    <a
-      class="item"
-      href={`${base}/pals`}
-      aria-current={eh(`${base}/pals`) ? 'page' : undefined}
-      data-rot-pt={ui('nav_pals', 'pt')}
-      data-rot-en={ui('nav_pals', 'en')}
-    >{ui('nav_pals', 'pt')}</a>
 
     <div class="grupo" data-rot-pt={ui('nav_guias', 'pt')} data-rot-en={ui('nav_guias', 'en')}>{ui('nav_guias', 'pt')}</div>
     {guias.map((p) => (

@@ -311,7 +311,49 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     `${garimpo.length} cartões, ${semGarimpo} sem a aptidão, ${foraDeOrdem} fora de ordem`,
   );
 
-  // 9. o overlay do progresso é adição, nunca requisito.
+  // 9. os índices de item, estrutura e tecnologia filtram e não escondem em
+  //    silêncio. As três coleções foram importadas na E4 e ficaram um mês sem
+  //    página nenhuma: dado importado que ninguém consome não é cobertura, é
+  //    peso morto no repositório.
+  const indices = [];
+  for (const [rota, minimo] of [['itens', 1200], ['estruturas', 250], ['tecnologias', 400]]) {
+    await pagina.goto(`${base}/${rota}/`);
+    await pagina.waitForTimeout(250);
+    const antes = await pagina.evaluate(() => document.querySelectorAll('#tabela tbody tr:not(.escondida)').length);
+    const total = await pagina.evaluate(() => document.querySelectorAll('#tabela tbody tr').length);
+    await pagina.fill('#filtro', 'zzzznaoexiste');
+    await pagina.waitForTimeout(200);
+    const depois = await pagina.evaluate(() => document.querySelectorAll('#tabela tbody tr:not(.escondida)').length);
+    // A contagem tem que dizer quantos de quantos, sempre. É o que impede o
+    // filtro de esconder registro sem o leitor perceber. Lida do rótulo em
+    // português, e não do texto na tela, senão o teste depende do idioma que
+    // a asserção anterior deixou salvo no navegador.
+    const contagem = await pagina.evaluate(() => document.getElementById('contagem')?.dataset.rotPt || '');
+    indices.push({ rota, total, antes, depois, contagem, minimo });
+  }
+  const ruins = indices.filter((i) =>
+    i.total < i.minimo || i.antes === 0 || i.depois !== 0 || !/\d+\s+de\s+\d+/.test(i.contagem));
+  conferir(
+    ruins.length === 0,
+    'os três índices listam, filtram e dizem quantos de quantos',
+    ruins.map((i) => `${i.rota}: ${i.total} linhas, ${i.antes} visíveis, ${i.depois} após filtro sem resultado, contagem "${i.contagem}"`).join(' | '),
+  );
+
+  // Um item que só existe em itens.json é achável pela busca do site. Sem isto
+  // as três coleções ficariam invisíveis para quem não sabe que a página existe.
+  await pagina.goto(`${base}/itens/`);
+  await pagina.waitForTimeout(400);
+  await pagina.fill('.pagefind-ui input', 'Machado de Metal Refinado');
+  await pagina.waitForTimeout(1500);
+  const resultados = await pagina.evaluate(() =>
+    [...document.querySelectorAll('.pf-searchbox-dropdown a')].map((a) => a.getAttribute('href') || ''));
+  conferir(
+    resultados.some((h) => h.includes('/itens')),
+    'a busca do site acha um item que só existe no índice de itens',
+    `resultados: ${resultados.join(', ') || 'nenhum'}`,
+  );
+
+  // 10. o overlay do progresso é adição, nunca requisito.
   //    Decisão 3.0 do PRD. Desligado, a Camada 1 não mostra nada do nosso
   //    save; ligado, mostra. E sem JavaScript continua sendo a wiki inteira,
   //    que é o motivo de o overlay nascer escondido por CSS e não por

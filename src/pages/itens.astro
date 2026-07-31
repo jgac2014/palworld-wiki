@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import IndiceCatalogo from '../components/IndiceCatalogo.astro';
+import colecao from '../data/itens.json';
+import { ui } from '../lib/termos.js';
+---
+<Base
+  titulo={ui('nav_itens', 'pt')}
+  descricao="Todos os itens de Palworld 1.0 com o nome oficial em português e em inglês, importados do paldb."
+>
+  <article data-pagefind-body>
+    <h1 data-rot-pt={ui('nav_itens', 'pt')} data-rot-en={ui('nav_itens', 'en')}>{ui('nav_itens', 'pt')}</h1>
+    <IndiceCatalogo itens={colecao.itens} subtituloChave="indice_itens_sub" />
+  </article>
+</Base>

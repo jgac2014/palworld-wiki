@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import IndiceCatalogo from '../components/IndiceCatalogo.astro';
+import colecao from '../data/estruturas.json';
+import { ui } from '../lib/termos.js';
+
+// A categoria vem traduzida do próprio paldb, então a coluna alterna de idioma
+// junto com o resto sem ninguém escrever tradução aqui.
+const itens = colecao.itens.map((e) => ({ ...e, categoria_mostrada: e.categoria_pt }));
+---
+<Base
+  titulo={ui('nav_estruturas', 'pt')}
+  descricao="Tudo que dá para construir numa base em Palworld 1.0, por categoria, com o nome oficial nos dois idiomas."
+>
+  <article data-pagefind-body>
+    <h1 data-rot-pt={ui('nav_estruturas', 'pt')} data-rot-en={ui('nav_estruturas', 'en')}>{ui('nav_estruturas', 'pt')}</h1>
+    <IndiceCatalogo
+      itens={itens}
+      subtituloChave="indice_estruturas_sub"
+      colunas={[{ campo: 'categoria_mostrada', chaveRotulo: 'indice_col_categoria' }]}
+    />
+  </article>
+</Base>

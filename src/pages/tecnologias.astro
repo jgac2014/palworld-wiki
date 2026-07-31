@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import IndiceCatalogo from '../components/IndiceCatalogo.astro';
+import colecao from '../data/tecnologias.json';
+import { ui } from '../lib/termos.js';
+
+// Ordenada por nível de desbloqueio, que é a ordem em que alguém joga.
+const itens = [...colecao.itens].sort((a, b) => a.nivel - b.nivel || a.custo - b.custo);
+---
+<Base
+  titulo={ui('nav_tecnologias', 'pt')}
+  descricao="A árvore de tecnologia de Palworld 1.0 com nível de desbloqueio e custo em pontos, nos dois idiomas."
+>
+  <article data-pagefind-body>
+    <h1 data-rot-pt={ui('nav_tecnologias', 'pt')} data-rot-en={ui('nav_tecnologias', 'en')}>{ui('nav_tecnologias', 'pt')}</h1>
+    <IndiceCatalogo
+      itens={itens}
+      subtituloChave="indice_tecnologias_sub"
+      colunas={[
+        { campo: 'nivel', chaveRotulo: 'indice_col_nivel' },
+        { campo: 'custo', chaveRotulo: 'indice_col_custo' },
+        { campo: 'tipo', chaveRotulo: 'indice_col_tipo' },
+      ]}
+    />
+  </article>
+</Base>
