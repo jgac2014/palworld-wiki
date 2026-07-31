@@ -277,6 +277,34 @@ if (existsSync(offline)) {
   const ativos = await pagina.evaluate(() => document.querySelectorAll('.lateral a.ativo, .lateral [aria-current]').length);
   conferir(ativos === 1, 'menu offline destaca um item por vez', `${ativos} destacados`);
 
+  // 8. o pacote offline traz TODAS as páginas do dist, não só as de primeiro nível.
+  //    Quebrou porque a varredura olhava um nível só: as 299 fichas de Pal
+  //    ficavam de fora e o contador de páginas esperadas era calculado da mesma
+  //    lista incompleta, então nunca acusava a falta. O alvo é comparado com o
+  //    que o build gerou de verdade, e não com um número escrito aqui, senão o
+  //    teste envelhece junto com o catálogo.
+  const noDist = (async function contar(pasta) {
+    let total = 0;
+    for (const item of await readdir(pasta, { withFileTypes: true })) {
+      if (!item.isDirectory()) { if (item.name === 'index.html') total++; continue; }
+      if (['_astro', 'pagefind'].includes(item.name)) continue;
+      total += await contar(join(pasta, item.name));
+    }
+    return total;
+  });
+  const esperadas = await noDist(dist);
+  const empacotadas = await pagina.evaluate(() => document.querySelectorAll('.pagina').length);
+  conferir(empacotadas === esperadas, 'o offline empacota todas as páginas do build', `${empacotadas} no arquivo, ${esperadas} no dist`);
+
+  // E o conteúdo tem que estar buscável, não só presente: a ficha de Pal não
+  // aparece no menu, então a busca em memória é o único caminho até ela.
+  await pagina.fill('#busca', 'aegidron');
+  await pagina.waitForTimeout(200);
+  const achados = await pagina.evaluate(() =>
+    [...document.querySelectorAll('#resultados li a')].map((a) => a.getAttribute('href')));
+  conferir(achados.includes('#pal/aegidron'), 'a busca offline acha um Pal que só existe em ficha', `achou: ${achados.slice(0, 3).join(', ') || 'nada'}`);
+  await pagina.fill('#busca', '');
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no offline', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 } else {

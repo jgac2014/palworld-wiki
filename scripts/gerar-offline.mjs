@@ -29,10 +29,21 @@ if (!existsSync(dist)) {
 }
 
 // ------------------------------------------------ coleta as páginas do dist
+//
+// A varredura desce um nível porque nem toda página mora na raiz do dist. As
+// 299 fichas de Pal ficam em /pal/<nome>/, e enquanto isto olhava só o primeiro
+// nível elas sumiam do pacote sem aviso: o contador de páginas esperadas era
+// calculado a partir da mesma lista incompleta, então nunca acusava falta.
 const rotas = [];
 for (const nome of await readdir(dist, { withFileTypes: true })) {
   if (!nome.isDirectory() || ['_astro', 'pagefind'].includes(nome.name)) continue;
   if (existsSync(join(dist, nome.name, 'index.html'))) rotas.push(nome.name);
+  for (const filho of await readdir(join(dist, nome.name), { withFileTypes: true })) {
+    if (!filho.isDirectory()) continue;
+    if (existsSync(join(dist, nome.name, filho.name, 'index.html'))) {
+      rotas.push(`${nome.name}/${filho.name}`);
+    }
+  }
 }
 const homeHtml = await readFile(join(dist, 'index.html'), 'utf-8');
 

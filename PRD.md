@@ -216,5 +216,8 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
   escondida e marcada como desatualizada: vazio honesto vale mais que número velho.
 - **31.07** O leitor automático de save existe e fica bloqueado até o `palworld-save-tools`
   suportar o formato 1.0 (issue 179). Ele alimenta os JSONs acima; nunca os substitui como formato.
+- **31.07** O pacote offline cobre as duas camadas, guias e catálogo. Medido antes de decidir: as
+  299 fichas somam 711 KB de HTML e 95 KB de texto puro, e o arquivo vai de 604 KB para 1,4 MB.
+  Custa 800 KB e resolve o caso de uso que motivou o offline, que é consultar um Pal sem internet.
 - **30.07** O repositório de destino é `nederreis/PalCrew`. Enquanto ele for privado e sem acesso
   liberado, este repositório é a fonte da verdade.

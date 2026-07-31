@@ -208,6 +208,33 @@ os nossos números.
 - Cada uma tem versão em tabela.
 - A de cruzamento usa o CombiRank do catálogo, não uma tabela copiada.
 
+### [x] E6 — O pacote offline inclui as fichas de Pal
+
+**Requisito:** R3.6
+**Território:** conteúdo e dados
+
+O gerar-offline.mjs varre só os diretórios de primeiro nível do dist, então as
+299 fichas ficam de fora. Pior: o aviso de páginas perdidas que o script já tem
+não dispara, porque `esperadas` conta os mesmos 18 diretórios que foram
+extraídos. É corte silencioso, que o CLAUDE.md proíbe.
+
+Medição feita antes de decidir: o corpo HTML das 299 fichas soma 711 KB e o
+texto puro soma 95 KB. O arquivo vai de 604 KB para cerca de 1,4 MB. Barato o
+bastante para incluir, e o caso de uso do offline é justamente consultar um Pal
+sem internet.
+
+Faça a varredura descer um nível e a contagem de `esperadas` refletir o total
+real, não só o primeiro nível.
+
+**Aceite:**
+- O pacote offline contém as 317 páginas, e a busca em memória acha um Pal que
+  só existe em ficha, por exemplo Aegidron.
+- Sabote: remova uma ficha da lista antes de montar e confirme que o script
+  ABORTA dizendo qual ficou de fora. Se não abortar, o aviso continua cego.
+- Uma asserção nova em testar-navegador.mjs cobrindo isso, com prova de que
+  acusa quando sabotada.
+- Se o arquivo passar de 3 MB, pare e me diga antes de seguir.
+
 ## Bloco D — Trazer o protótipo para o site
 
 O desenho está pronto e testado em `proto/index.html`. Estas tarefas são de portar, não de inventar:
