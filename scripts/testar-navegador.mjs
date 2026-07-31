@@ -39,11 +39,23 @@ if (!existsSync(dist)) {
   process.exit(1);
 }
 
-const navegador = await chromium.launch({
-  // Em CI o Playwright resolve o caminho sozinho, então passamos undefined.
-  // Fora dele, este ambiente precisa do caminho explícito.
-  executablePath: process.env.CHROMIUM || (process.env.CI ? undefined : '/opt/pw-browsers/chromium'),
-});
+/**
+ * Onde esta o Chromium.
+ *
+ * Este script roda em tres lugares com respostas diferentes: no sandbox do
+ * Cowork o navegador vem pre-instalado num caminho fixo, no Windows de quem
+ * desenvolve ele fica no diretorio do Playwright, e no runner do GitHub o
+ * proprio Playwright resolve. Em vez de escolher um e quebrar nos outros, o
+ * caminho fixo so e usado se o arquivo existir de verdade.
+ */
+function ondeEstaOChromium() {
+  if (process.env.CHROMIUM) return process.env.CHROMIUM;
+  const doSandbox = '/opt/pw-browsers/chromium';
+  if (existsSync(doSandbox)) return doSandbox;
+  return undefined; // deixa o Playwright achar sozinho
+}
+
+const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() });
 
 // ------------------------------------------------------------ site gerado
 {
