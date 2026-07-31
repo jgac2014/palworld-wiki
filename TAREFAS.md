@@ -16,7 +16,7 @@ Este bloco entrega R2.4 e R2.5. É o diferencial do projeto e está a três tare
 O material já está escrito: as 65 strings de interface estão no Anexo A do `PLANO-BILINGUE.md`, em
 JSON válido, e os títulos em inglês no Anexo B. Não invente tradução, use o que está lá.
 
-### [ ] A1 — Arquivo de strings de interface
+### [x] A1 — Arquivo de strings de interface
 
 **Requisito:** R2.4
 **Território:** conteúdo e dados
