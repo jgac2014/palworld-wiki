@@ -1,0 +1,94 @@
+{
+  "_leia_isto": "O que o jogo compartilha de verdade em co-op: bases, baú de guilda e torres. O que é de cada pessoa mora em saves/<nome>.json. Preenchido à mão a partir das telas do jogo, porque o leitor automático (tarefa B3) está bloqueado por dependência externa. Quando ele destravar, alimenta este arquivo em vez de substituí-lo.",
+  "_gravidades": "critico, serio, atencao, bom. Nunca só cor: o painel também precisa de símbolo e texto, por R5.7 do PRD.",
+
+  "lido_em": "2026-07-30",
+
+  "torres": { "derrotadas": 6, "total": 9 },
+
+  "bases": [
+    {
+      "nome": "Base 1 · Produção",
+      "x": -432,
+      "y": -51,
+      "local": "Western Fortress Plateau",
+      "pals": [],
+      "nota": "Terreno plano e amplo, boa para fábrica de linha e fornos."
+    },
+    {
+      "nome": "Base 2 · Garimpo",
+      "x": 290,
+      "y": -100,
+      "local": "Minério, quartzo puro e enxofre no mesmo raio",
+      "pals": [],
+      "nota": "Não exige resistência ao frio. Hostis de nível médio."
+    },
+    {
+      "nome": "Base 3 · Fazenda",
+      "x": -198,
+      "y": -702,
+      "local": "Southern Production Field",
+      "pals": [],
+      "nota": "Plantações, fazendas de criação e panelas."
+    },
+    {
+      "nome": "Base 4 · Acasalamento",
+      "x": 137,
+      "y": -597,
+      "local": "Costa",
+      "pals": [],
+      "nota": "Poucos trabalhadores, então quase nunca sofre invasão séria."
+    }
+  ],
+
+  "bau": {
+    "madeira": 8643,
+    "quartzo": 5253,
+    "minerio": 3447,
+    "pedra": 675,
+    "paldium": 543,
+    "mel": 270,
+    "la": 196,
+    "frutas": 153,
+    "trigo": 137,
+    "farinha": 26,
+    "circuito": 2,
+    "carvao": 1,
+    "petroleo": 1,
+    "corda": 1,
+    "leite": 0,
+    "ovos": 0
+  },
+
+  "gargalos": [
+    {
+      "gravidade": "critico",
+      "titulo": "Petróleo e carvão em 1",
+      "explicacao": "Nenhuma das quatro bases está sobre nó de petróleo. Sem petróleo não sai poliéster, sem poliéster não sai circuito, e a árvore de tecnologia de ponta fica decorativa.",
+      "pagina": "/economia"
+    },
+    {
+      "gravidade": "critico",
+      "titulo": "Leite e ovos em zero",
+      "explicacao": "Mozzarina e Chikipi estão parados no Palbox enquanto o baú não tem nem leite nem ovo. É o que trava o bolo, e sem bolo ninguém cruza nada.",
+      "pagina": "/breeding"
+    },
+    {
+      "gravidade": "serio",
+      "titulo": "Farinha rende cinco bolos",
+      "explicacao": "O gargalo é o trigo, não a farinha. Sem plantação dedicada e um segundo moinho, o cruzamento não escala.",
+      "pagina": "/economia"
+    },
+    {
+      "gravidade": "atencao",
+      "titulo": "Pedra doze vezes atrás da madeira",
+      "explicacao": "Falta um Pal de Garimpo alto numa base com pedregulho. Resolve numa sessão.",
+      "pagina": "/base-e-trabalho"
+    },
+    {
+      "gravidade": "bom",
+      "titulo": "Minério e quartzo confortáveis",
+      "explicacao": "A base de garimpo está fazendo o trabalho dela e não precisa de atenção agora."
+    }
+  ]
+}

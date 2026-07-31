@@ -122,6 +122,79 @@ if (catalogo && pals) {
   passou(`catálogo: ${catalogo.total} Pals do jogo, ${pals.pals.length} com curadoria nossa (${cobertura}%), aptidões e elementos conferidos`);
 }
 
+// ------------------------------------------------- estado do grupo (D1)
+// O que o jogo compartilha em co-op fica em guilda.json; o que é de cada
+// pessoa, em saves/<nome>.json. Nome de Pal aqui é conferido contra o
+// catálogo pelo mesmo motivo da curadoria: grafia errada some em silêncio.
+const GRAVIDADES = new Set(['critico', 'serio', 'atencao', 'bom']);
+const DIAS_ATE_VENCER = 14;
+
+const guilda = await lerJson('src/data/guilda.json');
+if (guilda) {
+  for (const g of guilda.gargalos || []) {
+    if (!GRAVIDADES.has(g.gravidade)) erro('guilda', `gargalo "${g.titulo || '?'}": gravidade "${g.gravidade}" não existe`);
+    if (!g.titulo) erro('guilda', 'gargalo sem título');
+    if (!g.explicacao) erro('guilda', `gargalo "${g.titulo || '?'}": sem explicação. Gravidade sem texto é só cor, e o R5.7 proíbe`);
+  }
+  for (const b of guilda.bases || []) {
+    if (!b.nome) erro('guilda', 'base sem nome');
+    if (typeof b.x !== 'number' || typeof b.y !== 'number') erro('guilda', `${b.nome}: coordenada inválida`);
+    // Roster por base é observação de tela, e a tarefa B1 está bloqueada
+    // esperando isso. Fica como aviso para não sumir do radar.
+    if (!(b.pals || []).length) aviso('guilda', `${b.nome}: sem Pals alocados. Depende das telas de cada base, tarefa B1`);
+  }
+  passou(`guilda.json: ${(guilda.bases || []).length} bases, ${(guilda.gargalos || []).length} gargalos, gravidades válidas`);
+}
+
+const pastaSaves = join(raiz, 'src/data/saves');
+const arquivosSave = existsSync(pastaSaves)
+  ? (await readdir(pastaSaves)).filter((f) => f.endsWith('.json'))
+  : [];
+if (!arquivosSave.length) aviso('saves', 'nenhum save individual em src/data/saves/. O site não tem com o que comparar');
+
+const saves = [];
+for (const arquivo of arquivosSave) {
+  const save = await lerJson(`src/data/saves/${arquivo}`);
+  if (!save) continue;
+  saves.push([arquivo, save]);
+  if (!save.lido_em) {
+    erro('saves', `${arquivo}: sem "lido_em". Sem data de leitura não dá para saber se o número ainda vale`);
+    continue;
+  }
+  const dias = Math.floor((Date.now() - new Date(save.lido_em).getTime()) / 86400000);
+  if (Number.isNaN(dias)) erro('saves', `${arquivo}: "lido_em" não é uma data legível`);
+  // Vencido é AVISO de propósito: o site esconde a comparação e mostra
+  // "desatualizado". Vazio honesto vale mais que número velho, e travar o
+  // build por save velho impediria de publicar correção de conteúdo.
+  else if (dias > DIAS_ATE_VENCER) aviso('saves', `${arquivo}: lido há ${dias} dias. O site vai esconder a comparação em vez de mostrar número velho`);
+}
+if (saves.length) passou(`saves: ${saves.length} lidos, todos com data de leitura`);
+
+// Todo Pal citado no estado do grupo tem que existir no catálogo.
+if (catalogo) {
+  const doJogo = new Set((catalogo.pals || []).flatMap((p) => [p.en, p.pt]));
+  const citados = [];
+  const colher = (valor, origem) => {
+    if (typeof valor === 'string') return;
+    if (Array.isArray(valor)) return valor.forEach((v) => colher(v, origem));
+    if (!valor || typeof valor !== 'object') return;
+    for (const [chave, v] of Object.entries(valor)) {
+      if (chave === 'pal' && typeof v === 'string') citados.push([v, origem]);
+      else if ((chave === 'pals' || chave.startsWith('parados') || chave.startsWith('de_valor')) && Array.isArray(v)) {
+        v.filter((n) => typeof n === 'string').forEach((n) => citados.push([n, origem]));
+      } else colher(v, origem);
+    }
+  };
+  if (guilda) colher(guilda, 'guilda.json');
+  for (const [arquivo, save] of saves) colher(save, `saves/${arquivo}`);
+
+  const forasteiros = citados.filter(([nome]) => !doJogo.has(nome));
+  for (const [nome, origem] of forasteiros) {
+    erro('guilda', `${origem}: "${nome}" não existe no catálogo. Grafia errada ou renomeado em patch`);
+  }
+  if (citados.length) passou(`estado do grupo: ${citados.length} Pals citados, todos existem no catálogo`);
+}
+
 // ---------------------------------------------------------------- conteúdo
 const pastaWiki = join(raiz, 'src/content/wiki');
 const arquivos = (await readdir(pastaWiki)).filter((f) => f.endsWith('.md'));

@@ -1,0 +1,43 @@
+{
+  "_leia_isto": "O que é individual em co-op: nível, squad, Palbox e Palpédia. O que o grupo compartilha mora em guilda.json. Um arquivo por pessoa, criado quando o save dela for lido de verdade. Save sem leitura recente é escondido pelo site em vez de virar comparação com número velho.",
+
+  "nome": "João",
+  "lido_em": "2026-07-30",
+
+  "nivel": 52,
+  "nivel_max": 80,
+
+  "personagem": {
+    "pv": 2175,
+    "folego": 210,
+    "ataque": 154,
+    "defesa": 257,
+    "velocidade_trabalho": 125,
+    "capacidade_carga": 1000,
+    "pontos_tecnologia_nao_gastos": 79,
+    "pontos_atributo_nao_gastos": 1,
+    "slots_vazios": ["cabeça"]
+  },
+
+  "squad": [
+    { "slot": 1, "pal": "Eidrolon Ignis", "nivel": 31, "pv": 2496 },
+    { "slot": 2, "pal": "Anubis", "nivel": 47, "pv": 4707 },
+    { "slot": 3, "pal": "Jormuntide Ignis", "nivel": 47, "pv": 4534 },
+    { "slot": 4, "pal": null },
+    { "slot": 5, "pal": "Wispaw", "nivel": 45, "pv": 3646 }
+  ],
+
+  "palbox": {
+    "guardados": 300,
+    "capacidade": 330,
+    "caixas": 11,
+    "caixas_cheias": 10,
+    "parados_que_resolvem_gargalo": ["Mozzarina", "Chikipi"],
+    "de_valor_real": ["Mammorest", "Sibelyx", "Grintale", "Chillet", "Blazehowl Noct"]
+  },
+
+  "paldeck": {
+    "registrados": 132,
+    "total": 287
+  }
+}

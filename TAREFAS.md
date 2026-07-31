@@ -240,7 +240,7 @@ real, não só o primeiro nível.
 O desenho está pronto e testado em `proto/index.html`. Estas tarefas são de portar, não de inventar:
 abra o protótipo, copie o comportamento. Ordem importa, porque D1 é a base das outras.
 
-### [ ] D1 — `save.json` como fonte única do estado
+### [x] D1 — `save.json` como fonte única do estado
 
 **Requisito:** R5.1
 **Território:** conteúdo e dados
