@@ -138,6 +138,36 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   }
   conferir(quebrados.length === 0, 'nenhum link interno quebrado', quebrados.slice(0, 4).join(' | '));
 
+  // 5. a moldura inteira alterna de idioma, não só os nomes do jogo.
+  //    Quebrou porque menu, filtros e rótulos estavam escritos em português
+  //    dentro dos componentes: trocar para EN deixava o site pela metade.
+  //    Vale para texto e para placeholder, que é atributo e escapa do laço.
+  const teimosos = [];
+  for (const rota of ['', 'pals', 'mapa']) {
+    const arquivo = rota ? join(dist, rota, 'index.html') : join(dist, 'index.html');
+    if (!existsSync(arquivo)) continue;
+    await pagina.goto(`file://${arquivo}`);
+    await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
+    await pagina.waitForTimeout(200);
+    teimosos.push(...(await pagina.evaluate((onde) => {
+      const fora = [];
+      for (const el of document.querySelectorAll('[data-rot-pt]')) {
+        const alvo = el.dataset.rotEn;
+        if (alvo && el.textContent.trim() !== alvo.trim()) {
+          fora.push(`${onde}: "${el.textContent.trim().slice(0, 40)}"`);
+        }
+      }
+      for (const el of document.querySelectorAll('[data-ph-pt]')) {
+        const campo = el.matches('input, textarea') ? el : el.querySelector('input, textarea');
+        if (campo && el.dataset.phEn && campo.placeholder !== el.dataset.phEn) {
+          fora.push(`${onde}: placeholder "${campo.placeholder}"`);
+        }
+      }
+      return fora;
+    }, rota || 'home')));
+  }
+  conferir(teimosos.length === 0, 'a moldura inteira alterna para inglês', teimosos.slice(0, 4).join(' | '));
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 }

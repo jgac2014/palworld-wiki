@@ -1,22 +1,29 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { ui } from '../lib/termos.js';
 
 const paginas = (await getCollection('wiki', ({ data }) => !data.rascunho))
   .sort((a, b) => a.data.ordem - b.data.ordem);
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// O subtítulo tem uma segunda frase que o Anexo A não traduz. Em vez de apagar
+// a frase ou inventar tradução, o português fica completo e o inglês fica com
+// o texto oficial do anexo.
+const subtitulo = `${ui('home_sub', 'pt')} Focada em quem joga co-op e está no meio da progressão.`;
+const carimbo = (l) => `${ui('home_cobre', l)} 1.0.2, build 1.100.933 · ${ui('home_revisao', l)} 30.07.2026`;
 ---
 <Base
   titulo="Início"
   descricao="Wiki de Palworld 1.0 em português: aptidões de trabalho, cruzamentos, bases, endgame e glossário PT/EN."
 >
   <article>
-    <h1>Wiki Palworld 1.0</h1>
-    <p class="subtitulo">
-      Em português, com os nomes como aparecem no jogo. Focada em quem joga co-op e está no meio da progressão.
+    <h1 data-rot-pt={ui('marca', 'pt')} data-rot-en={ui('marca', 'en')}>{ui('marca', 'pt')}</h1>
+    <p class="subtitulo" data-rot-pt={subtitulo} data-rot-en={ui('home_sub', 'en')}>
+      {subtitulo}
     </p>
-    <div class="carimbo">Cobre a versão 1.0.2, build 1.100.933 · última revisão 30.07.2026</div>
+    <div class="carimbo" data-rot-pt={carimbo('pt')} data-rot-en={carimbo('en')}>{carimbo('pt')}</div>
 
     <p>
       O 1.0 não foi um patch de conteúdo, foi uma reescrita das regras de progressão. A escala de aptidão
@@ -26,25 +33,25 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
 
     <div class="numeros">
-      <div class="numero"><div class="n">287</div><div class="l">Pals no Paldeck</div></div>
-      <div class="numero"><div class="n">80</div><div class="l">Level cap</div></div>
-      <div class="numero"><div class="n">9</div><div class="l">Torres</div></div>
-      <div class="numero"><div class="n">48</div><div class="l">Cópias para 4★</div></div>
+      <div class="numero"><div class="n">287</div><div class="l" data-rot-pt={ui('stat_pals', 'pt')} data-rot-en={ui('stat_pals', 'en')}>{ui('stat_pals', 'pt')}</div></div>
+      <div class="numero"><div class="n">80</div><div class="l" data-rot-pt={ui('stat_level', 'pt')} data-rot-en={ui('stat_level', 'en')}>{ui('stat_level', 'pt')}</div></div>
+      <div class="numero"><div class="n">9</div><div class="l" data-rot-pt={ui('stat_torres', 'pt')} data-rot-en={ui('stat_torres', 'en')}>{ui('stat_torres', 'pt')}</div></div>
+      <div class="numero"><div class="n">48</div><div class="l" data-rot-pt={ui('stat_copias', 'pt')} data-rot-en={ui('stat_copias', 'en')}>{ui('stat_copias', 'pt')}</div></div>
     </div>
 
-    <h2>Ferramentas</h2>
+    <h2 data-rot-pt={ui('nav_ferramentas', 'pt')} data-rot-en={ui('nav_ferramentas', 'en')}>{ui('nav_ferramentas', 'pt')}</h2>
     <div class="blocos">
       <a class="bloco" href={`${base}/mapa`}>
-        <div class="t">Mapa interativo</div>
+        <div class="t" data-rot-pt={ui('nav_mapa', 'pt')} data-rot-en={ui('nav_mapa', 'en')}>{ui('nav_mapa', 'pt')}</div>
         <div class="d">Coordenadas do jogo, spots de recurso, torres e as bases da nossa guilda.</div>
       </a>
       <a class="bloco" href={`${base}/pals`}>
-        <div class="t">Banco de Pals</div>
+        <div class="t" data-rot-pt={ui('nav_pals', 'pt')} data-rot-en={ui('nav_pals', 'en')}>{ui('nav_pals', 'pt')}</div>
         <div class="d">Filtro por aptidão de trabalho, elemento e nível. Nomes em português.</div>
       </a>
     </div>
 
-    <h2>Guias</h2>
+    <h2 data-rot-pt={ui('nav_guias', 'pt')} data-rot-en={ui('nav_guias', 'en')}>{ui('nav_guias', 'pt')}</h2>
     <div class="blocos">
       {paginas.map((p) => (
         <a class="bloco" href={`${base}/${p.id}`}>
@@ -54,7 +61,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       ))}
     </div>
 
-    <h2>Por que esta wiki existe</h2>
+    <h2 data-rot-pt={ui('home_porque', 'pt')} data-rot-en={ui('home_porque', 'en')}>{ui('home_porque', 'pt')}</h2>
     <p>
       Quase não há material bom de Palworld 1.0 em português, e a tradução do jogo tem escolhas que
       quebram a expectativa de quem lê guia em inglês: <strong>Mining</strong> é <strong>Garimpo</strong>,

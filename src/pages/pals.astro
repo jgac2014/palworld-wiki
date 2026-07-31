@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import dados from '../data/pals.json';
-import { termo } from '../lib/termos.js';
+import { termo, ui } from '../lib/termos.js';
 
 const { aptidoes, pals } = dados;
 const chavesApt = Object.keys(aptidoes);
@@ -13,35 +13,41 @@ const ID_APT = {
   refrigeracao: 'apt_cool', transporte: 'apt_transport', fazenda: 'apt_monsterfarm',
 };
 const rot = (k) => ({ pt: termo(ID_APT[k], 'pt'), en: termo(ID_APT[k], 'en') });
-const fases = [
-  { chave: 'mid',       rotulo: 'Acessível agora' },
-  { chave: 'endgame',   rotulo: 'Endgame' },
-  { chave: 'aura',      rotulo: 'Dá aura' },
-  { chave: 'utilidade', rotulo: 'Utilidade' },
-  { chave: 'fazenda',   rotulo: 'Fazenda de criação' },
-  { chave: 'combate',   rotulo: 'Combate' },
-];
+const fases = ['mid', 'endgame', 'aura', 'utilidade', 'fazenda', 'combate'];
+// A contagem é montada no script, então os dois idiomas vão junto para lá
+const rotContagem = {
+  pt: { pals: ui('pals_contagem', 'pt'), de: ui('pals_de', 'pt') },
+  en: { pals: ui('pals_contagem', 'en'), de: ui('pals_de', 'en') },
+};
 ---
 <Base
-  titulo="Banco de Pals"
+  titulo={ui('pals_titulo', 'pt')}
   descricao="Pals de Palworld 1.0 com aptidões de trabalho em português, filtráveis por função, fase do jogo e nível."
 >
   <article>
-    <h1>Banco de Pals</h1>
+    <h1 data-rot-pt={ui('pals_titulo', 'pt')} data-rot-en={ui('pals_titulo', 'en')}>{ui('pals_titulo', 'pt')}</h1>
     <p class="subtitulo">{pals.length} Pals catalogados, com as aptidões nos nomes em português do jogo.</p>
     <div class="carimbo">Escala de 1 a 10 · nenhum Pal nasce com 10 · clique numa coluna para ordenar</div>
 
     <div class="controles">
-      <input type="search" id="txt" placeholder="Filtrar por nome, local ou anotação..." />
+      <input
+        type="search"
+        id="txt"
+        placeholder={ui('pals_filtro', 'pt')}
+        data-ph-pt={ui('pals_filtro', 'pt')}
+        data-ph-en={ui('pals_filtro', 'en')}
+      />
       <select id="apt">
-        <option value="">Todas as aptidões</option>
+        <option value="" data-rot-pt={ui('pals_todas_apt', 'pt')} data-rot-en={ui('pals_todas_apt', 'en')}>{ui('pals_todas_apt', 'pt')}</option>
         {chavesApt.map((k) => <option value={k} data-rot-pt={rot(k).pt} data-rot-en={rot(k).en}>{rot(k).pt}</option>)}
       </select>
       <select id="fase">
-        <option value="">Todas as fases</option>
-        {fases.map((f) => <option value={f.chave}>{f.rotulo}</option>)}
+        <option value="" data-rot-pt={ui('pals_todas_fases', 'pt')} data-rot-en={ui('pals_todas_fases', 'en')}>{ui('pals_todas_fases', 'pt')}</option>
+        {fases.map((f) => (
+          <option value={f} data-rot-pt={ui(`fase_${f}`, 'pt')} data-rot-en={ui(`fase_${f}`, 'en')}>{ui(`fase_${f}`, 'pt')}</option>
+        ))}
       </select>
-      <button id="limpar" type="button">Limpar</button>
+      <button id="limpar" type="button" data-rot-pt={ui('busca_limpar', 'pt')} data-rot-en={ui('busca_limpar', 'en')}>{ui('busca_limpar', 'pt')}</button>
     </div>
 
     <p class="contagem" id="contagem"></p>
@@ -50,10 +56,10 @@ const fases = [
       <table id="tabela">
         <thead>
           <tr>
-            <th data-ord="nome" class="ordenavel">Pal</th>
-            <th data-ord="apt" class="ordenavel">Aptidões</th>
-            <th>Onde conseguir</th>
-            <th>Observação</th>
+            <th data-ord="nome" class="ordenavel" data-rot-pt={ui('pals_col_pal', 'pt')} data-rot-en={ui('pals_col_pal', 'en')}>{ui('pals_col_pal', 'pt')}</th>
+            <th data-ord="apt" class="ordenavel" data-rot-pt={ui('pals_col_apt', 'pt')} data-rot-en={ui('pals_col_apt', 'en')}>{ui('pals_col_apt', 'pt')}</th>
+            <th data-rot-pt={ui('pals_col_onde', 'pt')} data-rot-en={ui('pals_col_onde', 'en')}>{ui('pals_col_onde', 'pt')}</th>
+            <th data-rot-pt={ui('pals_col_obs', 'pt')} data-rot-en={ui('pals_col_obs', 'en')}>{ui('pals_col_obs', 'pt')}</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +79,7 @@ const fases = [
                 {Object.entries(p.apt || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => (
                   <span class={`apt n${v}`}><span data-rot-pt={rot(k).pt} data-rot-en={rot(k).en}>{rot(k).pt}</span> <b>{v}</b></span>
                 ))}
-                {p.aura && <span class="apt aura">aura de <span data-rot-pt={rot(p.aura).pt} data-rot-en={rot(p.aura).en}>{rot(p.aura).pt}</span></span>}
+                {p.aura && <span class="apt aura"><span data-rot-pt={ui('pals_aura', 'pt')} data-rot-en={ui('pals_aura', 'en')}>{ui('pals_aura', 'pt')}</span> <span data-rot-pt={rot(p.aura).pt} data-rot-en={rot(p.aura).en}>{rot(p.aura).pt}</span></span>}
                 {p.efeito && <div class="efeito">{p.efeito}</div>}
               </td>
               <td class="onde">{p.onde || ''}</td>
@@ -84,7 +90,7 @@ const fases = [
       </table>
     </div>
 
-    <h2>Como ler os números</h2>
+    <h2 data-rot-pt={ui('pals_como_ler', 'pt')} data-rot-en={ui('pals_como_ler', 'en')}>{ui('pals_como_ler', 'pt')}</h2>
     <p>
       A escala foi de 4 para 10 níveis no 1.0, e a curva é fortemente não linear. Em Acender fogo,
       o nível 1 rende 50 pontos de trabalho, o 7 rende 1.100, o 8 rende 1.900 e o 10 rende 5.400.
@@ -150,7 +156,7 @@ const fases = [
   tr.escondido { display: none; }
 </style>
 
-<script>
+<script define:vars={{ rotContagem }}>
   const txt = document.getElementById('txt');
   const selApt = document.getElementById('apt');
   const selFase = document.getElementById('fase');
@@ -172,10 +178,18 @@ const fases = [
       tr.classList.toggle('escondido', !ok);
       if (ok) visiveis++;
     }
-    contagem.textContent =
+    // A contagem é remontada a cada filtro, então declara os dois idiomas de
+    // novo em vez de esperar o seletor lembrar do texto anterior.
+    const escrever = (r) =>
       visiveis === linhas.length
-        ? `${linhas.length} Pals`
-        : `${visiveis} de ${linhas.length} Pals`;
+        ? `${linhas.length} ${r.pals}`
+        : `${visiveis} ${r.de} ${linhas.length} ${r.pals}`;
+    contagem.dataset.rotPt = escrever(rotContagem.pt);
+    contagem.dataset.rotEn = escrever(rotContagem.en);
+    contagem.textContent =
+      document.documentElement.dataset.idioma === 'en'
+        ? contagem.dataset.rotEn
+        : contagem.dataset.rotPt;
   }
 
   let ordemAsc = false;

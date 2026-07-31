@@ -1,6 +1,14 @@
 import dicionario from '../data/termos.json';
+import interface_ from '../data/interface.json';
 
 export const TERMOS = dicionario.termos;
+
+/** Texto de interface no idioma pedido. */
+export function ui(chave, idioma = 'pt') {
+  const t = interface_[chave];
+  if (!t) return chave;
+  return (idioma === 'en' ? t.en : t.pt) || t.pt || chave;
+}
 
 /**
  * Devolve o nome de um termo no idioma pedido.

@@ -10,10 +10,11 @@
  * A escolha fica salva no navegador e também vai na URL (?idioma=en), para dar
  * para mandar o link já no idioma certo para o amigo.
  */
+import { ui } from '../lib/termos.js';
 ---
 
 <div class="seletor" role="group" aria-label="Idioma dos nomes do jogo">
-  <span class="rotulo">Nomes do jogo</span>
+  <span class="rotulo" data-rot-pt={ui('nav_idioma', 'pt')} data-rot-en={ui('nav_idioma', 'en')}>{ui('nav_idioma', 'pt')}</span>
   <div class="botoes">
     <button type="button" data-idioma="pt" class="ativo">PT</button>
     <button type="button" data-idioma="en">EN</button>
@@ -40,8 +41,24 @@
 
 <script>
   const CHAVE = 'palworld-wiki-idioma';
+  let idiomaAtual = 'pt';
+
+  /**
+   * Placeholder é atributo, não conteúdo de elemento, então não entra no laço
+   * de textContent. O marcador pode estar no próprio campo ou num invólucro,
+   * porque a busca do Pagefind monta o input dela sozinha.
+   */
+  function trocarPlaceholder(idioma) {
+    document.querySelectorAll('[data-ph-pt]').forEach((el) => {
+      const alvo = idioma === 'en' ? el.dataset.phEn : el.dataset.phPt;
+      if (!alvo) return;
+      const campo = el.matches('input, textarea') ? el : el.querySelector('input, textarea');
+      if (campo) campo.placeholder = alvo;
+    });
+  }
 
   function aplicar(idioma) {
+    idiomaAtual = idioma;
     document.documentElement.setAttribute('data-idioma', idioma);
     document.documentElement.lang = idioma === 'en' ? 'en' : 'pt-BR';
 
@@ -60,11 +77,14 @@
       if (alvo) el.textContent = alvo;
     });
 
-    // opções de select
+    // opções de select: trocar só o textContent deixa o rótulo antigo quando o
+    // navegador já cacheou a label da opção, então os dois são atualizados
     document.querySelectorAll('option[data-rot-pt]').forEach((op) => {
       const alvo = idioma === 'en' ? op.dataset.rotEn : op.dataset.rotPt;
-      if (alvo) op.textContent = alvo;
+      if (alvo) { op.textContent = alvo; op.label = alvo; }
     });
+
+    trocarPlaceholder(idioma);
 
     document.querySelectorAll('.seletor button').forEach((b) => {
       b.classList.toggle('ativo', b.dataset.idioma === idioma);
@@ -95,4 +115,12 @@
   });
 
   aplicar(idiomaInicial());
+
+  // A busca do Pagefind monta o campo depois desta página carregar, então o
+  // placeholder dela só existe para ser trocado quando o campo aparece.
+  const caixaBusca = document.querySelector('.caixa-busca');
+  if (caixaBusca) {
+    new MutationObserver(() => trocarPlaceholder(idiomaAtual))
+      .observe(caixaBusca, { childList: true, subtree: true });
+  }
 </script>

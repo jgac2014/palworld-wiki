@@ -1,35 +1,56 @@
 ---
 import Base from '../layouts/Base.astro';
 import dados from '../data/mapa.json';
+import { ui, termo, construirIndice } from '../lib/termos.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const categorias = Object.entries(dados.categorias);
 const total = dados.marcadores.length;
+
+// Categoria sem string no Anexo A cai para o dicionário oficial, que é a mesma
+// fonte dos nomes do jogo, e só depois para o nome cru do JSON. É o caso de
+// "Viagem rápida", que o anexo esqueceu: traduzir na mão aqui seria inventar.
+const porNome = new Map(construirIndice());
+const rotCat = (chave, nome) => {
+  const k = `cat_${chave}`;
+  const pt = ui(k, 'pt');
+  if (pt !== k) return { pt, en: ui(k, 'en') };
+  const id = porNome.get(nome);
+  return id ? { pt: termo(id, 'pt'), en: termo(id, 'en') } : { pt: nome, en: nome };
+};
+// A leitura de coordenada é escrita pelo script, então os dois idiomas vão junto
+const rotCoord = {
+  pt: { atual: ui('mapa_coord_atual', 'pt'), clicado: ui('mapa_clicado', 'pt') },
+  en: { atual: ui('mapa_coord_atual', 'en'), clicado: ui('mapa_clicado', 'en') },
+};
 ---
 <Base
-  titulo="Mapa interativo"
+  titulo={ui('mapa_titulo', 'pt')}
   descricao="Mapa de Palpagos com as coordenadas do jogo: bases da guilda, spots de minério e quartzo, torres e zonas de caça proibida."
 >
   <article>
-    <h1>Mapa interativo</h1>
-    <p class="subtitulo">{total} pontos marcados, nas mesmas coordenadas que o jogo mostra.</p>
-    <div class="carimbo">Clique num ponto para ver a anotação · arraste para mover · rolagem para zoom</div>
+    <h1 data-rot-pt={ui('mapa_titulo', 'pt')} data-rot-en={ui('mapa_titulo', 'en')}>{ui('mapa_titulo', 'pt')}</h1>
+    <p class="subtitulo">
+      {total}{' '}
+      <span data-rot-pt={ui('mapa_pontos', 'pt')} data-rot-en={ui('mapa_pontos', 'en')}>{ui('mapa_pontos', 'pt')}</span>, nas mesmas coordenadas que o jogo mostra.
+    </p>
+    <div class="carimbo" data-rot-pt={ui('mapa_dica', 'pt')} data-rot-en={ui('mapa_dica', 'en')}>{ui('mapa_dica', 'pt')}</div>
 
     <div id="filtros" class="filtros">
       {categorias.map(([chave, cat]) => (
         <label class="filtro">
           <input type="checkbox" value={chave} checked />
           <span class="ponto" style={`background:${cat.cor}`}></span>
-          {cat.nome}
+          <span data-rot-pt={rotCat(chave, cat.nome).pt} data-rot-en={rotCat(chave, cat.nome).en}>{rotCat(chave, cat.nome).pt}</span>
         </label>
       ))}
     </div>
 
     <div id="mapa"></div>
 
-    <div class="coord-atual" id="coord">Passe o mouse sobre o mapa para ler a coordenada</div>
+    <div class="coord-atual" id="coord" data-rot-pt={ui('mapa_coord', 'pt')} data-rot-en={ui('mapa_coord', 'en')}>{ui('mapa_coord', 'pt')}</div>
 
-    <h2>Como adicionar um ponto</h2>
+    <h2 data-rot-pt={ui('mapa_como_add', 'pt')} data-rot-en={ui('mapa_como_add', 'en')}>{ui('mapa_como_add', 'pt')}</h2>
     <p>
       Todos os pontos ficam num único arquivo, <code>src/data/mapa.json</code>. Dá para editar direto pelo
       site do GitHub, sem instalar nada: abra o arquivo, clique no lápis, copie um bloco existente e troque
@@ -88,7 +109,7 @@ const total = dados.marcadores.length;
   @media (max-width: 860px) { #mapa { height: 400px; } }
 </style>
 
-<script define:vars={{ dados, base }}>
+<script define:vars={{ dados, base, rotCoord }}>
   import('https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js').then((L) => {
     const { imagem, calibracao, categorias, marcadores } = dados;
 
@@ -187,16 +208,28 @@ const total = dados.marcadores.length;
     });
 
     // --- leitura de coordenada ---
+    // Guarda os dois idiomas junto do texto: sem isso, trocar de idioma depois
+    // de mexer no mapa devolvia a frase inicial e apagava a coordenada lida.
     const saida = document.getElementById('coord');
+    const escrever = (pt, en) => {
+      saida.dataset.rotPt = pt;
+      saida.dataset.rotEn = en;
+      saida.textContent = document.documentElement.dataset.idioma === 'en' ? en : pt;
+    };
     mapa.on('mousemove', (e) => {
       const px = e.latlng.lng, py = imagem.altura - e.latlng.lat;
       const [x, y] = pixelParaJogo(px, py);
-      saida.textContent = `coordenada do jogo: ${Math.round(x)}, ${Math.round(y)}`;
+      const cd = `${Math.round(x)}, ${Math.round(y)}`;
+      escrever(`${rotCoord.pt.atual}: ${cd}`, `${rotCoord.en.atual}: ${cd}`);
     });
     mapa.on('click', (e) => {
       const px = e.latlng.lng, py = imagem.altura - e.latlng.lat;
       const [x, y] = pixelParaJogo(px, py);
-      saida.textContent = `clicado: ${Math.round(x)}, ${Math.round(y)} — copie para adicionar um ponto no mapa.json`;
+      const cd = `${Math.round(x)}, ${Math.round(y)}`;
+      escrever(
+        `${rotCoord.pt.clicado}: ${cd}. Copie para adicionar um ponto no mapa.json`,
+        `${rotCoord.en.clicado}: ${cd}`,
+      );
     });
   });
 </script>

@@ -6,18 +6,26 @@
  * de dar erro. Para ligar: publique o worker (veja worker/README.md) e ponha a
  * URL dele em ENDERECO_ASSISTENTE abaixo.
  */
+import { ui } from '../lib/termos.js';
+
 const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.workers.dev'
+
+// As bolhas de resposta nascem no script, então os dois idiomas vão junto
+const rotChat = {
+  pt: { pensando: ui('chat_pensando', 'pt'), erro: ui('chat_erro', 'pt') },
+  en: { pensando: ui('chat_pensando', 'en'), erro: ui('chat_erro', 'en') },
+};
 ---
 
 <button id="abrir-chat" aria-label="Abrir o assistente da wiki">
-  <span>Perguntar</span>
+  <span data-rot-pt={ui('chat_abrir', 'pt')} data-rot-en={ui('chat_abrir', 'en')}>{ui('chat_abrir', 'pt')}</span>
 </button>
 
 <div id="painel-chat" hidden>
   <header>
     <div>
-      <strong>Assistente da wiki</strong>
-      <span>responde só com o que está escrito aqui</span>
+      <strong data-rot-pt={ui('chat_titulo', 'pt')} data-rot-en={ui('chat_titulo', 'en')}>{ui('chat_titulo', 'pt')}</strong>
+      <span data-rot-pt={ui('chat_escopo', 'pt')} data-rot-en={ui('chat_escopo', 'en')}>{ui('chat_escopo', 'pt')}</span>
     </div>
     <button id="fechar-chat" aria-label="Fechar">✕</button>
   </header>
@@ -30,7 +38,15 @@ const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.
   </div>
 
   <form id="form-chat">
-    <input id="entrada" type="text" maxlength="600" placeholder="Sua pergunta..." autocomplete="off" />
+    <input
+      id="entrada"
+      type="text"
+      maxlength="600"
+      placeholder={ui('chat_placeholder', 'pt')}
+      data-ph-pt={ui('chat_placeholder', 'pt')}
+      data-ph-en={ui('chat_placeholder', 'en')}
+      autocomplete="off"
+    />
     <button type="submit" id="enviar">→</button>
   </form>
 </div>
@@ -86,7 +102,7 @@ const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.
   @media print { #abrir-chat, #painel-chat { display: none !important; } }
 </style>
 
-<script define:vars={{ ENDERECO_ASSISTENTE }}>
+<script define:vars={{ ENDERECO_ASSISTENTE, rotChat }}>
   const abrir = document.getElementById('abrir-chat');
   const painel = document.getElementById('painel-chat');
   const fechar = document.getElementById('fechar-chat');
@@ -96,6 +112,7 @@ const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.
   const conversa = document.getElementById('conversa');
 
   const historico = [];
+  const rot = () => (document.documentElement.dataset.idioma === 'en' ? rotChat.en : rotChat.pt);
 
   abrir.addEventListener('click', () => {
     painel.hidden = false;
@@ -138,7 +155,7 @@ const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.
     entrada.disabled = enviar.disabled = true;
 
     const resposta = bolha('bot', '');
-    resposta.textContent = 'pensando...';
+    resposta.textContent = rot().pensando;
 
     try {
       const r = await fetch(ENDERECO_ASSISTENTE, {
@@ -148,7 +165,7 @@ const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.
       });
 
       if (!r.ok) {
-        let msg = 'O assistente não conseguiu responder agora.';
+        let msg = rot().erro;
         try { msg = (await r.json()).erro || msg; } catch {}
         resposta.className = 'msg erro';
         resposta.textContent = msg;

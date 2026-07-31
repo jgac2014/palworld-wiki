@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Search from 'astro-pagefind/components/Search.astro';
 import Chat from '../components/Chat.astro';
 import SeletorIdioma from '../components/SeletorIdioma.astro';
+import { ui } from '../lib/termos.js';
 import '../styles/global.css';
 
 interface Props {
@@ -40,18 +41,35 @@ const REPO = 'https://github.com/nederreis/PalCrew';
 <div class="casca">
 
   <nav class="lateral">
-    <a class="marca" href={`${base}/`}>Wiki Palworld 1.0</a>
+    <a
+      class="marca"
+      href={`${base}/`}
+      data-rot-pt={ui('marca', 'pt')}
+      data-rot-en={ui('marca', 'en')}
+    >{ui('marca', 'pt')}</a>
     <SeletorIdioma />
     <div class="marca-sub">
       Em português · mid game · co-op<br />
       Versão do jogo 1.0.2.101103
     </div>
 
-    <div class="grupo">Ferramentas</div>
-    <a class="item" href={`${base}/mapa`} aria-current={eh(`${base}/mapa`) ? 'page' : undefined}>Mapa interativo</a>
-    <a class="item" href={`${base}/pals`} aria-current={eh(`${base}/pals`) ? 'page' : undefined}>Banco de Pals</a>
+    <div class="grupo" data-rot-pt={ui('nav_ferramentas', 'pt')} data-rot-en={ui('nav_ferramentas', 'en')}>{ui('nav_ferramentas', 'pt')}</div>
+    <a
+      class="item"
+      href={`${base}/mapa`}
+      aria-current={eh(`${base}/mapa`) ? 'page' : undefined}
+      data-rot-pt={ui('nav_mapa', 'pt')}
+      data-rot-en={ui('nav_mapa', 'en')}
+    >{ui('nav_mapa', 'pt')}</a>
+    <a
+      class="item"
+      href={`${base}/pals`}
+      aria-current={eh(`${base}/pals`) ? 'page' : undefined}
+      data-rot-pt={ui('nav_pals', 'pt')}
+      data-rot-en={ui('nav_pals', 'en')}
+    >{ui('nav_pals', 'pt')}</a>
 
-    <div class="grupo">Guias</div>
+    <div class="grupo" data-rot-pt={ui('nav_guias', 'pt')} data-rot-en={ui('nav_guias', 'en')}>{ui('nav_guias', 'pt')}</div>
     {paginas.map((p) => (
       <a
         class="item"
@@ -60,23 +78,32 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       >{p.data.titulo}</a>
     ))}
 
-    <div class="grupo">Projeto</div>
-    <a class="item" href={REPO}>Contribuir no GitHub</a>
+    <div class="grupo" data-rot-pt={ui('nav_projeto', 'pt')} data-rot-en={ui('nav_projeto', 'en')}>{ui('nav_projeto', 'pt')}</div>
+    <a
+      class="item"
+      href={REPO}
+      data-rot-pt={ui('nav_contribuir', 'pt')}
+      data-rot-en={ui('nav_contribuir', 'en')}
+    >{ui('nav_contribuir', 'pt')}</a>
   </nav>
 
   <main class="conteudo">
-    <div class="caixa-busca">
+    <div
+      class="caixa-busca"
+      data-ph-pt={ui('busca_placeholder', 'pt')}
+      data-ph-en={ui('busca_placeholder', 'en')}
+    >
       <Search id="busca" className="pagefind-ui" uiOptions={{
         showImages: false,
         excerptLength: 22,
         translations: {
-          placeholder: 'Buscar na wiki: Pal, item, passiva, mecânica...',
-          zero_results: 'Nada encontrado para [SEARCH_TERM]',
+          placeholder: ui('busca_placeholder', 'pt'),
+          zero_results: `${ui('busca_vazio', 'pt')} [SEARCH_TERM]`,
           many_results: '[COUNT] resultados para [SEARCH_TERM]',
           one_result: '1 resultado para [SEARCH_TERM]',
           searching: 'Buscando...',
-          load_more: 'Ver mais resultados',
-          clear_search: 'Limpar',
+          load_more: ui('busca_mais', 'pt'),
+          clear_search: ui('busca_limpar', 'pt'),
         },
       }} />
     </div>
@@ -85,13 +112,20 @@ const REPO = 'https://github.com/nederreis/PalCrew';
 
     <footer class="rodape-pagina">
       <span>
-        {atualizado && <>Revisado em {atualizado.toLocaleDateString('pt-BR')} · </>}
-        Conteúdo aberto, contribuições bem-vindas
+        {atualizado && (
+          <>
+            <span data-rot-pt={ui('rodape_revisado', 'pt')} data-rot-en={ui('rodape_revisado', 'en')}>{ui('rodape_revisado', 'pt')}</span>
+            {' '}{atualizado.toLocaleDateString('pt-BR')} ·{' '}
+          </>
+        )}
+        <span data-rot-pt={ui('rodape_aberto', 'pt')} data-rot-en={ui('rodape_aberto', 'en')}>{ui('rodape_aberto', 'pt')}</span>
       </span>
       {arquivoFonte && (
-        <a href={`${REPO}/edit/main/src/content/wiki/${arquivoFonte}`}>
-          Corrigir esta página
-        </a>
+        <a
+          href={`${REPO}/edit/main/src/content/wiki/${arquivoFonte}`}
+          data-rot-pt={ui('rodape_corrigir', 'pt')}
+          data-rot-en={ui('rodape_corrigir', 'en')}
+        >{ui('rodape_corrigir', 'pt')}</a>
       )}
     </footer>
   </main>

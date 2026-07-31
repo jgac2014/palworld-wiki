@@ -40,7 +40,7 @@ console.log(e.length + ' strings ok');
 
 Mais `npm run verificar` passando.
 
-### [ ] A2 — Helper de rótulo e uso nos componentes
+### [x] A2 — Helper de rótulo e uso nos componentes
 
 **Requisito:** R2.4
 **Território:** código e visual (combinar antes se A1 ainda não estiver commitada)
