@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { ui } from '../lib/termos.js';
 
-const paginas = (await getCollection('wiki', ({ data }) => !data.rascunho))
+// Só a Camada 1. A home é a porta da wiki, e a decisão 3.0 do PRD é explícita:
+// quem chega pelo Google não pode esbarrar no nosso save sem querer.
+const paginas = (await getCollection('wiki', ({ data }) => !data.rascunho && data.camada !== 'nosso-mundo'))
   .sort((a, b) => a.data.ordem - b.data.ordem);
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');

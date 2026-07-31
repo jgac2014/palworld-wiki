@@ -1,0 +1,37 @@
+---
+/**
+ * Porta da Camada 2, decisão 3.0 do PRD.
+ *
+ * Existe para que a wiki não precise citar o nosso save para dar acesso a ele.
+ * O menu da Camada 1 aponta para cá e só para cá; as páginas do nosso mundo
+ * aparecem no menu depois que o leitor entrou, por escolha dele.
+ *
+ * Quando a D2 criar o painel, ele vira a página de destaque desta seção. Até
+ * lá, esta é a lista.
+ */
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { ui } from '../lib/termos.js';
+
+const doNossoMundo = (await getCollection('wiki', ({ data }) => !data.rascunho && data.camada === 'nosso-mundo'))
+  .sort((a, b) => a.data.ordem - b.data.ordem);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base titulo={ui('nav_camada_mundo', 'pt')} descricao={ui('mundo_sub', 'pt')}>
+  <article>
+    <h1 data-rot-pt={ui('nav_camada_mundo', 'pt')} data-rot-en={ui('nav_camada_mundo', 'en')}>{ui('nav_camada_mundo', 'pt')}</h1>
+    <p class="subtitulo" data-rot-pt={ui('mundo_sub', 'pt')} data-rot-en={ui('mundo_sub', 'en')}>{ui('mundo_sub', 'pt')}</p>
+
+    <div class="blocos">
+      {doNossoMundo.map((p) => (
+        <a class="bloco" href={`${base}/${p.id}`}>
+          <div class="t" data-rot-pt={p.data.titulo} data-rot-en={p.data.titulo_en || p.data.titulo}>{p.data.titulo}</div>
+          <div class="d" data-rot-pt={p.data.descricao} data-rot-en={p.data.descricao_en || p.data.descricao}>{p.data.descricao}</div>
+        </a>
+      ))}
+    </div>
+
+    <p data-rot-pt={ui('mundo_explica', 'pt')} data-rot-en={ui('mundo_explica', 'en')}>{ui('mundo_explica', 'pt')}</p>
+  </article>
+</Base>

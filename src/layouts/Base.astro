@@ -22,6 +22,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const atual = Astro.url.pathname.replace(/\/$/, '');
 const eh = (href: string) => atual === href.replace(/\/$/, '');
 
+// Decisão 3.0 do PRD: as duas metades não se misturam na navegação. A wiki é
+// pública e vale para qualquer jogador; o nosso mundo só vale para nós quatro.
+const guias = paginas.filter((p) => p.data.camada !== 'nosso-mundo');
+const doNossoMundo = paginas.filter((p) => p.data.camada === 'nosso-mundo');
+// As páginas do nosso mundo só aparecem no menu de dentro da própria seção.
+// De fora, quem chegou pelo Google vê a porta, não o conteúdo do nosso save.
+const naSecao = eh(`${base}/nosso-mundo`) || doNossoMundo.some((p) => eh(`${base}/${p.id}`));
+
 const REPO = 'https://github.com/nederreis/PalCrew';
 ---
 <!DOCTYPE html>
@@ -53,6 +61,8 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       <span data-rot-pt={ui('marca_versao', 'pt')} data-rot-en={ui('marca_versao', 'en')}>{ui('marca_versao', 'pt')}</span> 1.0.2.101103
     </div>
 
+    <div class="camada" data-rot-pt={ui('nav_camada_wiki', 'pt')} data-rot-en={ui('nav_camada_wiki', 'en')}>{ui('nav_camada_wiki', 'pt')}</div>
+
     <div class="grupo" data-rot-pt={ui('nav_ferramentas', 'pt')} data-rot-en={ui('nav_ferramentas', 'en')}>{ui('nav_ferramentas', 'pt')}</div>
     <a
       class="item"
@@ -70,7 +80,7 @@ const REPO = 'https://github.com/nederreis/PalCrew';
     >{ui('nav_pals', 'pt')}</a>
 
     <div class="grupo" data-rot-pt={ui('nav_guias', 'pt')} data-rot-en={ui('nav_guias', 'en')}>{ui('nav_guias', 'pt')}</div>
-    {paginas.map((p) => (
+    {guias.map((p) => (
       <a
         class="item"
         href={`${base}/${p.id}`}
@@ -80,7 +90,25 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       >{p.data.titulo}</a>
     ))}
 
-    <div class="grupo" data-rot-pt={ui('nav_projeto', 'pt')} data-rot-en={ui('nav_projeto', 'en')}>{ui('nav_projeto', 'pt')}</div>
+    <div class="camada" data-rot-pt={ui('nav_camada_mundo', 'pt')} data-rot-en={ui('nav_camada_mundo', 'en')}>{ui('nav_camada_mundo', 'pt')}</div>
+    <a
+      class="item"
+      href={`${base}/nosso-mundo`}
+      aria-current={eh(`${base}/nosso-mundo`) ? 'page' : undefined}
+      data-rot-pt={ui('mundo_visao', 'pt')}
+      data-rot-en={ui('mundo_visao', 'en')}
+    >{ui('mundo_visao', 'pt')}</a>
+    {naSecao && doNossoMundo.map((p) => (
+      <a
+        class="item"
+        href={`${base}/${p.id}`}
+        aria-current={eh(`${base}/${p.id}`) ? 'page' : undefined}
+        data-rot-pt={p.data.titulo}
+        data-rot-en={p.data.titulo_en || p.data.titulo}
+      >{p.data.titulo}</a>
+    ))}
+
+    <div class="camada" data-rot-pt={ui('nav_projeto', 'pt')} data-rot-en={ui('nav_projeto', 'en')}>{ui('nav_projeto', 'pt')}</div>
     <a
       class="item"
       href={REPO}

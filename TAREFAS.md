@@ -148,7 +148,7 @@ houver entrada correspondente em `pals.json`, a curadoria aparece em destaque ac
 - Pagefind indexa todas.
 - O tempo de build continua abaixo de um minuto. Se passar, pagine ou gere sob demanda.
 
-### [ ] E2 — Separar a navegação em duas camadas
+### [x] E2 — Separar a navegação em duas camadas
 
 **Requisito:** 3.0 do PRD
 **Território:** código e visual

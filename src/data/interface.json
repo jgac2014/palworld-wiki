@@ -12,6 +12,11 @@
   "nav_mapa":           { "pt": "Mapa interativo",    "en": "Interactive map" },
   "nav_pals":           { "pt": "Banco de Pals",      "en": "Pal database" },
   "nav_contribuir":     { "pt": "Contribuir no GitHub","en": "Contribute on GitHub" },
+  "nav_camada_wiki":    { "pt": "A wiki",              "en": "The wiki" },
+  "nav_camada_mundo":   { "pt": "O nosso mundo",       "en": "Our world" },
+  "mundo_visao":        { "pt": "Visão geral",         "en": "Overview" },
+  "mundo_sub":          { "pt": "A metade do site que só vale para nós quatro: o save, as bases, os gargalos e as decisões do grupo.", "en": "The half of the site that only means anything to the four of us: the save, the bases, the bottlenecks and the group's decisions." },
+  "mundo_explica":      { "pt": "A outra metade é a wiki do jogo, que serve para qualquer jogador e não depende de nada daqui. Esta seção é o contrário: só faz sentido com o nosso save na mão.", "en": "The other half is the game wiki, which works for any player and depends on nothing here. This section is the opposite: it only makes sense with our save in hand." },
   "nav_idioma":         { "pt": "Nomes do jogo",      "en": "In-game names" },
 
   "busca_placeholder":  { "pt": "Buscar na wiki: Pal, item, passiva, mecânica...", "en": "Search the wiki: Pal, item, passive, mechanic..." },
@@ -24,7 +29,7 @@
   "home_porque":        { "pt": "Por que esta wiki existe", "en": "Why this wiki exists" },
   "home_cobre":         { "pt": "Cobre a versão",     "en": "Covers version" },
   "home_revisao":       { "pt": "última revisão",     "en": "last reviewed" },
-  "home_bloco_mapa":    { "pt": "Coordenadas do jogo, spots de recurso, torres e as bases da nossa guilda.", "en": "In-game coordinates, resource spots, towers and our guild's bases." },
+  "home_bloco_mapa":    { "pt": "Coordenadas do jogo, spots de recurso, torres e zonas de caça proibida.", "en": "In-game coordinates, resource spots, towers and wildlife sanctuaries." },
   "home_bloco_pals":    { "pt": "Filtro por aptidão de trabalho, elemento e nível. Nomes em português.", "en": "Filter by work suitability, element and level. Names as your game shows them." },
 
   "stat_pals":          { "pt": "Pals no Paldeck",    "en": "Pals in the Paldeck" },

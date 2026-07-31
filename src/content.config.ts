@@ -20,6 +20,11 @@ const wiki = defineCollection({
     // de quebrar o build.
     titulo_en: z.string().optional(),
     descricao_en: z.string().optional(),
+    // Em que metade do site a página vive, conforme a seção 3.0 do PRD.
+    // "wiki" é a cobertura do jogo, que vale para qualquer jogador. "nosso-mundo"
+    // é o que só interessa a nós quatro. O padrão é wiki: página nova nasce
+    // pública, e quem quiser guardá-la na outra metade declara.
+    camada: z.enum(['wiki', 'nosso-mundo']).default('wiki'),
     // Posição no menu. Menor number aparece primeiro.
     ordem: z.number().default(99),
     // Data da última revisão de conteúdo.

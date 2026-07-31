@@ -245,6 +245,36 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     tortas.map((b) => `nível ${b.nivel} desenhou ${(b.proporcao * 100).toFixed(1)}%`).join(' | '),
   );
 
+  // 7. as duas camadas não se misturam na navegação.
+  //    Decisão 3.0 do PRD. A wiki é pública e o nosso save não é assunto de
+  //    quem chegou pelo Google. O menu mostra a porta da seção, não o conteúdo
+  //    dela, e a home não cita nenhuma página nossa. A lista abaixo é a mesma
+  //    do critério de aceite da E2.
+  const DA_CAMADA_2 = ['meu-save', 'nossas-bases', 'Base 1', 'Palbox do', 'baú de guilda'];
+  const home = await readFile(join(dist, 'index.html'), 'utf-8');
+  const vazou = DA_CAMADA_2.filter((termo) => home.includes(termo));
+  conferir(vazou.length === 0, 'a home da wiki não menciona o nosso save', `vazou: ${vazou.join(', ')}`);
+
+  await pagina.goto(`${base}/`);
+  const blocos = await pagina.evaluate(() => {
+    const saida = [];
+    let atual = null;
+    for (const el of document.querySelectorAll('.lateral > *')) {
+      if (el.classList.contains('camada')) { atual = { titulo: el.textContent.trim(), itens: [] }; saida.push(atual); }
+      else if (el.matches('a.item') && atual) atual.itens.push(el.getAttribute('href') || '');
+    }
+    return saida;
+  });
+  const titulos = new Set(blocos.map((b) => b.titulo));
+  conferir(blocos.length >= 2 && titulos.size === blocos.length, 'o menu tem blocos de camada com títulos distintos', `${blocos.length} blocos, ${titulos.size} títulos`);
+
+  // A seção do nosso mundo continua acessível, só que pela porta dela.
+  await pagina.goto(`${base}/nosso-mundo/`);
+  const daSecao = await pagina.evaluate(() =>
+    [...document.querySelectorAll('.conteudo a[href]')].map((a) => a.getAttribute('href')));
+  const alcancaveis = DA_CAMADA_2.filter((rota) => daSecao.some((h) => h.includes(rota)));
+  conferir(alcancaveis.length >= 2, 'a seção do nosso mundo dá acesso às páginas dela', `alcançou ${alcancaveis.length}`);
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 }
