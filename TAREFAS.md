@@ -235,7 +235,9 @@ pré-preenchidos pelo nosso estoque quando o overlay estiver ligado:
    ingrediente mais escasso, e a mensagem nomeia qual é. O protótipo só tem campo para trigo e
    farinha, e isso é defeito dele: o aceite exige mexer em leite e ovos.
 2. **Cruzamento**, par para alvo e alvo para par, usando o CombiRank do catálogo.
-3. ~~Taxa de captura.~~ **Fora da E5 por falta de fonte**, ver o impedimento no fim da tarefa.
+3. ~~Taxa de captura.~~ **CANCELADA em definitivo em 01.08**, decisão registrada na seção 5 do
+   `PRD.md`. No lugar dela entra uma **tabela de poder de captura**, que é dado e não fórmula, e que
+   está esperando números: ver o impedimento no fim da tarefa.
 4. **Condensação**, só o total para 4★ enquanto a distribuição por estrela não tiver fonte.
 
 **Aceite:**
@@ -273,22 +275,29 @@ paldb, a mesma origem do catálogo. A regra completa, com a conferência que a p
   calculadora ausente, porque parece certo. Para destravar: abrir a UI do Casulo de Condensação no
   jogo, anotar as quatro faixas e registrar em `fontes.md`.
 
-**Impedimento aberto: a calculadora de taxa de captura não entra sem fonte.**
+**Calculadora de captura: cancelada em 01.08, decisão fechada.** A fórmula nativa do 1.0 não está
+recuperada publicamente, nenhuma fonte a publica com citação, e o jogo já mostra a probabilidade na
+mira, o que faria a calculadora ser pior que a tela que o jogador tem. Motivo completo na seção 5
+do `PRD.md`.
 
-A E5 pedia quatro calculadoras. Três têm fórmula sustentada por fonte; a de captura não, e não é
-por falta de procurar:
+**Impedimento aberto: a tabela de poder de captura está sem os números.**
 
-- O paldb calcula no servidor, em `/api/captureRate`, e publica por Pal apenas o
-  `CaptureRateCorrect`. O multiplicador de cada tier de esfera, o peso da vida restante e o do nível
-  não aparecem em página nenhuma dele.
-- `palworld.wiki.gg` responde 403 para leitura automatizada daqui.
-- O que esta wiki tem é a transformação de exibição, `TaxaExibida = TaxaReal^1.25` com rolagens de
-  expoente 4/9, 3/9 e 2/9. Isso explica por que capturas de 0,3% acontecem, e **não** permite
-  calcular a taxa: descreve o número da tela, não como ele nasce.
+A tabela que substitui a calculadora precisa de quatro coisas: poder por esfera, bônus da Efígie de
+Lifmunk por nível, bônus por módulo de esfera e a penalidade de alfa. Dessas, chegaram aqui **quatro
+valores**, por leitura humana da página *Capture Power* da `palworld.wiki.gg` feita pelo Cowork,
+porque esta máquina recebe **403** dela e `palmods.com` é domínio estacionado:
 
-Escrever a fórmula de memória seria exatamente o que o `fontes.md` chama de boato, e o custo já é
-conhecido: 26 dos 77 Pals digitados à mão estavam errados. Para destravar, basta uma fonte que
-publique os multiplicadores: datamine com os valores por esfera, ou a fórmula com constantes.
+| Esfera | wiki.gg | PalMods |
+|---|---|---|
+| Legendary | 37 | 38 |
+| Ultimate | 43 | 44 |
+| Sol Sphere | não lista | 58 |
+| Ancient Sphere | não lista | 64 |
+
+A divergência está registrada em `fontes.md`, sem lado escolhido, junto com a hipótese de que a
+página da wiki.gg seja anterior ao 1.0. **Falta o resto**: as outras esferas, os níveis da Efígie, o
+módulo e o alfa. Meia tabela publicada é pior que tabela nenhuma, porque o leitor não sabe o que
+falta. Para destravar, cole aqui os números que faltam com a origem de cada um.
 
 ### [x] E7 — Índices de item, estrutura e tecnologia
 

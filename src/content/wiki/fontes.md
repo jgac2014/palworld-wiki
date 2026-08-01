@@ -38,12 +38,38 @@ A lição está registrada aqui e não no histórico do Git: **dado numérico co
 | **Formato exato da Arena** | Fontes divergem entre 3v3 e 4v4. A leitura mais consistente é 3 Pals por jogador, sendo 1 main cuja partner skill você ativa. |
 | **Estado das Wildlife Sanctuaries** | Patch notes dizem que foram reformuladas. Os guias detalhados ainda descrevem a versão de Early Access. |
 | **Distribuição das 48 cópias por estrela** | Não oficial. Confira a UI do Condenser. **Enquanto isso não for conferido no jogo, a calculadora de condensação só responde o total para 4★**, que é o número que tem fonte. |
+| **Poder de captura por esfera** | **Duas fontes divergem e nenhuma foi escolhida.** Ver a seção abaixo. |
 | **Fórmula da taxa de captura** | **Sem fonte utilizável.** O paldb calcula no servidor dele, em `/api/captureRate`, e publica por Pal só o `CaptureRateCorrect`; o multiplicador de cada esfera, o peso da vida restante e o do nível não aparecem em lugar nenhum. A wiki.gg responde 403 para leitura automatizada. O que temos é a transformação de exibição, `TaxaExibida = TaxaReal^1.25` com rolagens 4/9, 3/9 e 2/9, que descreve o número da tela e não permite calculá-lo. **A calculadora de captura fica de fora da E5 até aparecer fonte.** |
 | **Tabela de recompensas de raid por tier** | Não existe fonte oficial. Desconfie de listas específicas. |
 
 :::atencao
 **Nota metodológica:** boa parte do conteúdo "1.0" indexado hoje é SEO gerado por IA e se contradiz. Fandom wiki e parte do Game8 ainda estão com dados de Early Access (suitability máxima 4, condensação 116). O que está nesta wiki foi cruzado entre o changelog oficial, databases dataminadas (paldb.cc, palworld.gg) e threads de comunidade com replicação independente.
 
+:::
+
+## Poder de captura: duas fontes, dois números, nenhum escolhido
+
+Registrado em **01.08.2026**. A calculadora de taxa de captura foi recusada (ver a seção 5 do
+`PRD.md`) e no lugar dela entra uma tabela de poder de captura, que é dado e não fórmula. As duas
+fontes que existem **não batem**, e a tabela do site mostra as duas colunas em vez de escolher uma:
+
+| Esfera | palworld.wiki.gg | PalMods |
+|---|---|---|
+| Legendary | 37 | 38 |
+| Ultimate | 43 | 44 |
+| Sol Sphere | não lista | 58 |
+| Ancient Sphere | não lista | 64 |
+
+A diferença constante de 1 ponto nos tiers que as duas cobrem, somada às duas esferas que só o
+PalMods tem, **sugere que a página da wiki.gg é anterior ao 1.0**. É hipótese, não conclusão: até
+alguém conferir na tela do jogo, as duas colunas ficam.
+
+:::atencao
+**Esta seção está incompleta e a tabela do site ainda não existe.** Faltam o poder das outras
+esferas, o bônus da Efígie de Lifmunk por nível, o bônus do módulo de esfera e a penalidade de
+alfa. A `palworld.wiki.gg` responde **403** para leitura automatizada desta máquina, e os quatro
+números acima chegaram por leitura humana da página *Capture Power*, feita pelo Cowork. Enquanto os
+demais não chegarem, publicar meia tabela seria pior que não ter tabela.
 :::
 
 ## A regra de cruzamento, conferida em 01.08.2026

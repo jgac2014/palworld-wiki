@@ -104,7 +104,7 @@ Cada requisito tem um identificador estável. As tarefas citam esses identificad
 | R1.6 | **Catálogo completo dos Pals do jogo, importado e não digitado** | Feito, 299 Pals |
 | R1.7 | Página gerada por Pal do catálogo, com ficha e ligação para os guias que o citam | Feito, 299 páginas geradas do catálogo (E1) |
 | R1.8 | Catálogo de itens, estruturas e tecnologias, importado e exibido em índice filtrável, **sem página por registro** (decisão de 31.07) | Feito. Importado: 1.875 itens, 496 estruturas, 588 tecnologias, com os três índices no ar (E7) |
-| R1.9 | Calculadoras universais: cruzamento, taxa de captura, condensação | **Pendente** |
+| R1.9 | Calculadoras universais: bolo, cruzamento e condensação. **A de taxa de captura foi recusada em 01.08**, ver a seção 5 | **Pendente** |
 
 ### R2 — Bilíngue
 
@@ -176,6 +176,13 @@ Escrito explicitamente porque cada item já foi proposto e recusado.
 - **Monetização, anúncio, métrica de audiência.** Não há audiência.
 - **Backend, banco de dados, conteúdo dinâmico.** A única peça com servidor é o worker do assistente,
   e ele é opcional: sem ele o site funciona inteiro.
+- **Calculadora de taxa de captura.** Recusada em 01.08.2026, por três motivos somados. A fórmula
+  nativa do 1.0 **não está recuperada publicamente**: o PalMods declara isso e ajusta o modelo dele
+  ao comportamento dataminado da 0.7.3. Nenhuma fonte publica a fórmula com citação, e o paldb
+  calcula no servidor dele sem expor as constantes. E o jogo **já mostra a probabilidade na mira**,
+  o que faria a calculadora ser pior que a tela que o jogador tem na frente. No lugar dela entra uma
+  **tabela de poder de captura**, que é dado e não fórmula: poder por esfera, bônus da Efígie de
+  Lifmunk por nível, bônus por módulo de esfera e a penalidade de alfa.
 
 ## 6. Como saber se deu certo
 
@@ -232,5 +239,8 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
   variação entre rodadas do mesmo arquivo passou de 60%, o que tornaria instável qualquer asserção
   de tempo no portão. O teto é verificado por `scripts/gerar-offline.mjs`, que aborta com código 1
   ao estourar e imprime a composição por seção em toda execução.
+- **01.08** A calculadora de taxa de captura está **cancelada**, e no lugar dela entra uma tabela de
+  poder de captura. Motivo na seção 5. A regra que decorre e vale para o resto: **onde não há
+  fórmula com fonte, publique o dado, não o palpite.**
 - **30.07** O repositório de destino é `nederreis/PalCrew`. Enquanto ele for privado e sem acesso
   liberado, este repositório é a fonte da verdade.
