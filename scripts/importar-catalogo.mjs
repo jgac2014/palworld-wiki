@@ -141,6 +141,39 @@ function extrairItens(html) {
     .filter(Boolean);
 }
 
+/**
+ * Atributo numérico de item, do jeito que o paldb publica:
+ *
+ *   <span class="bg-dark bg-gradient p-1">Capture Power</span>
+ *   <span class="border p-1">58</span>
+ *
+ * O rótulo às vezes vem embrulhado num <span data-hover> (é o caso de
+ * Technology), então a captura ignora tag no meio.
+ *
+ * Por que a página de CATEGORIA e não a de cada item: o índice geral de itens
+ * não traz atributo nenhum, e visitar as 1.875 fichas seria 1.875 requisições
+ * ao paldb para colher onze números. A página de categoria traz os atributos
+ * dos itens dela numa requisição só.
+ */
+const UM_ATRIBUTO = /<span class="bg-dark bg-gradient p-1">(?:<[^>]+>)*([^<]+)(?:<\/[^>]+>)*<\/span><span class="border p-1">(\d+)<\/span>/g;
+
+function extrairAtributos(html) {
+  const porChave = new Map();
+  for (const bloco of html.split('hover_icon_bg').slice(1)) {
+    const chave = bloco.match(/<a href="([^"]+)"><img/)?.[1];
+    if (!chave) continue;
+    const atributos = {};
+    for (const m of bloco.matchAll(UM_ATRIBUTO)) {
+      // "Capture Power" vira capture_power: a chave é o rótulo do jogo em
+      // inglês, normalizado, e não uma lista escrita aqui que envelhece quando
+      // o paldb publicar um atributo novo.
+      atributos[m[1].trim().toLowerCase().replace(/[^a-z0-9]+/g, '_')] = Number(m[2]);
+    }
+    if (Object.keys(atributos).length) porChave.set(decodeURIComponent(chave), atributos);
+  }
+  return porChave;
+}
+
 /** Estruturas. Trazem a categoria de construção junto, já traduzida. */
 function extrairEstruturas(html) {
   const achados = [];
@@ -483,11 +516,27 @@ console.log(`  índice de itens: ${itensEn.length} entradas, ${itensUnicos.lengt
 // script importa. Quem for montar a página de itens decide o que esconder.
 const internos = itensUnicos.filter((i) => /_/.test(i.nome)).length;
 if (internos) console.log(`  ${internos} entradas parecem internas do jogo (nome com underscore). Importadas mesmo assim`);
+
+// Os atributos numéricos vêm da página de categoria, que é onde o paldb os
+// publica. Hoje só as esferas interessam, porque é delas que sai o poder de
+// captura; acrescentar categoria aqui é uma linha.
+await respirar();
+const atributosPorItem = extrairAtributos(await baixar('en', 'Sphere'));
+const comCaptura = [...atributosPorItem.values()].filter((a) => a.capture_power !== undefined).length;
+if (!comCaptura) {
+  console.error('\n  ABORTADO: nenhuma esfera veio com poder de captura. A página de categoria do paldb mudou de forma, e a tabela do site ficaria vazia sem ninguém perceber. Nada foi escrito.');
+  process.exit(1);
+}
+console.log(`  ${atributosPorItem.size} itens com atributo numérico, ${comCaptura} com poder de captura`);
+
 await gravar(
   'itens.json',
-  juntarIdiomas(itensUnicos, itensPtLista),
+  juntarIdiomas(itensUnicos, itensPtLista, (x) => {
+    const a = atributosPorItem.get(x.chave);
+    return a ? { atributos: a } : {};
+  }),
   1200,
-  'Tudo que entra no inventário, importado do índice de itens do paldb nos dois idiomas.',
+  'Tudo que entra no inventário, importado do índice de itens do paldb nos dois idiomas. Os atributos numéricos, como o poder de captura das esferas, vêm da página de categoria.',
 );
 
 const construcao = abasDeConstrucao(htmlEn);

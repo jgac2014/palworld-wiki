@@ -177,7 +177,7 @@ Escrito explicitamente porque cada item já foi proposto e recusado.
 - **Backend, banco de dados, conteúdo dinâmico.** A única peça com servidor é o worker do assistente,
   e ele é opcional: sem ele o site funciona inteiro.
 - **Calculadora de taxa de captura.** Recusada em 01.08.2026, por três motivos somados. A fórmula
-  nativa do 1.0 **não está recuperada publicamente**: o PalMods declara isso e ajusta o modelo dele
+  nativa do 1.0 **não está recuperada publicamente**: o `palmods.gg` declara isso e ajusta o modelo dele
   ao comportamento dataminado da 0.7.3. Nenhuma fonte publica a fórmula com citação, e o paldb
   calcula no servidor dele sem expor as constantes. E o jogo **já mostra a probabilidade na mira**,
   o que faria a calculadora ser pior que a tela que o jogador tem na frente. No lugar dela entra uma

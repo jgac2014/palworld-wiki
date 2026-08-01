@@ -38,7 +38,7 @@ A lição está registrada aqui e não no histórico do Git: **dado numérico co
 | **Formato exato da Arena** | Fontes divergem entre 3v3 e 4v4. A leitura mais consistente é 3 Pals por jogador, sendo 1 main cuja partner skill você ativa. |
 | **Estado das Wildlife Sanctuaries** | Patch notes dizem que foram reformuladas. Os guias detalhados ainda descrevem a versão de Early Access. |
 | **Distribuição das 48 cópias por estrela** | Não oficial. Confira a UI do Condenser. **Enquanto isso não for conferido no jogo, a calculadora de condensação só responde o total para 4★**, que é o número que tem fonte. |
-| **Poder de captura por esfera** | **Duas fontes divergem e nenhuma foi escolhida.** Ver a seção abaixo. |
+| **Poder de captura por esfera** | **Resolvido em 01.08**, com duas linhas ainda esperando confirmação. Ver a seção abaixo. |
 | **Fórmula da taxa de captura** | **Sem fonte utilizável.** O paldb calcula no servidor dele, em `/api/captureRate`, e publica por Pal só o `CaptureRateCorrect`; o multiplicador de cada esfera, o peso da vida restante e o do nível não aparecem em lugar nenhum. A wiki.gg responde 403 para leitura automatizada. O que temos é a transformação de exibição, `TaxaExibida = TaxaReal^1.25` com rolagens 4/9, 3/9 e 2/9, que descreve o número da tela e não permite calculá-lo. **A calculadora de captura fica de fora da E5 até aparecer fonte.** |
 | **Tabela de recompensas de raid por tier** | Não existe fonte oficial. Desconfie de listas específicas. |
 
@@ -47,29 +47,48 @@ A lição está registrada aqui e não no histórico do Git: **dado numérico co
 
 :::
 
-## Poder de captura: duas fontes, dois números, nenhum escolhido
+## Poder de captura: não era empate entre fontes, era fonte velha
 
 Registrado em **01.08.2026**. A calculadora de taxa de captura foi recusada (ver a seção 5 do
-`PRD.md`) e no lugar dela entra uma tabela de poder de captura, que é dado e não fórmula. As duas
-fontes que existem **não batem**, e a tabela do site mostra as duas colunas em vez de escolher uma:
+`PRD.md`) e no lugar dela entra uma tabela de poder de captura, que é dado e não fórmula.
 
-| Esfera | palworld.wiki.gg | PalMods |
+A dúvida inicial era um empate entre duas fontes que davam números diferentes. **Não é empate.** A
+`palworld.wiki.gg` não lista Sol, Ancient nem Raider, e a página dela se refere ao Feybreak, que é
+anterior ao 1.0. O paldb dá 58 para a Sol, o mesmo do `palmods.gg`. É fonte desatualizada contra a
+fonte que este repositório já usa para o catálogo inteiro, e por isso **o paldb vale**.
+
+O poder de captura deixou de ser número colado e passou a ser **dado importado**: o paldb publica
+"Capture Power" como atributo do item, e o importador o traz da página de categoria das esferas,
+junto com os outros atributos numéricos. Onze esferas, uma requisição.
+
+| Esfera | paldb, importado | conferência da wiki.gg |
 |---|---|---|
-| Legendary | 37 | 38 |
-| Ultimate | 43 | 44 |
-| Sol Sphere | não lista | 58 |
-| Ancient Sphere | não lista | 64 |
+| Pal Sphere | 7 | 7 |
+| Mega Sphere | 14 | 14 |
+| Giga Sphere | 20 | 20 |
+| Hyper Sphere | **27** | **26** |
+| Ultra Sphere | **33** | **32** |
+| Legendary Sphere | 38 | 37 |
+| Ultimate Sphere | 44 | 43 |
+| Exotic Sphere | 50 | não lista |
+| Sol Sphere | 58 | não lista |
+| Ancient Sphere | 64 | não lista |
+| Radar Sphere | 20 | não lista |
 
-A diferença constante de 1 ponto nos tiers que as duas cobrem, somada às duas esferas que só o
-PalMods tem, **sugere que a página da wiki.gg é anterior ao 1.0**. É hipótese, não conclusão: até
-alguém conferir na tela do jogo, as duas colunas ficam.
+O padrão que aparece aqui **reforça a conclusão**: as três esferas antigas batem exatamente, e as
+quatro que o 1.0 mexeu estão um ponto acima na fonte atual. A wiki.gg não errou, ela parou no tempo.
 
 :::atencao
-**Esta seção está incompleta e a tabela do site ainda não existe.** Faltam o poder das outras
-esferas, o bônus da Efígie de Lifmunk por nível, o bônus do módulo de esfera e a penalidade de
-alfa. A `palworld.wiki.gg` responde **403** para leitura automatizada desta máquina, e os quatro
-números acima chegaram por leitura humana da página *Capture Power*, feita pelo Cowork. Enquanto os
-demais não chegarem, publicar meia tabela seria pior que não ter tabela.
+**Duas linhas ainda esperam confirmação do dono do projeto.** A conferência independente de 01.08
+cobria cinco esferas e bateu em três; Hyper e Ultra divergem em um ponto cada, e a regra combinada é
+não escolher em silêncio quando o importado difere do conferido. Até a confirmação, a tabela não
+sobe para o site.
+:::
+
+:::nota
+**O que fica de fora da tabela, e por quê.** O bônus da Efígie de Lifmunk por nível, o bônus do
+módulo de esfera e a penalidade de alfa **não são publicados pelo paldb** como atributo. Sem fonte,
+não entram: linha vazia numa tabela é convite para alguém preencher de cabeça depois.
 :::
 
 ## A regra de cruzamento, conferida em 01.08.2026

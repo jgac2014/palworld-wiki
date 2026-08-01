@@ -2,7 +2,7 @@
   "_leia_isto": [
     "ARQUIVO GERADO. Não edite à mão: rode \"npm run catalogo:importar\".",
     "",
-    "Tudo que entra no inventário, importado do índice de itens do paldb nos dois idiomas."
+    "Tudo que entra no inventário, importado do índice de itens do paldb nos dois idiomas. Os atributos numéricos, como o poder de captura das esferas, vêm da página de categoria."
   ],
   "fonte": "paldb.cc",
   "importado_em": "2026-08-01",
@@ -299,32 +299,56 @@
       "chave": "Pal_Sphere",
       "en": "Pal Sphere",
       "pt": "Pal Sphere",
-      "sem_traducao_oficial": true
+      "sem_traducao_oficial": true,
+      "atributos": {
+        "technology": 2,
+        "capture_power": 7
+      }
     },
     {
       "chave": "Mega_Sphere",
       "en": "Mega Sphere",
-      "pt": "Esfera Mega"
+      "pt": "Esfera Mega",
+      "atributos": {
+        "technology": 14,
+        "capture_power": 14
+      }
     },
     {
       "chave": "Giga_Sphere",
       "en": "Giga Sphere",
-      "pt": "Esfera Giga"
+      "pt": "Esfera Giga",
+      "atributos": {
+        "technology": 20,
+        "capture_power": 20
+      }
     },
     {
       "chave": "Hyper_Sphere",
       "en": "Hyper Sphere",
-      "pt": "Esfera Tera"
+      "pt": "Esfera Tera",
+      "atributos": {
+        "technology": 27,
+        "capture_power": 27
+      }
     },
     {
       "chave": "Ultra_Sphere",
       "en": "Ultra Sphere",
-      "pt": "Esfera Ultra"
+      "pt": "Esfera Ultra",
+      "atributos": {
+        "technology": 35,
+        "capture_power": 33
+      }
     },
     {
       "chave": "Legendary_Sphere",
       "en": "Legendary Sphere",
-      "pt": "Esfera Lendária"
+      "pt": "Esfera Lendária",
+      "atributos": {
+        "technology": 44,
+        "capture_power": 38
+      }
     },
     {
       "chave": "Bread",
@@ -3139,7 +3163,11 @@
     {
       "chave": "Ultimate_Sphere",
       "en": "Ultimate Sphere",
-      "pt": "Esfera Suprema"
+      "pt": "Esfera Suprema",
+      "atributos": {
+        "technology": 51,
+        "capture_power": 44
+      }
     },
     {
       "chave": "Frag_Grenade_Mk2",
@@ -4104,7 +4132,11 @@
     {
       "chave": "Exotic_Sphere",
       "en": "Exotic Sphere",
-      "pt": "Esfera da Infinidade"
+      "pt": "Esfera da Infinidade",
+      "atributos": {
+        "technology": 58,
+        "capture_power": 50
+      }
     },
     {
       "chave": "Compound_Bow",
@@ -6929,12 +6961,20 @@
     {
       "chave": "Sol_Sphere",
       "en": "Sol Sphere",
-      "pt": "Esfera Soralítica"
+      "pt": "Esfera Soralítica",
+      "atributos": {
+        "technology": 67,
+        "capture_power": 58
+      }
     },
     {
       "chave": "Ancient_Sphere",
       "en": "Ancient Sphere",
-      "pt": "Esfera Antiga"
+      "pt": "Esfera Antiga",
+      "atributos": {
+        "technology": 74,
+        "capture_power": 64
+      }
     },
     {
       "chave": "Huge_Mutated_Egg",
@@ -8206,7 +8246,10 @@
     {
       "chave": "Radar_Sphere",
       "en": "Radar Sphere",
-      "pt": "Esfera Salteadora"
+      "pt": "Esfera Salteadora",
+      "atributos": {
+        "capture_power": 20
+      }
     },
     {
       "chave": "PenguinLauncher",

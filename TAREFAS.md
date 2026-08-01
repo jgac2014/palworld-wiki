@@ -280,24 +280,29 @@ recuperada publicamente, nenhuma fonte a publica com citação, e o jogo já mos
 mira, o que faria a calculadora ser pior que a tela que o jogador tem. Motivo completo na seção 5
 do `PRD.md`.
 
-**Impedimento aberto: a tabela de poder de captura está sem os números.**
+**A tabela de poder de captura deixou de depender de número colado.** O paldb publica "Capture
+Power" como atributo do item, e o importador passou a trazer os atributos numéricos da página de
+categoria: **onze esferas numa requisição**, com aborto se nenhuma vier com poder de captura. A
+divergência entre fontes está resolvida em `fontes.md`: a wiki.gg não lista Sol, Ancient nem Raider
+e se refere ao Feybreak, anterior ao 1.0, enquanto o paldb dá os mesmos números do `palmods.gg`.
 
-A tabela que substitui a calculadora precisa de quatro coisas: poder por esfera, bônus da Efígie de
-Lifmunk por nível, bônus por módulo de esfera e a penalidade de alfa. Dessas, chegaram aqui **quatro
-valores**, por leitura humana da página *Capture Power* da `palworld.wiki.gg` feita pelo Cowork,
-porque esta máquina recebe **403** dela e `palmods.com` é domínio estacionado:
+Efígie de Lifmunk, módulo de esfera e penalidade de alfa **ficam de fora**: o paldb não publica
+esses como atributo, e a página vai dizer que ficaram de fora e por quê, em vez de deixar linha
+vazia.
 
-| Esfera | wiki.gg | PalMods |
+**Impedimento aberto: duas esferas divergem da conferência independente.**
+
+A conferência de 01.08 cobria cinco esferas e bateu em três. As outras duas:
+
+| Esfera | paldb, importado | conferência da wiki.gg |
 |---|---|---|
-| Legendary | 37 | 38 |
-| Ultimate | 43 | 44 |
-| Sol Sphere | não lista | 58 |
-| Ancient Sphere | não lista | 64 |
+| Hyper Sphere | **27** | **26** |
+| Ultra Sphere | **33** | **32** |
 
-A divergência está registrada em `fontes.md`, sem lado escolhido, junto com a hipótese de que a
-página da wiki.gg seja anterior ao 1.0. **Falta o resto**: as outras esferas, os níveis da Efígie, o
-módulo e o alfa. Meia tabela publicada é pior que tabela nenhuma, porque o leitor não sabe o que
-falta. Para destravar, cole aqui os números que faltam com a origem de cada um.
+A regra combinada é não escolher em silêncio quando o importado difere do conferido, então a tabela
+não sobe até a confirmação. Vale notar que a diferença de um ponto é a mesma já observada em
+Legendary e Ultimate, e que as três esferas antigas bateram exatamente, o que aponta para a mesma
+causa: a página da wiki.gg parou antes do 1.0.
 
 ### [x] E7 — Índices de item, estrutura e tecnologia
 
