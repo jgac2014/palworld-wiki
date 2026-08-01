@@ -706,7 +706,7 @@ por existir só numa conversa. Tarefa que não está em arquivo não existe.
 primeiras são o que um visitante encontra em trinta segundos, e a F12 é uma linha de dado com efeito
 em 588 registros. As três últimas custam mais e aparecem menos.
 
-### [ ] F5 — O botão do assistente está morto nas 323 páginas
+### [x] F5 — O botão do assistente está morto nas 323 páginas
 
 **Requisito:** R3.4
 **Território:** código e visual
@@ -749,6 +749,23 @@ tarefa precisar ser desfeita.
   vez e está escrito nas armadilhas do `CLAUDE.md`.
 - Provado por sabotagem: renderizar o widget sem a guarda e ver o portão acusar.
 - `npm run portao` passando.
+
+**Feita. Zero de 323 páginas oferecem o assistente, e 323 de 323 voltam a oferecer quando o endereço
+existe**, medido com a URL preenchida e desfeita em seguida. O ramo "sem endereço" saiu de dentro do
+script junto: sem endereço o script não é gerado, então guardar a desculpa ali seria manter o texto
+vivo sem nunca exibi-lo.
+
+**A sabotagem apareceu sozinha, e foi a melhor prova possível.** A asserção nova rodou contra o
+`dist/` anterior à correção, que é literalmente o estado sabotado, e acusou "323 de 323 páginas com
+o botão, botão no DOM: true".
+
+**Encostou em `scripts/`, que é território de conteúdo, e por um motivo que vale registrar.** A
+suíte inteira não rodava neste ambiente: o `/mapa` pede o Leaflet ao unpkg, a saída para a internet é
+bloqueada aqui, e a asserção do zoom morria por timeout de 30s **derrubando o processo antes das
+outras cinquenta**. Um host bloqueado apagava o portão inteiro, e quem rodasse via só o timeout. O
+desvio serve a cópia local do mesmo pino que o `package.json` já declara, e falha dizendo que faltou
+insumo se ela não existir. As sete asserções do mapa passaram a rodar de verdade aqui, em vez de
+serem impossíveis: são 53 ok contra 45 antes.
 
 ### [ ] F6 — Três contagens de Pal no ar, e nenhuma explica a outra
 

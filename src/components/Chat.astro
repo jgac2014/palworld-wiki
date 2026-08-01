@@ -2,13 +2,18 @@
 /**
  * Widget do assistente. Fica flutuando no canto de todas as páginas.
  *
- * Enquanto o worker não estiver publicado, o botão explica o que falta em vez
- * de dar erro. Para ligar: publique o worker (veja worker/README.md) e ponha a
- * URL dele em ENDERECO_ASSISTENTE abaixo.
+ * Enquanto o worker não estiver publicado, o widget INTEIRO não é gerado.
+ * Antes ele nascia no site e respondia com um recado pedindo para publicar o
+ * worker, ou seja, bilhete de quem programa exibido para quem lê. Botão que
+ * convida e termina em desculpa é pior que botão que não existe.
+ *
+ * Para ligar: publique o worker (veja worker/README.md) e ponha a URL dele em
+ * ENDERECO_ASSISTENTE abaixo. O widget volta sozinho, em todas as páginas.
  */
 import { ui } from '../lib/termos.js';
 
 const ENDERECO_ASSISTENTE = ''; // ex: 'https://wiki-palworld-ia.SEU-SUBDOMINIO.workers.dev'
+const ligado = ENDERECO_ASSISTENTE.length > 0;
 
 // As bolhas de resposta nascem no script, então os dois idiomas vão junto
 const rotChat = {
@@ -17,6 +22,8 @@ const rotChat = {
 };
 ---
 
+{ligado && (
+<Fragment>
 <button id="abrir-chat" aria-label="Abrir o assistente da wiki">
   <span data-rot-pt={ui('chat_abrir', 'pt')} data-rot-en={ui('chat_abrir', 'en')}>{ui('chat_abrir', 'pt')}</span>
 </button>
@@ -50,6 +57,8 @@ const rotChat = {
     <button type="submit" id="enviar">→</button>
   </form>
 </div>
+</Fragment>
+)}
 
 <style>
   #abrir-chat {
@@ -102,6 +111,7 @@ const rotChat = {
   @media print { #abrir-chat, #painel-chat { display: none !important; } }
 </style>
 
+{ligado && (
 <script define:vars={{ ENDERECO_ASSISTENTE, rotChat }}>
   const abrir = document.getElementById('abrir-chat');
   const painel = document.getElementById('painel-chat');
@@ -138,17 +148,9 @@ const rotChat = {
     const pergunta = entrada.value.trim();
     if (!pergunta) return;
 
-    if (!ENDERECO_ASSISTENTE) {
-      bolha('eu', pergunta);
-      bolha(
-        'erro',
-        'O assistente ainda não foi ligado. Falta publicar o worker e colocar o endereço dele em ' +
-        'src/components/Chat.astro. O passo a passo está em worker/README.md.'
-      );
-      entrada.value = '';
-      return;
-    }
-
+    // Não existe mais o ramo "sem endereço" aqui: sem endereço este script não
+    // é gerado. Guardar a desculpa dentro do código que só roda quando o
+    // assistente está ligado seria manter o texto vivo sem nunca exibi-lo.
     bolha('eu', pergunta);
     historico.push({ role: 'user', content: pergunta });
     entrada.value = '';
@@ -212,3 +214,4 @@ const rotChat = {
     }
   });
 </script>
+)}

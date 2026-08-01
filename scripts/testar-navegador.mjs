@@ -25,6 +25,18 @@ const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(raiz, 'dist');
 const offline = join(raiz, 'wiki-palworld-offline.html');
 
+/**
+ * Todo HTML gerado, a árvore inteira.
+ *
+ * Para asserção que precisa falar das 323 páginas e não da amostra que coube
+ * na visita do navegador. Abrir todas no Chromium a cada portão não paga; ler
+ * todas em disco custa milissegundos.
+ */
+const todosOsHtml = async () =>
+  (await readdir(dist, { recursive: true, withFileTypes: true }))
+    .filter((d) => d.isFile() && d.name.endsWith('.html'))
+    .map((d) => join(d.parentPath ?? d.path, d.name));
+
 const falhas = [];
 const passes = [];
 const ok = (msg) => passes.push(msg);
@@ -124,27 +136,93 @@ const base = await new Promise((resolve) => {
 
 const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() });
 
+/**
+ * O `/mapa` pede o Leaflet ao unpkg no `<head>`. Sem saída para a internet, e
+ * o sandbox e o CI restrito não têm, a página abria sem mapa nenhum e as
+ * asserções do mapa morriam por timeout de 30s, derrubando o processo ANTES
+ * das outras trinta e poucas. Um host bloqueado apagava a suíte inteira.
+ *
+ * O desvio serve a cópia local do MESMO pino que o `package.json` declara, que
+ * é o que torna as asserções do mapa reais aqui em vez de impossíveis. E ele
+ * FALHA dizendo que faltou insumo quando a cópia não existe: pular calado é o
+ * modo de errar mais caro deste repositório, está escrito no CLAUDE.md.
+ */
+const LEAFLET = join(raiz, 'node_modules/leaflet/dist');
+// A página pede dois arquivos e um deles é módulo ES. Servir o UMD no lugar do
+// .esm faz o import() devolver objeto vazio e o mapa não desenhar, então o
+// desvio respeita o nome pedido em vez de adivinhar.
+const temLeafletLocal = existsSync(join(LEAFLET, 'leaflet-src.esm.js'));
+const desviarLeaflet = (alvo) =>
+  alvo.route(/unpkg\.com\/leaflet@/, async (rota) => {
+    const pedido = rota.request().url().split('/').pop();
+    const arquivo = join(LEAFLET, pedido);
+    if (!existsSync(arquivo)) return rota.abort();
+    await rota.fulfill({
+      contentType: pedido.endsWith('.css') ? 'text/css' : 'application/javascript',
+      body: await readFile(arquivo, 'utf-8'),
+    });
+  });
+
 // ------------------------------------------------------------ site gerado
 {
   const pagina = await navegador.newPage({ viewport: { width: 1280, height: 900 } });
   const errosJs = [];
   pagina.on('pageerror', (e) => errosJs.push(e.message));
   // Servido por HTTP o site carrega quase tudo. Sobra o Leaflet do CDN, que
-  // depende de rede externa e não existe no sandbox nem no CI.
+  // depende de rede externa e não existe no sandbox nem no CI: o desvio acima
+  // resolve o script, e os ícones que o CSS dele pede continuam faltando.
   const RUIDO = /Failed to load resource|unpkg|cdn|ERR_[A-Z_]+/i;
   pagina.on('console', (m) => { if (m.type() === 'error' && !RUIDO.test(m.text())) errosJs.push(m.text()); });
+  conferir(temLeafletLocal, 'o Leaflet local existe para as asserções do mapa', 'faltou node_modules/leaflet, rode npm ci');
+  await desviarLeaflet(pagina);
 
   await pagina.goto(`${base}/meu-save/`);
   await pagina.waitForTimeout(300);
 
-  // 1. o painel do assistente nasce fechado.
-  //    Quebrou porque display:flex vence o atributo [hidden] do HTML.
-  const painelAberto = await pagina.evaluate(() => {
-    const p = document.querySelector('#painel-chat');
-    if (!p) return null;
-    return getComputedStyle(p).display !== 'none';
-  });
-  conferir(painelAberto === false, 'assistente nasce fechado', painelAberto === null ? 'painel não existe' : 'nasceu aberto tapando o conteúdo');
+  // 1. o assistente só existe quando tem para onde perguntar (F5).
+  //
+  //    Enquanto o worker não estiver publicado, o widget INTEIRO não pode ser
+  //    gerado: antes ele ia ao ar nas 323 páginas e respondia com um recado
+  //    pedindo para publicar o worker. E não basta escondê-lo por CSS, tem que
+  //    NÃO EXISTIR no DOM: esconder por estilo já enganou a asserção do painel
+  //    uma vez neste mesmo arquivo.
+  //
+  //    O insumo é o próprio ENDERECO_ASSISTENTE do componente. Se ele não for
+  //    legível, isto FALHA em vez de pular: checagem que não acha o que
+  //    conferir aprova qualquer coisa, e é o modo de falha mais caro daqui.
+  const fonteChat = await readFile(join(raiz, 'src/components/Chat.astro'), 'utf-8');
+  const declarado = fonteChat.match(/^const ENDERECO_ASSISTENTE\s*=\s*'([^']*)'/m);
+  const htmlGerado = await todosOsHtml();
+  const paginasHtml = htmlGerado.length;
+  const comBotao = (await Promise.all(
+    htmlGerado.map(async (a) => (await readFile(a, 'utf-8')).includes('id="abrir-chat"')),
+  )).filter(Boolean).length;
+
+  const noDom = await pagina.evaluate(() => ({
+    botao: !!document.querySelector('#abrir-chat'),
+    painel: !!document.querySelector('#painel-chat'),
+    fechado: document.querySelector('#painel-chat')
+      ? getComputedStyle(document.querySelector('#painel-chat')).display === 'none'
+      : null,
+  }));
+
+  if (!declarado) {
+    falha('assistente: não consegui ler ENDERECO_ASSISTENTE de src/components/Chat.astro');
+  } else if (declarado[1] === '') {
+    conferir(
+      comBotao === 0 && noDom.botao === false && noDom.painel === false,
+      'sem worker publicado, o assistente não é gerado em página nenhuma',
+      `${comBotao} de ${paginasHtml} páginas com o botão, botão no DOM: ${noDom.botao}, painel: ${noDom.painel}`,
+    );
+  } else {
+    // Com endereço, ele volta em TODAS as páginas e o painel nasce fechado.
+    // A segunda metade quebrou uma vez: display:flex vence o [hidden] do HTML.
+    conferir(
+      comBotao === paginasHtml && noDom.fechado === true,
+      'com worker publicado, o assistente volta em todas as páginas e nasce fechado',
+      `${comBotao} de ${paginasHtml} páginas, painel fechado: ${noDom.fechado}`,
+    );
+  }
 
   // 2. o seletor de idioma alterna, inclusive termo com acento.
   //    Quebrou porque \b de regex é ASCII e não casa antes de "Á".
