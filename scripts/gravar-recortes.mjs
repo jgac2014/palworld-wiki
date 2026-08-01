@@ -131,6 +131,22 @@ const ALVOS = {
     usado_para: 'Lista de partner skills, ponto em disputa sobre quais Pals dão aura',
     termos: ['Partner Skill', 'Mycora', 'Wumpo', 'Eikthyrdeer'],
   },
+  'https://palworld.wiki.gg/api.php?action=query&prop=revisions&titles=Map%3AFragments%2FCore&rvprop=content&rvslots=main&format=json&formatversion=2': {
+    arquivo: 'wikigg-map-fragments-core.md',
+    usado_para: 'Os limites de enquadramento da textura do mapa, que projetam os 13.755 pontos sobre o fundo',
+    termos: ['topLeft', 'bottomRight', 'crs', 'World_Map.webp'],
+    origem:
+      'capturado por scripts/gerar-fundo-mapa.mjs, que grava o JSON de configuração INTEIRO. ' +
+      'O recorte daqui sairia em janela de 240 caracteres, e meio enquadramento não prova enquadramento',
+  },
+  'https://palworld.wiki.gg/images/World_Map.webp': {
+    arquivo: 'wikigg-world-map-webp.md',
+    usado_para: 'A textura de fundo do mapa, cortada em tiles para public/mapa/',
+    termos: ['World_Map', 'webp', '8192'],
+    origem:
+      'capturado por scripts/gerar-fundo-mapa.mjs: é imagem, não texto. O recorte dela é a identidade ' +
+      'do arquivo (tamanho, dimensões, sha256) mais o próprio conteúdo, que está no repositório em tiles',
+  },
   'https://palworld.wiki.gg/wiki/Breeding': {
     arquivo: 'wikigg-breeding.md',
     usado_para: 'Segunda leitura da regra de cruzamento, e a fonte que o fontes.md declara anterior ao 1.0',

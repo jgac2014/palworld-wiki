@@ -11,3 +11,6 @@
 # continuam intactas. `eol=lf` é o que faltava: fixa o formato da cópia de
 # trabalho em vez de deixá-lo depender da configuração de quem clonou.
 * text=auto eol=lf
+
+# Tile de mapa é imagem: nunca passar por conversão de fim de linha.
+*.webp binary

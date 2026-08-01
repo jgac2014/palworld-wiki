@@ -5,6 +5,10 @@ import dados from '../data/mapa.json';
 // escritos à mão e passou a ser derivada dos limites de mundo que o paldb
 // publica. Quem confere é o verificador, contra a própria fonte.
 import projecao from '../data/projecao-mapa.json';
+// O fundo em tiles. O manifesto diz qual imagem está em public/mapa/ e de que
+// build ela é, e `npm run mapa:fundo` aborta se ela deixar de casar com os
+// limites da build ativa.
+import fundo from '../data/mapa-fundo.json';
 // Os 13.755 pontos importados do paldb. Vão inteiros para o navegador porque o
 // pacote offline é um arquivo só: buscar por rede mataria o caso de uso dele.
 import pontos from '../data/mapa-pontos.json';
@@ -73,6 +77,14 @@ const rotCoord = {
       ))}
     </div>
 
+    <aside class="adm adm-atencao" data-rotulo="A base do mapa está velha">
+      <p>
+        A imagem de fundo é anterior ao 1.0. Faltam as 7 ilhas pequenas acrescentadas no lançamento
+        e as edições de terreno. Os pontos são do 1.0 e estão no lugar certo. A base é trocada quando
+        a extração do jogo ficar pronta.
+      </p>
+    </aside>
+
     <div id="mapa"></div>
 
     <div class="coord-atual" id="coord" data-rot-pt={ui('mapa_coord', 'pt')} data-rot-en={ui('mapa_coord', 'en')}>{ui('mapa_coord', 'pt')}</div>
@@ -99,16 +111,19 @@ const rotCoord = {
       tela quando você abre o mapa no jogo.
     </p>
 
-    <aside class="adm adm-atencao" data-rotulo="Atenção">
+    <aside class="adm adm-nota" data-rotulo="De onde vem o fundo, e como trocar">
       <p>
-        A imagem de fundo não vem no repositório porque é arte do jogo. Enquanto ninguém colocar uma,
-        o mapa desenha uma grade de coordenadas e continua funcionando normalmente.
+        O fundo são {fundo.tiles.total} tiles de {fundo.tiles.lado} px em {fundo.tiles.niveis} níveis,
+        gerados por <code>npm run mapa:fundo</code> a partir da textura que a wiki.gg publica. Não há
+        calibração para ajustar à mão: o enquadramento vem dos limites que a própria fonte declara, e
+        o script <b>aborta sem escrever tile</b> se eles deixarem de bater com
+        <code>src/data/projecao-mapa.json</code>.
       </p>
       <p>
-        Para pôr o mapa de verdade basta salvar a imagem em <code>public/mapa/mapa.jpg</code>. Não
-        existe mais calibração para ajustar: a conversão entre coordenada do jogo e pixel é derivada
-        dos limites de mundo publicados pelo paldb, em <code>src/data/projecao-mapa.json</code>, e
-        vale para imagem quadrada de qualquer resolução.
+        Trocar a base pela extração do 1.0 é trocar <code>build_ativa</code> nesse arquivo e rodar o
+        script de novo. Os limites das duas builds ficam guardados lado a lado: coordenada de mundo
+        não muda entre versões, só o retângulo que a textura cobre. Casar imagem de uma build com
+        limite da outra erra 6,8% do lado do mapa.
       </p>
     </aside>
 
@@ -116,14 +131,17 @@ const rotCoord = {
       <p>
         <b>No pacote offline esta página é só texto.</b> O mapa interativo depende do Leaflet, que é
         carregado da rede, e os 13.755 pontos do paldb ficam de fora do arquivo único: eles moram num
-        bloco de dados fora do corpo da página, que é o que o empacotador leva. Medido em 01.08: a
-        página serve 887 KB no site e contribui 10,6 KB para o pacote, que fechou em 3,34 MB de um
-        teto de 8 MB. Está escrito aqui porque corte em silêncio é o que este projeto proíbe.
+        bloco de dados fora do corpo da página, que é o que o empacotador leva. <b>Os tiles do fundo
+        também ficam de fora</b>, e são {fundo.tiles.total} arquivos somando 4,4 MB, que não caberiam
+        no teto de 8 MB junto com o resto. Medido em 01.08: a página serve 897 KB no site e contribui
+        12,0 KB para o pacote, que fechou em 3,72 MB. Está escrito aqui porque corte em silêncio é o
+        que este projeto proíbe.
       </p>
     </aside>
 
     <p class="creditos">
-      Palworld © Pocketpair, Inc. Imagem do mapa extraída do jogo. Coordenadas dos pontos: paldb.cc.
+      Imagem de fundo: <a href="https://palworld.wiki.gg/wiki/Map:Fragments/Core" rel="noopener">palworld.wiki.gg</a>.
+      Palworld © Pocketpair, Inc. Coordenadas dos pontos: paldb.cc.
       Projeto de fã, sem vínculo com a Pocketpair.
     </p>
   </article>
@@ -172,54 +190,86 @@ const rotCoord = {
 
 <script type="application/json" id="dados-paldb" set:html={JSON.stringify(doPaldb)} data-pagefind-ignore></script>
 
-<script define:vars={{ dados, projecao, base, rotCoord }}>
+<script define:vars={{ dados, projecao, fundo, base, rotCoord }}>
   import('https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js').then((L) => {
-    const { imagem, categorias, marcadores } = dados;
+    const { categorias, marcadores } = dados;
 
-    // --- coordenada do jogo para pixel da imagem, derivada e não calibrada ---
-    // Os limites de tela saem dos limites de mundo do paldb pela mesma projeção
-    // dos marcadores, então qualquer imagem quadrada serve sem ninguém medir
-    // ponto nenhum. O eixo y é invertido porque a coordenada do jogo cresce para
-    // cima e o pixel cresce para baixo.
-    const T = projecao.tela_para_imagem;
+    // --- coordenada do jogo para pixel da imagem ---
+    // O enquadramento é o da build declarada em `build_ativa`, e não um par de
+    // pontos calibrado à mão. Trocar a textura é trocar esse campo: coordenada
+    // de mundo não muda entre versões, só o retângulo que a imagem cobre. O eixo
+    // y é invertido porque a coordenada do jogo cresce para cima e o pixel cresce
+    // para baixo.
+    const T = projecao.limites_por_build[projecao.build_ativa];
+    const LADO = fundo.imagem_original.largura;
+    // O último nível da pirâmide é a resolução nativa, e é nele que 1 unidade de
+    // coordenada do Leaflet vale 1 pixel da imagem original.
+    const NATIVO = fundo.tiles.niveis - 1;
     const jogoParaPixel = (x, y) => [
-      ((x - T.min_x) / T.lado) * imagem.largura,
-      (1 - (y - T.min_y) / T.lado) * imagem.altura,
+      ((x - T.min_x) / T.lado) * LADO,
+      (1 - (y - T.min_y) / T.lado) * LADO,
     ];
     const pixelParaJogo = (px, py) => [
-      T.min_x + (px / imagem.largura) * T.lado,
-      T.min_y + (1 - py / imagem.altura) * T.lado,
+      T.min_x + (px / LADO) * T.lado,
+      T.min_y + (1 - py / LADO) * T.lado,
     ];
-    // Leaflet em CRS.Simple usa [lat, lng] = [y invertido, x]
-    const paraLatLng = (x, y) => {
-      const [px, py] = jogoParaPixel(x, y);
-      return [imagem.altura - py, px];
-    };
 
     const mapa = L.map('mapa', {
       crs: L.CRS.Simple,
-      minZoom: -3,
-      maxZoom: 2,
-      zoomSnap: 0.25,
+      minZoom: 0,
+      maxZoom: NATIVO + 1,
+      // Zoom sem passo fixo. Com passo, o nível 0 da pirâmide (a imagem inteira
+      // em 512 px) é o menor zoom possível e o `fitBounds` não consegue encostar
+      // nas bordas do quadro: o mapa nascia com tarja em volta.
+      zoomSnap: 0,
       attributionControl: false,
     });
 
-    const limites = [[0, 0], [imagem.altura, imagem.largura]];
+    // Com tile, o espaço de coordenada é o pixel da imagem nativa, e quem
+    // converte é o próprio mapa. Fazer a conta à mão daria índice de tile
+    // negativo, porque em CRS.Simple o eixo y aponta para cima.
+    const paraLatLng = (x, y) => mapa.unproject(jogoParaPixel(x, y), NATIVO);
+    const doLatLng = (latlng) => {
+      const p = mapa.project(latlng, NATIVO);
+      return pixelParaJogo(p.x, p.y);
+    };
+    const limites = L.latLngBounds(
+      mapa.unproject([0, 0], NATIVO),
+      mapa.unproject([LADO, LADO], NATIVO),
+    );
 
-    // Fundo: imagem do jogo se existir, senão uma grade de coordenadas.
-    const img = new Image();
-    img.onload = () => {
-      L.imageOverlay(base + imagem.arquivo, limites).addTo(mapa);
-    };
-    img.onerror = () => {
+    // Fundo em tiles. Se eles não estiverem no lugar, o mapa cai para a grade de
+    // coordenadas e DIZ que caiu, em vez de servir um fundo vazio que parece
+    // oceano.
+    let caiuParaGrade = false;
+    const camadaFundo = L.tileLayer(base + fundo.tiles.caminho, {
+      tileSize: fundo.tiles.lado,
+      minNativeZoom: 0,
+      maxNativeZoom: NATIVO,
+      minZoom: 0,
+      maxZoom: NATIVO + 1,
+      noWrap: true,
+      bounds: limites,
+    });
+    camadaFundo.on('tileerror', () => {
+      if (caiuParaGrade) return;
+      caiuParaGrade = true;
+      mapa.removeLayer(camadaFundo);
       desenhaGrade();
-    };
-    img.src = base + imagem.arquivo;
+      const saidaFalha = document.getElementById('coord');
+      if (saidaFalha) {
+        saidaFalha.dataset.rotPt = 'Os tiles do fundo não carregaram. O mapa está desenhando só a grade de coordenadas.';
+        saidaFalha.dataset.rotEn = 'Background tiles failed to load. The map is drawing the coordinate grid only.';
+        saidaFalha.textContent = document.documentElement.dataset.idioma === 'en'
+          ? saidaFalha.dataset.rotEn : saidaFalha.dataset.rotPt;
+      }
+    });
+    camadaFundo.addTo(mapa);
 
     function desenhaGrade() {
       const passo = 250;
-      const [minX, minY] = pixelParaJogo(0, imagem.altura);
-      const [maxX, maxY] = pixelParaJogo(imagem.largura, 0);
+      const [minX, minY] = pixelParaJogo(0, LADO);
+      const [maxX, maxY] = pixelParaJogo(LADO, 0);
       const ini = (v) => Math.ceil(v / passo) * passo;
       for (let x = ini(minX); x <= maxX; x += passo) {
         const a = paraLatLng(x, minY), b = paraLatLng(x, maxY);
@@ -386,14 +436,12 @@ const rotCoord = {
       saida.textContent = document.documentElement.dataset.idioma === 'en' ? en : pt;
     };
     mapa.on('mousemove', (e) => {
-      const px = e.latlng.lng, py = imagem.altura - e.latlng.lat;
-      const [x, y] = pixelParaJogo(px, py);
+      const [x, y] = doLatLng(e.latlng);
       const cd = `${Math.round(x)}, ${Math.round(y)}`;
       escrever(`${rotCoord.pt.atual}: ${cd}`, `${rotCoord.en.atual}: ${cd}`);
     });
     mapa.on('click', (e) => {
-      const px = e.latlng.lng, py = imagem.altura - e.latlng.lat;
-      const [x, y] = pixelParaJogo(px, py);
+      const [x, y] = doLatLng(e.latlng);
       const cd = `${Math.round(x)}, ${Math.round(y)}`;
       escrever(
         `${rotCoord.pt.clicado}: ${cd}. Copie para adicionar um ponto no mapa.json`,

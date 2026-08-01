@@ -9,3 +9,4 @@ dist/
 .impeccable/config.local.json
 worker/node_modules/
 worker/.wrangler/
+.cache/

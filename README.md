@@ -93,19 +93,21 @@ npm run ia:atualizar
 
 ---
 
-## Pôr a imagem no mapa
+## A imagem de fundo do mapa
 
-O mapa funciona sem imagem: ele desenha uma grade de coordenadas e os marcadores aparecem no lugar
-certo. A arte do jogo não vem no repositório de propósito.
+O fundo já vem no repositório: 341 tiles de 512 px em cinco níveis, em `public/mapa/`, gerados de
+uma textura de 8192 px publicada pela wiki.gg. **Ela é anterior ao 1.0**: faltam as sete ilhas
+pequenas do lançamento e as edições de terreno. Os pontos são do 1.0 e caem no lugar certo, porque
+cada imagem é projetada com os limites da própria build.
 
-Para usar o mapa de verdade:
+Para regerar, ou para trocar pela textura extraída do jogo quando ela existir:
 
-1. Salve um print da tela de mapa do jogo em `public/mapa/mapa.jpg`.
-2. Abra `src/data/mapa.json` e ajuste `imagem.largura` e `imagem.altura` para o tamanho real do arquivo.
-3. Escolha dois lugares em que você sabe a coordenada do jogo, veja em que pixel eles caem na imagem
-   e preencha os dois pontos de `calibracao`.
+1. Escolha o conjunto de limites em `build_ativa`, dentro de `src/data/projecao-mapa.json`.
+2. Rode `npm run mapa:fundo`.
 
-O resto se posiciona sozinho por transformação afim.
+Não existe calibração para preencher à mão. O script captura os limites da própria fonte, confere
+contra o declarado, mede onde caem os marcadores de coordenada importada e **aborta sem escrever
+tile** se algum deles cair no mar.
 
 ---
 

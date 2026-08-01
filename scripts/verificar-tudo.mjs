@@ -9,7 +9,7 @@
  *
  * Sai com código 1 se achar erro, para poder rodar em CI.
  */
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { filhoteDoPar } from '../src/lib/calculos.js';
 import { existsSync } from 'node:fs';
@@ -506,6 +506,99 @@ if (mapaPontos && refMapa) {
   }
   if (projecaoOk && !derivou) {
     passou(`mapa: ${mapaPontos.total} pontos e ${mapaPontos.extras.length} extras batem com a referência, e a projeção casa ${perto} pares abaixo de ${PERTO} unidade (mediana ${mediana.toFixed(1)})`);
+  }
+}
+
+// -------------------- fundo do mapa x limites da build ativa (H6)
+//
+// A aferição de verdade acontece no `npm run mapa:fundo`: ele mede, com a
+// máscara de mar tirada da própria imagem, onde caem os 11 marcadores de
+// coordenada importada, e ABORTA sem escrever tile se algum cair na água. Aqui
+// não dá para refazer essa medição: a imagem original de 8192 px não está no
+// repositório, e refazê-la a cada `verificar` custaria minutos.
+//
+// O QUE ESTA CHECAGEM FECHA é o buraco que sobraria: alguém edita o
+// enquadramento em projecao-mapa.json, não roda o gerador, e os 13.755 pontos
+// saem do lugar com o portão passando. O manifesto guarda os limites que
+// estavam valendo na hora de cortar, e eles têm que continuar iguais aos
+// declarados. Editar um obriga a rodar o gerador, e o gerador refaz a aferição.
+//
+// Ela não afirma que a imagem está certa. Afirma que a imagem servida, os
+// limites declarados e a medição gravada continuam falando da mesma coisa.
+const fundo = await lerJson('src/data/mapa-fundo.json');
+const projecao = await lerJson('src/data/projecao-mapa.json');
+if (!fundo || !projecao) {
+  erro('fundo', 'src/data/mapa-fundo.json ou projecao-mapa.json não abriu, então o fundo do mapa não pôde ser conferido. Rode `npm run mapa:fundo`');
+} else {
+  let quebrou = false;
+  const reprovar = (msg) => { quebrou = true; erro('fundo', msg); };
+
+  const ativa = projecao.build_ativa;
+  const declarado = projecao.limites_por_build?.[ativa];
+  if (!declarado) {
+    reprovar(`projecao-mapa.json declara build_ativa "${ativa}" e não tem esse conjunto em limites_por_build`);
+  } else if (fundo.build !== ativa) {
+    reprovar(`os tiles em public/mapa/ foram cortados para a build "${fundo.build}" e projecao-mapa.json agora usa "${ativa}". Rode \`npm run mapa:fundo\``);
+  } else {
+    for (const campo of ['min_x', 'min_y', 'lado']) {
+      const usado = fundo.limites_usados?.[campo];
+      if (usado === undefined) {
+        reprovar(`mapa-fundo.json não guarda limites_usados.${campo}, então o enquadramento dos tiles não tem com o que ser comparado`);
+      } else if (Math.abs(usado - declarado[campo]) > 1e-9) {
+        reprovar(`enquadramento: os tiles foram cortados com ${campo} ${usado} e projecao-mapa.json declara ${declarado[campo]}. Todo marcador está fora do lugar. Rode \`npm run mapa:fundo\``);
+      }
+    }
+  }
+
+  // A geometria da pirâmide tem que fechar com a imagem: nível de cima em
+  // resolução nativa, cada nível com a grade que o seu zoom exige.
+  const t = fundo.tiles || {};
+  const ladoEsperado = (t.lado || 0) * 2 ** ((t.niveis || 1) - 1);
+  if (ladoEsperado !== fundo.imagem_original?.largura) {
+    reprovar(`a pirâmide fecha em ${ladoEsperado}px e a imagem original tem ${fundo.imagem_original?.largura}px. Nível de cima não está na resolução nativa`);
+  }
+
+  // Tile declarado que não está no disco é o modo de falha silencioso: a página
+  // serviria buraco e o mapa pareceria oceano vazio.
+  const pastaTiles = join(raiz, 'public/mapa');
+  let noDisco = 0;
+  let bytesNoDisco = 0;
+  if (!existsSync(pastaTiles)) {
+    reprovar('public/mapa/ não existe, e o mapa serviria fundo vazio. Rode `npm run mapa:fundo`');
+  } else {
+    for (const nivel of t.por_nivel || []) {
+      const pastaNivel = join(pastaTiles, String(nivel.nivel));
+      if (!existsSync(pastaNivel)) {
+        reprovar(`o nível ${nivel.nivel} do fundo não existe em public/mapa/, e o manifesto promete ${nivel.tiles} tiles`);
+        continue;
+      }
+      const arquivos = (await readdir(pastaNivel)).filter((f) => f.endsWith('.webp'));
+      if (arquivos.length !== nivel.tiles) {
+        reprovar(`o nível ${nivel.nivel} tem ${arquivos.length} tiles no disco e ${nivel.tiles} no manifesto`);
+      }
+      noDisco += arquivos.length;
+      for (const f of arquivos) bytesNoDisco += (await stat(join(pastaNivel, f))).size;
+    }
+    if (bytesNoDisco !== t.bytes) {
+      reprovar(`os tiles somam ${bytesNoDisco} bytes no disco e ${t.bytes} no manifesto. O fundo servido não é o que foi aferido`);
+    }
+  }
+
+  // Aferição gravada que não afirma nada não vale como aferição.
+  const af = fundo.afericao || {};
+  if (!af.marcadores_conferidos) {
+    reprovar('mapa-fundo.json não diz quantos marcadores a aferição conferiu. Medição sem contagem ao lado não é medição');
+  } else if (af.marcadores_no_mar !== 0) {
+    reprovar(`a aferição gravada diz que ${af.marcadores_no_mar} marcadores de referência caem no mar. O gerador não deveria ter escrito tile nenhum`);
+  }
+
+  if (!quebrou) {
+    passou(
+      `fundo do mapa: ${noDisco} tiles da build "${fundo.build}" batem com o enquadramento declarado, ` +
+      `e a aferição gravada põe ${af.marcadores_conferidos} de ${af.marcadores_conferidos} marcadores em terra ` +
+      `(${af.no_mar_com_a_build_ativa} de ${af.pontos_so_de_terra} pontos de terra no mar, contra ` +
+      `${Object.values(af.no_mar_com_as_outras || {}).join(' e ')} com a outra build)`,
+    );
   }
 }
 

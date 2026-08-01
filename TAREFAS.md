@@ -696,23 +696,80 @@ remede e atualiza o número em vez de o teto virar decoração.
 
 Tarefa inteira em território de código e visual, o que é fora do meu, feita porque a emenda pediu.
 
+### [x] H6 — Base do mapa, provisória e alinhada
+
+**Requisito:** R3.2
+**Território:** código e visual, encostando em conteúdo e dados pelo mínimo
+
+O mapa desenhava grade de coordenadas porque a arte do jogo não estava no repositório. A wiki.gg
+publica a textura do mundo inteiro, 8192x8192, **anterior ao 1.0**. Pôr essa e trocar depois, em vez
+de esperar a extração.
+
+**Aceite:**
+- A página mostra relevo, costa e bioma, com os 13.755 pontos por cima.
+- Os 11 marcadores de referência caem sobre o acidente geográfico certo.
+- Os limites saem da própria wiki.gg, gravados como recorte antes de usar, pela regra da F3.
+- Os dois conjuntos de limites ficam no repositório, nomeados por build.
+
+**Feita, e a premissa que a abriu estava errada.** Achava-se que imagem velha erraria uns 7%. Erra
+mesmo, mas só quando alguém casa a imagem de uma build com os limites de OUTRA. Coordenada de mundo
+não muda entre versões: o que muda é o retângulo que a textura cobre. Por isso `projecao-mapa.json`
+passou a guardar dois conjuntos, `wikigg_pre_1_0` e `paldb_1_0`, e um campo `build_ativa` que diz
+qual vale para a imagem que está em `public/mapa/`. Trocar de textura é trocar esse campo.
+
+**Os limites foram capturados, não copiados dos que a tarefa passou.** Os quatro números que vieram
+no pedido conferiram na oitava casa decimal com o que a API da wiki.gg devolveu, e o recorte inteiro
+está em `src/data/recortes/wikigg-map-fragments-core.md`. Eles também batem com uma conta
+independente: a nossa fórmula de mundo para tela, que veio do paldb, aplicada à landscape que o
+pedido citou, dá exatamente o mesmo retângulo.
+
+**A aferição é medida, não olhada.** O `npm run mapa:fundo` monta a máscara de mar a partir da
+própria imagem (matiz de água, e preenchimento a partir da borda, senão o vulcão roxo e a montanha
+escura de neve contariam como oceano) e mede: os 11 marcadores caem **todos em terra**, e dos 3.101
+pontos que só existem em terra firme **77 caem no mar, 2,5%**, contra **1.200, 39%**, com os limites
+da outra build. O script **aborta sem escrever tile** se algum dos 11 molhar o pé ou se a build
+errada acertar tanto quanto a certa.
+
+**Um achado que a aferição produziu, registrado em `fontes.md`.** As zonas de caça proibida II e III
+caem a 15 e a 7 unidades do centro das duas ilhas circulares com muralha radial que a textura
+desenha. A **Zona I não tem ilha nenhuma** ali: varrendo a imagem, a textura só tem essas duas, e a
+mais próxima da Zona I está a 251 unidades. Erro de enquadramento mexeria nos onze juntos, então não
+é isso: ou a Zona I mudou entre as builds, ou a coordenada dela, que vem de um rótulo de **região**
+do paldb, não é a do santuário. Fica como divergência aberta e item da B1.
+
+**Quatro sabotagens, todas rodadas.** Mexer 30 unidades no enquadramento sem regerar fez o
+verificador acusar que os tiles foram cortados com outro número. Apontar `build_ativa` para a outra
+build fez o gerador abortar comparando o capturado com o declarado. Pôr um marcador de referência no
+meio do mar fez ele abortar sem escrever tile. E deslocar em 300 px só os marcadores da página,
+deixando os tiles certos, fez o `npm run testar` acusar desvio de 306 px: essa última é a que cobre
+o erro que nenhuma checagem de dado pega, porque quem desenha é o navegador e ele tem jeito próprio
+de errar.
+
+São 341 tiles somando 4,38 MB, menos que os 4,65 MB da imagem original. A original **não** entra no
+repositório: o último nível é ela, cortada, e guardar as duas seria dobrar peso sem guardar nada a
+mais. O `sha256` dela fica no manifesto para conferir uma baixada futura.
+
+Encostou em território de conteúdo pelo mínimo: `mapa.json` perdeu o bloco `imagem`, que apontava
+para um arquivo que não existe mais, e o `fontes.md` ganhou a seção da divergência. Encostou em
+`package.json`, compartilhado, por uma linha de script e a declaração do `sharp`, que já vinha junto
+do Astro e agora é usado por comando nosso.
+
 ### [ ] H5 — O mapa funcionar no pacote offline
 
 **Requisito:** R3.6
 **Território:** código e visual
-**Bloqueado por:** H1
 
 Hoje a página do mapa viaja no pacote como texto e mais nada: o Leaflet vem da rede e não abre sem
-internet, e os 13.755 pontos ficam fora porque moram num bloco de dados fora do corpo da página.
-Medido em 01.08: a página serve 887 KB no site e contribui 10,6 KB para o pacote, que fechou em
-3,34 MB de um teto de 8 MB.
+internet, os 13.755 pontos ficam fora porque moram num bloco de dados fora do corpo da página, e os
+341 tiles do fundo também ficam fora. Medido em 01.08, depois da H6: a página serve 897 KB no site e
+contribui 12,0 KB para o pacote, que fechou em 3,72 MB de um teto de 8 MB.
 
 Escopo já decidido, para a tarefa não nascer impossível:
 
 - **O Leaflet vai embutido** no pacote, cerca de 150 KB.
-- **A imagem de fundo não são os tiles.** 8192 px em cinco níveis não cabe em 8 MB. É uma imagem
-  única reduzida, na casa de 2048 px, e o número medido entra aqui depois que a H1 produzir a
-  original.
+- **A imagem de fundo não são os tiles.** Os 341 tiles somam 4,38 MB e não cabem junto com o resto.
+  É uma imagem única reduzida, na casa de 2048 px, embutida como data URI. A H6 já deixou a original
+  baixável por comando, então o número medido sai de `npm run mapa:fundo`.
 - **A alternativa em tabela vai preenchida no HTML**, não montada por script.
 
 **Aceite:**

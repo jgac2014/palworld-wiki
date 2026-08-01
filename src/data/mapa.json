@@ -14,18 +14,12 @@
     "pontos escritos à mão dizendo que (-1000,-1000) caía no pixel (256,1792) e",
     "(1000,1000) no (1792,256). Nunca foram medidos: são 1/8 e 7/8 exatos de 2048,",
     "com simetria perfeita, e o texto que estava aqui os descrevia como tarefa",
-    "pendente. Agora a conversão sai dos limites de mundo que o paldb publica, em",
-    "src/data/projecao-mapa.json, e é conferida pelo verificador contra a própria",
-    "fonte. Imagem nova de qualquer resolução funciona sem ninguém recalibrar nada.",
+    "pendente. Agora a conversão sai dos limites que a fonte da imagem declara, em",
+    "src/data/projecao-mapa.json, e é conferida contra a própria imagem.",
     "",
-    "A imagem do mapa continua fora do repositório porque é arte do jogo. Sem ela,",
-    "o mapa desenha uma grade de coordenadas e continua funcionando."
+    "A IMAGEM não mora mais aqui: quem descreve o fundo é src/data/mapa-fundo.json,",
+    "e os tiles ficam em public/mapa/. Rode `npm run mapa:fundo` para regerar."
   ],
-  "imagem": {
-    "arquivo": "/mapa/mapa.jpg",
-    "largura": 2048,
-    "altura": 2048
-  },
   "categorias": {
     "base": {
       "nosso": true,

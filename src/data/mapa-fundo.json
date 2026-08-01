@@ -1,0 +1,72 @@
+{
+  "_leia_isto": "Descreve o fundo que está em public/mapa/. Gerado por scripts/gerar-fundo-mapa.mjs, que ABORTA sem escrever tile quando os limites capturados discordam de projecao-mapa.json ou quando algum marcador de referência cai no mar. O verificador confere que este arquivo, os limites da build ativa e os tiles no disco continuam falando da mesma imagem: mudar o enquadramento sem gerar de novo reprova o portão.",
+  "build": "wikigg_pre_1_0",
+  "anterior_ao_1_0": true,
+  "gerado_em": "2026-08-01",
+  "limites_usados": {
+    "_leia_isto": "Cópia dos limites que estavam valendo na hora de cortar. Não é redundância: é o que fecha o laço. Mudar o enquadramento em projecao-mapa.json sem gerar de novo faz o verificador acusar, porque estes três números deixam de bater, e mudar os dois obriga a rodar o script, que refaz a aferição. Sem isto, dava para mover os 13.755 pontos com o portão passando.",
+    "min_x": -1954.07407407,
+    "min_y": -1908.61002179,
+    "lado": 3154.335511985
+  },
+  "origem": {
+    "imagem": "https://palworld.wiki.gg/images/World_Map.webp",
+    "limites": "https://palworld.wiki.gg/api.php?action=query&prop=revisions&titles=Map%3AFragments%2FCore&rvprop=content&rvslots=main&format=json&formatversion=2",
+    "pagina": "https://palworld.wiki.gg/wiki/Map:Fragments/Core",
+    "licenca": "Palworld © Pocketpair, Inc. Imagem de palworld.wiki.gg."
+  },
+  "imagem_original": {
+    "largura": 8192,
+    "altura": 8192,
+    "bytes": 4876386,
+    "sha256": "b6ed5baa418332a183e2642f250a239a15efb1488d7783d8f289921254e49896",
+    "_nota": "A original NÃO está no repositório: os tiles do último nível são ela, cortada, então guardar as duas seria dobrar 4,7 MB sem guardar nada a mais. O sha256 acima é o que permite conferir que uma nova baixada é a mesma imagem."
+  },
+  "tiles": {
+    "caminho": "/mapa/{z}/{x}_{y}.webp",
+    "lado": 512,
+    "niveis": 5,
+    "qualidade_webp": 80,
+    "total": 341,
+    "bytes": 4593134,
+    "por_nivel": [
+      {
+        "nivel": 0,
+        "tiles": 1,
+        "bytes": 21674
+      },
+      {
+        "nivel": 1,
+        "tiles": 4,
+        "bytes": 72784
+      },
+      {
+        "nivel": 2,
+        "tiles": 16,
+        "bytes": 255944
+      },
+      {
+        "nivel": 3,
+        "tiles": 64,
+        "bytes": 927166
+      },
+      {
+        "nivel": 4,
+        "tiles": 256,
+        "bytes": 3315566
+      }
+    ],
+    "_nota": "Nível 0 é a imagem inteira num tile só e o nível 4 é a resolução nativa. No Leaflet o espaço de coordenada é o pixel nativo, e quem converte é map.unproject com zoom 4."
+  },
+  "afericao": {
+    "_leia_isto": "Medida na hora de gerar, com a máscara de mar tirada da própria imagem. Não é número copiado: o script refaz a conta a cada rodada e aborta se algum dos 11 cair na água ou se a build errada acertar tanto quanto a certa.",
+    "marcadores_conferidos": 11,
+    "marcadores_no_mar": 0,
+    "pontos_so_de_terra": 3101,
+    "no_mar_com_a_build_ativa": 77,
+    "no_mar_com_as_outras": {
+      "paldb_1_0": 1200
+    },
+    "fracao_de_mar_da_imagem": 0.8243
+  }
+}

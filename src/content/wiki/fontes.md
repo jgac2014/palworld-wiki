@@ -305,6 +305,69 @@ seriam iguais se o paldb estiver certo, e ele acerta o resto do catálogo, mas i
 não medição. Fecha com três pontos de viagem rápida lidos na tela do jogo.
 :::
 
+## O fundo do mapa é de uma build velha, e isso não desalinha nada
+
+Registrado em **01.08.2026**, ao pôr imagem embaixo dos 13.755 pontos.
+
+A textura do mundo inteiro que a wiki.gg publica é **anterior ao 1.0**: faltam as sete ilhas
+pequenas do lançamento e as edições de terreno. A tentação era esperar a extração do jogo, porque
+imagem velha "erraria uns 7%". **A premissa estava errada e é o registro mais útil desta seção.**
+Coordenada de mundo não muda entre versões. O que muda é o retângulo que a textura cobre. Imagem de
+uma build com os limites de OUTRA erra mesmo; cada imagem casada com os **próprios** limites alinha
+certo.
+
+Por isso `projecao-mapa.json` guarda os dois conjuntos, nomeados por build, e nenhum é apagado
+quando o outro entra:
+
+| Build | min x | min y | lado | De onde |
+|---|---|---|---|---|
+| `wikigg_pre_1_0` | -1954,074 | -1908,610 | 3154,336 | `crs` de `Map:Fragments/Core` na wiki.gg |
+| `paldb_1_0` | -1922,440 | -2125,298 | 3156,427 | `landScapeRealPositionMin/Max` do `map_data` do paldb |
+
+**Os lados são quase iguais e os centros não.** O eixo y sai 215,6 unidades fora de lugar, que é
+**6,8% do lado do mapa**. É esse número que aparece como "erra uns 7%" quando alguém casa imagem de
+uma build com limite da outra.
+
+**Os limites foram capturados, não copiados.** Os quatro números da wiki.gg foram lidos da API dela
+e gravados inteiros em `src/data/recortes/wikigg-map-fragments-core.md`, pela regra da F3. Eles
+batem com uma conferência independente: aplicando a **nossa** fórmula de mundo para tela, que veio
+do paldb e não da wiki.gg, a uma landscape de X -999940 a 447900 e Y -738920 a 708920, saem os
+mesmos quatro números até a oitava casa decimal. Duas fontes que não se falam chegando ao mesmo
+retângulo é o que sustenta o enquadramento.
+
+**A aferição é medida, não olhada.** O `npm run mapa:fundo` monta uma máscara de mar a partir da
+própria imagem (matiz de água, e preenchimento a partir da borda para lago interno, vulcão roxo e
+montanha escura não contarem como oceano) e mede onde os pontos caem:
+
+- Os **11 marcadores de coordenada importada** do `mapa.json` (6 torres, 3 zonas de caça proibida e
+  2 pontos de quartzo) caem **todos em terra**, e cada um no bioma que a nota dele descreve: Victor
+  na neve, Marcus no deserto, Axel no vulcão, Bjorn em Feybreak, os dois pontos de quartzo na ilha
+  de gelo.
+- Dos **3.101 pontos que só existem em terra firme** (viagem rápida, masmorra, minério, carvão,
+  enxofre, quartzo e torre), **77 caem no mar, 2,5%**. Com os limites da outra build seriam **1.200,
+  39%**. É a distância entre os dois números que dá valor à checagem, e o script **aborta sem
+  escrever tile** se o conjunto errado acertar tanto quanto o certo.
+
+**O que os 77 são.** Medido, não suposto: a mediana da distância deles até a terra mais próxima é de
+**4,6 unidades**, 44 estão a menos de 5 e 62 a menos de 40. São ponto de costa, e a essa distância a
+explicação é a resolução em que a máscara é medida, mais recuo de linha de costa entre as duas
+builds. **Quinze estão longe de qualquer terra**, e esses são candidatos ao que o 1.0 acrescentou. O
+número fica gravado em `src/data/mapa-fundo.json` e tem que cair quando a base for trocada.
+
+:::atencao
+**A Zona de Caça Proibida I não tem ilha nesta textura, e isso não é erro de enquadramento.** As
+zonas II e III caem a **15 e a 7 unidades** do centro exato das duas ilhas circulares com muralha
+radial que a textura desenha, que é o formato real de um santuário. A textura inteira tem **só essas
+duas**: varrendo as ilhas pequenas e redondas da imagem, nenhuma outra tem esse formato, e a mais
+próxima da Zona I está a 251 unidades e não é santuário. A Zona I cai na costa da ilha de gelo.
+
+Erro de enquadramento mexe em **todos** os marcadores na mesma direção, e aqui dez estão certos.
+O que sobra é que a Zona I mudou entre as builds, ou que a coordenada dela não é a do santuário: ela
+vem de um rótulo de **região** do paldb (`Lv.20-25 Zona de Caça Proibida I`), não de um ponto do
+santuário, e no mesmo lugar o paldb põe a viagem rápida `Ilha Solitária Esquecida`. Fica registrado
+como divergência em aberto, e é item da B1: quem abrir o jogo confere na tela.
+:::
+
 ## O "149 de 149" não é reproduzível, e por isso a receita do Anubis saiu
 
 Registrado em **01.08.2026**, tentando reconciliar dois números que deveriam ser o mesmo: a seção
@@ -392,6 +455,16 @@ respondem 403.
 - [AllThings.how, legendary schematics](https://allthings.how/palworld-1-0-7-best-legendary-schematics-and-how-to-get-them/)
 - [GameRant, Wing Pack](https://gamerant.com/palworld-how-unlock-get-use-wing-pack/)
 - [BisectHosting, Arena](https://www.bisecthosting.com/blog/palworld-arena-guide-best-pals-tips-tricks-location-game-modes-merchant)
+
+### Mapa
+
+- [wiki.gg, limites do enquadramento em Map:Fragments/Core](https://palworld.wiki.gg/api.php?action=query&prop=revisions&titles=Map%3AFragments%2FCore&rvprop=content&rvslots=main&format=json&formatversion=2), capturado pela API porque a requisição direta leva 403 da Cloudflare
+- [wiki.gg, a textura World_Map.webp](https://palworld.wiki.gg/images/World_Map.webp), 8192x8192, anterior ao 1.0, cortada em 341 tiles para `public/mapa/`
+
+Estes dois recortes são gravados por `npm run mapa:fundo`, não pelo `npm run recortes:gravar`: o
+primeiro é configuração e precisa ir inteiro, o segundo é imagem e não tem trecho de texto para
+citar. As duas entradas continuam declaradas em `gravar-recortes.mjs`, que **aborta** se algum dos
+arquivos sumir.
 
 ### Comunidade
 

@@ -832,6 +832,88 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
 
   await pagina.evaluate(() => localStorage.removeItem('palworld-wiki-progresso'));
 
+  // 12. o fundo do mapa carrega em tile, e os marcadores caem no pixel certo
+  //     da imagem (H6).
+  //
+  // O `npm run mapa:fundo` já mede onde os pontos caem, mas ele mede com a
+  // conta DELE, em Node. Quem desenha é outro código, no navegador, e ele tem
+  // um jeito próprio de errar: em CRS.Simple a conversão de pixel para
+  // coordenada depende do nível de zoom que você passa para o `unproject`, e
+  // passar o nível errado desloca TODOS os marcadores mantendo o mapa com cara
+  // de mapa. Nenhuma checagem de dado pega isso.
+  //
+  // A régua é o próprio tile. Ele diz, no `src`, qual nível e qual pedaço da
+  // imagem está mostrando, e o `getBoundingClientRect` diz onde ele está na
+  // tela. Com esses dois, a posição de cada marcador na tela volta para pixel
+  // da imagem original, e aí dá para comparar com a conta feita aqui a partir
+  // dos JSON. Se a página e o dado discordarem, é erro de desenho.
+  //
+  // A tolerância é de 40 pixels da imagem nativa, que é o tamanho de um pixel
+  // de tela e meio no zoom em que a página abre. Ela não é frouxa: o modo de
+  // falha que isto cobre desloca por milhares, não por dezenas.
+  const dadosMapa = JSON.parse(await readFile(join(raiz, 'src/data/mapa.json'), 'utf-8'));
+  const projMapa = JSON.parse(await readFile(join(raiz, 'src/data/projecao-mapa.json'), 'utf-8'));
+  const fundoMapa = JSON.parse(await readFile(join(raiz, 'src/data/mapa-fundo.json'), 'utf-8'));
+  const lim = projMapa.limites_por_build[projMapa.build_ativa];
+  const ladoImg = fundoMapa.imagem_original.largura;
+  const nativo = fundoMapa.tiles.niveis - 1;
+
+  await pagina.goto(`${base}/mapa/`);
+  await pagina.waitForTimeout(2500);
+  const medido = await pagina.evaluate(() => {
+    const cont = document.getElementById('mapa');
+    if (!cont) return null;
+    const caixa = cont.getBoundingClientRect();
+    const tiles = [...cont.querySelectorAll('img.leaflet-tile')].filter((i) => i.naturalWidth > 0);
+    const t = tiles[0];
+    const rotulo = t && t.src.match(/\/mapa\/(\d+)\/(\d+)_(\d+)\.webp/);
+    const r = t && t.getBoundingClientRect();
+    return {
+      tiles: tiles.length,
+      niveis: [...new Set(tiles.map((i) => i.src.match(/\/mapa\/(\d+)\//)?.[1]))],
+      z: rotulo ? Number(rotulo[1]) : null,
+      tx: rotulo ? Number(rotulo[2]) : null,
+      ty: rotulo ? Number(rotulo[3]) : null,
+      tile: r ? { x: r.x - caixa.x, y: r.y - caixa.y, lado: r.width } : null,
+      marcadores: [...cont.querySelectorAll('path.marcador')].map((el) => {
+        const b = el.getBoundingClientRect();
+        return { x: b.x + b.width / 2 - caixa.x, y: b.y + b.height / 2 - caixa.y };
+      }),
+    };
+  });
+
+  // Falta de insumo é falha, nunca passagem: sem tile carregado ou sem marcador
+  // desenhado esta asserção não compara nada.
+  if (!medido || !medido.tiles || !medido.tile || !medido.marcadores.length) {
+    falha(
+      'o fundo do mapa carrega em tile e os marcadores caem no pixel certo da imagem ' +
+      `(${medido ? `${medido.tiles} tiles carregados, ${medido.marcadores?.length ?? 0} marcadores` : 'a página do mapa não abriu'})`,
+    );
+  } else {
+    // Quantos pixels da imagem nativa cabem num pixel de tela, medido no tile.
+    const nativoPorTile = fundoMapa.tiles.lado * 2 ** (nativo - medido.z);
+    const nativoPorTela = nativoPorTile / medido.tile.lado;
+    const paraNativo = (px, py) => [
+      medido.tx * nativoPorTile + (px - medido.tile.x) * nativoPorTela,
+      medido.ty * nativoPorTile + (py - medido.tile.y) * nativoPorTela,
+    ];
+    const esperados = dadosMapa.marcadores.map((m) => [
+      ((m.x - lim.min_x) / lim.lado) * ladoImg,
+      (1 - (m.y - lim.min_y) / lim.lado) * ladoImg,
+    ]);
+    let pior = 0;
+    for (const marca of medido.marcadores) {
+      const [nx, ny] = paraNativo(marca.x, marca.y);
+      const perto = Math.min(...esperados.map(([ex, ey]) => Math.hypot(ex - nx, ey - ny)));
+      if (perto > pior) pior = perto;
+    }
+    conferir(
+      pior <= 40,
+      `o fundo do mapa carrega em tile e os ${medido.marcadores.length} marcadores caem no pixel certo da imagem`,
+      `pior desvio ${pior.toFixed(0)} px da imagem nativa, teto 40. Nível ${medido.z}, ${medido.tiles} tiles`,
+    );
+  }
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 }
