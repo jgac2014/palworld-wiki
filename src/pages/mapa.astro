@@ -1,6 +1,10 @@
 ﻿---
 import Base from '../layouts/Base.astro';
 import dados from '../data/mapa.json';
+// A conversão de coordenada do jogo para pixel deixou de ser dois pontos
+// escritos à mão e passou a ser derivada dos limites de mundo que o paldb
+// publica. Quem confere é o verificador, contra a própria fonte.
+import projecao from '../data/projecao-mapa.json';
 import { ui, termo, construirIndice } from '../lib/termos.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -62,12 +66,17 @@ const rotCoord = {
         o mapa desenha uma grade de coordenadas e continua funcionando normalmente.
       </p>
       <p>
-        Para pôr o mapa de verdade: salve um print da tela de mapa em <code>public/mapa/mapa.jpg</code> e
-        ajuste os dois pontos de <code>calibracao</code> no JSON. Escolha dois lugares em que você sabe a
-        coordenada do jogo, veja em que pixel eles caem na sua imagem, preencha, e todo o resto se
-        posiciona sozinho.
+        Para pôr o mapa de verdade basta salvar a imagem em <code>public/mapa/mapa.jpg</code>. Não
+        existe mais calibração para ajustar: a conversão entre coordenada do jogo e pixel é derivada
+        dos limites de mundo publicados pelo paldb, em <code>src/data/projecao-mapa.json</code>, e
+        vale para imagem quadrada de qualquer resolução.
       </p>
     </aside>
+
+    <p class="creditos">
+      Palworld © Pocketpair, Inc. Imagem do mapa extraída do jogo. Coordenadas dos pontos: paldb.cc.
+      Projeto de fã, sem vínculo com a Pocketpair.
+    </p>
   </article>
 </Base>
 
@@ -104,24 +113,27 @@ const rotCoord = {
   :global(.leaflet-popup-content .cd) { color: var(--apagado); font-family: ui-monospace, monospace; font-size: 12px; }
   :global(.leaflet-control-zoom a) { background: var(--cartao); color: var(--texto); border-color: var(--linha); }
   :global(.marcador) { border-radius: 50%; border: 2px solid rgba(0,0,0,.55); box-shadow: 0 0 0 1px rgba(255,255,255,.18); }
+  .creditos { font-family: var(--sans); font-size: 12px; color: var(--apagado); margin-top: 26px; line-height: 1.6; }
   @media (max-width: 860px) { #mapa { height: 400px; } }
 </style>
 
-<script define:vars={{ dados, base, rotCoord }}>
+<script define:vars={{ dados, projecao, base, rotCoord }}>
   import('https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js').then((L) => {
-    const { imagem, calibracao, categorias, marcadores } = dados;
+    const { imagem, categorias, marcadores } = dados;
 
-    // --- transformação afim entre coordenada do jogo e pixel da imagem ---
-    const p1 = calibracao.ponto1, p2 = calibracao.ponto2;
-    const escalaX = (p2.pixel.x - p1.pixel.x) / (p2.jogo.x - p1.jogo.x);
-    const escalaY = (p2.pixel.y - p1.pixel.y) / (p2.jogo.y - p1.jogo.y);
+    // --- coordenada do jogo para pixel da imagem, derivada e não calibrada ---
+    // Os limites de tela saem dos limites de mundo do paldb pela mesma projeção
+    // dos marcadores, então qualquer imagem quadrada serve sem ninguém medir
+    // ponto nenhum. O eixo y é invertido porque a coordenada do jogo cresce para
+    // cima e o pixel cresce para baixo.
+    const T = projecao.tela_para_imagem;
     const jogoParaPixel = (x, y) => [
-      p1.pixel.x + (x - p1.jogo.x) * escalaX,
-      p1.pixel.y + (y - p1.jogo.y) * escalaY,
+      ((x - T.min_x) / T.lado) * imagem.largura,
+      (1 - (y - T.min_y) / T.lado) * imagem.altura,
     ];
     const pixelParaJogo = (px, py) => [
-      p1.jogo.x + (px - p1.pixel.x) / escalaX,
-      p1.jogo.y + (py - p1.pixel.y) / escalaY,
+      T.min_x + (px / imagem.largura) * T.lado,
+      T.min_y + (1 - py / imagem.altura) * T.lado,
     ];
     // Leaflet em CRS.Simple usa [lat, lng] = [y invertido, x]
     const paraLatLng = (x, y) => {

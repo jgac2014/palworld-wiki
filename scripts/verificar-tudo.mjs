@@ -341,6 +341,100 @@ for (const arquivo of arquivos) {
 }
 passou(`conteúdo: ${arquivos.length} páginas, frontmatter e marcação verificados`);
 
+// ---------------------- marcadores do mapa x referência congelada (H2 e H3)
+const mapaPontos = await lerJson('src/data/mapa-pontos.json');
+const refMapa = await lerJson('src/data/referencia-mapa.json');
+if (mapaPontos && refMapa) {
+  let derivou = 0;
+  if (mapaPontos.total !== refMapa.total_de_pontos) {
+    derivou++;
+    erro('mapa', `${mapaPontos.total} pontos importados contra ${refMapa.total_de_pontos} na referência (${mapaPontos.total - refMapa.total_de_pontos > 0 ? '+' : ''}${mapaPontos.total - refMapa.total_de_pontos})`);
+  }
+  if (mapaPontos.extras.length !== refMapa.total_de_extras) {
+    derivou++;
+    erro('mapa', `${mapaPontos.extras.length} extras importados contra ${refMapa.total_de_extras} na referência`);
+  }
+
+  const contadas = {};
+  for (const p of mapaPontos.pontos) {
+    const cat = mapaPontos.tipos[p.t]?.categoria;
+    if (cat) contadas[cat] = (contadas[cat] || 0) + 1;
+  }
+  for (const [cat, esperado] of Object.entries(refMapa.por_categoria)) {
+    const veio = contadas[cat] || 0;
+    if (veio !== esperado) {
+      derivou++;
+      const nome = mapaPontos.categorias[cat]?.pt || cat;
+      erro('mapa', `categoria ${nome}: ${veio} pontos na importação e ${esperado} na referência (${veio - esperado > 0 ? '+' : ''}${veio - esperado})`);
+    }
+  }
+  for (const cat of Object.keys(contadas)) {
+    if (!(cat in refMapa.por_categoria)) {
+      derivou++;
+      erro('mapa', `categoria ${cat} apareceu na importação e não existe em referencia-mapa.json. Categoria nova entraria no mapa sem ninguém conferir`);
+    }
+  }
+  for (const [tipo, esperado] of Object.entries(refMapa.tipos_de_guarda)) {
+    if (tipo.startsWith('_')) continue;
+    const veio = mapaPontos.pontos.filter((p) => p.t === tipo).length;
+    if (veio !== esperado) {
+      derivou++;
+      erro('mapa', `tipo ${tipo}: ${veio} pontos na importação e ${esperado} na referência. É um dos quatro que o mapa existe para mostrar`);
+    }
+  }
+
+  // ---------------------------------------------- prova da projeção (H3)
+  //
+  // O paldb publica DOIS sistemas de coordenada no mesmo pacote: `fixedDungeon`
+  // em coordenada de mundo, que o importador converte, e `regionData` mais
+  // `extrasIngame` já em coordenada de tela, que ele NÃO toca. Os dois grupos
+  // descrevem lugares que se sobrepõem no jogo: um crítico de Pal fica em cima
+  // de um ponto de viagem rápida, um mercador fica dentro de uma cidade.
+  //
+  // Então a conversão pode ser conferida contra a própria fonte, sem depender
+  // do nosso mapa.json, que é justamente o que NÃO serve de referência aqui:
+  // ele tem coordenada estimada, e a comparação está registrada em fontes.md.
+  //
+  // A TOLERÂNCIA SAIU DA MEDIÇÃO, não de chute. Medindo a distância de cada um
+  // dos 121 pontos de tela ao ponto convertido mais próximo: 14 ficam abaixo de
+  // 1 unidade, 28 abaixo de 2, mediana 4,5. Os 14 são sobreposição real, e é
+  // neles que a asserção pega: com 13.755 pontos espalhados por cerca de 3.000
+  // unidades de lado, o espaçamento médio entre pontos é de umas 25 unidades,
+  // então concordância abaixo de 1 unidade não acontece por acaso nem sobrevive
+  // a um deslocamento errado. O piso é 12 e não 14 para uma importação futura
+  // poder acrescentar ou tirar um ponto sem quebrar o portão à toa.
+  //
+  // A mediana entra junto porque as duas falham por motivos diferentes: a
+  // contagem pega deslocamento e troca de sinal, a mediana pega deriva larga
+  // que ainda deixaria alguns pares casando.
+  const PERTO = 1.0;
+  const MINIMO_PERTO = 12;
+  const MEDIANA_MAXIMA = 8;
+  const distancias = mapaPontos.extras.map((e) => {
+    let melhor = Infinity;
+    for (const p of mapaPontos.pontos) {
+      const d = Math.hypot(p.x - e.x, p.y - e.y);
+      if (d < melhor) melhor = d;
+    }
+    return melhor;
+  }).sort((a, b) => a - b);
+  const perto = distancias.filter((d) => d <= PERTO).length;
+  const mediana = distancias.length ? distancias[Math.floor(distancias.length / 2)] : Infinity;
+
+  let projecaoOk = true;
+  if (perto < MINIMO_PERTO) {
+    projecaoOk = false;
+    erro('mapa', `projeção: só ${perto} dos ${distancias.length} pontos de tela do paldb caem a menos de ${PERTO} unidade de um ponto convertido, e o mínimo medido é ${MINIMO_PERTO}. A conversão de mundo para tela em projecao-mapa.json está errada, e TODO marcador está fora do lugar`);
+  }
+  if (mediana > MEDIANA_MAXIMA) {
+    projecaoOk = false;
+    erro('mapa', `projeção: mediana de ${mediana.toFixed(1)} unidades entre ponto de tela e ponto convertido, acima do teto de ${MEDIANA_MAXIMA}. Deriva larga na conversão`);
+  }
+  if (projecaoOk && !derivou) {
+    passou(`mapa: ${mapaPontos.total} pontos e ${mapaPontos.extras.length} extras batem com a referência, e a projeção casa ${perto} pares abaixo de ${PERTO} unidade (mediana ${mediana.toFixed(1)})`);
+  }
+}
+
 // ------------------------ carimbo "atualizado" x histórico do arquivo (E5)
 // O carimbo do topo da página promete uma data de revisão. Ele mentiu por dois
 // dias no fontes.md, que dizia 30.07 depois de a seção inteira ser reescrita em

@@ -126,6 +126,51 @@ contra referência conferida**, dizendo qual esfera mudou e de quanto. Esfera qu
 ou aparecer sem estar na referência também quebra: linha entrando ou saindo da tabela do site sem
 ninguém olhar é o defeito que este projeto mais repete.
 
+## Mapa: a projeção está provada, os nossos 24 marcadores é que não
+
+Registrado em **01.08.2026**, ao importar os 13.755 marcadores do paldb.
+
+A conversão de coordenada de mundo para coordenada de tela foi conferida **contra a própria fonte**,
+não contra nós. O paldb publica dois sistemas no mesmo pacote: `fixedDungeon` em coordenada de mundo
+e `regionData` mais `extrasIngame` já em coordenada de tela. Convertendo os 13.755 e medindo a
+distância de cada um dos 121 pontos de tela ao ponto convertido mais próximo, **14 ficam abaixo de 1
+unidade** e a mediana fica em 4,5. São objetos diferentes ocupando o mesmo lugar, como um crítico de
+Pal em cima de um ponto de viagem rápida, e com espaçamento médio de 25 unidades entre pontos essa
+concordância não acontece por acaso.
+
+A aferição contra os **24 marcadores do `mapa.json`** era para ser a prova de campo e virou outra
+coisa. Dos 10 pares que casam por nome:
+
+| Ponto | Nosso | paldb convertido | Desvio |
+|---|---|---|---|
+| Bjorn e Bastigor | -1294, -1669 | -1294, -1669 | 0 |
+| Zoe e Grizzbolt | 112, -434 | 111, -431 | 3 |
+| Zona de Caça Proibida III | 665, 645 | 663, 634 | 11 |
+| Zona de Caça Proibida II | -662, -116 | -676, -111 | 15 |
+| Victor e Shadowbeak | -103, 523 | -148, 447 | 88 |
+| Axel e Orserk | -691, -518 | -588, -518 | 103 |
+| Mercador clandestino | 34, -421 | 136, -359 | 119 |
+| Lily e Lyleen | -180, -598 | 36, -311 | 359 |
+| Zona de Caça Proibida I | 95, -730 | -344, 270 | 1092 |
+| Marcus e Faleris | -523, 493 | 556, 335 | 1091 |
+
+**Não há desvio sistemático.** Os sinais se alternam nos dois eixos, e dois pares batem quase na
+casa decimal enquanto outros erram por mil. Desvio de fórmula ou de limite seria constante e na
+mesma direção, e faria os dez errarem junto. O que este quadro descreve é ruído, e ruído desse
+tamanho vem do lado que foi estimado: a tarefa B1 já registra que o `mapa.json` tem **coordenada
+estimada** e espera as telas de cada base.
+
+Então o papel dos 24 se inverteu. Eles não aferem o paldb: **eles são a lista de trabalho da B1**, e
+os quatro piores (Marcus e Faleris, Zona I, Lily e Lyleen, mercador) são por onde começar. O par
+Marcus e Faleris tem cara de sinal trocado em x, de -523 para +556.
+
+:::atencao
+**O que ainda não está provado.** A conferência acima mostra que a conversão reproduz a coordenada
+de tela **do paldb**, não que a coordenada de tela do paldb é a que o jogo mostra. As duas coisas
+seriam iguais se o paldb estiver certo, e ele acerta o resto do catálogo, mas isso é inferência e
+não medição. Fecha com três pontos de viagem rápida lidos na tela do jogo.
+:::
+
 ## A regra de cruzamento, conferida em 01.08.2026
 
 O guia dizia "sai a espécie de rank mais próximo", e isso está **incompleto**. Conferindo contra as

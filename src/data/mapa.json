@@ -10,39 +10,21 @@
     "torre, alpha, santuario, mercador, viagem. Para criar uma categoria nova,",
     "acrescente uma entrada em 'categorias' com uma cor.",
     "",
-    "CALIBRAÇÃO: a imagem do mapa não vem no repositório (é arte do jogo).",
-    "Coloque um print do seu mapa em public/mapa/mapa.jpg e ajuste os dois pontos",
-    "de 'calibracao' abaixo: pegue dois lugares que você sabe a coordenada no jogo,",
-    "veja em que pixel eles caem na sua imagem, e preencha. O mapa se ajusta sozinho.",
-    "Sem imagem, o mapa mostra uma grade de coordenadas e continua funcionando."
+    "CALIBRAÇÃO: não existe mais aqui, e isso é melhoria e não perda. Havia dois",
+    "pontos escritos à mão dizendo que (-1000,-1000) caía no pixel (256,1792) e",
+    "(1000,1000) no (1792,256). Nunca foram medidos: são 1/8 e 7/8 exatos de 2048,",
+    "com simetria perfeita, e o texto que estava aqui os descrevia como tarefa",
+    "pendente. Agora a conversão sai dos limites de mundo que o paldb publica, em",
+    "src/data/projecao-mapa.json, e é conferida pelo verificador contra a própria",
+    "fonte. Imagem nova de qualquer resolução funciona sem ninguém recalibrar nada.",
+    "",
+    "A imagem do mapa continua fora do repositório porque é arte do jogo. Sem ela,",
+    "o mapa desenha uma grade de coordenadas e continua funcionando."
   ],
   "imagem": {
     "arquivo": "/mapa/mapa.jpg",
     "largura": 2048,
     "altura": 2048
-  },
-  "calibracao": {
-    "_nota": "dois pontos conhecidos: coordenada do jogo -> pixel na imagem",
-    "ponto1": {
-      "jogo": {
-        "x": -1000,
-        "y": -1000
-      },
-      "pixel": {
-        "x": 256,
-        "y": 1792
-      }
-    },
-    "ponto2": {
-      "jogo": {
-        "x": 1000,
-        "y": 1000
-      },
-      "pixel": {
-        "x": 1792,
-        "y": 256
-      }
-    }
   },
   "categorias": {
     "base": {
