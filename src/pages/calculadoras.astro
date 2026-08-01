@@ -129,7 +129,7 @@ const notaFora = (e: (typeof esferas)[number], idioma: 'pt' | 'en') =>
     .replace('{esfera}', idioma === 'en' ? e.en : e.pt)
     .replace('{poder}', String(e.atributos.capture_power));
 ---
-<Base titulo={ui('calc_titulo', 'pt')} descricao={ui('calc_sub', 'pt')}>
+<Base titulo={ui('calc_titulo', 'pt')} descricao={ui('calc_sub', 'pt')} usaProgresso>
   <article data-pagefind-body>
     <h1 data-rot-pt={ui('calc_titulo', 'pt')} data-rot-en={ui('calc_titulo', 'en')}>{ui('calc_titulo', 'pt')}</h1>
     <p class="subtitulo" data-rot-pt={ui('calc_sub', 'pt')} data-rot-en={ui('calc_sub', 'en')}>{ui('calc_sub', 'pt')}</p>

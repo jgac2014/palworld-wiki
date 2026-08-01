@@ -939,11 +939,83 @@ const desviarLeaflet = (alvo) =>
   const ligado = await doNossoSave();
   conferir(desligado === 0 && ligado > 0, 'o overlay do progresso liga e desliga o nosso save', `${desligado} visíveis desligado, ${ligado} ligado`);
 
+  // O interruptor só existe onde ele muda alguma coisa (F8).
+  //
+  // Ele ficava nas 323 páginas trocando de rótulo sem revelar nada em 319
+  // delas. As duas metades são obrigatórias: sem a segunda, o botão em toda
+  // página continuaria passando, porque "onde tem efeito ele aparece" é
+  // verdade trivial quando ele aparece em tudo.
+  //
+  // O delta é medido do que o navegador desenhou, ligando o overlay de
+  // verdade, e não da existência da classe no HTML: /mapa e /calculadoras
+  // reagem por JavaScript e não têm classe nenhuma para contar.
+  const deltaDoOverlay = async (rota) => {
+    await pagina.goto(`${base}${rota}`);
+    await pagina.evaluate(() => localStorage.removeItem('palworld-wiki-progresso'));
+    await pagina.reload();
+    await pagina.waitForTimeout(250);
+    const controle = await pagina.locator('#alternar-progresso').count();
+    const medir = () => pagina.evaluate(() => {
+      const marcas = [...document.querySelectorAll('.so-com-progresso, .so-sem-registro, .so-vencido')]
+        .filter((el) => el.getBoundingClientRect().height > 0).length;
+      // Valor de campo entra na conta porque em /calculadoras o overlay não
+      // acrescenta elemento: ele preenche o estoque da guilda nos campos.
+      const campos = [...document.querySelectorAll('#campos-bolo input')]
+        .map((i) => i.value).join(',');
+      return `${marcas}|${campos}`;
+    });
+    const antes = await medir();
+    if (!controle) return { controle: 0, mudou: false };
+    await pagina.locator('#alternar-progresso').click();
+    await pagina.waitForTimeout(250);
+    const depois = await medir();
+    await pagina.evaluate(() => localStorage.removeItem('palworld-wiki-progresso'));
+    return { controle, mudou: antes !== depois };
+  };
+
+  const COM_EFEITO = ['/pal/anubis/', '/pals/', '/mapa/', '/calculadoras/'];
+  const SEM_EFEITO = ['/', '/breeding/', '/itens/', '/painel/'];
+  const semControle = [];
+  const semEfeito = [];
+  for (const rota of COM_EFEITO) {
+    const r = await deltaDoOverlay(rota);
+    if (!r.controle) semControle.push(rota);
+    else if (!r.mudou) semEfeito.push(rota);
+  }
+  const ofereceEmVao = [];
+  for (const rota of SEM_EFEITO) {
+    const r = await deltaDoOverlay(rota);
+    if (r.controle) ofereceEmVao.push(rota);
+  }
+  conferir(
+    semControle.length === 0 && semEfeito.length === 0 && ofereceEmVao.length === 0,
+    `o interruptor de progresso aparece nas ${COM_EFEITO.length} rotas que ele muda e em nenhuma das outras`,
+    [
+      semControle.length ? `sem o controle onde deveria: ${semControle.join(', ')}` : '',
+      semEfeito.length ? `com o controle e sem efeito: ${semEfeito.join(', ')}` : '',
+      ofereceEmVao.length ? `oferecido sem ter o que revelar: ${ofereceEmVao.join(', ')}` : '',
+    ].filter(Boolean).join(' | '),
+  );
+
   // A escolha atravessa páginas, como o idioma.
+  //
+  // O estado é estabelecido AQUI. Antes esta asserção herdava o overlay ligado
+  // pelo teste de cima e passava por tabela, que é a armadilha escrita no
+  // CLAUDE.md: só apareceu quando a asserção da F8 entrou no meio e limpou o
+  // localStorage, e aí ela reprovou de imediato.
+  await pagina.goto(`${base}/pal/anubis/`);
+  await pagina.waitForTimeout(200);
+  await pagina.locator('#alternar-progresso').click();
+  await pagina.waitForTimeout(150);
+  const ligouAntes = await pagina.evaluate(() => document.documentElement.hasAttribute('data-progresso'));
   await pagina.goto(`${base}/pal/mozzarina/`);
   await pagina.waitForTimeout(200);
   const persistiu = await pagina.evaluate(() => document.documentElement.hasAttribute('data-progresso'));
-  conferir(persistiu, 'a escolha do overlay persiste entre páginas');
+  conferir(
+    ligouAntes && persistiu,
+    'a escolha do overlay persiste entre páginas',
+    !ligouAntes ? 'o overlay nem chegou a ligar, então persistir não prova nada' : 'não persistiu',
+  );
 
   // Sem JavaScript o overlay não existe, e a wiki continua inteira.
   const semJs = await navegador.newContext({ javaScriptEnabled: false });

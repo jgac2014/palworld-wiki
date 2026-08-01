@@ -878,6 +878,51 @@ if (pals && catalogo) {
   if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
 }
 
+// ------- o interruptor de progresso só onde ele muda alguma coisa (F8)
+//
+// Ele nascia nas 323 páginas, trocava de rótulo, gravava no localStorage e não
+// revelava nada em 319 delas. Medido no dist antes da correção: 609 elementos
+// de overlay nas 299 fichas de Pal, 11 em /pals, 1 em /mapa, zero em todo o
+// resto. Botão que muda de estado e não muda nada ensina que ele não funciona.
+//
+// Agora cada página DECLARA `usaProgresso` no Base, e esta checagem cobra a
+// declaração contra o que a página realmente tem. Nos dois sentidos: página
+// com overlay e sem declaração perde o interruptor em silêncio, e declaração
+// sem overlay traz o botão morto de volta.
+{
+  const PAGINAS = 'src/pages';
+  const varrerAstro = async (pasta) => {
+    const achados = [];
+    for (const item of await readdir(join(raiz, pasta), { withFileTypes: true })) {
+      if (item.isDirectory()) achados.push(...(await varrerAstro(`${pasta}/${item.name}`)));
+      else if (item.name.endsWith('.astro')) achados.push(`${pasta}/${item.name}`);
+    }
+    return achados;
+  };
+  const arquivos = await varrerAstro(PAGINAS);
+  if (!arquivos.length) {
+    erro('progresso', 'não achei página nenhuma em src/pages. Esta checagem não conferiu nada');
+  } else {
+    const errados = [];
+    let declaradas = 0;
+    for (const arq of arquivos) {
+      const fonte = await ler(arq);
+      if (!fonte) continue;
+      // Overlay é uma das duas coisas: elemento com a classe, ou reação ao
+      // evento. /mapa e /calculadoras só têm a segunda, e contar classe
+      // sozinha os deixaria de fora.
+      const temOverlay = /so-com-progresso|so-sem-registro|so-vencido|progresso:mudou/.test(fonte);
+      const declara = /usaProgresso/.test(fonte);
+      if (declara) declaradas++;
+      if (temOverlay && !declara) errados.push(`${arq} tem overlay e não declara usaProgresso`);
+      if (declara && !temOverlay) errados.push(`${arq} declara usaProgresso e não tem overlay nenhum`);
+    }
+    if (errados.length) erro('progresso', errados.join(' | '));
+    else if (!declaradas) erro('progresso', 'nenhuma página declara usaProgresso, então o interruptor não aparece em lugar nenhum');
+    else passou(`progresso: ${declaradas} de ${arquivos.length} páginas declaram o interruptor, e são exatamente as que têm o que revelar`);
+  }
+}
+
 // ------------------ a home não pode prometer filtro que a página não tem (F7)
 //
 // A home anunciava "filtro por aptidão de trabalho, elemento e nível" e a

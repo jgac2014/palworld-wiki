@@ -888,7 +888,7 @@ o que não existe, e quando alguém tira da página um controle que a home anunc
 `pt: promete filtro por elemento, que /pals não tem`, o que também prova que a checagem não confere
 um idioma só. Renomear o `<select id="fase">` acusou a promessa nos dois idiomas de uma vez.
 
-### [ ] F8 — "Nosso progresso" troca de rótulo e não mostra nada
+### [x] F8 — "Nosso progresso" troca de rótulo e não mostra nada
 
 **Requisito:** R5.1
 **Território:** código e visual
@@ -919,6 +919,41 @@ os dois. Palpite aqui produz a correção errada.
   anterior. Já custou uma reversão neste repositório, está nas armadilhas do `CLAUDE.md`.
 - Provada por sabotagem.
 - `npm run portao` passando.
+
+**Feita, e o número mudou a correção.** Medido no `dist/` antes de mexer em nada:
+
+| Rota | Elementos de overlay | Páginas |
+|---|---|---|
+| `/pal/<ficha>` | 609 | 299 |
+| `/pals` | 11 | 1 |
+| `/mapa` | 1 | 1 |
+| todo o resto | **0** | 22 |
+
+O interruptor estava nas **323**. Escolhida a primeira das duas saídas: ele deixa de aparecer onde
+não muda nada. A outra, tornar o efeito visível em toda página, exigiria inventar overlay para guia
+de texto, que é justamente o que a decisão 3.0 do PRD proíbe.
+
+**A contagem por classe não bastava, e quase produziu a correção errada.** `/calculadoras` e `/mapa`
+reagem ao evento `progresso:mudou` por JavaScript e não têm classe nenhuma no HTML: pela contagem
+crua os dois entrariam na lista de "zero" e perderiam o interruptor. São **quatro** rotas com efeito,
+não três, e por isso a asserção mede o delta do que o navegador desenhou, incluindo o valor dos
+campos do bolo, e não a presença da classe.
+
+**A declaração é da página, não de uma lista de rotas.** Cada página passa `usaProgresso` no `Base`,
+pelo mesmo motivo da F4: lista central envelhece calada. O verificador cobra os dois sentidos, página
+com overlay sem declarar e declaração sem overlay.
+
+**Três sabotagens, todas rodadas.** Devolver o `<SeletorProgresso />` a todas as páginas acusou
+"oferecido sem ter o que revelar: /, /breeding/, /itens/, /painel/". Tirar a declaração do `/mapa`
+acusou "tem overlay e não declara". Declarar na home acusou "declara e não tem overlay nenhum".
+
+**Dois achados de tabela, corrigidos junto.** A asserção "a escolha do overlay persiste entre
+páginas" **passava por herança**: ela lia um overlay que o teste anterior tinha deixado ligado. Só
+apareceu porque a asserção nova entrou no meio e limpou o `localStorage`, e aí ela reprovou na hora.
+Agora ela liga o overlay que vai conferir. É a armadilha que o `CLAUDE.md` já descreve, encontrada
+mais uma vez. E as 11 fichas sem número de Palpédia publicavam `número null na Palpédia` na meta
+descrição, ponta solta da F6 que só apareceu ao abrir o `[pal].astro` por outro motivo. A descrição
+de `/pals` também prometia filtro por nível, o mesmo defeito da F7 em outro lugar.
 
 ### [ ] F9 — Termo glosado à mão imprime duas vezes
 

@@ -82,7 +82,10 @@ const carimbo = (l) => [
 ---
 <Base
   titulo={pal.pt}
-  descricao={`${pal.pt} em Palworld 1.0: número ${pal.numero} na Palpédia, elementos e aptidões para trabalho com os nomes oficiais em português.`}
+  descricao={pal.numero
+    ? `${pal.pt} em Palworld 1.0: número ${pal.numero} na Palpédia, elementos e aptidões para trabalho com os nomes oficiais em português.`
+    : `${pal.pt} em Palworld 1.0: entidade da colaboração com Terraria, sem número de Palpédia, com elementos e aptidões para trabalho em português.`}
+  usaProgresso
 >
   <article data-pagefind-body>
     <h1 data-rot-pt={pal.pt} data-rot-en={pal.en}>{pal.pt}</h1>
