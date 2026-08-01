@@ -796,6 +796,58 @@ contra 1 na referência. A sabotagem da busca também derrubou o teste com exce�
 tentativa, em vez de reprovar com explicação: teste que estoura some do resumo, então ele passou a
 conferir a lista antes de clicar nela.
 
+### [x] H8 — Guarda de classe para importador
+
+**Requisito:** R3.5
+**Território:** conteúdo e dados
+
+Cinco defeitos silenciosos de importação neste projeto, todos a mesma coisa: forma inesperada
+aceita em silêncio. Aptidão com espaço no nome descartada, marcador de string publicado como
+conteúdo, tabela recortada até o fim do documento, linha de Pal alfa descartada, e o casamento de
+idiomas por campo ausente. **Todas as vezes a resposta foi uma guarda específica para o defeito
+recém-achado**, e todas as vezes o seguinte entrou por outra porta da mesma casa.
+
+**Aceite:**
+- Junção por campo ausente ou repetido ABORTA, em qualquer importador, antes de gravar.
+- Para cada campo de texto que identifica registro, a distribuição é medida e congelada, e um valor
+  que se espalha acima do teto medido FALHA nomeando campo, valor e contagem.
+- Provado por sabotagem reintroduzindo o casamento por `id` no importador do mapa.
+
+**Feita, e são duas metades que se cobrem.**
+
+A metade que impede na origem é `scripts/lib/importacao.mjs`. `indicePorChave` aborta quando o campo
+falta em qualquer registro, dizendo quantos e mostrando um, e quando ele repete, dizendo qual valor e
+quantas vezes. `juntarPorChave` exige que os dois lados tenham as mesmas chaves. `parearPorIndice`
+existe para o caso legítimo, que é a mesma lista em dois idiomas sem identificador, e cobra campos de
+conferência: parear por índice sem nada que tenha de bater em cada posição é fé, não junção. Os dois
+importadores passaram a usar: o do mapa parEia `fixedDungeon` por índice conferindo `type` e `pos`, e
+o `regionData` e o `extrasIngame` também, que casavam por índice **sem guarda nenhuma** até agora. O
+do catálogo indexa por `chave`, e a junção por `Map` tinha o mesmo defeito da junção por `find`:
+`chave` ausente vira a entrada `undefined` e todo registro sem ela casa com o mesmo par.
+
+A metade que pega no resultado está no `verificar-tudo.mjs` e vale para os **10 conjuntos importados**,
+25 campos de texto. Ela compara `maior_repeticao` como TETO e `distintos` como PISO, contra
+`src/data/referencia-importacao.json`, congelado por `npm run importacao:congelar`, mesmo mecanismo do
+poder de captura. A assimetria é de propósito: valor que se espalha é junção quebrada, valor novo é
+conteúdo novo. **Os limiares são medidos, nunca redondos**: `pontos.en` repete `Salvage_Rank2` em
+1.987 registros de forma legítima, porque é nome de objeto e não de lugar, enquanto `pontos.pt` tem
+teto 70. Era esse 70 que faltava: os 137 nomes iguais passavam porque o total de pontos não mudava.
+
+**Campo que mede zero aborta ao congelar.** A primeira rodada declarou `pai`, `mae` e `filho` para
+`cruzamentos_unicos`, que é coleção de triplas e não de objetos: os três campos renderam zero valores,
+e congelar isso teria criado teto zero e piso zero, uma checagem que passa sempre sem conferir nada.
+É o modo de falha mais caro deste repositório, e ele foi pego pela regra de falhar por falta de
+insumo.
+
+**Três sabotagens, todas rodadas.** Reintroduzir o casamento por `id` no importador do mapa fez a
+guarda abortar com `13139 de 13755 registros não têm o campo "id"`, e o sha256 do
+`mapa-pontos.json` ficou **idêntico** antes e depois: acusou antes de gravar. Devolver o dado com a
+junção velha fez a guarda de variância acusar `"DarkIsland02" em 1338 registros contra teto 70` e
+`148 distintos contra 349`. E colapsar 300 nomes em `itens.json`, que não é o arquivo do defeito
+original, fez ela acusar igual: a guarda é de classe, não do caso.
+
+Encostou em `package.json`, compartilhado, por uma linha de script.
+
 ### [ ] H5 — O mapa funcionar no pacote offline
 
 **Requisito:** R3.6

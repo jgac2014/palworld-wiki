@@ -2000,6 +2000,15 @@ deixar de valer isso.</p>
 <p>A regressão passou a ter guarda: o verificador conta quantos nomes em português cobrem mais de um
 nome em inglês e compara com o número congelado. Hoje é <strong>1</strong>, e é legítimo, porque a localização do
 jogo chama <code>Fort Ruins</code> e <code>Fortress Ruins</code> de “Restos da Fortaleza”. Com o casamento velho, eram 24.</p>
+<p><strong>E a guarda deixou de ser só deste caso.</strong> Este foi o quinto defeito silencioso de importação neste
+repositório, e as cinco respostas anteriores foram guardas específicas para o defeito recém-achado.
+Agora existe a guarda da classe, em duas metades. Na origem, junção por campo ausente ou repetido
+<strong>aborta antes de gravar</strong>, em qualquer importador. No resultado, a distribuição de texto dos <strong>10
+conjuntos importados</strong> fica congelada em <code>src/data/referencia-importacao.json</code>, e um valor que cobre
+registros demais reprova, dizendo campo, valor e contagem. Os limiares são medidos e não redondos:
+<code>pontos.en</code> repete <code>Salvage_Rank2</code> em 1.987 registros de forma legítima, porque é nome de objeto, e
+<code>pontos.pt</code> tem teto 70. Era esse 70 que faltava, porque os 137 nomes iguais não mudavam o total de
+pontos e por isso nenhuma contagem os via.</p>
 <p><strong>Uma deriva menor apareceu junto:</strong> o paldb deixou de traduzir o tipo <code>Awakening</code>, que voltou para
 inglês. São 38 rótulos traduzidos virando 37. Nenhuma afirmação da wiki dependia dessa palavra. Ela
 também estava passando em silêncio, porque nada comparava esse número: agora compara.</p>

@@ -33,6 +33,8 @@ import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { indicePorChave } from './lib/importacao.mjs';
+
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SAIDA = join(raiz, 'src/data/catalogo.json');
 
@@ -254,8 +256,12 @@ function nomeEmPortugues(nomePt, nomeEn) {
  * marca: Pizza, Katana, Bonsai e Silo são a mesma palavra nos dois idiomas, e
  * isso é acerto da localização, não falta dela.
  */
-function juntarIdiomas(en, pt, extras = () => ({})) {
-  const porChave = new Map(pt.map((x) => [x.chave, x]));
+function juntarIdiomas(en, pt, extras = () => ({}), nome = 'coleção') {
+  // Junção por Map tem o mesmo defeito da junção por find: `chave` ausente vira
+  // a entrada `undefined` e faz todo registro sem chave casar com o mesmo par.
+  // O sintoma é outro, a causa é a mesma que trocou o nome de 3.622 pontos do
+  // mapa. Quem aborta é a guarda de classe, em lib/importacao.mjs.
+  const porChave = indicePorChave(nome, pt, 'chave');
   return en.map((x) => {
     const irmao = porChave.get(x.chave);
     const { pt: nome, semTraducao } = nomeEmPortugues(irmao?.nome, x.nome);
@@ -389,8 +395,9 @@ const pt = extrair(htmlPt);
 console.log(`  índice EN: ${en.length} Pals`);
 console.log(`  índice PT: ${pt.length} Pals`);
 
-// a chave do href é a mesma nos dois idiomas, então dá para casar por ela
-const porChavePt = new Map(pt.map((p) => [p.chave, p]));
+// a chave do href é a mesma nos dois idiomas, então dá para casar por ela, e a
+// guarda de classe aborta se ela faltar ou repetir em algum registro
+const porChavePt = indicePorChave('catálogo de Pals', pt, 'chave');
 let semPt = 0;
 
 const pals = en.map((p) => {

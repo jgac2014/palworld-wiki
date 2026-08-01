@@ -12,6 +12,7 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { filhoteDoPar } from '../src/lib/calculos.js';
+import { COLECOES_IMPORTADAS, registrosDe, medirCampo, rotuloDaColecao } from './lib/importacao.mjs';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -643,6 +644,97 @@ if (!fundo || !projecao) {
       `(${af.no_mar_com_a_build_ativa} de ${af.pontos_so_de_terra} pontos de terra no mar, contra ` +
       `${Object.values(af.no_mar_com_as_outras || {}).join(' e ')} com a outra build)`,
     );
+  }
+}
+
+// ------------- guarda de CLASSE para importação: variância dos textos (H8)
+//
+// Cinco defeitos silenciosos de importação neste projeto, todos a mesma coisa:
+// forma inesperada aceita em silêncio. Todas as vezes a resposta foi uma guarda
+// específica para o defeito recém-achado, e todas as vezes o defeito seguinte
+// entrou por outra porta da mesma casa. Esta é a guarda da classe, e ela fica
+// EM CIMA das específicas, não no lugar delas.
+//
+// A metade que impede o defeito na origem está em `scripts/lib/importacao.mjs`,
+// e os importadores a chamam: junção por campo ausente ou repetido ABORTA antes
+// de gravar. Esta metade aqui pega no RESULTADO, para valer também para
+// importador que ninguém lembrou de ligar na outra e para fonte que colapsa
+// sozinha.
+//
+// O que ela mede: campo de texto que identifica registro não pode ter um valor
+// cobrindo registros demais. Quando o casamento de idiomas do mapa quebrou,
+// "Ilha Solitária Esquecida" passou a nomear os 137 pontos de viagem rápida de
+// uma vez, e NENHUMA contagem acusou, porque o total de pontos não mudou. Com
+// esta checagem, aquele estado reprova: o teto medido de `pontos.pt` é 70.
+//
+// Os limiares saem da distribuição congelada, nunca de número redondo: alguns
+// campos repetem muito de forma legítima, como `Salvage_Rank2` em 1.987 pontos,
+// que é nome de objeto e não de lugar.
+const refImport = await lerJson('src/data/referencia-importacao.json');
+if (!refImport) {
+  erro('importacao', 'src/data/referencia-importacao.json não abriu, então nenhum JSON importado pôde ser conferido. Rode `npm run importacao:congelar`');
+} else {
+  let quebrouImport = false;
+  const reprovar = (msg) => { quebrouImport = true; erro('importacao', msg); };
+  let camposConferidos = 0;
+
+  const declaradas = new Set(COLECOES_IMPORTADAS.map(rotuloDaColecao));
+  for (const rotulo of Object.keys(refImport.colecoes || {})) {
+    if (!declaradas.has(rotulo)) {
+      reprovar(`a referência congela ${rotulo}, que não está mais em COLECOES_IMPORTADAS. Coleção que sai da lista deixa de ser conferida sem ninguém ver`);
+    }
+  }
+
+  for (const c of COLECOES_IMPORTADAS) {
+    const rotulo = rotuloDaColecao(c);
+    const congelado = refImport.colecoes?.[rotulo];
+    if (!congelado) {
+      reprovar(`${rotulo} não tem distribuição congelada. Coleção importada nova entra sem ninguém conferir. Rode \`npm run importacao:congelar\``);
+      continue;
+    }
+    const json = await lerJson(c.arquivo);
+    if (!json) { reprovar(`${c.arquivo} não abriu, então ${rotulo} não pôde ser conferida`); continue; }
+    const registros = registrosDe(json, c.caminho);
+    if (!registros || !registros.length) {
+      reprovar(`${rotulo} não existe ou está vazia no arquivo, e a referência espera ${congelado.registros} registros`);
+      continue;
+    }
+
+    for (const campo of c.campos) {
+      const esperado = congelado.campos?.[campo];
+      if (!esperado) {
+        reprovar(`${rotulo}: o campo "${campo}" não está congelado. Rode \`npm run importacao:congelar\``);
+        continue;
+      }
+      const m = medirCampo(registros, campo);
+      // Falta de insumo é erro: campo que não rende valor nenhum faria a
+      // comparação passar comparando zero com zero.
+      if (!m.valores) {
+        reprovar(`${rotulo}: o campo "${campo}" não tem valor de texto em nenhum dos ${registros.length} registros, e a referência esperava ${esperado.valores}. A checagem não teria o que comparar`);
+        continue;
+      }
+      camposConferidos++;
+      // TETO. Valor que se espalha é a assinatura de junção quebrada.
+      if (m.maior_repeticao > esperado.maior_repeticao) {
+        reprovar(
+          `${rotulo}, campo "${campo}": o valor ${JSON.stringify(m.mais_repetido)} aparece em ${m.maior_repeticao} registros, ` +
+          `e o teto medido é ${esperado.maior_repeticao} (${JSON.stringify(esperado.mais_repetido)}). ` +
+          'Um nome cobrindo registros demais é junção quebrada, e o total de registros não muda quando isso acontece',
+        );
+      }
+      // PISO. Distintos caindo é colapso; subindo é conteúdo novo, e conteúdo
+      // novo não é defeito. Por isso a comparação é assimétrica.
+      if (m.distintos < esperado.distintos) {
+        reprovar(
+          `${rotulo}, campo "${campo}": ${m.distintos} valores distintos contra ${esperado.distintos} congelados. ` +
+          'Valores diferentes colapsaram num só',
+        );
+      }
+    }
+  }
+
+  if (!quebrouImport) {
+    passou(`importação: ${camposConferidos} campos de texto de ${COLECOES_IMPORTADAS.length} coleções importadas dentro do teto de repetição e do piso de valores distintos, congelados em ${refImport.congelado_em}`);
   }
 }
 

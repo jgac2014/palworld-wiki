@@ -19,6 +19,7 @@
     "catalogo:importar": "node scripts/importar-catalogo.mjs",
     "mapa:importar": "node scripts/importar-mapa.mjs",
     "mapa:fundo": "node scripts/gerar-fundo-mapa.mjs",
+    "importacao:congelar": "node scripts/congelar-importacao.mjs",
     "recortes:gravar": "node scripts/gravar-recortes.mjs",
     "testar": "node scripts/testar-navegador.mjs",
     "portao": "npm run verificar && npm run build && npm run offline && npm run testar"

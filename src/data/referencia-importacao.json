@@ -1,0 +1,206 @@
+{
+  "_leia_isto": "Distribuição CONGELADA dos campos de texto que identificam registro em cada JSON importado. O verificador compara maior_repeticao como TETO e distintos como PISO. Um valor que se espalha por registros demais é a assinatura de junção quebrada: quando o casamento de idiomas do mapa quebrou, um nome passou a cobrir os 137 pontos de viagem rápida e nenhuma contagem acusou, porque o total não mudou. Repetição legítima existe e é grande em alguns campos, por isso o teto é por campo e medido. Ao aceitar uma mudança, rode `npm run importacao:congelar` NO MESMO COMMIT e escreva em fontes.md o que mudou e por quê.",
+  "congelado_em": "2026-08-01",
+  "colecoes": {
+    "catalogo.json:pals": {
+      "registros": 299,
+      "campos": {
+        "chave": {
+          "valores": 299,
+          "distintos": 299,
+          "maior_repeticao": 1,
+          "mais_repetido": "Lamball"
+        },
+        "en": {
+          "valores": 299,
+          "distintos": 299,
+          "maior_repeticao": 1,
+          "mais_repetido": "Lamball"
+        },
+        "pt": {
+          "valores": 299,
+          "distintos": 299,
+          "maior_repeticao": 1,
+          "mais_repetido": "Lamball"
+        }
+      }
+    },
+    "catalogo.json:cruzamentos_unicos": {
+      "registros": 164,
+      "campos": {
+        "0": {
+          "valores": 164,
+          "distintos": 113,
+          "maior_repeticao": 11,
+          "mais_repetido": "Green_Slime"
+        },
+        "1": {
+          "valores": 164,
+          "distintos": 96,
+          "maior_repeticao": 10,
+          "mais_repetido": "Demon_Eye"
+        },
+        "2": {
+          "valores": 164,
+          "distintos": 116,
+          "maior_repeticao": 16,
+          "mais_repetido": "Rainbow_Slime"
+        }
+      }
+    },
+    "itens.json:itens": {
+      "registros": 1875,
+      "campos": {
+        "chave": {
+          "valores": 1875,
+          "distintos": 1875,
+          "maior_repeticao": 1,
+          "mais_repetido": "Gold_Coin"
+        },
+        "en": {
+          "valores": 1875,
+          "distintos": 1875,
+          "maior_repeticao": 1,
+          "mais_repetido": "Gold Coin"
+        },
+        "pt": {
+          "valores": 1875,
+          "distintos": 1873,
+          "maior_repeticao": 2,
+          "mais_repetido": "Tabuleta de Bellanoir"
+        }
+      }
+    },
+    "estruturas.json:itens": {
+      "registros": 496,
+      "campos": {
+        "chave": {
+          "valores": 496,
+          "distintos": 496,
+          "maior_repeticao": 1,
+          "mais_repetido": "Primitive_Workbench"
+        },
+        "en": {
+          "valores": 496,
+          "distintos": 496,
+          "maior_repeticao": 1,
+          "mais_repetido": "Primitive Workbench"
+        },
+        "pt": {
+          "valores": 496,
+          "distintos": 495,
+          "maior_repeticao": 2,
+          "mais_repetido": "Armário"
+        }
+      }
+    },
+    "tecnologias.json:itens": {
+      "registros": 588,
+      "campos": {
+        "chave": {
+          "valores": 588,
+          "distintos": 588,
+          "maior_repeticao": 1,
+          "mais_repetido": "Workbench"
+        },
+        "en": {
+          "valores": 588,
+          "distintos": 588,
+          "maior_repeticao": 1,
+          "mais_repetido": "Primitive Workbench"
+        },
+        "pt": {
+          "valores": 588,
+          "distintos": 588,
+          "maior_repeticao": 1,
+          "mais_repetido": "Bancada Primitiva"
+        }
+      }
+    },
+    "mapa-pontos.json:pontos": {
+      "registros": 13755,
+      "campos": {
+        "en": {
+          "valores": 8465,
+          "distintos": 586,
+          "maior_repeticao": 1987,
+          "mais_repetido": "Salvage_Rank2"
+        },
+        "pt": {
+          "valores": 858,
+          "distintos": 349,
+          "maior_repeticao": 70,
+          "mais_repetido": "Unidade atiradora dos Caçadores Clandestinos"
+        }
+      }
+    },
+    "mapa-pontos.json:extras": {
+      "registros": 121,
+      "campos": {
+        "en": {
+          "valores": 121,
+          "distintos": 85,
+          "maior_repeticao": 18,
+          "mais_repetido": "Cave Entrance"
+        },
+        "pt": {
+          "valores": 88,
+          "distintos": 80,
+          "maior_repeticao": 9,
+          "mais_repetido": "Avaliador de Pals insolente"
+        }
+      }
+    },
+    "mapa-pontos.json:tipos": {
+      "registros": 84,
+      "campos": {
+        "en": {
+          "valores": 84,
+          "distintos": 84,
+          "maior_repeticao": 1,
+          "mais_repetido": "Alpha Pal"
+        },
+        "pt": {
+          "valores": 84,
+          "distintos": 84,
+          "maior_repeticao": 1,
+          "mais_repetido": "Pal Alfa"
+        }
+      }
+    },
+    "mapa-pontos.json:categorias": {
+      "registros": 11,
+      "campos": {
+        "en": {
+          "valores": 11,
+          "distintos": 11,
+          "maior_repeticao": 1,
+          "mais_repetido": "Enemies"
+        },
+        "pt": {
+          "valores": 11,
+          "distintos": 11,
+          "maior_repeticao": 1,
+          "mais_repetido": "Inimigos"
+        }
+      }
+    },
+    "termos.json:termos": {
+      "registros": 160,
+      "campos": {
+        "en": {
+          "valores": 160,
+          "distintos": 158,
+          "maior_repeticao": 2,
+          "mais_repetido": "Breeding Farm"
+        },
+        "pt": {
+          "valores": 160,
+          "distintos": 158,
+          "maior_repeticao": 2,
+          "mais_repetido": "Fazenda de Acasalamento"
+        }
+      }
+    }
+  }
+}

@@ -32,6 +32,7 @@ import { writeFile, readFile } from 'node:fs/promises';
 import { createContext, runInContext } from 'node:vm';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parearPorIndice } from './lib/importacao.mjs';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const respirar = () => new Promise((r) => setTimeout(r, 700));
@@ -140,20 +141,17 @@ const pontos = [];
 // bloco de `extrasIngame` logo abaixo sempre casou por índice, pelo mesmo
 // motivo. A guarda abaixo ABORTA se a fonte deixar de valer isso, porque nome
 // trocado é pior que nome ausente.
-const dungeonPt = pt.fixedDungeon || [];
-const dungeonEn = en.fixedDungeon || [];
-if (dungeonPt.length !== dungeonEn.length) {
-  abortar(`fixedDungeon veio com ${dungeonEn.length} pontos em inglês e ${dungeonPt.length} em português. Casar por índice trocaria nome de lugar.`);
-}
-const foraDeOrdem = dungeonEn.filter((p, i) => dungeonPt[i]?.type !== p.type).length;
-if (foraDeOrdem) {
-  abortar(`${foraDeOrdem} pontos de fixedDungeon têm tipo diferente entre inglês e português no mesmo índice. As duas listas deixaram de estar na mesma ordem.`);
-}
-for (const [i, p] of dungeonEn.entries()) {
+const paresDungeon = parearPorIndice(
+  'fixedDungeon',
+  en.fixedDungeon || [],
+  pt.fixedDungeon || [],
+  ['type', 'pos'],
+);
+for (const { a: p, b: pPt } of paresDungeon) {
   if (!p.pos || !p.type) continue;
   const tela = paraTela(p.pos);
   const nomeEn = limpar(p.item);
-  const nomePt = limpar(dungeonPt[i]?.item);
+  const nomePt = limpar(pPt?.item);
   pontos.push({
     t: p.type,
     x: tela.x,
@@ -173,10 +171,13 @@ for (const [origem, lista, listaPt] of [
   ['regiao', en.regionData, pt.regionData],
   ['extra', en.extrasIngame, pt.extrasIngame],
 ]) {
-  for (const [i, e] of (lista || []).entries()) {
+  // Estes já casavam por índice, e casavam sem guarda: o dia em que a fonte
+  // publicar as duas listas em ordens diferentes, eles trocariam nome de lugar
+  // exatamente como o fixedDungeon trocou, e igualmente em silêncio.
+  for (const { a: e, b: ePt } of parearPorIndice(origem, lista || [], listaPt || [], ['type', 'ipos'])) {
     if (!e.ipos) continue;
     const nomeEn = limpar(e.item);
-    const nomePt = limpar(listaPt?.[i]?.item);
+    const nomePt = limpar(ePt?.item);
     extras.push({
       origem,
       t: e.type,
