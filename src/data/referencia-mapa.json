@@ -1,0 +1,30 @@
+{
+  "_leia_isto": "Contagem CONGELADA dos marcadores importados do paldb, por categoria. Mesmo mecanismo de poder-captura.json e pela mesma razão: o site publica dado importado, e importação muda sozinha quando a fonte muda de forma. O verificador compara uma importação nova contra estes números e diz qual categoria mudou e de quanto. As guardas de aborto do importador pegam o colapso (fonte vazia, categoria principal sumindo); este arquivo pega a deriva, que é o caso silencioso. Ao aceitar uma mudança, atualize o número aqui NO MESMO COMMIT e escreva em fontes.md o que mudou e por quê.",
+  "fonte": "https://paldb.cc/js/map_data_en.js, avaliado por scripts/importar-mapa.mjs",
+  "congelado_em": "2026-08-01",
+  "total_de_pontos": 13755,
+  "total_de_extras": 121,
+  "total_de_tipos": 84,
+  "tipos_com_rotulo_em_portugues": 38,
+  "por_categoria": {
+    "Mine": 3713,
+    "Fishing": 3232,
+    "Resource": 3121,
+    "Eggs": 1786,
+    "Collectibles": 521,
+    "NPCs": 446,
+    "Locations": 397,
+    "Enemies": 303,
+    "Other": 180,
+    "Oilrig": 56,
+    "_sem_categoria": 0
+  },
+  "_sobre_a_categoria_vazia": "`_sem_categoria` é o balde do único tipo que o paldb publica sem campo `category`: `Bullet`, rotulado \"Decal Ink\". Ele tem zero ponto hoje. Continua na lista, com nome próprio, em vez de virar \"undefined\" na tela ou sumir: o dia em que ganhar ponto, ele aparece, e a contagem congelada em 0 faz o verificador acusar.",
+  "tipos_de_guarda": {
+    "_nota": "Os tipos que o importador exige não vazios. Estes quatro são o que as pessoas abrem o mapa para procurar, então mapa sem eles é pior que mapa nenhum.",
+    "Fast Travel": 137,
+    "Dungeon": 170,
+    "Ore": 1463,
+    "Treasure": 1350
+  }
+}

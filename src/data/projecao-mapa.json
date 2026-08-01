@@ -1,0 +1,27 @@
+{
+  "_leia_isto": "Como sair da coordenada de MUNDO da Unreal, que o paldb publica em fixedDungeon.pos, para a coordenada de TELA, que é a que o jogo mostra no canto do mapa e a que o mapa.json já usa. Os eixos são trocados: o X do mundo vira o Y da tela e o Y do mundo vira o X da tela. Não é pixel: pixel depende do tamanho da imagem de fundo, que a tarefa H1 ainda vai produzir, e amarrar o dado a uma exportação específica seria refazer tudo se a resolução mudar.",
+  "mundo_para_tela": {
+    "formula": "tela.x = (mundo.Y - deslocamento_x) / escala ; tela.y = (mundo.X + deslocamento_y) / escala",
+    "escala": 459,
+    "deslocamento_x": 158000,
+    "deslocamento_y": 123888
+  },
+  "limites_do_mundo": {
+    "_nota": "Copiados de config.landScapeRealPositionMin/Max do próprio map_data. O importador ABORTA se a fonte publicar outros: mudança aqui move todo marcador de uma vez, que é o defeito mais difícil de enxergar em cima do mapa.",
+    "min_x": -1099400,
+    "min_y": -724400,
+    "max_x": 349400,
+    "max_y": 724400
+  },
+  "tela_para_imagem": {
+    "_nota": "DERIVADO, não medido. É a mesma projeção aplicada aos quatro cantos do mundo, então sai de graça dos limites acima e não precisa de ponto de referência nenhum. Isto substituiu a 'calibracao' de dois pontos que existia em mapa.json, que era inventada: (-1000,-1000) para o pixel (256,1792) e (1000,1000) para (1792,256) são 1/8 e 7/8 exatos de 2048, simetria perfeita e número redondo, e o próprio _leia_isto de lá a descrevia como tarefa pendente de medição.",
+    "formula": "pixel.x = (tela.x - min_x) / lado * largura ; pixel.y = (1 - (tela.y - min_y) / lado) * altura",
+    "min_x": -1922.4401,
+    "min_y": -2125.2985,
+    "lado": 3156.427,
+    "_sobre_o_lado": "Os dois eixos têm exatamente o mesmo comprimento, 1448800 / 459, porque o mundo é quadrado. Um lado só, e não dois, para nenhuma imagem futura poder ser esticada num eixo sem quebrar o outro."
+  },
+  "conferida_em": "2026-08-01",
+  "como_foi_conferida": "Contra a própria fonte, não contra nós. O paldb publica dois sistemas de coordenada em arquivos do mesmo pacote: fixedDungeon traz pos, em coordenada de mundo, e regionData mais extrasIngame trazem ipos, já em coordenada de tela. Projetando os 13.755 pontos de pos e medindo a distância de cada um dos 121 pontos de ipos ao ponto projetado mais próximo, a mediana fica em 4,5 unidades e boa parte das amostras fica abaixo de 1. Como são objetos diferentes ocupando o mesmo lugar (um crítico de Pal em cima de um ponto de viagem rápida, um mercador dentro de uma cidade), distância abaixo de uma unidade só acontece se a conversão estiver certa. Não há desvio sistemático: os resíduos trocam de sinal.",
+  "o_que_esta_prova_nao_cobre": "Ela prova que a conversão reproduz a coordenada de tela do PALDB, não que a coordenada de tela do paldb é a que o jogo mostra. Para isso falta ler três pontos de viagem rápida na tela do jogo e comparar. Enquanto isso não acontece, o mapa.json continua sendo a única referência de campo que temos, e ele tem marcador errado: ver o registro em fontes.md."
+}
