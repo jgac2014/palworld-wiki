@@ -1,4 +1,4 @@
----
+﻿---
 /**
  * Seletor de idioma dos nomes do jogo.
  *
@@ -33,10 +33,10 @@ import { ui } from '../lib/termos.js';
     padding: 5px 14px; font-size: 12px; font-weight: 600; font-family: var(--sans);
     letter-spacing: .06em; transition: .12s;
   }
-  .botoes button:hover { color: var(--texto); background: #20241a; }
-  .botoes button.ativo { background: var(--acento); color: #12140f; }
-  :global(.termo) { border-bottom: 1px dotted #4a5240; cursor: help; }
-  :global(html[data-idioma="en"] .termo) { border-bottom-color: #5a6350; }
+  .botoes button:hover { color: var(--texto); background: var(--realce); }
+  .botoes button.ativo { background: var(--acento); color: var(--contraste); }
+  :global(.termo) { border-bottom: 1px dotted var(--apagado); cursor: help; }
+  :global(html[data-idioma="en"] .termo) { border-bottom-color: var(--texto-2); }
 </style>
 
 <script>

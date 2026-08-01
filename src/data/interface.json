@@ -66,6 +66,9 @@
   "gravidade_bom":      { "pt": "Tranquilo",           "en": "Fine" },
   "ficha_pagina":       { "pt": "Ver a ficha completa", "en": "See the full entry" },
   "nav_idioma":         { "pt": "Nomes do jogo",      "en": "In-game names" },
+  "tema_rotulo":        { "pt": "Tema",               "en": "Theme" },
+  "tema_escuro":        { "pt": "Escuro",             "en": "Dark" },
+  "tema_claro":         { "pt": "Claro",              "en": "Light" },
 
   "busca_placeholder":  { "pt": "Buscar na wiki: Pal, item, passiva, mecânica...", "en": "Search the wiki: Pal, item, passive, mechanic..." },
   "busca_vazio":        { "pt": "Nada encontrado para", "en": "No results for" },

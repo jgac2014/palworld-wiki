@@ -1,4 +1,4 @@
----
+﻿---
 /**
  * O interruptor do overlay, a ponte entre as duas camadas do PRD.
  *
@@ -44,8 +44,8 @@ import { DIAS_ATE_VENCER } from '../lib/progresso.js';
     font-size: 12px; font-weight: 600; font-family: var(--sans);
     letter-spacing: .06em; transition: .12s; width: 100%; text-align: left;
   }
-  #alternar-progresso:hover { color: var(--texto); background: #20241a; }
-  #alternar-progresso[aria-pressed="true"] { background: var(--acento-2); color: #12140f; border-color: var(--acento-2); }
+  #alternar-progresso:hover { color: var(--texto); background: var(--realce); }
+  #alternar-progresso[aria-pressed="true"] { background: var(--acento-2); color: var(--contraste); border-color: var(--acento-2); }
 </style>
 
 <script define:vars={{ DIAS_ATE_VENCER }}>

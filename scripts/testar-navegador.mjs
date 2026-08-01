@@ -499,6 +499,82 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   await pagina.close();
 }
 
+// ------------------------------------------------------------ os dois temas
+//
+// Bloco próprio, com página própria, porque cada asserção daqui depende de um
+// localStorage e de uma preferência de sistema específicos. Rodar isto no meio
+// do bloco anterior herdaria a escolha que outro teste deixou gravada, e o
+// resultado passaria ou falharia por acidente: já aconteceu neste arquivo com o
+// idioma, que passou porque o teste anterior tinha deixado a página em inglês.
+//
+// newPage() do Playwright abre contexto novo, então o armazenamento nasce
+// limpo em cada um destes.
+{
+  const fundoDe = (p) => p.evaluate(() => ({
+    tema: document.documentElement.dataset.tema,
+    fundo: getComputedStyle(document.body).backgroundColor,
+    texto: getComputedStyle(document.body).color,
+  }));
+
+  // 1. sem escolha gravada, vale a preferência do sistema, nos dois sentidos.
+  const semEscolha = {};
+  for (const esquema of ['light', 'dark']) {
+    const p = await navegador.newPage({ viewport: { width: 1280, height: 900 }, colorScheme: esquema });
+    await p.goto(`${base}/`);
+    await p.waitForTimeout(150);
+    semEscolha[esquema] = await fundoDe(p);
+    await p.close();
+  }
+  conferir(
+    semEscolha.light.tema === 'claro' && semEscolha.dark.tema === 'escuro'
+      && semEscolha.light.fundo !== semEscolha.dark.fundo,
+    'sem escolha, o tema segue a preferência do sistema',
+    `sistema claro deu "${semEscolha.light.tema}" (${semEscolha.light.fundo}), sistema escuro deu "${semEscolha.dark.tema}" (${semEscolha.dark.fundo})`,
+  );
+
+  // 2. o botão troca de verdade, e a troca chega ao pixel. Conferir só o
+  //    atributo aprovaria um tema declarado e não desenhado.
+  const p = await navegador.newPage({ viewport: { width: 1280, height: 900 }, colorScheme: 'dark' });
+  await p.goto(`${base}/`);
+  await p.waitForTimeout(150);
+  const antesDoClique = await fundoDe(p);
+  await p.click('[data-tema-btn="claro"]');
+  await p.waitForTimeout(150);
+  const depoisDoClique = await fundoDe(p);
+  // E persiste ao mudar de página, como a escolha de idioma.
+  await p.goto(`${base}/breeding/`);
+  await p.waitForTimeout(150);
+  const outraPagina = await fundoDe(p);
+  conferir(
+    antesDoClique.tema === 'escuro' && depoisDoClique.tema === 'claro'
+      && depoisDoClique.fundo !== antesDoClique.fundo
+      && depoisDoClique.texto !== antesDoClique.texto
+      && outraPagina.tema === 'claro' && outraPagina.fundo === depoisDoClique.fundo,
+    'o botão troca o tema e a escolha persiste entre páginas',
+    `antes ${antesDoClique.tema}/${antesDoClique.fundo}, depois ${depoisDoClique.tema}/${depoisDoClique.fundo}, outra página ${outraPagina.tema}/${outraPagina.fundo}`,
+  );
+
+  // 3. a escolha do usuário vence a do sistema NOS DOIS SENTIDOS. Um tema que
+  //    só sobrevive quando concorda com o sistema não é escolha, é coincidência.
+  //    Aqui o sistema é o oposto do gravado de propósito.
+  const contra = {};
+  for (const [esquema, gravado] of [['dark', 'claro'], ['light', 'escuro']]) {
+    const q = await navegador.newPage({ viewport: { width: 1280, height: 900 }, colorScheme: esquema });
+    await q.goto(`${base}/`);
+    await q.evaluate((t) => localStorage.setItem('palworld-wiki-tema', t), gravado);
+    await q.goto(`${base}/breeding/`);
+    await q.waitForTimeout(150);
+    contra[gravado] = (await fundoDe(q)).tema;
+    await q.close();
+  }
+  conferir(
+    contra.claro === 'claro' && contra.escuro === 'escuro',
+    'a escolha do usuário vence a do sistema nos dois sentidos',
+    `claro gravado com sistema escuro deu "${contra.claro}", escuro gravado com sistema claro deu "${contra.escuro}"`,
+  );
+  await p.close();
+}
+
 // ------------------------------------------------------ pacote offline
 if (existsSync(offline)) {
   const pagina = await navegador.newPage({ viewport: { width: 1280, height: 900 } });

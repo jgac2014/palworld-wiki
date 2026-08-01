@@ -1,0 +1,64 @@
+---
+/**
+ * Troca entre os dois temas desenhados (R5.6).
+ *
+ * Não é inversão automática: os valores de cada tema estão escritos à mão em
+ * global.css, porque verde claro sobre papel branco não se lê e escurecer o
+ * mesmo verde por fórmula dá cinza esverdeado.
+ *
+ * Quem APLICA o tema é o script embutido no <head> do Base.astro, que roda
+ * antes da primeira pintura. Aqui só ficam os botões: se este componente
+ * aplicasse, a página nasceria escura e piscaria para clara em toda visita de
+ * quem escolheu claro.
+ */
+import { ui } from '../lib/termos.js';
+---
+
+<div class="seletor-tema" role="group" aria-label={ui('tema_rotulo', 'pt')}>
+  <span class="rotulo" data-rot-pt={ui('tema_rotulo', 'pt')} data-rot-en={ui('tema_rotulo', 'en')}>{ui('tema_rotulo', 'pt')}</span>
+  <div class="botoes">
+    <button type="button" data-tema-btn="escuro" data-rot-pt={ui('tema_escuro', 'pt')} data-rot-en={ui('tema_escuro', 'en')}>{ui('tema_escuro', 'pt')}</button>
+    <button type="button" data-tema-btn="claro" data-rot-pt={ui('tema_claro', 'pt')} data-rot-en={ui('tema_claro', 'en')}>{ui('tema_claro', 'pt')}</button>
+  </div>
+</div>
+
+<style>
+  .seletor-tema { padding: 0 20px 14px; border-bottom: 1px solid var(--linha); margin-bottom: 6px; }
+  .rotulo {
+    display: block; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--apagado); margin-bottom: 6px; font-family: var(--sans);
+  }
+  .botoes { display: flex; border: 1px solid var(--linha); border-radius: 3px; overflow: hidden; width: fit-content; }
+  .botoes button {
+    background: transparent; border: none; color: var(--apagado); cursor: pointer;
+    padding: 5px 14px; font-size: 12px; font-weight: 600; font-family: var(--sans);
+    letter-spacing: .06em; transition: .12s;
+  }
+  .botoes button:hover { color: var(--texto); background: var(--realce); }
+  .botoes button[aria-pressed="true"] { background: var(--acento); color: var(--contraste); }
+</style>
+
+<script>
+  const CHAVE = 'palworld-wiki-tema';
+
+  function marcar(tema) {
+    document.querySelectorAll('[data-tema-btn]').forEach((b) => {
+      b.setAttribute('aria-pressed', String(b.dataset.temaBtn === tema));
+    });
+  }
+
+  document.querySelectorAll('[data-tema-btn]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const tema = b.dataset.temaBtn;
+      document.documentElement.dataset.tema = tema;
+      // Escolha explícita vence a preferência do sistema nos DOIS sentidos, e
+      // por isso ela é gravada mesmo quando coincide com o sistema: sem gravar,
+      // quem escolheu escuro num sistema claro voltaria para claro na próxima
+      // página e o botão pareceria não ter funcionado.
+      try { localStorage.setItem(CHAVE, tema); } catch {}
+      marcar(tema);
+    });
+  });
+
+  marcar(document.documentElement.dataset.tema || 'escuro');
+</script>

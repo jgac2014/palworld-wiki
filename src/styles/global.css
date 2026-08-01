@@ -1,7 +1,16 @@
-/* ============================================================
+﻿/* ============================================================
    Tema da wiki. Mexer aqui muda o visual do site inteiro.
+
+   São DOIS temas desenhados, não um filtro de inversão do outro (R5.6). O
+   claro tem superfície própria, linha própria e cor de dado própria: verde
+   claro sobre papel branco não se lê, e escurecer o mesmo verde por fórmula
+   dá cinza esverdeado. Cada valor abaixo foi escolhido para o seu fundo.
+
+   Nenhuma cor fixa fora daqui. Toda vez que um componente escreveu #12140f
+   direto, o tema claro nasceu com um buraco preto no meio.
    ============================================================ */
-:root {
+:root,
+:root[data-tema="escuro"] {
   --fundo:      #12140f;
   --fundo-2:    #181b14;
   --cartao:     #1c2018;
@@ -14,9 +23,43 @@
   --atencao:    #d9a15c;
   --cuidado:    #d4756b;
   --dica:       #d4b158;
+  /* Papéis que antes eram cor fixa em componente. */
+  --prosa:      #d6d3c8;   /* corpo de texto, um passo abaixo do título */
+  --forte:      #ffffff;   /* negrito */
+  --realce:     #1f231a;   /* fundo de item sob o mouse */
+  --realce-2:   #1b2016;   /* fundo do item ativo do menu */
+  --contraste:  #12140f;   /* texto por cima do acento */
+  --codigo:     #232820;   /* fundo de code inline */
+  --bloco:      #0e100c;   /* fundo de pre e da tela do mapa */
+  --sombra:     rgba(0, 0, 0, .45);
   --serif:      "Iowan Old Style", Georgia, "Times New Roman", serif;
   --sans:       "Helvetica Neue", Inter, system-ui, Arial, sans-serif;
   --largura:    780px;
+}
+
+:root[data-tema="claro"] {
+  --fundo:      #f7f8f5;
+  --fundo-2:    #eef0ea;
+  --cartao:     #ffffff;
+  --linha:      #dde1d7;
+  --texto:      #171a14;
+  --texto-2:    #4a5145;
+  --apagado:    #6f7668;
+  /* Verde e azul rebaixados até passarem contraste sobre papel: o par do tema
+     escuro tem 2,1:1 aqui, ou seja, some. */
+  --acento:     #4a7c30;
+  --acento-2:   #22657f;
+  --atencao:    #9a5c14;
+  --cuidado:    #b03d31;
+  --dica:       #7d640d;
+  --prosa:      #2c3128;
+  --forte:      #000000;
+  --realce:     #e7eae1;
+  --realce-2:   #e2e9d9;
+  --contraste:  #ffffff;
+  --codigo:     #eceee7;
+  --bloco:      #f0f2ec;
+  --sombra:     rgba(20, 26, 16, .16);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -118,11 +161,11 @@ html[data-progresso] .so-vencido:not([data-vencido]) { display: none !important;
   border-left: 3px solid transparent;
   transition: .12s;
 }
-.lateral a.item:hover { background: #1f231a; color: var(--texto); }
+.lateral a.item:hover { background: var(--realce); color: var(--texto); }
 .lateral a.item[aria-current="page"] {
   border-left-color: var(--acento);
   color: var(--acento);
-  background: #1b2016;
+  background: var(--realce-2);
 }
 
 .conteudo { flex: 1; padding: 34px 40px 100px; max-width: calc(var(--largura) + 80px); }
@@ -164,20 +207,20 @@ h3 {
   color: var(--texto-2);
   margin: 26px 0 8px;
 }
-p { margin-bottom: 14px; color: #d6d3c8; }
+p { margin-bottom: 14px; color: var(--prosa); }
 ul, ol { margin: 0 0 16px 24px; }
-li { margin-bottom: 7px; color: #d6d3c8; }
-strong { color: #fff; font-weight: 700; }
+li { margin-bottom: 7px; color: var(--prosa); }
+strong { color: var(--forte); font-weight: 700; }
 a { color: var(--acento-2); }
 code {
   font-family: ui-monospace, "SF Mono", Consolas, monospace;
   font-size: 13.5px;
-  background: #232820;
+  background: var(--codigo);
   padding: 1px 6px;
   border-radius: 3px;
   color: var(--acento);
 }
-pre { background: #0e100c; padding: 16px; border-radius: 4px; overflow-x: auto; margin-bottom: 16px; }
+pre { background: var(--bloco); padding: 16px; border-radius: 4px; overflow-x: auto; margin-bottom: 16px; }
 pre code { background: none; padding: 0; }
 hr { border: none; border-top: 1px solid var(--linha); margin: 36px 0; }
 
@@ -194,8 +237,8 @@ th {
   text-transform: uppercase;
   font-weight: 600;
 }
-td { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--linha); color: #d6d3c8; vertical-align: top; }
-tbody tr:hover td { background: #1a1e16; }
+td { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--linha); color: var(--prosa); vertical-align: top; }
+tbody tr:hover td { background: var(--realce); }
 
 /* ---------- caixas de destaque ---------- */
 .adm {

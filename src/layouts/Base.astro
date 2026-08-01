@@ -1,9 +1,10 @@
----
+﻿---
 import { getCollection } from 'astro:content';
 import Search from 'astro-pagefind/components/Search.astro';
 import Chat from '../components/Chat.astro';
 import FichaPal from '../components/FichaPal.astro';
 import SeletorIdioma from '../components/SeletorIdioma.astro';
+import SeletorTema from '../components/SeletorTema.astro';
 import SeletorProgresso from '../components/SeletorProgresso.astro';
 import { ui } from '../lib/termos.js';
 import '../styles/global.css';
@@ -46,6 +47,25 @@ const REPO = 'https://github.com/nederreis/PalCrew';
   <meta property="og:type" content="article" />
   <meta name="generator" content={Astro.generator} />
   <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+  <!--
+    O tema é aplicado aqui, no <head>, e não pelo componente do seletor: script
+    de componente roda depois da primeira pintura, e quem escolheu claro veria a
+    página nascer escura e piscar em toda visita.
+
+    Sem escolha gravada, vale a preferência do sistema. Com escolha gravada, ela
+    vence o sistema nos dois sentidos, que é o critério de aceite da D6.
+  -->
+  <script is:inline>
+    (function () {
+      var CHAVE = 'palworld-wiki-tema';
+      var escolhido = null;
+      try { escolhido = localStorage.getItem(CHAVE); } catch (e) {}
+      if (escolhido !== 'claro' && escolhido !== 'escuro') {
+        escolhido = window.matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'escuro';
+      }
+      document.documentElement.dataset.tema = escolhido;
+    })();
+  </script>
 </head>
 <body>
 <div class="casca">
@@ -58,6 +78,7 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       data-rot-en={ui('marca', 'en')}
     >{ui('marca', 'pt')}</a>
     <SeletorIdioma />
+    <SeletorTema />
     <div class="marca-sub">
       <span data-rot-pt={ui('marca_sub', 'pt')} data-rot-en={ui('marca_sub', 'en')}>{ui('marca_sub', 'pt')}</span><br />
       <span data-rot-pt={ui('marca_versao', 'pt')} data-rot-en={ui('marca_versao', 'en')}>{ui('marca_versao', 'pt')}</span> 1.0.2.101103

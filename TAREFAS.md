@@ -370,7 +370,7 @@ de posse lido do `save.json`, filtro que ordena por nível da aptidão escolhida
 ele são a mesma calculadora com o overlay ligado e desligado. Feitas em tarefas separadas, ela
 nasceria duas vezes. O texto inteiro, incluindo os dois números de aceite, está na E5.
 
-### [ ] D6 — Tema claro e escuro
+### [x] D6 — Tema claro e escuro
 
 **Requisito:** R5.6, R5.7
 **Território:** código e visual
