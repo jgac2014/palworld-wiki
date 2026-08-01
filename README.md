@@ -1,5 +1,12 @@
 # Wiki Palworld 1.0 em português
 
+**No ar em https://jgac2014.github.io/palworld-wiki/** · código em
+https://github.com/jgac2014/palworld-wiki
+
+Todo push na `main` republica sozinho, em um a dois minutos, pelo workflow `deploy.yml`. O
+`portao.yml` roda em paralelo e é ele que impede publicar coisa errada: se ele ficar vermelho,
+conserte o commit, nunca o portão.
+
 Wiki de Palworld focada na versão **1.0.2** (build 1.100.933), escrita em português brasileiro,
 com os nomes das coisas como aparecem no jogo traduzido.
 

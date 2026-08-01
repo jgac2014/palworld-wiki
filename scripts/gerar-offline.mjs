@@ -104,9 +104,24 @@ if (paginas.length !== esperadas) {
 // ------------------------------------------------ casca, css e js
 const casca = await readFile(join(dist, 'meu-save', 'index.html'), 'utf-8');
 
+/**
+ * O prefixo em que o site foi construído.
+ *
+ * No GitHub Pages ele mora numa subpasta, e o build escreve /palworld-wiki/ na
+ * frente de todo caminho absoluto. Como o `dist` continua sendo a raiz no
+ * disco, ignorar o prefixo faz o CSS e o JS não serem achados: o pacote sai
+ * 210 KB mais leve, sem estilo e sem script, e nada avisa. O único sintoma é
+ * um arquivo que abre feio e não abre ficha nenhuma.
+ */
+const PREFIXO = casca.match(/href="(\/[^"]*)\/favicon\.svg"/)?.[1] ?? '';
+const semPrefixo = (url) =>
+  PREFIXO && (url === PREFIXO || url.startsWith(`${PREFIXO}/`)) ? url.slice(PREFIXO.length) || '/' : url;
+/** Endereço absoluto do site para caminho no disco. */
+const noDisco = (url) => join(dist, semPrefixo(url));
+
 let css = '';
 for (const m of casca.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="(\/[^"]+)"[^>]*>/g)) {
-  const p = join(dist, m[1]);
+  const p = noDisco(m[1]);
   if (existsSync(p)) css += await readFile(p, 'utf-8') + '\n';
 }
 // as páginas de mapa e banco de Pals trazem CSS próprio
@@ -115,7 +130,7 @@ for (const extra of ['mapa', 'pals']) {
   if (!existsSync(p)) continue;
   const h = await readFile(p, 'utf-8');
   for (const m of h.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="(\/[^"]+)"[^>]*>/g)) {
-    const f = join(dist, m[1]);
+    const f = noDisco(m[1]);
     if (existsSync(f)) { const c = await readFile(f, 'utf-8'); if (!css.includes(c)) css += c + '\n'; }
   }
 }
@@ -127,8 +142,8 @@ for (const extra of ['mapa', 'pals']) {
 // derrubou o pacote quando o segundo módulo apareceu.
 let js = '';
 for (const m of casca.matchAll(/<script[^>]*src="(\/[^"]+)"[^>]*><\/script>/g)) {
-  const p = join(dist, m[1]);
-  if (existsSync(p) && !m[1].startsWith('/pagefind')) {
+  const p = noDisco(m[1]);
+  if (existsSync(p) && !semPrefixo(m[1]).startsWith('/pagefind')) {
     js += `;(function(){\n${await readFile(p, 'utf-8')}\n})();\n`;
   }
 }
@@ -142,9 +157,15 @@ const popover = pegarInteiro(casca, 'div', 'id="ficha-pal"') ?? '';
 // pegar() devolve só o miolo da tag, então o <nav> precisa ser recolocado à mão.
 // Sem ele o seletor .lateral não existe e o menu inteiro fica sem estilo e sem JS.
 const lateral = pegar(casca, 'nav', 'class="lateral"') ?? '';
-// links absolutos viram âncora interna
+// Links absolutos viram âncora interna, e o prefixo de publicação some junto:
+// construído para o GitHub Pages, todo link vem como /palworld-wiki/breeding/,
+// e a seção dentro do arquivo se chama pg-breeding. Sem descontar o prefixo, o
+// menu inteiro aponta para âncora que não existe e nenhuma página abre.
 const menu = `<nav class="lateral">${lateral
-  .replace(/href="\/([^"]*)"/g, (_, r) => `href="#${r.replace(/\/$/, '')}"`)
+  .replace(/href="(\/[^"]*)"/g, (_, u) => {
+    const rota = semPrefixo(u).replace(/^\//, '').replace(/\/$/, '');
+    return `href="#${rota || 'inicio'}"`;
+  })
   .replace(/href="#"/g, 'href="#inicio"')
   // a casca foi copiada de uma página específica e trouxe o destaque dela colado.
   // Num arquivo com todas as páginas, quem marca o item ativo é o JS.

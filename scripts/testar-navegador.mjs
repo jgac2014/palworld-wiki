@@ -79,8 +79,30 @@ const TIPOS = {
   '.webp': 'image/webp', '.woff2': 'font/woff2', '.pf_meta': 'application/octet-stream',
 };
 
+/**
+ * O prefixo em que o site foi construído.
+ *
+ * Publicado no GitHub Pages, o site mora numa subpasta (/palworld-wiki/), e o
+ * build do CI escreve esse prefixo em todo caminho absoluto: CSS, script,
+ * ícone e link de menu. O servidor daqui serve o `dist` na raiz, então sem
+ * descontar o prefixo TODO recurso dá 404, a página abre sem estilo e sem
+ * script, e o portão quebra em cima de um defeito que não existe.
+ *
+ * Foi o que aconteceu na primeira execução em CI deste repositório: a busca
+ * nunca montou o campo porque o módulo dela vinha de um endereço que o
+ * servidor de teste não conhecia.
+ */
+const PREFIXO = readFileSync(join(dist, 'index.html'), 'utf-8')
+  .match(/href="(\/[^"]*)\/favicon\.svg"/)?.[1] ?? '';
+
+/** Tira o prefixo de publicação de um caminho, quando ele está lá. */
+const semPrefixo = (caminho) =>
+  PREFIXO && (caminho === PREFIXO || caminho.startsWith(`${PREFIXO}/`))
+    ? caminho.slice(PREFIXO.length) || '/'
+    : caminho;
+
 const servidor = createServer((req, res) => {
-  let caminho = decodeURIComponent(req.url.split('?')[0]);
+  let caminho = semPrefixo(decodeURIComponent(req.url.split('?')[0]));
   let arquivo = join(dist, caminho);
   try {
     if (statSync(arquivo).isDirectory()) arquivo = join(arquivo, 'index.html');
@@ -251,7 +273,9 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     const hrefs = await pagina.evaluate(() =>
       [...document.querySelectorAll('a[href^="/"]')].map((a) => a.getAttribute('href')));
     for (const h of hrefs) {
-      const alvo = h.replace(/^\/|\/$/g, '').split('#')[0].split('?')[0];
+      // O alvo é comparado sem o prefixo de publicação, senão no CI todo link
+      // interno vira "quebrado" só por morar em /palworld-wiki/.
+      const alvo = semPrefixo(h).replace(/^\/|\/$/g, '').split('#')[0].split('?')[0];
       if (!existentes.has(alvo) && !alvo.startsWith('_astro')) quebrados.push(`${rota} -> ${h}`);
     }
   }
