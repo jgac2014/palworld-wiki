@@ -476,6 +476,37 @@ As cores de dado do protótipo já passaram no verificador de contraste e dalton
 - Respeita a preferência do sistema quando o usuário nunca escolheu.
 - A escolha do usuário vence a do sistema nos dois sentidos.
 
+## Bloco F — Quando a wiki afirma e o site desmente
+
+### [ ] F1 — O par que gera Anubis não gera Anubis na calculadora
+
+**Requisito:** R1.9
+**Território:** conteúdo e dados
+
+A wiki diz em três lugares que Anubis sai de **Vanwyrm com Azurobe**: o campo `onde` da curadoria em
+`pals.json`, e o texto de `plano-de-acao.md` e `combate.md`. A calculadora responde **Slowatt** para
+esse par, e está certa pelo que ela tem: Vanwyrm é rank 1650, Azurobe é 1830, a média dá 1740, e
+Anubis é rank 480. Só que Anubis **não está nas 163 combinações únicas importadas** e também não
+está marcado como `so_combinacao_unica`. Ou seja, pela nossa base ele não nasce de par nenhum.
+
+Uma das duas está errada, e a suspeita é a importação: Anubis é receita conhecida do jogo, e o
+`fontes.md` registra que a importação anterior trouxe **162** combinações únicas contra 163 agora.
+Número que muda sozinho entre importações é sinal de que a extração perde linha.
+
+**Comece pela importação, não pelo texto.** Corrigir o texto primeiro esconderia o defeito de dados
+e deixaria os outros Pals de receita única errados do mesmo jeito, sem ninguém saber quantos são.
+
+**Aceite:**
+- `npm run testar` ganha um caso: Vanwyrm com Azurobe devolve **Anubis**, e não Slowatt.
+- O verificador ganha uma checagem que reprova quando um Pal citado como `Cruzamento: A com B` no
+  campo `onde` de `pals.json` não é o que a calculadora devolve para aquele par. Ela tem que valer
+  para os 77 da curadoria, não só para o Anubis: se o defeito é de importação, há mais casos.
+- A checagem é provada por sabotagem, e o número de pares conferidos aparece na linha de resumo.
+- Se a conclusão for que a wiki está errada e o par não gera Anubis mesmo, então o texto muda nos
+  três lugares e a divergência é registrada em `fontes.md` com a fonte que decidiu. Não vale
+  escolher em silêncio.
+- `npm run portao` passando.
+
 ## Bloco B — Fechar as pontas do conteúdo
 
 ### [ ] B1 — Uma página por base, com dado real
