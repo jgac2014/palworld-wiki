@@ -526,27 +526,35 @@ esse número em vez de sugerir que conferiu 77. Ela vale para qualquer receita q
 
 **Requisito:** R1.9
 **Território:** conteúdo e dados
-**Prioridade: acima de tudo que não esteja bloqueado.**
+**Bloqueado por:** H1, pelo mesmo `Mappings.usmap`
 
 A E5 validou a regra contra "149 combinações que o paldb publica para o Anubis" e declarou 148 de
-148. A calculadora hoje devolve **239 pares** para o mesmo alvo. Os dois números deveriam ser
-iguais, e a tentativa de reconciliar em 01.08 mostrou que **a referência não existe mais**: a página
-do Anubis não publica lista, os endpoints de breeding respondem 404, e os 149 pares não estão
-gravados aqui. Detalhe completo em `fontes.md`.
+148. A calculadora devolve **239 pares** para o mesmo alvo. A tentativa de reconciliar em 01.08
+mostrou que **a referência não existe mais**: a página do Anubis não publica lista, quatro endpoints
+de breeding respondem 404, e os 149 pares não estão gravados aqui. Detalhe em `fontes.md`.
 
-Isso não é sobre o Anubis. É sobre a regra inteira estar apoiada numa conferência que ninguém
-consegue repetir, e a diferença de 149 para 239 ser grande demais para ser ruído.
+**Por que ela está bloqueada, e não só parada.** As combinações do jogo não moram num site: saem das
+**tabelas de dados do próprio jogo**, a de combinação única e o CombiRank por espécie. Então a fonte
+reproduzível por comando é a **extração**, o mesmo caminho da H1, e ela precisa do mesmo
+`Mappings.usmap`. Procurar outro site seria repetir o erro que criou esta tarefa.
+
+**Segunda opinião disponível, e ela não é fonte.** O **PalCalc** (`github.com/tylercamp/palcalc`,
+MIT) gera o `db.json` dele com o `PalCalc.GenDB`, que lê os arquivos do jogo por CUE4Parse. Serve
+para cruzar resultado e localizar divergência. **Não serve de fonte**: o último lançamento é de
+fevereiro de 2026, **anterior ao 1.0**, e o 1.0 refez a tabela de breeding inteira, que é exatamente
+o que está em questão.
 
 **Aceite:**
-- Uma fonte de pares por alvo, reproduzível por comando, entra no repositório. Pode ser outra
-  origem que não o paldb, desde que a URL ou o arquivo fique registrado e o resultado seja
-  reconstruível por quem clonar.
-- A regra é reconferida contra ela, e o número de acertos aparece na linha de resumo do verificador,
-  com a contagem de pares conferidos ao lado. Sem contagem, não vale.
-- Se a nossa regra gerar pares a mais, a correção vem antes de qualquer tarefa nova, e as três
-  páginas que citam receita do Anubis são revistas junto.
-- A afirmação "148 de 148" em `fontes.md` é substituída pelo que a nova conferência mostrar, ou
-  removida. Ela não pode continuar publicada apoiada em fonte que não abre.
+- As duas tabelas saem do `.pak` por comando, e o recorte usado fica **gravado no repositório**, com
+  data e origem. Sem o recorte gravado, a tarefa não fecha: foi a falta disso que a criou.
+- A regra é reconferida contra o extraído, e o verificador passa a imprimir quantos pares foram
+  conferidos e quantos acertaram. Sem a contagem ao lado, não vale.
+- A divergência de 149 para 239 fica explicada: ou o critério que filtrava a lista antiga aparece e
+  entra na regra, ou fica registrado que a lista antiga é que era parcial.
+- Se a nossa regra gerar pares a mais, a correção vem antes de qualquer tarefa nova, e as páginas que
+  citam receita são revistas junto.
+- A afirmação "148 de 148" volta ao site com o número novo, ou não volta. O aviso na calculadora sai
+  no mesmo commit.
 
 ### [ ] H5 — O mapa funcionar no pacote offline
 

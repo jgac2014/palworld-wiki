@@ -94,6 +94,7 @@ const dados = {
 // A tabela alternativa do bolo (R5.8) é renderizada no build com o estoque
 // zerado, que é o estado de quem chega de fora. O script atualiza os números
 // quando alguém digita ou liga o overlay.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const zerado = calcularBolo(receitas.bolo, {});
 const emOrdem = [...catalogo.pals].sort((a, b) => a.pt.localeCompare(b.pt, 'pt-BR'));
 
@@ -166,6 +167,13 @@ const notaFora = (e: (typeof esferas)[number], idioma: 'pt' | 'en') =>
     <!-- ------------------------------------------------------ cruzamento -->
     <h2 data-rot-pt={ui('calc_cruz_titulo', 'pt')} data-rot-en={ui('calc_cruz_titulo', 'en')}>{ui('calc_cruz_titulo', 'pt')}</h2>
     <p data-rot-pt={ui('calc_cruz_explica', 'pt')} data-rot-en={ui('calc_cruz_explica', 'en')}>{ui('calc_cruz_explica', 'pt')}</p>
+
+    <aside class="adm adm-nota" data-rotulo="Nota">
+      <p>
+        <span data-rot-pt={ui('calc_cruz_aviso', 'pt')} data-rot-en={ui('calc_cruz_aviso', 'en')}>{ui('calc_cruz_aviso', 'pt')}</span>
+        {' '}<a href={`${base}/fontes/`} data-rot-pt="O registro completo está em Fontes e incertezas." data-rot-en="The full record is in Sources and uncertainty.">O registro completo está em Fontes e incertezas.</a>
+      </p>
+    </aside>
 
     <div class="campos">
       <label>

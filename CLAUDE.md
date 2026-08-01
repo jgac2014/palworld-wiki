@@ -162,6 +162,10 @@ sabotar o que ela cobre e ver o portão acusar, no mesmo ambiente onde ela vai r
 - **Tradução de elemento tem três pegadinhas oficiais:** Dark é "Escuridão" (não "Sombrio"),
   Dragon é "Dracônico" (não "Dragão"), Neutral é "Não elemental" (não "Neutro"). Conferido nos
   tooltips da página PT do paldb, que serve as strings do jogo.
+- **Fonte consultada e não gravada deixa de existir.** A regra de cruzamento foi validada contra uma
+  lista do paldb que ninguém consegue reabrir: a página não publica mais em HTML e os quatro
+  endpoints tentados dão 404. Validação cuja fonte não está no repositório vira afirmação sem prova
+  no dia seguinte. Quando conferir contra fonte externa, **GRAVE o recorte usado, com data e URL**.
 - **`actions/checkout` clona raso por padrão.** Sem `fetch-depth: 0`, `git log` por arquivo volta
   vazio em CI e qualquer checagem que leia histórico vira placebo. O `portao.yml` pede histórico
   inteiro por isso.
