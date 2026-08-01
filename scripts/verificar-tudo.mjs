@@ -10,6 +10,7 @@
  * Sai com código 1 se achar erro, para poder rodar em CI.
  */
 import { readFile, readdir } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -275,6 +276,7 @@ const pastaWiki = join(raiz, 'src/content/wiki');
 const arquivos = (await readdir(pastaWiki)).filter((f) => f.endsWith('.md'));
 const ordens = new Map();
 const corpos = {};
+const carimbos = {};
 
 for (const arquivo of arquivos) {
   const bruto = await readFile(join(pastaWiki, arquivo), 'utf-8');
@@ -282,6 +284,7 @@ for (const arquivo of arquivos) {
   if (!m) { erro('conteudo', `${arquivo}: frontmatter ausente ou malformado`); continue; }
   const [, fm, corpo] = m;
   corpos[arquivo] = corpo;
+  carimbos[arquivo] = fm.match(/^atualizado:\s*["']?(\d{4}-\d{2}-\d{2})["']?\s*$/m)?.[1] || null;
 
   for (const campo of ['titulo', 'descricao', 'ordem']) {
     if (!new RegExp(`^${campo}:`, 'm').test(fm)) erro('conteudo', `${arquivo}: falta "${campo}" no frontmatter`);
@@ -332,6 +335,104 @@ for (const arquivo of arquivos) {
   }
 }
 passou(`conteúdo: ${arquivos.length} páginas, frontmatter e marcação verificados`);
+
+// ------------------------ carimbo "atualizado" x histórico do arquivo (E5)
+// O carimbo do topo da página promete uma data de revisão. Ele mentiu por dois
+// dias no fontes.md, que dizia 30.07 depois de a seção inteira ser reescrita em
+// 01.08, e ninguém tinha como notar: nada comparava a promessa com o que de
+// fato aconteceu no arquivo.
+//
+// A comparação é com o último commit que mexeu no CORPO, não com o último
+// commit que tocou o arquivo. Frontmatter é moldura: a rodada que acrescentou
+// `titulo_en` em 14 páginas não revisou conteúdo nenhum, e um critério cru
+// exigiria bumpar 14 carimbos para registrar uma revisão que não houve. Carimbo
+// bumpado à toa mente igual, só na outra direção.
+//
+// A ARMADILHA QUE ESTA CHECAGEM PRECISA COBRIR: `actions/checkout@v4` sem
+// `fetch-depth` clona raso, e em clone raso o `git log` por arquivo volta
+// vazio. Escrita do jeito óbvio, ela passaria em CI sem comparar nada, que é o
+// mesmo placebo do teste por file://. Por isso clone raso é ERRO, e "nenhum
+// arquivo pôde ser comparado" também. Ela falha quando não sabe, nunca pula.
+const gitDaqui = (args) => {
+  try {
+    return execFileSync('git', args, { cwd: raiz, encoding: 'utf-8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch {
+    return null;
+  }
+};
+
+const dentroDeRepo = gitDaqui(['rev-parse', '--is-inside-work-tree']) === 'true';
+if (!dentroDeRepo) {
+  erro('carimbo', 'não consegui falar com o git aqui, então o carimbo "atualizado" de nenhuma página pôde ser conferido. A checagem falha em vez de passar sem comparar nada');
+} else if (gitDaqui(['rev-parse', '--is-shallow-repository']) === 'true') {
+  erro('carimbo', 'o repositório está em clone raso, e em clone raso o histórico por arquivo volta vazio. A checagem do carimbo não tem com o que comparar. Em CI, ponha "fetch-depth: 0" no actions/checkout do portao.yml');
+} else {
+  // Corpo do arquivo num commit específico, sem o frontmatter.
+  const corpoEm = (sha, caminho) => {
+    const bruto = gitDaqui(['show', `${sha}:${caminho}`]);
+    if (bruto === null) return null;
+    return bruto.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n([\s\S]*)$/)?.[1] ?? bruto;
+  };
+
+  // O commit inicial não é revisão, é a importação. Todo o conteúdo entrou aqui
+  // de uma vez, vindo do Cowork, num commit datado de 31.07 com páginas escritas
+  // em 30.07: o git não enxerga nada antes dele. Tratar a importação como
+  // revisão acusaria as 15 páginas de mentir sobre uma revisão que nunca houve,
+  // e a saída para calar o verificador seria empurrar 15 carimbos para uma data
+  // errada. Carimbo bumpado à toa mente igual, só na outra direção.
+  const raizDoHistorico = (gitDaqui(['rev-list', '--max-parents=0', 'HEAD']) || '').split('\n')[0];
+
+  // Commit mais recente que mudou o corpo. Percorre do mais novo para o mais
+  // velho e para no primeiro que difere do anterior, então o caso comum custa
+  // duas ou três chamadas ao git.
+  const revisadoEm = (caminho) => {
+    const historico = gitDaqui(['log', '--format=%H %as', '--', caminho]);
+    if (!historico) return null;
+    const commits = historico.split('\n').map((l) => {
+      const [sha, data] = l.trim().split(' ');
+      return { sha, data };
+    });
+    let atual = corpoEm(commits[0].sha, caminho);
+    for (let i = 0; i < commits.length; i++) {
+      const anterior = commits[i + 1] ? corpoEm(commits[i + 1].sha, caminho) : null;
+      if (atual !== anterior) return commits[i];
+      atual = anterior;
+    }
+    return commits[commits.length - 1];
+  };
+
+  let comparados = 0;
+  const semCarimbo = [];
+  const semHistorico = [];
+  const soDaImportacao = [];
+  for (const arquivo of arquivos) {
+    const caminho = `src/content/wiki/${arquivo}`;
+    if (!carimbos[arquivo]) { semCarimbo.push(arquivo); continue; }
+    const revisao = revisadoEm(caminho);
+    if (!revisao) { semHistorico.push(arquivo); continue; }
+    comparados++;
+    if (revisao.sha === raizDoHistorico) { soDaImportacao.push(arquivo); continue; }
+    if (carimbos[arquivo] < revisao.data) {
+      erro('carimbo', `${arquivo}: o carimbo diz ${carimbos[arquivo]} e o corpo da página foi revisado em ${revisao.data}, no commit ${revisao.sha.slice(0, 7)}. A página promete uma data de revisão mais velha do que a revisão que ela recebeu`);
+    }
+  }
+
+  // Arquivo ainda não commitado não tem histórico, e isso é legítimo: página
+  // nova roda o portão antes do primeiro commit. Vira aviso NOMEADO e entra na
+  // contagem, para "não conferi" nunca se parecer com "conferi e está certo".
+  for (const arquivo of semHistorico) {
+    aviso('carimbo', `${arquivo}: sem histórico no git, então o carimbo não foi conferido. Normal em página que ainda não foi commitada`);
+  }
+  if (!comparados) {
+    erro('carimbo', `nenhuma das ${arquivos.length} páginas pôde ter o carimbo comparado com o histórico. A checagem existe para pegar carimbo mentindo e não comparou nada`);
+  } else {
+    const detalhes = [`${comparados} carimbos conferidos contra o histórico do corpo`];
+    if (soDaImportacao.length) detalhes.push(`${soDaImportacao.length} sem revisão depois da importação inicial`);
+    if (semCarimbo.length) detalhes.push(`${semCarimbo.length} sem campo "atualizado"`);
+    if (semHistorico.length) detalhes.push(`${semHistorico.length} sem histórico`);
+    passou(`carimbo: ${detalhes.join(', ')}`);
+  }
+}
 
 // -------------------------------------------------- consistência factual
 const juntos = Object.entries(corpos);

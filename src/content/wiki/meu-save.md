@@ -5,7 +5,7 @@ titulo_en: "Where we are now"
 descricao_en: "Reading the save: what the panel's numbers mean and what to do about them."
 camada: nosso-mundo
 ordem: 2
-atualizado: 2026-07-30
+atualizado: 2026-07-31
 ---
 
 Todo conselho de wiki é genérico até alguém abrir o save e olhar os números. Esta página é a

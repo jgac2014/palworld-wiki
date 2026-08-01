@@ -18,6 +18,15 @@ jobs:
     steps:
       - name: Baixar o repositório
         uses: actions/checkout@v4
+        with:
+          # Histórico inteiro, não clone raso. A checagem do carimbo
+          # "atualizado" compara a data do frontmatter com a data do último
+          # commit que mexeu no corpo da página, e em clone raso o `git log` por
+          # arquivo volta vazio: ela não teria com o que comparar. O verificador
+          # ACUSA clone raso em vez de passar sem comparar nada, então tirar
+          # esta linha quebra o portão de propósito, em vez de transformá-lo em
+          # placebo silencioso.
+          fetch-depth: 0
 
       - name: Preparar o Node
         uses: actions/setup-node@v4
