@@ -5,6 +5,9 @@
   "build": "1.100.933",
   "verificado_em": "2026-07-30",
   "pendente_revisao": false,
+  "_pals_no_paldeck": "Quantos Pals o jogo registra na Palpédia. Fica AQUI, num lugar só, porque estava escrito à mão na home, repetido no verificador e repetido de novo no save, e três cópias do mesmo número divergem no primeiro patch. Fonte: changelog oficial da Pocketpair no Steam, recorte em src/data/recortes/steam-changelog-1-0.md. O catálogo importado do paldb traz 288 entidades com número de Palpédia, uma a mais, e a divergência está registrada em fontes.md.",
+  "pals_no_paldeck": 287,
+  "pals_no_paldeck_fonte": "src/data/recortes/steam-changelog-1-0.md",
   "versao_publicada": "1.0.2.101103",
   "ultimas_notas": [
     {

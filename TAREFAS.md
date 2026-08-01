@@ -767,7 +767,7 @@ desvio serve a cópia local do mesmo pino que o `package.json` já declara, e fa
 insumo se ela não existir. As sete asserções do mapa passaram a rodar de verdade aqui, em vez de
 serem impossíveis: são 53 ok contra 45 antes.
 
-### [ ] F6 — Três contagens de Pal no ar, e nenhuma explica a outra
+### [x] F6 — Três contagens de Pal no ar, e nenhuma explica a outra
 
 **Requisito:** R1.6, mais R5.1 pelo painel
 **Território:** compartilhado (o número é dado, a exibição é código)
@@ -821,6 +821,38 @@ ainda gera cruzamento errado.
 - Os três lugares passam a dizer o mesmo número, e ele sai do dado.
 - As duas checagens provadas por sabotagem.
 - `npm run portao` passando.
+
+**Feita, e a primeira versão da correção estava errada de um jeito que só apareceu ao olhar o dado.**
+
+O número saiu de três lugares para um: `versao.json` passa a declarar `pals_no_paldeck: 287` com o
+recorte que o sustenta, a home lê dali, o verificador compara o texto das páginas contra ele em vez
+de contra um literal, e o save de cada pessoa é conferido contra o mesmo número. Antes o 287 estava
+escrito à mão na home, de novo dentro do verificador e de novo no save: três cópias divergem no
+primeiro patch. `/pals` deixou de dizer só "299 Pals" e passa a mostrar a conta: **299 = 288 da
+Palpédia + 11 da colaboração com Terraria, que o jogo não numera.**
+
+**Cortar as onze da calculadora teria trocado um defeito por um maior.** A primeira tentativa tirou
+as onze das três listas suspensas, e o portão passou. Só que elas têm **57 combinações únicas entre
+si**, importadas do paldb, que são receita de verdade: Green Slime com Red Slime dá Rainbow Slime, e
+por aí. Tirá-las da tela apagava as 57 em silêncio. O defeito real é mais estreito: as onze dividem
+o **mesmo CombiRank 3100**, então qualquer média com elas cai num ponto arbitrário da tabela.
+`Blue Slime com Lamball devolvia Chikipi`.
+
+A correção final tira as onze **só da média de rank**, mantém as combinações únicas, e a calculadora
+passa a dizer POR QUE o par não gera nada em vez de responder "nenhum par conhecido", que parecia
+defeito dela.
+
+**Cinco sabotagens, todas rodadas.** Apagar o registro do `fontes.md` acusou a sobra de 1 não
+registrada. Tirar `pals_no_paldeck` do `versao.json` acusou a checagem sem com o que comparar.
+Devolver as onze à varredura acusou "11 entidades ainda entram na média de rank". Tirar a guarda
+acusou "Blue Slime com Lamball devolve Chikipi". E cortar as onze da tela, que é a primeira
+tentativa, acusou "as 11 sumiram da calculadora, e com elas as combinações únicas entre si".
+
+**A sobra de uma unidade ficou registrada, não resolvida.** São 288 numerados contra os 287 do
+changelog oficial, numeração de 1 a 204 sem buraco mais 84 variantes com sufixo B. Qual entrada o
+jogo não conta não sai daqui: o paldb não abre desta máquina, então não há recorte novo para gravar.
+Está no `fontes.md`, na tabela do que continua em disputa, e o verificador **reprova se alguém
+apagar o registro sem resolver a sobra**.
 
 ### [ ] F7 — A home promete filtro que `/pals` não tem
 

@@ -11,7 +11,7 @@
  */
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import { filhoteDoPar } from '../src/lib/calculos.js';
+import { filhoteDoPar, cruzaveis, sorteaveis, naPalpedia } from '../src/lib/calculos.js';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -36,6 +36,11 @@ const lerJson = async (rel) => {
 const pals = await lerJson('src/data/pals.json');
 const mapa = await lerJson('src/data/mapa.json');
 const termos = await lerJson('src/data/termos.json');
+// Lido aqui em cima porque duas checagens distantes uma da outra dependem dele:
+// a de consistência factual, que compara o número escrito nas páginas, e a da
+// Palpédia lá embaixo. Duas leituras do mesmo arquivo é como se ganha duas
+// verdades.
+const versao = await lerJson('src/data/versao.json');
 
 if (pals) {
   const aptValidas = new Set(Object.keys(pals.aptidoes || {}));
@@ -749,7 +754,9 @@ const juntos = Object.entries(corpos);
 const REGRAS = [
   // "era 65" e "de 65 para 80" citam o valor antigo de propósito: não são divergência
   { nome: 'level cap', re: /level cap(?![^.]{0,30}\bera\b)[^.]{0,30}?\b(\d{2,3})\b/gi, esperado: '80' },
-  { nome: 'total de Pals', re: /(\d{3})\s*Pals no Paldeck|Paldeck[^.]{0,20}(\d{3})/gi, esperado: '287' },
+  // O esperado sai de versao.json, não de um literal: com o número escrito
+  // aqui dentro, o verificador virava a quarta cópia do mesmo 287.
+  { nome: 'total de Pals', re: /(\d{3})\s*Pals no Paldeck|Paldeck[^.]{0,20}(\d{3})/gi, esperado: String(versao?.pals_no_paldeck ?? '') },
   { nome: 'cópias para condensar', re: /(\d{2,3})\s*(?:c[óo]pias|Pals) para (?:condensar|rank m[áa]ximo)/gi, esperado: '48' },
 ];
 for (const regra of REGRAS) {
@@ -841,7 +848,7 @@ if (pals && catalogo) {
   const paraConta = {
     pals: catalogo.pals
       .filter((p) => typeof p.combi === 'number')
-      .map((p) => ({ chave: p.chave, en: p.en, pt: p.pt, combi: p.combi, ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}) })),
+      .map((p) => ({ chave: p.chave, en: p.en, pt: p.pt, numero: p.numero, combi: p.combi, ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}) })),
     cruzamentos_unicos: catalogo.cruzamentos_unicos || [],
   };
   let receitas = 0;
@@ -862,6 +869,96 @@ if (pals && catalogo) {
     }
   }
   if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
+}
+
+// ------------------------- as três contagens de Pal têm que fechar entre si (F6)
+//
+// O site publicava 287 na home, 299 em /pals e 287 no painel, sem nada ligando
+// um número ao outro. A diferença não era estética: as onze entidades da
+// colaboração com Terraria não têm número de Palpédia, todas carregam o MESMO
+// CombiRank 3100, e mesmo assim entravam na calculadora como pai válido,
+// devolvendo receita que o jogo não tem.
+//
+// A checagem falha por falta de insumo: sem `pals_no_paldeck` em versao.json
+// ela não tem contra o que comparar, e aprovar sem conferir é o modo de errar
+// mais caro deste repositório.
+if (!versao || typeof versao.pals_no_paldeck !== 'number') {
+  erro('palpedia', 'versao.json não declara pals_no_paldeck. Sem esse número não há com o que comparar o catálogo, e a checagem não pode se aprovar sozinha');
+} else if (catalogo) {
+  const oficial = versao.pals_no_paldeck;
+  const numerados = catalogo.pals.filter(naPalpedia);
+  const semNumero = catalogo.pals.filter((p) => !naPalpedia(p));
+
+  // O recorte que sustenta o número tem que existir. Fonte citada e não
+  // gravada deixa de existir, e foi a F3 inteira que ensinou isso.
+  if (!versao.pals_no_paldeck_fonte || !existsSync(join(raiz, versao.pals_no_paldeck_fonte))) {
+    erro('palpedia', `pals_no_paldeck diz ${oficial} e aponta para "${versao.pals_no_paldeck_fonte || 'lugar nenhum'}", que não está no repositório`);
+  }
+
+  // O save de cada pessoa lê o total na tela da Palpédia do jogo. Se ele
+  // discordar do número da wiki, um dos dois envelheceu num patch.
+  for (const arq of await readdir(join(raiz, 'src/data/saves'))) {
+    const save = await lerJson(`src/data/saves/${arq}`);
+    const total = save?.paldeck?.total;
+    if (typeof total === 'number' && total !== oficial) {
+      erro('palpedia', `${arq} diz ${total} Pals na Palpédia e versao.json diz ${oficial}. Um dos dois envelheceu`);
+    }
+  }
+
+  // Nenhuma entidade fora da Palpédia pode chegar à calculadora, nem como pai
+  // nem como filhote. Provado pela MESMA função que a página usa, e não por
+  // uma cópia da regra que pode divergir dela.
+  const paraConta = {
+    pals: catalogo.pals.map((p) => ({
+      chave: p.chave, en: p.en, pt: p.pt, numero: p.numero, combi: p.combi,
+      ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}),
+    })),
+    cruzamentos_unicos: catalogo.cruzamentos_unicos || [],
+  };
+  const vazando = [
+    ...cruzaveis(paraConta).filter((p) => !naPalpedia(p)),
+    ...sorteaveis(paraConta).filter((p) => !naPalpedia(p)),
+  ];
+  if (vazando.length) {
+    erro('palpedia', `${vazando.length} entidade(s) sem número de Palpédia ainda entram na varredura por média de rank, por exemplo ${vazando[0].en}`);
+  }
+
+  // Duas metades, e a segunda é a que impede a correção de virar mutilação.
+  //
+  // Primeira: par que mistura uma delas com Pal de verdade não devolve
+  // filhote, e devolve o MOTIVO. Segunda: as 57 combinações únicas entre elas
+  // continuam respondendo, porque são receita do jogo. Cortar as onze da tela
+  // teria matado as 57 junto e o portão não teria dito nada.
+  const cobaia = semNumero[0];
+  const parceiro = numerados[0];
+  if (cobaia && parceiro) {
+    const r = filhoteDoPar(paraConta, cobaia.chave, parceiro.chave);
+    if (r?.filho || !r?.foraDaPalpedia) {
+      erro('palpedia', `${cobaia.en} com ${parceiro.en} devolve ${r?.filho?.en || 'nada, e sem dizer por quê'}, e ${cobaia.en} não está na Palpédia`);
+    }
+  }
+  const chavesSemNumero = new Set(semNumero.map((p) => p.chave));
+  const unicasEntreElas = (catalogo.cruzamentos_unicos || [])
+    .filter((u) => u.length === 3 && chavesSemNumero.has(u[0]) && chavesSemNumero.has(u[1]));
+  const unicasQuebradas = unicasEntreElas
+    .filter((u) => filhoteDoPar(paraConta, u[0], u[1])?.filho?.chave !== u[2]);
+  if (unicasEntreElas.length === 0) {
+    erro('palpedia', 'nenhuma combinação única entre as entidades fora da Palpédia. Ou o catálogo perdeu linha, ou esta checagem deixou de conferir alguma coisa');
+  } else if (unicasQuebradas.length) {
+    erro('palpedia', `${unicasQuebradas.length} de ${unicasEntreElas.length} combinações únicas entre as entidades fora da Palpédia pararam de responder, por exemplo ${unicasQuebradas[0].join(' + ')}`);
+  }
+
+  // Sobra do catálogo contra o número oficial. Hoje é 1, e enquanto ela
+  // existir tem que estar REGISTRADA em fontes.md, não arredondada em
+  // silêncio. É a mesma regra que a F3 aplicou às URLs sem recorte.
+  const sobra = numerados.length - oficial;
+  const registrada = /Palp[ée]dia[^|]*\|[^|]*\b288\b/.test(corpos['fontes.md'] || '')
+    || /\b288\b[^|]*Palp[ée]dia/.test(corpos['fontes.md'] || '');
+  if (sobra !== 0 && !registrada) {
+    erro('palpedia', `o catálogo traz ${numerados.length} entidades com número de Palpédia e o jogo declara ${oficial}, sobra ${sobra}, e a divergência não está registrada em fontes.md`);
+  } else {
+    passou(`Palpédia: ${catalogo.pals.length} no catálogo = ${numerados.length} numerados + ${semNumero.length} fora da Palpédia, contra ${oficial} do jogo${sobra ? ` (sobra ${sobra}, registrada em fontes.md)` : ''}. Nenhum dos ${semNumero.length} entra na média de rank, e as ${unicasEntreElas.length} combinações únicas entre eles continuam respondendo`);
+  }
 }
 
 // ------------------------------ poder de captura x referência congelada (E5)

@@ -595,6 +595,54 @@ const desviarLeaflet = (alvo) =>
     `exato "${exato.trim()}" | empate "${empate.trim()}" | única "${unica.trim()}"`,
   );
 
+  // Quem não está na Palpédia não entra na média de rank, e continua cruzando
+  // entre si (F6).
+  //
+  // As onze da colaboração com Terraria dividem o mesmo CombiRank 3100, então
+  // qualquer média com elas caía num ponto arbitrário da tabela e a
+  // calculadora devolvia receita que o jogo não tem. Elas NÃO saíram da tela:
+  // têm 57 combinações únicas entre si, que são receita de verdade, e cortá-las
+  // da lista teria trocado um defeito por outro maior.
+  //
+  // As duas metades são obrigatórias. Só a primeira aprovaria a versão que
+  // apaga as onze da calculadora inteira, que foi a primeira tentativa desta
+  // tarefa. Os nomes saem do catálogo e das combinações únicas, não escritos
+  // aqui, senão a próxima colaboração passa direto.
+  const catalogoDoDisco = JSON.parse(await readFile(join(raiz, 'src/data/catalogo.json'), 'utf-8'));
+  const foraDaPalpedia = catalogoDoDisco.pals.filter((p) => p.numero == null);
+  const chavesFora = new Set(foraDaPalpedia.map((p) => p.chave));
+  const unicaEntreElas = (catalogoDoDisco.cruzamentos_unicos || [])
+    .find((u) => u.length === 3 && chavesFora.has(u[0]) && chavesFora.has(u[1]) && u[0] !== u[1]);
+  const nomePt = (chave) => catalogoDoDisco.pals.find((p) => p.chave === chave)?.pt || chave;
+
+  // A lista suspensa precisa oferecer os três antes de qualquer clique. Sem
+  // isto o selectOption estoura por timeout e a suíte morre com um stack
+  // trace, em vez de dizer que a calculadora deixou de oferecer as entidades.
+  const oferecidos = await pagina.evaluate((chaves) => {
+    const sel = document.getElementById('pai-a');
+    if (!sel) return null;
+    const tem = new Set([...sel.options].map((o) => o.value));
+    return chaves.filter((c) => !tem.has(c));
+  }, [foraDaPalpedia[0]?.chave, unicaEntreElas?.[0], unicaEntreElas?.[1]].filter(Boolean));
+
+  if (foraDaPalpedia.length === 0 || !unicaEntreElas) {
+    falha('Palpédia: o catálogo não tem entidade sem número ou combinação única entre elas, então esta asserção não conferiu nada');
+  } else if (oferecidos === null || oferecidos.length) {
+    falha(
+      `as ${foraDaPalpedia.length} entidades fora da Palpédia sumiram da calculadora, e com elas as combinações únicas entre si`
+      + ` (não oferecidos: ${oferecidos === null ? 'a lista nem existe' : oferecidos.join(', ')})`,
+    );
+  } else {
+    const misturado = await cruzar(foraDaPalpedia[0].chave, 'Anubis');
+    const entreElas = await cruzar(unicaEntreElas[0], unicaEntreElas[1]);
+    conferir(
+      /Palp[ée]dia/i.test(misturado) && !/Anubis/.test(misturado)
+        && new RegExp(nomePt(unicaEntreElas[2])).test(entreElas) && /única|unica/i.test(entreElas),
+      `as ${foraDaPalpedia.length} entidades fora da Palpédia não entram na média de rank e mantêm as combinações únicas entre si`,
+      `misturado com Anubis: "${misturado.trim()}" | ${nomePt(unicaEntreElas[0])} com ${nomePt(unicaEntreElas[1])}: "${entreElas.trim()}"`,
+    );
+  }
+
   // Condensação: só o total para 4★, que é o número com fonte.
   const condensar = async (n) => {
     await pagina.fill('#copias', String(n));

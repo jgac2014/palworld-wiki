@@ -54,6 +54,7 @@
   "calc_por_media":     { "pt": "pela média de rank, que dá {n}.", "en": "by rank average, which lands on {n}." },
   "calc_pares":         { "pt": "pela média",          "en": "by average" },
   "calc_sem_par":       { "pt": "Nenhum par conhecido chega nesse Pal. Ele só nasce da própria espécie.", "en": "No known pair reaches that Pal. It only breeds from its own species." },
+  "calc_fora_palpedia": { "pt": "Esse par não gera nada. As entidades da colaboração com Terraria não têm número de Palpédia e só cruzam entre si.", "en": "That pair breeds nothing. The Terraria collaboration entities have no Paldeck number and only breed among themselves." },
   "calc_col_como":      { "pt": "Como",                "en": "How" },
   "calc_contagem_pares": { "pt": "Mostrando os primeiros {n} de {total} pares que chegam nesse Pal.", "en": "Showing the first {n} of {total} pairs that reach this Pal." },
   "calc_contagem_todos": { "pt": "{total} pares chegam nesse Pal.", "en": "{total} pairs reach this Pal." },
@@ -132,7 +133,7 @@
   "stat_copias":        { "pt": "Cópias para 4★",     "en": "Copies for 4★" },
 
   "pals_titulo":        { "pt": "Banco de Pals",      "en": "Pal database" },
-  "pals_sub":           { "pt": "{n} Pals catalogados, com as aptidões nos nomes em português do jogo.", "en": "{n} Pals catalogued, with work suitabilities named as your game shows them." },
+  "pals_sub":           { "pt": "{n} entidades do catálogo: os {p} Pals da Palpédia mais {c} da colaboração com Terraria, que o jogo não numera. Aptidões com os nomes em português do jogo.", "en": "{n} catalogued entities: the {p} Paldeck Pals plus {c} from the Terraria collaboration, which the game does not number. Work suitabilities named as your game shows them." },
   "pals_carimbo":       { "pt": "Escala de 1 a 10 · nenhum Pal nasce com 10 · escolher uma aptidão ordena por ela", "en": "Scale of 1 to 10 · no Pal is born at 10 · picking a suitability sorts by it" },
   "pals_tabela":        { "pt": "Ver os mesmos Pals em tabela", "en": "See the same Pals as a table" },
   "pals_com_curadoria": { "pt": "Só os que têm análise nossa", "en": "Only the ones we wrote about" },

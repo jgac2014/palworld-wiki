@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { ui } from '../lib/termos.js';
+import versao from '../data/versao.json';
 
 // Só a Camada 1. A home é a porta da wiki, e a decisão 3.0 do PRD é explícita:
 // quem chega pelo Google não pode esbarrar no nosso save sem querer.
@@ -30,7 +31,7 @@ const carimbo = (l) => `${ui('home_cobre', l)} 1.0.2, build 1.100.933 · ${ui('h
     </p>
 
     <div class="numeros">
-      <div class="numero"><div class="n">287</div><div class="l" data-rot-pt={ui('stat_pals', 'pt')} data-rot-en={ui('stat_pals', 'en')}>{ui('stat_pals', 'pt')}</div></div>
+      <div class="numero"><div class="n">{versao.pals_no_paldeck}</div><div class="l" data-rot-pt={ui('stat_pals', 'pt')} data-rot-en={ui('stat_pals', 'en')}>{ui('stat_pals', 'pt')}</div></div>
       <div class="numero"><div class="n">80</div><div class="l" data-rot-pt={ui('stat_level', 'pt')} data-rot-en={ui('stat_level', 'en')}>{ui('stat_level', 'pt')}</div></div>
       <div class="numero"><div class="n">9</div><div class="l" data-rot-pt={ui('stat_torres', 'pt')} data-rot-en={ui('stat_torres', 'en')}>{ui('stat_torres', 'pt')}</div></div>
       <div class="numero"><div class="n">48</div><div class="l" data-rot-pt={ui('stat_copias', 'pt')} data-rot-en={ui('stat_copias', 'en')}>{ui('stat_copias', 'pt')}</div></div>

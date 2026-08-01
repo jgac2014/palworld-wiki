@@ -38,7 +38,15 @@ const chavesApt = Object.keys(curadoria.aptidoes)
   .filter((k) => pals.some((p) => p.apt?.[k]));
 const fases = ['mid', 'endgame', 'aura', 'utilidade', 'fazenda', 'combate'];
 
-const subtitulo = (l) => ui('pals_sub', l).replace('{n}', pals.length);
+// O subtítulo diz as três partes porque o número sozinho contradizia a home:
+// 299 aqui contra 287 lá, sem nada explicando a diferença. Os dois lados saem
+// do mesmo dado agora, e a conta aparece em vez de ser escondida.
+const naPalpedia = pals.filter((p) => p.numero != null).length;
+const subtitulo = (l) =>
+  ui('pals_sub', l)
+    .replace('{n}', pals.length)
+    .replace('{p}', naPalpedia)
+    .replace('{c}', pals.length - naPalpedia);
 const rotContagem = {
   pt: { pals: ui('pals_contagem', 'pt'), de: ui('pals_de', 'pt'), nenhum: ui('pals_nenhum', 'pt') },
   en: { pals: ui('pals_contagem', 'en'), de: ui('pals_de', 'en'), nenhum: ui('pals_nenhum', 'en') },

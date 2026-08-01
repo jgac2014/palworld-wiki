@@ -27,6 +27,10 @@ import { calcularBolo } from '../lib/calculos.js';
 
 // Só o que a conta precisa vai para o navegador. Mandar o catálogo inteiro
 // custaria 110 KB de aptidão e elemento que nenhuma calculadora lê.
+//
+// As onze da colaboração com Terraria continuam aqui de propósito: elas têm 57
+// combinações únicas entre si, que são receita de verdade. O que a F6 tirou foi
+// a participação delas na média de rank, e isso mora no calculos.js.
 const paraOCliente = {
   pals: catalogo.pals
     .filter((p) => typeof p.combi === 'number')
@@ -34,6 +38,11 @@ const paraOCliente = {
       chave: p.chave,
       en: p.en,
       pt: p.pt,
+      // O número vai junto porque a REGRA mora no calculos.js e é aplicada de
+      // novo no navegador. Filtrar aqui e não mandar o campo fazia a conta
+      // recusar todo mundo do outro lado, e a calculadora respondia "nenhum
+      // par conhecido" para pares que sempre funcionaram. Custa 2 KB.
+      numero: p.numero,
       combi: p.combi,
       ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}),
     })),
@@ -68,6 +77,7 @@ const dados = {
       porUnica: ui('calc_por_unica', 'pt'),
       porMedia: ui('calc_por_media', 'pt'),
       semPar: ui('calc_sem_par', 'pt'),
+      foraDaPalpedia: ui('calc_fora_palpedia', 'pt'),
       pares: ui('calc_pares', 'pt'),
       contagemPares: ui('calc_contagem_pares', 'pt'),
       contagemTodos: ui('calc_contagem_todos', 'pt'),
@@ -84,6 +94,7 @@ const dados = {
       porUnica: ui('calc_por_unica', 'en'),
       porMedia: ui('calc_por_media', 'en'),
       semPar: ui('calc_sem_par', 'en'),
+      foraDaPalpedia: ui('calc_fora_palpedia', 'en'),
       pares: ui('calc_pares', 'en'),
       contagemPares: ui('calc_contagem_pares', 'en'),
       contagemTodos: ui('calc_contagem_todos', 'en'),
@@ -383,7 +394,10 @@ const notaFora = (e: (typeof esferas)[number], idioma: 'pt' | 'en') =>
       const t = rot();
       alvo.replaceChildren();
       if (!r || !r.filho) {
-        alvo.textContent = t.semPar;
+        // Dizer POR QUE não sai filhote. Um par com entidade da colaboração
+        // cai aqui de propósito, e "nenhum par conhecido" faria parecer que a
+        // calculadora não sabe, quando ela sabe e a resposta é "não cruza".
+        alvo.textContent = r && r.foraDaPalpedia ? t.foraDaPalpedia : t.semPar;
         return;
       }
       const b = document.createElement('b');
