@@ -211,6 +211,32 @@ seriam iguais se o paldb estiver certo, e ele acerta o resto do catálogo, mas i
 não medição. Fecha com três pontos de viagem rápida lidos na tela do jogo.
 :::
 
+## O "149 de 149" não é reproduzível, e por isso a receita do Anubis saiu
+
+Registrado em **01.08.2026**, tentando reconciliar dois números que deveriam ser o mesmo: a seção
+abaixo diz que a regra foi validada contra **149 combinações que o paldb publica para o Anubis**, e a
+calculadora hoje gera **239 pares** para o mesmo alvo.
+
+**A reconciliação não foi possível, porque o lado dos 149 não existe mais para ser aberto.** O que
+foi tentado, tudo em 01.08: `paldb.cc/en/Anubis` foi baixada inteira, 87 KB, e **não traz lista de
+combinação nenhuma**, só um link de navegação para a calculadora deles; `js/breeding_data_en.js`,
+`js/breed_en.js`, `en/Breeding_Calculator` e `api/breeding` respondem **404**; e os 149 pares não
+estão gravados em lugar nenhum deste repositório.
+
+Então nem (a) nem (b) podem ser afirmadas. Não dá para dizer se a lista do paldb era filtrada por um
+critério que não modelamos, nem se a nossa regra gera pares a mais, porque **a referência sumiu**. O
+que está estabelecido é pior que qualquer das duas: **a validação "148 de 148" repousa numa fonte que
+ninguém consegue reabrir**, e isso vale para a regra de cruzamento inteira, não só para o Anubis.
+
+**Consequência imediata, aplicada aqui.** O par "Gildane com Ophydia", escrito em três páginas em
+01.08, saiu delas. Ele nunca teve fonte independente: foi eleito pela nossa própria conta, entre 239
+candidatos que a nossa própria regra gerou. Isso é exatamente o que a receita de Early Access era,
+número sem procedência, só que com a nossa cara em vez da de um guia velho. As três páginas voltaram
+a dizer que existe uma lista e que ela está na calculadora, que é o que se pode afirmar.
+
+A checagem de receita do verificador deixou de conferir par nenhum por consequência, porque não há
+mais par escrito na curadoria. Ela continua no lugar para a primeira receita que voltar a aparecer.
+
 ## A regra de cruzamento, conferida em 01.08.2026
 
 O guia dizia "sai a espécie de rank mais próximo", e isso está **incompleto**. Conferindo contra as

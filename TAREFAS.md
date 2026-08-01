@@ -522,6 +522,56 @@ Corrigido para Gildane com Ophydia nos três lugares.
 A checagem nova cobre **um par**, que é quanto a curadoria tem escrito hoje, e a linha de resumo diz
 esse número em vez de sugerir que conferiu 77. Ela vale para qualquer receita que for acrescentada.
 
+### [ ] F2 — A regra de cruzamento não tem mais como ser reconferida
+
+**Requisito:** R1.9
+**Território:** conteúdo e dados
+**Prioridade: acima de tudo que não esteja bloqueado.**
+
+A E5 validou a regra contra "149 combinações que o paldb publica para o Anubis" e declarou 148 de
+148. A calculadora hoje devolve **239 pares** para o mesmo alvo. Os dois números deveriam ser
+iguais, e a tentativa de reconciliar em 01.08 mostrou que **a referência não existe mais**: a página
+do Anubis não publica lista, os endpoints de breeding respondem 404, e os 149 pares não estão
+gravados aqui. Detalhe completo em `fontes.md`.
+
+Isso não é sobre o Anubis. É sobre a regra inteira estar apoiada numa conferência que ninguém
+consegue repetir, e a diferença de 149 para 239 ser grande demais para ser ruído.
+
+**Aceite:**
+- Uma fonte de pares por alvo, reproduzível por comando, entra no repositório. Pode ser outra
+  origem que não o paldb, desde que a URL ou o arquivo fique registrado e o resultado seja
+  reconstruível por quem clonar.
+- A regra é reconferida contra ela, e o número de acertos aparece na linha de resumo do verificador,
+  com a contagem de pares conferidos ao lado. Sem contagem, não vale.
+- Se a nossa regra gerar pares a mais, a correção vem antes de qualquer tarefa nova, e as três
+  páginas que citam receita do Anubis são revistas junto.
+- A afirmação "148 de 148" em `fontes.md` é substituída pelo que a nova conferência mostrar, ou
+  removida. Ela não pode continuar publicada apoiada em fonte que não abre.
+
+### [ ] H5 — O mapa funcionar no pacote offline
+
+**Requisito:** R3.6
+**Território:** código e visual
+**Bloqueado por:** H1
+
+Hoje a página do mapa viaja no pacote como texto e mais nada: o Leaflet vem da rede e não abre sem
+internet, e os 13.755 pontos ficam fora porque moram num bloco de dados fora do corpo da página.
+Medido em 01.08: a página serve 887 KB no site e contribui 10,6 KB para o pacote, que fechou em
+3,34 MB de um teto de 8 MB.
+
+Escopo já decidido, para a tarefa não nascer impossível:
+
+- **O Leaflet vai embutido** no pacote, cerca de 150 KB.
+- **A imagem de fundo não são os tiles.** 8192 px em cinco níveis não cabe em 8 MB. É uma imagem
+  única reduzida, na casa de 2048 px, e o número medido entra aqui depois que a H1 produzir a
+  original.
+- **A alternativa em tabela vai preenchida no HTML**, não montada por script.
+
+**Aceite:**
+- Abrir o arquivo com duplo clique, **sem rede**, mostra o mapa com os pontos e a tabela preenchida.
+- O pacote fica abaixo de 8 MB, e o número medido entra no commit.
+- Provado desligando a rede de verdade, não simulando.
+
 ## Bloco B — Fechar as pontas do conteúdo
 
 ### [ ] B1 — Uma página por base, com dado real
@@ -529,6 +579,14 @@ esse número em vez de sugerir que conferiu 77. Ela vale para qualquer receita q
 **Requisito:** R1.4
 **Território:** conteúdo e dados
 **Bloqueado por:** precisa das telas de cada base no jogo. Sem elas, não comece.
+
+**Encolheu em 01.08.** Onze dos vinte marcadores não-base foram trocados pela coordenada importada
+do paldb, e o mercador clandestino virou os **12 pontos** que a fonte publica, em vez de um só. Sobram
+oito sem par, e **eles não são defeito**: Ore Galore, Pico do Guardião, Southern Ore Field, Verdant
+Brook, Torre da Unidade de Pesquisas Genéticas, Mount Obsidian, Moonflower Oil Plateau e Feybreak
+são **vocabulário nosso de região**, não lugar que o paldb rotula como ponto. Ninguém deve tentar
+"consertar" isso casando por aproximação: o trabalho real que sobrou é ler essas oito na tela, mais
+as quatro bases.
 
 Hoje `nossas-bases.md` descreve quatro bases genericamente e `mapa.json` tem coordenadas estimadas.
 Substituir por dado observado: coordenada real, lista de Pals alocados com aptidão, estruturas

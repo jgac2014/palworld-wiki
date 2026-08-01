@@ -87,7 +87,7 @@ de bolo estiver de pé.
 
 | Pal | Elemento | Como conseguir | Papel |
 |---|---|---|---|
-| **Anubis** | Ground | Breeding: Gildane + Ophydia | Carry universal, sidestep defensivo. Manual 6 e Garimpo 6, então rende em base também. |
+| **Anubis** | Ground | Breeding: vários pares, veja a calculadora | Carry universal, sidestep defensivo. Manual 6 e Garimpo 6, então rende em base também. |
 | **Jormuntide Ignis** | Fire/Dragon | Breeding | Melhor dano não lendário do jogo. Dragon Meteor e Fire Ball, ambos 150 power em área. |
 | **Shadowbeak** | Dark | Sanctuary nº 3 | Dano Dark alto, voador rápido, zero setup. Muito mais acessível que Necromus. |
 | **Faleris** | Fire | Alpha nível 38, Sanctuary nº 3 | Melhor voador pré-endgame. É o seu alvo de mobilidade agora. |

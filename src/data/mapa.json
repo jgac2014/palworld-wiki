@@ -236,11 +236,88 @@
       "nota": "O maior atalho de poder do mid game. Shadowbeak, Blazamut, Astegon, Orserk, Faleris e Lyleen como spawns normais."
     },
     {
-      "nome": "Mercador clandestino",
+      "nome": "Mercador clandestino 1",
       "categoria": "mercador",
-      "x": 34,
-      "y": -421,
-      "nota": "Abandoned Mineshaft. Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar."
+      "x": 96,
+      "y": 482,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 2",
+      "categoria": "mercador",
+      "x": 351,
+      "y": 368,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 3",
+      "categoria": "mercador",
+      "x": 523,
+      "y": 334,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 4",
+      "categoria": "mercador",
+      "x": -43,
+      "y": 215,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 5",
+      "categoria": "mercador",
+      "x": 139,
+      "y": 177,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 6",
+      "categoria": "mercador",
+      "x": 207,
+      "y": -13,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 7",
+      "categoria": "mercador",
+      "x": -19,
+      "y": -89,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 8",
+      "categoria": "mercador",
+      "x": -607,
+      "y": -233,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 9",
+      "categoria": "mercador",
+      "x": -99,
+      "y": -353,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 10",
+      "categoria": "mercador",
+      "x": 136,
+      "y": -359,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 11",
+      "categoria": "mercador",
+      "x": 6,
+      "y": -545,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
+    },
+    {
+      "nome": "Mercador clandestino 12",
+      "categoria": "mercador",
+      "x": -801,
+      "y": -629,
+      "nota": "Comerciante furtivo (Black Marketeer). Dá 10 a 15 mil de ouro e uma chave dourada por abate. Use armadilha para imobilizar. Coordenada importada do paldb."
     }
   ]
 }
