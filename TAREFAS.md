@@ -556,6 +556,65 @@ o que está em questão.
 - A afirmação "148 de 148" volta ao site com o número novo, ou não volta. O aviso na calculadora sai
   no mesmo commit.
 
+### [x] F3 — As URLs do `fontes.md` são citadas como conferência e não têm recorte gravado
+
+**Requisito:** R1.2, com o gatilho por R1.5
+**Território:** conteúdo e dados
+**Prioridade:** abaixo da F2, acima de tudo mais
+
+O `fontes.md` cita URLs como conferência e não guarda **nenhuma**. A armadilha já está escrita no
+`CLAUDE.md` ("fonte consultada e não gravada deixa de existir") e descreve um defeito que o
+repositório tem repetido em cada uma delas. O caso do cruzamento, que virou a F2, não foi exceção:
+foi só o primeiro a envelhecer.
+
+- Criar `src/data/recortes/` e gravar, para cada URL citada, o **trecho relevante** da página, não a
+  página inteira, com data de captura e URL de origem no cabeçalho do arquivo.
+- URL que já não abrir é registrada **na hora** no `fontes.md` como afirmação sem prova
+  reproduzível, do mesmo jeito que foi feito com o cruzamento. Não vale consertar inventando outra
+  fonte.
+- `verificar-tudo.mjs` passa a reprovar quando URL citada no `fontes.md` não tem recorte
+  correspondente. Provado por sabotagem, apagando um recorte.
+
+**Aceite:**
+- O número de URLs que ainda abrem e o de mortas, dito em vez de estimado.
+- `npm run portao` passando.
+
+**Feita, e a contagem certa é 28, não 27.** A extração acha 28 URLs distintas no corpo da página, e
+a diferença não é detalhe: contar de cabeça é o que produz este tipo de defeito. **25 abrem e
+renderam trecho gravado, 3 não abrem por comando.**
+
+**A primeira leitura dizia 5 mortas e estava errada.** Requisição direta reprovava o changelog
+oficial da Steam (que monta a página por JavaScript e volta como casca), o Dot Esports, a wiki.gg e
+o Reddit. Marcar essas quatro como perdidas teria enfiado no `fontes.md` uma perda inventada, que é
+o defeito oposto e igualmente caro. O `gravar-recortes.mjs` tenta **duas vezes por URL**, requisição
+direta e navegador de verdade, e só chama de perdida a que falha nas duas.
+
+As três que sobraram respondem **403 nas duas tentativas**, com tela de robô da Cloudflare e não
+página removida: SteamDB e as duas do VGC. Elas viraram `bloqueada`, não `morta`, porque chamar 403
+de 404 seria gravar imprecisão justamente no arquivo que existe para registrar imprecisão. Para o
+que a tarefa cobra dá no mesmo: prova que só existe se um humano clicar não é prova reproduzível.
+Nenhuma foi substituída, e nenhuma afirmação caiu, porque as três têm redundância gravada.
+
+**O recorte é citação, não arquivo.** Cada um traz até cinco trechos, um por termo de relevância,
+com o hash e o tamanho da página original no cabeçalho para o que ficou de fora aparecer. Arquivar
+artigo inteiro seria copiar conteúdo dos outros e não provaria mais nada: quem reconfere quer a
+linha do número.
+
+**Três sabotagens, todas rodadas.** Apagar `palcalc.md` fez o portão acusar a URL do PalCalc sem
+recorte; apagar as linhas de citação de `steam-changelog-1-0.md` fez ele acusar recorte que se diz
+vivo sem trecho dentro; e tirar `vgc-9-mudancas.md` do texto do `fontes.md` fez ele acusar fonte
+bloqueada que não está registrada na página. Essa última é a que impede a regressão real: sem ela, a
+perda ficaria num arquivo de dados que ninguém abre enquanto a página seguiria exibindo o link como
+conferência.
+
+Dois achados que o ato de gravar produziu, os dois no `fontes.md`: o **259 da BisectHosting** é soma
+sobre base velha, demonstrável agora que os dois trechos estão lado a lado (os dois falam em 72 Pals
+novos, e só um parte de 215); e o **3v3 contra 4v4 da Arena** é o mesmo fato dito de dois jeitos, o
+que rebaixa a disputa sem encerrá-la, porque a fonte é uma só e é a mesma que erra a contagem.
+
+Encostou em `package.json`, território compartilhado, pelo mínimo: uma linha de script
+(`npm run recortes:gravar`), sem a qual a captura não seria reproduzível por comando.
+
 ### [ ] H5 — O mapa funcionar no pacote offline
 
 **Requisito:** R3.6

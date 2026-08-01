@@ -342,6 +342,79 @@ for (const arquivo of arquivos) {
 }
 passou(`conteúdo: ${arquivos.length} páginas, frontmatter e marcação verificados`);
 
+// ------------------- URL citada em fontes.md x recorte gravado (F3)
+// O CLAUDE.md registra que "fonte consultada e não gravada deixa de existir", e
+// o repositório provou isso do jeito caro: a regra de cruzamento foi validada
+// contra uma lista do paldb que ninguém consegue mais reabrir, e a validação
+// virou afirmação sem prova. As outras 27 URLs do fontes.md estavam no mesmo
+// estado, só que ainda não tinham envelhecido.
+//
+// Daqui em diante, citar URL como conferência obriga a gravar o recorte. E
+// recorte que NÃO é `viva` (a fonte bloqueou, sumiu, ou abriu sem conter o que
+// sustenta a afirmação) obriga a dizer isso no próprio fontes.md: senão a
+// página continuaria exibindo como conferido o que só está registrado num
+// arquivo de dados que ninguém abre.
+const pastaRecortes = join(raiz, 'src/data/recortes');
+const fontesTexto = corpos['fontes.md'];
+const STATUS_RECORTE = new Set(['viva', 'sem-trecho', 'bloqueada', 'morta']);
+
+if (!fontesTexto) {
+  // Falta de insumo é erro, nunca passagem em silêncio: sem o corpo do
+  // fontes.md esta checagem não conferiu nada e não pode dizer que passou.
+  erro('recortes', 'fontes.md não foi lido, então nenhuma URL pôde ser conferida contra recorte');
+} else if (!existsSync(pastaRecortes)) {
+  erro('recortes', 'src/data/recortes/ não existe. Rode `npm run recortes:gravar`');
+} else {
+  const citadas = [...new Set([...fontesTexto.matchAll(/https?:\/\/[^\s)`\]<>]+/g)].map((m) => m[0]))];
+  const recortes = (await readdir(pastaRecortes)).filter((f) => f.endsWith('.md'));
+  const porUrl = new Map();
+
+  for (const f of recortes) {
+    const bruto = await readFile(join(pastaRecortes, f), 'utf-8');
+    const m = bruto.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+    if (!m) { erro('recortes', `${f}: sem cabeçalho. Recorte precisa de url, capturado_em e status`); continue; }
+    const [, cab, corpo] = m;
+    const url = cab.match(/^url:\s*(\S+)\s*\r?$/m)?.[1];
+    const data = cab.match(/^capturado_em:\s*(\d{4}-\d{2}-\d{2})\s*\r?$/m)?.[1];
+    const status = cab.match(/^status:\s*(\S+)\s*\r?$/m)?.[1];
+
+    if (!url) { erro('recortes', `${f}: cabeçalho sem "url". Recorte sem origem não prova nada`); continue; }
+    if (!data) erro('recortes', `${f}: cabeçalho sem "capturado_em" no formato AAAA-MM-DD`);
+    if (!status || !STATUS_RECORTE.has(status)) {
+      erro('recortes', `${f}: status "${status ?? 'ausente'}" não é um de ${[...STATUS_RECORTE].join(', ')}`);
+    }
+    // Recorte marcado como vivo tem que ter trecho citado dentro. Arquivo com
+    // cabeçalho bonito e corpo vazio é o modo de falha que este projeto mais
+    // repete: a checagem passa e a prova não existe.
+    if (status === 'viva' && !/^>\s+\S/m.test(corpo)) {
+      erro('recortes', `${f}: status "viva" e nenhum trecho citado no corpo`);
+    }
+    if (porUrl.has(url)) erro('recortes', `${f} e ${porUrl.get(url).arquivo} gravam a mesma URL`);
+    porUrl.set(url, { arquivo: f, status, data });
+  }
+
+  for (const url of citadas) {
+    if (!porUrl.has(url)) {
+      erro('recortes', `${url} é citada no fontes.md e não tem recorte em src/data/recortes/. Rode \`npm run recortes:gravar\``);
+    }
+  }
+  for (const [url, r] of porUrl) {
+    if (!citadas.includes(url)) aviso('recortes', `${r.arquivo} guarda ${url}, que o fontes.md não cita mais`);
+  }
+
+  const semProva = [...porUrl.values()].filter((r) => r.status !== 'viva');
+  for (const r of semProva) {
+    if (!fontesTexto.includes(r.arquivo)) {
+      erro('recortes', `${r.arquivo} está "${r.status}" e o fontes.md não registra isso. Fonte sem prova reproduzível precisa aparecer na página, não só no arquivo de dados`);
+    }
+  }
+
+  const vivas = [...porUrl.values()].filter((r) => r.status === 'viva').length;
+  if (citadas.length) {
+    passou(`recortes: ${citadas.length} URLs citadas em fontes.md, ${vivas} com trecho gravado e ${semProva.length} registradas sem prova reproduzível`);
+  }
+}
+
 // ---------------------- marcadores do mapa x referência congelada (H2 e H3)
 const mapaPontos = await lerJson('src/data/mapa-pontos.json');
 const refMapa = await lerJson('src/data/referencia-mapa.json');

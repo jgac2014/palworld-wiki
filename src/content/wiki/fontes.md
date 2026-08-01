@@ -44,7 +44,7 @@ respondê-la, então publicá-la em prosa era dizer em texto o que o site se rec
 | **Taxa base de mutação** | Não publicada. Estimativas da comunidade ficam em 0,7-1%, e cerca de 3% com o cake certo. Ignore sites que citam precisão maior. |
 | **Lista de Pals de aura** | As listas publicadas divergem entre si (Mycora/Mikora, Wumpo/Woo, Eikthyrdeer Terra/Aar Dera). Confira o texto da partner skill in-game. |
 | **Níveis dos tower bosses 2, 3, 4, 6 e 7** | Reescalados no 1.0, fontes discordam. Marquei faixas. |
-| **Formato exato da Arena** | Fontes divergem entre 3v3 e 4v4. A leitura mais consistente é 3 Pals por jogador, sendo 1 main cuja partner skill você ativa. |
+| **Formato exato da Arena** | Fontes divergem entre 3v3 e 4v4. A leitura mais consistente é 3 Pals por jogador, sendo 1 main cuja partner skill você ativa. O recorte gravado em 01.08 traz as duas coisas na mesma frase, o que explica a divergência sem encerrá-la: falta conferir na tela do jogo. |
 | **Estado das Wildlife Sanctuaries** | Patch notes dizem que foram reformuladas. Os guias detalhados ainda descrevem a versão de Early Access. |
 | **Distribuição das 48 cópias por estrela** | Não oficial. Confira a UI do Condenser. **Enquanto isso não for conferido no jogo, a calculadora de condensação só responde o total para 4★**, que é o número que tem fonte. |
 | **Poder de captura por esfera** | **Resolvido em 01.08.** Vale a coluna do paldb inteira, e a tabela está publicada em Calculadoras. A conferência que produziu a decisão, com os oito pares de números, está na seção abaixo. |
@@ -54,6 +54,79 @@ respondê-la, então publicá-la em prosa era dizer em texto o que o site se rec
 :::atencao
 **Nota metodológica:** boa parte do conteúdo "1.0" indexado hoje é SEO gerado por IA e se contradiz. Fandom wiki e parte do Game8 ainda estão com dados de Early Access (suitability máxima 4, condensação 116). O que está nesta wiki foi cruzado entre o changelog oficial, databases dataminadas (paldb.cc, palworld.gg) e threads de comunidade com replicação independente.
 
+:::
+
+## Toda fonte citada aqui tem recorte gravado, e três não abrem por comando
+
+Registrado em **01.08.2026**. Esta página citava **28 URLs como conferência e não guardava nenhuma**.
+O `CLAUDE.md` já trazia a armadilha escrita, "fonte consultada e não gravada deixa de existir",
+depois que o "149 de 149" da regra de cruzamento virou afirmação sem prova. O que não estava dito é
+que aquele caso não era exceção: ele foi só o primeiro a envelhecer, e as outras 27 estavam no mesmo
+estado, apenas mais novas.
+
+Agora cada URL citada aqui tem arquivo em `src/data/recortes/`. No cabeçalho vão a URL de origem, a
+data da captura, a afirmação desta página que depende dela, os termos que definem o que é relevante
+ali dentro e o hash da página inteira. No corpo vai o **trecho**, não a página: o que prova o total
+de 287 é a frase do número, e arquivar o artigo inteiro seria copiar conteúdo dos outros sem ganhar
+prova nenhuma.
+
+A captura é reproduzível por comando, `npm run recortes:gravar`, e tenta duas vezes por URL:
+requisição direta e navegador de verdade. As duas são necessárias. Boa parte destas fontes responde
+403 para script, e o changelog oficial da Steam devolve a casca da página, sem número nenhum dentro,
+quando lido sem JavaScript. Quando a segunda tentativa não pode rodar, o script **falha dizendo que
+faltou insumo**, em vez de marcar como morta uma fonte que ele não chegou a tentar direito.
+
+**Contagem de 01.08.2026: 28 URLs citadas, 25 com trecho gravado, 3 que não abrem por comando.**
+
+O `npm run verificar` passou a reprovar quando uma URL citada aqui não tem recorte, quando um
+recorte se diz vivo sem trecho citado dentro, e quando uma fonte sem prova não está registrada nesta
+página. Sem essa última, a perda ficaria só num arquivo de dados que ninguém abre, enquanto a página
+continuaria exibindo o link como conferência.
+
+### As três que não abrem
+
+| Fonte | Recorte | O que ela sustentava aqui |
+|---|---|---|
+| SteamDB, histórico de patches | `steamdb-patchnotes.md` | Qual é a versão publicada |
+| VGC, 9 maiores mudanças | `vgc-9-mudancas.md` | Level cap 80, uma das sete fontes que convergem |
+| VGC, como entrar no World Tree | `vgc-world-tree.md` | O requisito de entrada na Árvore Mundial |
+
+As três respondem **HTTP 403** à requisição direta e ao navegador automatizado, e o corpo da
+resposta é tela de verificação de robô da Cloudflare, não página removida. Ou seja, elas
+provavelmente abrem para quem clica. Isso não as salva: afirmação que só se reconfere com uma pessoa
+clicando é afirmação sem prova reproduzível, que é exatamente o defeito que esta seção registra.
+Nenhuma foi trocada por outra URL. Sair procurando fonte nova para sustentar número já escrito é
+como se fabrica boato com cara de conferência.
+
+**Nada saiu do site por causa delas, e agora dá para mostrar por quê.** O level cap 80 tem trecho
+gravado no Dot Esports, que fala do novo teto de nível pelo número, e o changelog oficial registra o
+aumento sem dizer quanto. A entrada na Árvore Mundial tem trecho no NextTier, que descreve o caminho
+até o portão e nomeia o chefe de torre que o guarda. A versão publicada tem trecho no The Big Lead.
+As três perdas custaram redundância, não conteúdo.
+
+### O que os recortes decidiram no ato de serem gravados
+
+**O 259 da BisectHosting é conta com base velha, e isso agora está demonstrado em vez de afirmado.**
+Os dois recortes trazem o mesmo número de Pals novos e totais diferentes: o changelog oficial fala em
+72 Pals novos chegando a 287, e a BisectHosting fala nos mesmos 72, abertos em 47 inéditos e 25
+variantes, chegando a 259. A divergência está inteira na base. 287 menos 72 dá 215, que é exatamente
+quantos Pals existiam antes do 1.0, o número que a `breeding.md` usa. 259 menos 72 dá 187, que não é
+contagem de lugar nenhum. Não é discordância sobre o 1.0: é soma feita em cima de um total anterior
+desatualizado.
+
+**O 3v3 contra 4v4 da Arena ganhou explicação, não veredito.** O recorte da BisectHosting diz as
+duas coisas na mesma frase: o combate é chamado de 4v4 e cada jogador escolhe três Pals. Não são
+duas fontes discordando de um número, é o mesmo fato contado de dois jeitos, que é a leitura que
+esta página já tinha adotado por consistência. Continua sendo **uma fonte só**, e é a mesma que erra
+a contagem de Pals no parágrafo acima. Isso rebaixa a disputa de "as fontes divergem" para "falta
+conferir na tela", e não a fecha.
+
+:::nota
+**A citação do r/Palworld não vale como as outras.** O recorte prova que o subreddit existe e está
+ativo, e nada além disso: as threads de julho de 2026 citadas em bloco lá embaixo nunca tiveram link
+individual gravado, então não há o que reabrir. Quem quiser reconferir aquelas afirmações vai ter que
+achar as threads de novo, e pode não achar. Thread de fórum citada sem link é o mesmo defeito desta
+seção, em tamanho menor.
 :::
 
 ## Poder de captura: não era empate entre fontes, era fonte velha
@@ -262,13 +335,17 @@ resultado que o próprio paldb calcula por par.
 
 ## Fontes principais
 
+Cada link daqui para baixo tem recorte gravado em `src/data/recortes/`, com data de captura e o
+trecho que sustenta a afirmação. As três marcadas com **403** são as que não abrem por comando,
+explicadas na seção acima.
+
 ### Oficial e patch notes
 
 - [Changelog oficial 1.0 (Steam, Pocketpair)](https://steamcommunity.com/ogg/1623730/announcements/detail/686383649529010624)
-- [SteamDB, histórico de patches](https://steamdb.info/app/1623730/patchnotes/)
+- [SteamDB, histórico de patches](https://steamdb.info/app/1623730/patchnotes/) **403**
 - [paldb.cc, patch notes v1.0.0](https://paldb.cc/en/v1.0.0) e [passivas](https://paldb.cc/en/Passive_Skills)
 - [BisectHosting, breakdown do 1.0](https://www.bisecthosting.com/blog/palworld-1-0-patch-notes-update-new-pals-locations-changes-sunreach-world-tree)
-- [VGC, 9 maiores mudanças](https://www.videogameschronicle.com/guide/palworld-1-0-patch-notes-9-biggest-changes/)
+- [VGC, 9 maiores mudanças](https://www.videogameschronicle.com/guide/palworld-1-0-patch-notes-9-biggest-changes/) **403**
 - [Dot Esports, patch notes](https://dotesports.com/palworld/guides/palworld-1-0-patch-notes)
 - [The Big Lead, patch notes 1.0.2](https://www.thebiglead.com/palworld-v1-0-2-patch-notes/)
 
@@ -287,7 +364,7 @@ resultado que o próprio paldb calcula por par.
 
 - [KeenGamer, tower bosses em ordem](https://www.keengamer.com/articles/guides/palworld-1-0-all-tower-bosses-in-order-and-how-to-beat-them/)
 - [KeenGamer, melhores passivas](https://www.keengamer.com/articles/guides/palworld-1-0-best-passive-skills-for-combat-mounts-and-base-pals/)
-- [VGC, como entrar no World Tree](https://www.videogameschronicle.com/guide/palworld-10-enter-world-tree/)
+- [VGC, como entrar no World Tree](https://www.videogameschronicle.com/guide/palworld-10-enter-world-tree/) **403**
 - [NextTier, Sunreach](https://nexttier.pro/guide/palworld-sunreach)
 - [AllThings.how, Radiant Gems](https://allthings.how/palworld-1-0-how-to-farm-every-radiant-gem-in-the-world-tree/)
 - [AllThings.how, legendary schematics](https://allthings.how/palworld-1-0-7-best-legendary-schematics-and-how-to-get-them/)
