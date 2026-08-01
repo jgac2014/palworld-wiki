@@ -65,6 +65,20 @@ const pegar = (html, tag, attr = '') => {
   return html.slice(inicio, pos);
 };
 
+/** Como pegar(), mas devolve o elemento inteiro, com a tag de abertura. */
+const pegarInteiro = (html, tag, attr) => {
+  const i = html.search(new RegExp(`<${tag}[^>]*${attr}[^>]*>`));
+  if (i === -1) return null;
+  const re = new RegExp(`</?${tag}\\b`, 'g');
+  re.lastIndex = html.indexOf('>', i) + 1;
+  let nivel = 1, m;
+  while ((m = re.exec(html))) {
+    nivel += m[0][1] === '/' ? -1 : 1;
+    if (nivel === 0) return html.slice(i, html.indexOf('>', m.index) + 1);
+  }
+  return null;
+};
+
 const paginas = [];
 for (const rota of rotas) {
   const html = await readFile(join(dist, rota, 'index.html'), 'utf-8');
@@ -119,6 +133,12 @@ for (const m of casca.matchAll(/<script[^>]*src="(\/[^"]+)"[^>]*><\/script>/g)) 
   }
 }
 
+// A ficha em popover mora fora do <main>, no fim do body, então não vem no
+// corpo de nenhuma página. Sem trazê-la à mão, o pacote fica com os nomes de Pal
+// marcados e sublinhados e nada abrindo: o script procura #ficha-pal, não acha e
+// desiste em silêncio.
+const popover = pegarInteiro(casca, 'div', 'id="ficha-pal"') ?? '';
+
 // pegar() devolve só o miolo da tag, então o <nav> precisa ser recolocado à mão.
 // Sem ele o seletor .lateral não existe e o menu inteiro fica sem estilo e sem JS.
 const lateral = pegar(casca, 'nav', 'class="lateral"') ?? '';
@@ -171,6 +191,7 @@ ${menu}
 ${secoes}
 </main>
 </div>
+${popover}
 <script>${js}</script>
 <script>
 (function () {

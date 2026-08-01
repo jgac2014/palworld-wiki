@@ -84,6 +84,44 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       <span data-rot-pt={ui('marca_versao', 'pt')} data-rot-en={ui('marca_versao', 'en')}>{ui('marca_versao', 'pt')}</span> 1.0.2.101103
     </div>
 
+    {/*
+      As duas camadas são pares, e o menu tinha deixado de mostrar isso: a
+      Camada 2 vinha depois dos 12 guias, o que a jogava abaixo da dobra numa
+      tela de 1080. Ela sobe para o topo INTEIRA, com o título de camada junto.
+
+      Mover só o link, deixando o título embaixo, poria um link do nosso save
+      dentro do bloco da wiki, que é exatamente a mistura que a decisão 3.0 do
+      PRD proíbe. E deixar o título "A wiki" acima de um bloco que não é dela
+      faria os 17 links da wiki serem lidos como parte do nosso mundo.
+    */}
+    <div class="camada" data-rot-pt={ui('nav_camada_mundo', 'pt')} data-rot-en={ui('nav_camada_mundo', 'en')}>{ui('nav_camada_mundo', 'pt')}</div>
+    <SeletorProgresso />
+    <a
+      class="item"
+      href={`${base}/nosso-mundo`}
+      aria-current={eh(`${base}/nosso-mundo`) ? 'page' : undefined}
+      data-rot-pt={ui('mundo_visao', 'pt')}
+      data-rot-en={ui('mundo_visao', 'en')}
+    >{ui('mundo_visao', 'pt')}</a>
+    {naSecao && (
+      <a
+        class="item"
+        href={`${base}/painel`}
+        aria-current={eh(`${base}/painel`) ? 'page' : undefined}
+        data-rot-pt={ui('painel_titulo', 'pt')}
+        data-rot-en={ui('painel_titulo', 'en')}
+      >{ui('painel_titulo', 'pt')}</a>
+    )}
+    {naSecao && doNossoMundo.map((p) => (
+      <a
+        class="item"
+        href={`${base}/${p.id}`}
+        aria-current={eh(`${base}/${p.id}`) ? 'page' : undefined}
+        data-rot-pt={p.data.titulo}
+        data-rot-en={p.data.titulo_en || p.data.titulo}
+      >{p.data.titulo}</a>
+    ))}
+
     <div class="camada" data-rot-pt={ui('nav_camada_wiki', 'pt')} data-rot-en={ui('nav_camada_wiki', 'en')}>{ui('nav_camada_wiki', 'pt')}</div>
 
     <div class="grupo" data-rot-pt={ui('nav_catalogo', 'pt')} data-rot-en={ui('nav_catalogo', 'en')}>{ui('nav_catalogo', 'pt')}</div>
@@ -113,34 +151,6 @@ const REPO = 'https://github.com/nederreis/PalCrew';
 
     <div class="grupo" data-rot-pt={ui('nav_guias', 'pt')} data-rot-en={ui('nav_guias', 'en')}>{ui('nav_guias', 'pt')}</div>
     {guias.map((p) => (
-      <a
-        class="item"
-        href={`${base}/${p.id}`}
-        aria-current={eh(`${base}/${p.id}`) ? 'page' : undefined}
-        data-rot-pt={p.data.titulo}
-        data-rot-en={p.data.titulo_en || p.data.titulo}
-      >{p.data.titulo}</a>
-    ))}
-
-    <div class="camada" data-rot-pt={ui('nav_camada_mundo', 'pt')} data-rot-en={ui('nav_camada_mundo', 'en')}>{ui('nav_camada_mundo', 'pt')}</div>
-    <SeletorProgresso />
-    <a
-      class="item"
-      href={`${base}/nosso-mundo`}
-      aria-current={eh(`${base}/nosso-mundo`) ? 'page' : undefined}
-      data-rot-pt={ui('mundo_visao', 'pt')}
-      data-rot-en={ui('mundo_visao', 'en')}
-    >{ui('mundo_visao', 'pt')}</a>
-    {naSecao && (
-      <a
-        class="item"
-        href={`${base}/painel`}
-        aria-current={eh(`${base}/painel`) ? 'page' : undefined}
-        data-rot-pt={ui('painel_titulo', 'pt')}
-        data-rot-en={ui('painel_titulo', 'en')}
-      >{ui('painel_titulo', 'pt')}</a>
-    )}
-    {naSecao && doNossoMundo.map((p) => (
       <a
         class="item"
         href={`${base}/${p.id}`}

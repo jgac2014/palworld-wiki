@@ -345,6 +345,30 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   const titulos = new Set(blocos.map((b) => b.titulo));
   conferir(blocos.length >= 2 && titulos.size === blocos.length, 'o menu tem blocos de camada com títulos distintos', `${blocos.length} blocos, ${titulos.size} títulos`);
 
+  // A Camada 2 é PAR da wiki, não apêndice dela: no menu ela vem antes dos 12
+  // guias, senão cai abaixo da dobra numa tela de 1080 e some para quem não
+  // rola a lateral.
+  //
+  // Ordem de DOM, e não posição em pixel: pixel depende de carregamento de
+  // fonte e deixaria o portão instável, falhando por acaso em máquina lenta.
+  // O rótulo do grupo é lido do interface.json, e não escrito aqui, senão o
+  // teste quebra no dia em que alguém melhorar a palavra.
+  const rotuloGuias = JSON.parse(await readFile(join(raiz, 'src/data/interface.json'), 'utf-8')).nav_guias.pt;
+  const ordemDoMenu = await pagina.evaluate((guias) => {
+    const alvo = document.querySelector('.lateral a.item[href$="nosso-mundo"]');
+    const grupo = [...document.querySelectorAll('.lateral .grupo')].find((g) => g.dataset.rotPt === guias);
+    if (!alvo || !grupo) return { alvo: !!alvo, grupo: !!grupo, antes: null };
+    // FOLLOWING quer dizer que o grupo vem DEPOIS do link no documento.
+    return { alvo: true, grupo: true, antes: Boolean(alvo.compareDocumentPosition(grupo) & Node.DOCUMENT_POSITION_FOLLOWING) };
+  }, rotuloGuias);
+  conferir(
+    ordemDoMenu.antes === true,
+    'o nosso mundo vem antes dos guias no menu',
+    !ordemDoMenu.alvo ? 'não achei o link de nosso-mundo na lateral'
+      : !ordemDoMenu.grupo ? `não achei o grupo "${rotuloGuias}" na lateral`
+      : 'o link está depois do grupo de guias, abaixo da dobra',
+  );
+
   // A seção do nosso mundo continua acessível, só que pela porta dela.
   await pagina.goto(`${base}/nosso-mundo/`);
   const daSecao = await pagina.evaluate(() =>
@@ -630,6 +654,64 @@ if (existsSync(offline)) {
     [...document.querySelectorAll('#resultados li a')].map((a) => a.getAttribute('href')));
   conferir(achados.includes('#pal/aegidron'), 'a busca offline acha um Pal que só existe em ficha', `achou: ${achados.slice(0, 3).join(', ') || 'nada'}`);
   await pagina.fill('#busca', '');
+
+  // 9. a ficha em popover também funciona no arquivo único, e por teclado.
+  //    Aqui file:// está CERTO, ao contrário do teste do site: o CSS do pacote é
+  //    embutido, então getComputedStyle mede o estilo de verdade.
+  //
+  //    Esta asserção existe por dois defeitos que só aparecem no pacote e nunca
+  //    no site: o popover mora fora do <main> e não vinha no corpo de página
+  //    nenhuma, e os módulos, colados num <script> clássico só, dividiam escopo
+  //    e se destruíam no primeiro nome minificado repetido. Os dois sintomas são
+  //    idênticos: o nome fica sublinhado e nada abre.
+  await pagina.evaluate(() => { location.hash = '#breeding'; });
+  await pagina.waitForTimeout(200);
+  const ALVO_OFF = '.pagina:not([hidden]) [data-pal]';
+  const lerFichaOff = () => pagina.evaluate(() => {
+    const c = document.getElementById('ficha-pal');
+    if (!c) return null;
+    return {
+      visivel: !c.hidden && getComputedStyle(c).display !== 'none',
+      nome: c.querySelector('.nome')?.textContent || '',
+      aptidoes: c.querySelectorAll('.apt').length,
+    };
+  });
+
+  const temNomes = await pagina.locator(ALVO_OFF).count();
+  const antesOff = await lerFichaOff();
+  const esperadoOff = temNomes ? await pagina.getAttribute(ALVO_OFF, 'data-pal') : null;
+  if (temNomes) {
+    await pagina.focus(ALVO_OFF);
+    await pagina.waitForTimeout(120);
+  }
+  const comFocoOff = temNomes ? await lerFichaOff() : null;
+  conferir(
+    temNomes > 0 && antesOff?.visivel === false && comFocoOff?.visivel === true
+      && comFocoOff.nome === esperadoOff && comFocoOff.aptidoes > 0,
+    'a ficha do Pal abre por teclado no pacote offline',
+    !temNomes ? 'nenhum nome de Pal marcado na página aberta'
+      : !antesOff ? 'o popover não foi empacotado: #ficha-pal não existe no arquivo'
+      : antesOff.visivel ? 'nasceu aberta, o resto do teste não provaria nada'
+      : `com foco: visível ${comFocoOff.visivel}, nome "${comFocoOff.nome}" para "${esperadoOff}", ${comFocoOff.aptidoes} aptidões`,
+  );
+
+  // Esc fecha E devolve o foco para o nome. Fechar sem devolver o foco larga
+  // quem navega por teclado no começo da página.
+  //
+  // A condição exige que a ficha estivesse ABERTA antes do Esc, e isso não é
+  // zelo: sem essa parte a asserção passava com o popover morto, porque
+  // "fechada depois do Esc" é verdade trivial quando ela nunca abriu e o foco
+  // continua onde o próprio teste o colocou. Foi pega sabotando.
+  await pagina.keyboard.press('Escape');
+  await pagina.waitForTimeout(120);
+  const depoisEscOff = await lerFichaOff();
+  const focoVoltou = await pagina.evaluate(() => document.activeElement?.dataset?.pal || null);
+  conferir(
+    comFocoOff?.visivel === true && depoisEscOff?.visivel === false && focoVoltou === esperadoOff,
+    'no offline, Esc fecha a ficha e devolve o foco ao nome',
+    comFocoOff?.visivel !== true ? 'a ficha nem chegou a abrir, então fechar não prova nada'
+      : `visível depois do Esc: ${depoisEscOff?.visivel}, foco em "${focoVoltou}" para "${esperadoOff}"`,
+  );
 
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no offline', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
