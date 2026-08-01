@@ -18,6 +18,7 @@
 import Base from '../layouts/Base.astro';
 import { GUILDA, SAVES } from '../lib/progresso.js';
 import { ui } from '../lib/termos.js';
+import { dataBr } from '../lib/datas.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -27,7 +28,7 @@ const rot = (chave, valor = '') => ({
   en: ui(chave, 'en').replace('{n}', String(valor)),
 });
 
-const dia = (iso) => (iso ? iso.split('-').reverse().join('.') : '');
+const dia = dataBr;
 const pct = (v, de) => (de > 0 ? Math.round((v / de) * 100) : 0);
 
 const torres = GUILDA.torres || {};

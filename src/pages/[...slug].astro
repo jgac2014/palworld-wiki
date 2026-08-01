@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { ui } from '../lib/termos.js';
+import { dataBr } from '../lib/datas.js';
 
 export async function getStaticPaths() {
   const paginas = await getCollection('wiki', ({ data }) => !data.rascunho);
@@ -12,6 +14,19 @@ export async function getStaticPaths() {
 
 const { pagina } = Astro.props;
 const { Content } = await render(pagina);
+
+// A moldura da página alterna, o corpo do guia não, por R2.7 do PRD.
+//
+// O inglês cai no português quando não existe, e não em vazio: campo opcional
+// de propósito, para que página nova sem tradução continue legível em vez de
+// aparecer sem título. É a mesma regra que o menu e a home já seguem.
+const titulo = { pt: pagina.data.titulo, en: pagina.data.titulo_en || pagina.data.titulo };
+const descricao = { pt: pagina.data.descricao, en: pagina.data.descricao_en || pagina.data.descricao };
+const dia = dataBr(pagina.data.atualizado);
+const carimbo = {
+  pt: ui('guia_carimbo', 'pt').replace('{n}', dia),
+  en: ui('guia_carimbo', 'en').replace('{n}', dia),
+};
 ---
 <Base
   titulo={pagina.data.titulo}
@@ -20,9 +35,9 @@ const { Content } = await render(pagina);
   arquivoFonte={`${pagina.id}.md`}
 >
   <article data-pagefind-body>
-    <h1>{pagina.data.titulo}</h1>
-    <p class="subtitulo">{pagina.data.descricao}</p>
-    <div class="carimbo">Palworld 1.0.2 · atualizado 30.07.2026</div>
+    <h1 data-rot-pt={titulo.pt} data-rot-en={titulo.en}>{titulo.pt}</h1>
+    <p class="subtitulo" data-rot-pt={descricao.pt} data-rot-en={descricao.en}>{descricao.pt}</p>
+    <div class="carimbo" data-rot-pt={carimbo.pt} data-rot-en={carimbo.en}>{carimbo.pt}</div>
     <Content />
   </article>
 </Base>

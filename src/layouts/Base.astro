@@ -7,6 +7,7 @@ import SeletorIdioma from '../components/SeletorIdioma.astro';
 import SeletorTema from '../components/SeletorTema.astro';
 import SeletorProgresso from '../components/SeletorProgresso.astro';
 import { ui } from '../lib/termos.js';
+import { dataBr } from '../lib/datas.js';
 import '../styles/global.css';
 
 interface Props {
@@ -226,7 +227,7 @@ const REPO = 'https://github.com/nederreis/PalCrew';
         {atualizado && (
           <>
             <span data-rot-pt={ui('rodape_revisado', 'pt')} data-rot-en={ui('rodape_revisado', 'en')}>{ui('rodape_revisado', 'pt')}</span>
-            {' '}{atualizado.toLocaleDateString('pt-BR')} ·{' '}
+            {' '}{dataBr(atualizado)} ·{' '}
           </>
         )}
         <span data-rot-pt={ui('rodape_aberto', 'pt')} data-rot-en={ui('rodape_aberto', 'en')}>{ui('rodape_aberto', 'pt')}</span>

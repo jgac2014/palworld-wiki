@@ -119,7 +119,7 @@ a saída prevista aqui, perderia a busca em andamento.
 de vazio nem mostrava o termo buscado) e, paradas ali, seriam lidas como a fonte da verdade da
 busca pelo próximo que abrisse o arquivo.
 
-### [ ] A5 — Moldura das páginas de guia
+### [x] A5 — Moldura das páginas de guia
 
 **Requisito:** R2.5
 **Território:** código e visual
@@ -134,6 +134,15 @@ O corpo do guia continua em português, por R2.7. Isto é só a moldura da pági
 **Aceite:**
 - Abrir qualquer guia com EN ligado e ver título, subtítulo e carimbo em inglês.
 - Página sem `titulo_en` continua mostrando o português, sem quebrar.
+
+**Feita.** O segundo critério foi conferido tirando o `titulo_en` de `armadilhas.md`, construindo e
+abrindo a página em EN: título e subtítulo em português, carimbo em inglês, nenhum erro de
+JavaScript. O frontmatter foi devolvido depois.
+
+Achado no caminho, e corrigido junto porque é contradição de número na mesma página: o carimbo lia
+a data em UTC e o rodapé pelo fuso local, então a mesma linha do frontmatter virava
+`atualizado 30.07.2026` em cima e `Revisado em 29/07/2026` embaixo. As duas passaram a usar
+`src/lib/datas.js`, e uma asserção nova compara as duas datas da mesma página.
 
 ---
 

@@ -147,6 +147,8 @@
   "chat_pensando":      { "pt": "pensando...",        "en": "thinking..." },
   "chat_erro":          { "pt": "O assistente não conseguiu responder agora.", "en": "The assistant could not answer right now." },
 
+  "guia_carimbo":       { "pt": "Palworld 1.0.2 · atualizado {n}", "en": "Palworld 1.0.2 · updated {n}" },
+
   "rodape_revisado":    { "pt": "Revisado em",        "en": "Reviewed on" },
   "rodape_aberto":      { "pt": "Conteúdo aberto, contribuições bem-vindas", "en": "Open content, contributions welcome" },
   "rodape_corrigir":    { "pt": "Corrigir esta página", "en": "Fix this page" },

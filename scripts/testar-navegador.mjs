@@ -322,6 +322,58 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     tortas.map((b) => `nível ${b.nivel} desenhou ${(b.proporcao * 100).toFixed(1)}%`).join(' | '),
   );
 
+  // 6a. a moldura do guia alterna, e o corpo dele não.
+  //     R2.5 para a moldura, R2.7 para o corpo: traduzir 87 mil caracteres de
+  //     guia cria duas verdades que divergem no primeiro patch. O teste guarda
+  //     as duas metades da decisão de uma vez, porque uma sem a outra é fácil
+  //     de quebrar sem perceber.
+  //
+  //     Estabelece o idioma antes de medir, em vez de herdar o que o teste
+  //     anterior deixou salvo.
+  await pagina.goto(`${base}/breeding/`);
+  await pagina.waitForTimeout(200);
+  await pagina.click('.seletor button[data-idioma="pt"]');
+  await pagina.waitForTimeout(150);
+  const molduraDoGuia = () => pagina.evaluate(() => ({
+    h1: document.querySelector('.conteudo h1')?.textContent?.trim() || '',
+    sub: document.querySelector('.conteudo .subtitulo')?.textContent?.trim() || '',
+    carimbo: document.querySelector('.conteudo .carimbo')?.textContent?.trim() || '',
+    // O corpo é comparado SEM os termos marcados: aqueles alternam de propósito,
+    // por R2.2, e são o motivo de o projeto existir. O que não pode mudar é a
+    // prosa em volta deles.
+    corpo: (() => {
+      const artigo = document.querySelector('.conteudo article');
+      if (!artigo) return '';
+      const copia = artigo.cloneNode(true);
+      copia.querySelectorAll('h1, .subtitulo, .carimbo, [data-termo]').forEach((e) => e.remove());
+      return copia.textContent.replace(/\s+/g, ' ').trim().slice(0, 600);
+    })(),
+    rodape: document.querySelector('.rodape-pagina')?.textContent?.replace(/\s+/g, ' ').trim() || '',
+  }));
+  const guiaPt = await molduraDoGuia();
+  await pagina.click('.seletor button[data-idioma="en"]');
+  await pagina.waitForTimeout(200);
+  const guiaEn = await molduraDoGuia();
+  conferir(
+    guiaPt.h1 !== '' && guiaEn.h1 !== guiaPt.h1
+      && guiaEn.sub !== guiaPt.sub
+      && guiaEn.carimbo !== guiaPt.carimbo && /updated/i.test(guiaEn.carimbo)
+      && guiaEn.corpo === guiaPt.corpo,
+    'a moldura do guia alterna e o corpo continua em português',
+    `h1 "${guiaPt.h1}" -> "${guiaEn.h1}" | carimbo "${guiaPt.carimbo}" -> "${guiaEn.carimbo}" | corpo mudou: ${guiaEn.corpo !== guiaPt.corpo}`,
+  );
+
+  // Data em dois lugares na mesma página tem que ser a mesma data. O carimbo
+  // lia em UTC e o rodapé pelo fuso local, então a mesma linha do frontmatter
+  // virava 30.07 em cima e 29/07 embaixo.
+  const dataDoCarimbo = guiaPt.carimbo.match(/(\d{2})[./](\d{2})[./](\d{4})/)?.slice(1).join('.') || 'sem data';
+  const dataDoRodape = guiaPt.rodape.match(/(\d{2})[./](\d{2})[./](\d{4})/)?.slice(1).join('.') || 'sem data';
+  conferir(
+    dataDoCarimbo !== 'sem data' && dataDoCarimbo === dataDoRodape,
+    'carimbo e rodapé mostram a mesma data',
+    `carimbo ${dataDoCarimbo}, rodapé ${dataDoRodape}`,
+  );
+
   // 6b. a busca também alterna de idioma, e não perde o que já foi digitado.
   //     R2.4. A mensagem de vazio nascia em português e ficava: as traduções
   //     eram passadas numa prop que a versão instalada do astro-pagefind não
