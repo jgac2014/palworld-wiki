@@ -9,7 +9,7 @@
     "Também dá para corrigir um termo à mão aqui: valores editados manualmente só são",
     "sobrescritos se você rodar o script com --forcar."
   ],
-  "atualizado_em": "2026-07-30",
+  "atualizado_em": "2026-08-01",
   "fonte": "https://paldb.cc",
   "termos": {
     "apt": {
@@ -231,9 +231,10 @@
     },
     "pal_sphere": {
       "en": "Pal Sphere",
-      "pt": "pt-BR_Text",
+      "pt": "Pal Sphere",
       "fonte": "paldb",
-      "slug": "Pal_Sphere"
+      "slug": "Pal_Sphere",
+      "sem_traducao_oficial": true
     },
     "paldium_fragment": {
       "en": "Paldium Fragment",
@@ -917,6 +918,18 @@
       "en": "Sanity",
       "pt": "SAN",
       "fonte": "conferido"
+    },
+    "local_preserve2": {
+      "en": "No. 2 Wildlife Sanctuary",
+      "pt": "Zona de Caça Proibida II",
+      "fonte": "mapa",
+      "ident": "REGION_Preserve2"
+    },
+    "local_preserve3": {
+      "en": "No. 3 Wildlife Sanctuary",
+      "pt": "Zona de Caça Proibida III",
+      "fonte": "mapa",
+      "ident": "REGION_Preserve3"
     }
   }
 }

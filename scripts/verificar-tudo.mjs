@@ -127,6 +127,11 @@ if (catalogo && pals) {
 // encolhe é markup do paldb que mudou, e é melhor o build quebrar do que o
 // site publicar meia verdade. O mínimo é folgado de propósito, para acusar
 // quebra e não variação de patch.
+// "pt-BR_Text", "en-US_Text" e semelhantes: o slot da string aparecendo no
+// lugar do conteúdo. Solto no meio do nome também conta, porque nome de verdade
+// nunca carrega isso.
+const MARCADOR_DE_STRING = /[a-z]{2}(?:-[A-Za-z]{2,4})?_Text/;
+
 const COLECOES = [
   { arquivo: 'itens.json', rotulo: 'itens', minimo: 1200 },
   { arquivo: 'estruturas.json', rotulo: 'estruturas', minimo: 250, exige: ['categoria'] },
@@ -165,7 +170,31 @@ for (const { arquivo, rotulo, minimo, exige = [] } of COLECOES) {
 
   const traduzidos = lista.filter((x) => x.pt !== x.en).length;
   if (!traduzidos) erro(rotulo, 'nenhum nome em português. O índice em PT não foi lido na importação');
-  passou(`${arquivo}: ${lista.length} ${rotulo}, ${traduzidos} com nome próprio em português, sem chave repetida`);
+
+  // Marcador de string não resolvida NUNCA é nome. O paldb devolve "pt-BR_Text"
+  // quando a localização do jogo não tem aquela string, e 99 registros foram
+  // publicados com isso na cara do leitor, em /itens/, antes de alguém ver.
+  // Nome que é igual em PT e EN continua passando: Pizza, Katana e Silo são a
+  // mesma palavra, e isso é a localização acertando, não faltando.
+  const comMarcador = lista.filter((x) => MARCADOR_DE_STRING.test(x.pt) || MARCADOR_DE_STRING.test(x.en));
+  if (comMarcador.length) {
+    erro(
+      rotulo,
+      `${comMarcador.length} nome(s) com marcador de string não resolvida, por exemplo "${comMarcador[0].pt}" (${comMarcador[0].en}). ` +
+      'O importador tem que cair para o inglês em vez de gravar o marcador. Rode npm run catalogo:importar',
+    );
+  }
+
+  const semTraducao = lista.filter((x) => x.sem_traducao_oficial).length;
+  const detalhes = [
+    `${traduzidos} com nome próprio em português`,
+    `${semTraducao} sem tradução oficial no jogo`,
+  ];
+  // Só afirma "sem marcador" quando é verdade: linha de resumo que diz o
+  // contrário do erro logo abaixo é pior que resumo nenhum.
+  if (!comMarcador.length) detalhes.push('sem marcador');
+  detalhes.push('sem chave repetida');
+  passou(`${arquivo}: ${lista.length} ${rotulo}, ${detalhes.join(', ')}`);
 }
 
 // ------------------------------------------------- estado do grupo (D1)

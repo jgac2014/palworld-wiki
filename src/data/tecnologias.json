@@ -5,8 +5,9 @@
     "A árvore de tecnologia com nível de desbloqueio e custo em pontos, importada do paldb."
   ],
   "fonte": "paldb.cc",
-  "importado_em": "2026-07-31",
+  "importado_em": "2026-08-01",
   "total": 588,
+  "sem_traducao_oficial": 2,
   "itens": [
     {
       "chave": "Workbench",
@@ -3667,7 +3668,8 @@
     {
       "chave": "BlastFurnace4",
       "en": "Gigantic Furnace",
-      "pt": "pt-BR_Text",
+      "pt": "Gigantic Furnace",
+      "sem_traducao_oficial": true,
       "nivel": 58,
       "custo": 5,
       "tipo": "Structures"
@@ -3851,7 +3853,8 @@
     {
       "chave": "MedicineFacility_03",
       "en": "Advanced Medicine Workbench",
-      "pt": "pt-BR_Text",
+      "pt": "Advanced Medicine Workbench",
+      "sem_traducao_oficial": true,
       "nivel": 61,
       "custo": 4,
       "tipo": "Structures"

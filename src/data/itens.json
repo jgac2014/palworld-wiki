@@ -5,8 +5,9 @@
     "Tudo que entra no inventário, importado do índice de itens do paldb nos dois idiomas."
   ],
   "fonte": "paldb.cc",
-  "importado_em": "2026-07-31",
+  "importado_em": "2026-08-01",
   "total": 1875,
+  "sem_traducao_oficial": 79,
   "itens": [
     {
       "chave": "Gold_Coin",
@@ -161,7 +162,8 @@
     {
       "chave": "Gunpowder",
       "en": "Gunpowder",
-      "pt": "pt-BR_Text"
+      "pt": "Gunpowder",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Handgun",
@@ -296,7 +298,8 @@
     {
       "chave": "Pal_Sphere",
       "en": "Pal Sphere",
-      "pt": "pt-BR_Text"
+      "pt": "Pal Sphere",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Mega_Sphere",
@@ -8026,107 +8029,128 @@
     {
       "chave": "Animal_Skin",
       "en": "Animal Skin",
-      "pt": "pt-BR_Text"
+      "pt": "Animal Skin",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "AnimalSkin2",
       "en": "AnimalSkin2",
-      "pt": "pt-BR_Text"
+      "pt": "AnimalSkin2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Scales",
       "en": "Scales",
-      "pt": "pt-BR_Text"
+      "pt": "Scales",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Scales2",
       "en": "Scales2",
-      "pt": "pt-BR_Text"
+      "pt": "Scales2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Axe4",
       "en": "Axe4",
-      "pt": "pt-BR_Text"
+      "pt": "Axe4",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "NPC_WEAPON",
       "en": "NPC_WEAPON",
-      "pt": "pt-BR_Text"
+      "pt": "NPC_WEAPON",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Berries2",
       "en": "Berries2",
-      "pt": "pt-BR_Text"
+      "pt": "Berries2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "CaptureRope",
       "en": "CaptureRope",
-      "pt": "pt-BR_Text"
+      "pt": "CaptureRope",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Claw",
       "en": "Claw",
-      "pt": "pt-BR_Text"
+      "pt": "Claw",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Claws2",
       "en": "Claws2",
-      "pt": "pt-BR_Text"
+      "pt": "Claws2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "ClawsPendant",
       "en": "ClawsPendant",
-      "pt": "pt-BR_Text"
+      "pt": "ClawsPendant",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "ClothHat",
       "en": "ClothHat",
-      "pt": "pt-BR_Text"
+      "pt": "ClothHat",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "ElectronicCircuit",
       "en": "ElectronicCircuit",
-      "pt": "pt-BR_Text"
+      "pt": "ElectronicCircuit",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "EnergyDrink",
       "en": "EnergyDrink",
-      "pt": "pt-BR_Text"
+      "pt": "EnergyDrink",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Fang",
       "en": "Fang",
-      "pt": "pt-BR_Text"
+      "pt": "Fang",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Fang2",
       "en": "Fang2",
-      "pt": "pt-BR_Text"
+      "pt": "Fang2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "FangNecklace",
       "en": "FangNecklace",
-      "pt": "pt-BR_Text"
+      "pt": "FangNecklace",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "FarmCrop_Tmp",
       "en": "FarmCrop_Tmp",
-      "pt": "pt-BR_Text"
+      "pt": "FarmCrop_Tmp",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "FishMeat",
       "en": "FishMeat",
-      "pt": "pt-BR_Text"
+      "pt": "FishMeat",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "FishMeat2",
       "en": "FishMeat2",
-      "pt": "pt-BR_Text"
+      "pt": "FishMeat2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Flint",
       "en": "Flint",
-      "pt": "pt-BR_Text"
+      "pt": "Flint",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Grilled_Meat",
@@ -8136,27 +8160,32 @@
     {
       "chave": "IronOre",
       "en": "IronOre",
-      "pt": "pt-BR_Text"
+      "pt": "IronOre",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Kitsunebi_Fire",
       "en": "Kitsunebi_Fire",
-      "pt": "pt-BR_Text"
+      "pt": "Kitsunebi_Fire",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "LargeBullet",
       "en": "LargeBullet",
-      "pt": "pt-BR_Text"
+      "pt": "LargeBullet",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Launcher_Meat",
       "en": "Launcher_Meat",
-      "pt": "pt-BR_Text"
+      "pt": "Launcher_Meat",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Leather2",
       "en": "Leather2",
-      "pt": "pt-BR_Text"
+      "pt": "Leather2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Mythical_Wooden_Board",
@@ -8171,7 +8200,8 @@
     {
       "chave": "Meat2",
       "en": "Meat2",
-      "pt": "pt-BR_Text"
+      "pt": "Meat2",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Radar_Sphere",
@@ -8181,32 +8211,38 @@
     {
       "chave": "PenguinLauncher",
       "en": "PenguinLauncher",
-      "pt": "pt-BR_Text"
+      "pt": "PenguinLauncher",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Pickaxe_Tier_03",
       "en": "Pickaxe_Tier_03",
-      "pt": "pt-BR_Text"
+      "pt": "Pickaxe_Tier_03",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "SniperRifle_Default",
       "en": "SniperRifle_Default",
-      "pt": "pt-BR_Text"
+      "pt": "SniperRifle_Default",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Seed_Tmp",
       "en": "Seed_Tmp",
-      "pt": "pt-BR_Text"
+      "pt": "Seed_Tmp",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Sharkkid_Scale",
       "en": "Sharkkid_Scale",
-      "pt": "pt-BR_Text"
+      "pt": "Sharkkid_Scale",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "SmallBullet",
       "en": "SmallBullet",
-      "pt": "pt-BR_Text"
+      "pt": "SmallBullet",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Machine_Gun_Ammo",
@@ -8226,12 +8262,14 @@
     {
       "chave": "PAL_Growth_Stone_S",
       "en": "PAL_Growth_Stone_S",
-      "pt": "pt-BR_Text"
+      "pt": "PAL_Growth_Stone_S",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "PAL_Growth_Stone_XL",
       "en": "PAL_Growth_Stone_XL",
-      "pt": "pt-BR_Text"
+      "pt": "PAL_Growth_Stone_XL",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Dung",
@@ -8246,22 +8284,26 @@
     {
       "chave": "ThrowStone",
       "en": "ThrowStone",
-      "pt": "pt-BR_Text"
+      "pt": "ThrowStone",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "VenisonBoiledInTomato",
       "en": "VenisonBoiledInTomato",
-      "pt": "pt-BR_Text"
+      "pt": "VenisonBoiledInTomato",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "WaterBucket",
       "en": "WaterBucket",
-      "pt": "pt-BR_Text"
+      "pt": "WaterBucket",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "RecurveBow",
       "en": "RecurveBow",
-      "pt": "pt-BR_Text"
+      "pt": "RecurveBow",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Five_Shot_Bow",
@@ -8271,42 +8313,50 @@
     {
       "chave": "PotatoSeedPotatoes",
       "en": "PotatoSeedPotatoes",
-      "pt": "pt-BR_Text"
+      "pt": "PotatoSeedPotatoes",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Potato_old",
       "en": "Potato_old",
-      "pt": "pt-BR_Text"
+      "pt": "Potato_old",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Corn",
       "en": "Corn",
-      "pt": "pt-BR_Text"
+      "pt": "Corn",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Pumpkin",
       "en": "Pumpkin",
-      "pt": "pt-BR_Text"
+      "pt": "Pumpkin",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Baked_Potato",
       "en": "Baked_Potato",
-      "pt": "pt-BR_Text"
+      "pt": "Baked_Potato",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Grape",
       "en": "Grape",
-      "pt": "pt-BR_Text"
+      "pt": "Grape",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Hop",
       "en": "Hop",
-      "pt": "pt-BR_Text"
+      "pt": "Hop",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Potage",
       "en": "Potage",
-      "pt": "pt-BR_Text"
+      "pt": "Potage",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Stir-Fried_Veggies",
@@ -8321,7 +8371,8 @@
     {
       "chave": "Curry",
       "en": "Curry",
-      "pt": "pt-BR_Text"
+      "pt": "Curry",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "BLT",
@@ -8346,17 +8397,20 @@
     {
       "chave": "Sandwich",
       "en": "Sandwich",
-      "pt": "pt-BR_Text"
+      "pt": "Sandwich",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Corn_Soup",
       "en": "Corn Soup",
-      "pt": "pt-BR_Text"
+      "pt": "Corn Soup",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Stew",
       "en": "Stew",
-      "pt": "pt-BR_Text"
+      "pt": "Stew",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Hamburger",
@@ -8366,57 +8420,68 @@
     {
       "chave": "Grilled_Fish",
       "en": "Grilled Fish",
-      "pt": "pt-BR_Text"
+      "pt": "Grilled Fish",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Seafood_Soup",
       "en": "Seafood Soup",
-      "pt": "pt-BR_Text"
+      "pt": "Seafood Soup",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "LuxuryOmelette",
       "en": "LuxuryOmelette",
-      "pt": "pt-BR_Text"
+      "pt": "LuxuryOmelette",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Beer",
       "en": "Beer",
-      "pt": "pt-BR_Text"
+      "pt": "Beer",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Wine",
       "en": "Wine",
-      "pt": "pt-BR_Text"
+      "pt": "Wine",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Antibiotic_Normal",
       "en": "Antibiotic_Normal",
-      "pt": "pt-BR_Text"
+      "pt": "Antibiotic_Normal",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Antibiotic_Good",
       "en": "Antibiotic_Good",
-      "pt": "pt-BR_Text"
+      "pt": "Antibiotic_Good",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Antibiotic_Super",
       "en": "Antibiotic_Super",
-      "pt": "pt-BR_Text"
+      "pt": "Antibiotic_Super",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Fishing_Rod_Old",
       "en": "Fishing Rod_Old",
-      "pt": "pt-BR_Text"
+      "pt": "Fishing Rod_Old",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Fishing_Rod_Super",
       "en": "Fishing Rod_Super",
-      "pt": "pt-BR_Text"
+      "pt": "Fishing Rod_Super",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Fishing_Rod_Legendary",
       "en": "Fishing Rod_Legendary",
-      "pt": "pt-BR_Text"
+      "pt": "Fishing Rod_Legendary",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Glider_Legendary",
@@ -8431,32 +8496,38 @@
     {
       "chave": "Lightz_Helmet",
       "en": "Lightz Helmet",
-      "pt": "pt-BR_Text"
+      "pt": "Lightz Helmet",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Night_Vision_Goggles",
       "en": "Night Vision Goggles",
-      "pt": "pt-BR_Text"
+      "pt": "Night Vision Goggles",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "CashFang",
       "en": "CashFang",
-      "pt": "pt-BR_Text"
+      "pt": "CashFang",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "CashScales",
       "en": "CashScales",
-      "pt": "pt-BR_Text"
+      "pt": "CashScales",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "AirGrapplingGun",
       "en": "AirGrapplingGun",
-      "pt": "pt-BR_Text"
+      "pt": "AirGrapplingGun",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "PV_ITEMS",
       "en": "PV_ITEMS",
-      "pt": "pt-BR_Text"
+      "pt": "PV_ITEMS",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Building_Repair_Kit",
@@ -8466,17 +8537,20 @@
     {
       "chave": "Dragostrophes_Shotgun",
       "en": "Dragostrophe's Shotgun",
-      "pt": "pt-BR_Text"
+      "pt": "Dragostrophe's Shotgun",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Boltmane_Saddle",
       "en": "Boltmane Saddle",
-      "pt": "pt-BR_Text"
+      "pt": "Boltmane Saddle",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "en_texts_Power_Converter",
       "en": "en_text's Power Converter",
-      "pt": "pt-BR_Text"
+      "pt": "en_text's Power Converter",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Digtoises_Headband",
@@ -8486,7 +8560,8 @@
     {
       "chave": "Sand",
       "en": "Sand",
-      "pt": "pt-BR_Text"
+      "pt": "Sand",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Silicon",
@@ -8841,7 +8916,8 @@
     {
       "chave": "MateItem01",
       "en": "MateItem01",
-      "pt": "pt-BR_Text"
+      "pt": "MateItem01",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "BlueprintTest",
@@ -8991,7 +9067,8 @@
     {
       "chave": "Quadruple_Air_Dash_Boots",
       "en": "Quadruple Air Dash Boots",
-      "pt": "pt-BR_Text"
+      "pt": "Quadruple Air Dash Boots",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "TEST_CaptureItemModifier",
@@ -9191,7 +9268,8 @@
     {
       "chave": "PAL_Growth_Stone_L",
       "en": "PAL_Growth_Stone_L",
-      "pt": "pt-BR_Text"
+      "pt": "PAL_Growth_Stone_L",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Blueprint_Salvage_TreasureBoxKey01",
@@ -9256,7 +9334,8 @@
     {
       "chave": "Fishing_Rod_Good",
       "en": "Fishing Rod_Good",
-      "pt": "pt-BR_Text"
+      "pt": "Fishing Rod_Good",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Smokie_Crysts_Harness",
@@ -9361,7 +9440,8 @@
     {
       "chave": "PAL_Growth_Stone_M",
       "en": "PAL_Growth_Stone_M",
-      "pt": "pt-BR_Text"
+      "pt": "PAL_Growth_Stone_M",
+      "sem_traducao_oficial": true
     },
     {
       "chave": "Sunreach_Rapid-Fire_Ammo",

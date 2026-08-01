@@ -205,6 +205,15 @@ const PASSIVAS = {
   workaholic:  { en: 'Workaholic',  pt: 'Viciado no trabalho',efeito: 'Manutenção de SAN +15%' },
 };
 
+/**
+ * Marcador de string não resolvida, o slot aparecendo no lugar do conteúdo.
+ * Mesmo padrão do importador de catálogo, e pela mesma razão: o paldb publica
+ * "pt-BR_Text" quando a localização do jogo não tem a string, e marcador
+ * gravado como nome é mentira com cara de dado.
+ */
+const MARCADOR_SEM_TRADUCAO = /[a-z]{2}(?:-[A-Za-z]{2,4})?_Text/;
+const temMarcador = (t) => MARCADOR_SEM_TRADUCAO.test(t?.pt || '') || MARCADOR_SEM_TRADUCAO.test(t?.en || '');
+
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function baixarJson(url) {
@@ -219,8 +228,12 @@ async function nomeDaEntidade(slug, idioma) {
   const html = await r.text();
   const m = html.match(/<meta property="og:title" content="([^"]*)"/);
   const nome = m?.[1]?.trim();
-  // o paldb devolve o placeholder literal quando não há tradução
-  if (!nome || nome.includes('pt-BR_Text') || nome === slug.replace(/_/g, ' ')) return nome || null;
+  // O paldb devolve o marcador da string, literalmente "pt-BR_Text", quando a
+  // localização do jogo não tem aquele nome. A checagem existia aqui e não
+  // servia para nada: reconhecia o marcador e devolvia ele assim mesmo, e foi
+  // por isso que "Esfera de Pal" virou "pt-BR_Text" no glossário publicado.
+  // Devolver null é o que faz o chamador cair para o inglês.
+  if (!nome || MARCADOR_SEM_TRADUCAO.test(nome)) return null;
   return nome;
 }
 
@@ -249,7 +262,9 @@ async function main() {
     termos[id] = { en, pt, fonte: 'i18n' };
   }
 
-  const pendentes = Object.entries(ENTIDADES).filter(([id]) => forcar || !termos[id]);
+  // Termo que já está gravado com marcador entra na fila de novo: o conserto
+  // tem que vir do importador, não de alguém editando o JSON à mão.
+  const pendentes = Object.entries(ENTIDADES).filter(([id]) => forcar || !termos[id] || temMarcador(termos[id]));
   if (pendentes.length) {
     console.log(`  buscando ${pendentes.length} entidades (com pausa entre requisições)...`);
   }
@@ -264,7 +279,7 @@ async function main() {
       const antes = termos[id];
       if (!antes) novos++;
       else if (antes.pt !== pt || antes.en !== en) mudados++;
-      termos[id] = { en, pt: pt || en, fonte: 'paldb', slug };
+      termos[id] = { en, pt: pt || en, fonte: 'paldb', slug, ...(pt ? {} : { sem_traducao_oficial: true }) };
       if (!pt) console.log(`  ~ ${slug}: sem tradução em PT, usando o nome em inglês`);
     } catch (e) {
       console.log(`  ! ${slug}: ${e.message}`);
@@ -325,6 +340,16 @@ async function main() {
   for (const [id, v] of Object.entries(PASSIVAS)) {
     if (!termos[id]) novos++;
     termos[id] = { en: v.en, pt: v.pt, efeito: v.efeito, fonte: 'conferido' };
+  }
+
+  // Nada de gravar marcador no ativo número um do repositório. Se algum passou,
+  // é sinal de caminho novo que não conhece a regra, e o arquivo antigo continua
+  // valendo mais que o novo.
+  const comMarcador = Object.entries(termos).filter(([, t]) => temMarcador(t));
+  if (comMarcador.length) {
+    console.error(`\n  ABORTADO: ${comMarcador.length} termo(s) com marcador de string não resolvida, por exemplo ${comMarcador[0][0]} = ${JSON.stringify(comMarcador[0][1].pt)}.`);
+    console.error('  Marcador não é nome. O caminho que trouxe isso precisa cair para o inglês. Nada foi escrito.');
+    process.exit(1);
   }
 
   await mkdir(dirname(saida), { recursive: true });

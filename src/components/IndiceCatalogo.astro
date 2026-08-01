@@ -74,6 +74,19 @@ const internos = itens.filter(ehInterno).length;
           <td>
             <span data-rot-pt={x.pt} data-rot-en={x.en}>{x.pt}</span>
             {x.pt !== x.en && <span class="en">{x.en}</span>}
+            {/*
+              O jogo não traduziu este nome, e a página diz isso em vez de
+              exibir o inglês fingindo que é português. Antes daqui saía
+              "pt-BR_Text", o marcador da string que falta, publicado como se
+              fosse o nome da coisa.
+            */}
+            {x.sem_traducao_oficial && (
+              <span
+                class="sem-traducao"
+                data-rot-pt={ui('indice_sem_traducao', 'pt')}
+                data-rot-en={ui('indice_sem_traducao', 'en')}
+              >{ui('indice_sem_traducao', 'pt')}</span>
+            )}
           </td>
           {colunas.map((c) => <td>{x[c.campo] ?? ''}</td>)}
         </tr>
@@ -96,6 +109,10 @@ const internos = itens.filter(ehInterno).length;
   .nota-internos { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-bottom: 14px; }
   .rolagem { overflow-x: auto; }
   .en { display: block; font-size: 12px; color: var(--apagado); font-family: var(--sans); }
+  .sem-traducao {
+    display: block; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--atencao); font-family: var(--sans); margin-top: 2px;
+  }
   tr.escondida { display: none; }
 </style>
 

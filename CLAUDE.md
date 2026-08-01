@@ -117,7 +117,9 @@ Não repita estas. Cada uma custou uma reversão.
 - **O cache de conteúdo do Astro engole mudança de plugin.** Editar o plugin rehype e rodar
   `npm run build` NÃO reprocessa markdown que não mudou: o HTML velho sai do cache e a mudança
   parece não ter efeito. Apague `.astro/` e `node_modules/.astro/` antes de medir qualquer mudança
-  em `astro.config.mjs`. Custou uma rodada de depuração achar isso.
+  em `astro.config.mjs`. Custou uma rodada de depuração achar isso. **Vale igual para o DADO que o
+  plugin lê:** corrigir `termos.json` e reconstruir mantém a marcação antiga no HTML, porque o
+  markdown não mudou.
 - **`\b` de regex é ASCII.** Termo que começa ou termina em letra acentuada ("Águas Termais",
   "Árvore Mundial") nunca casa com `\b` depois de espaço. Use lookarounds Unicode
   `(?<![\p{L}\p{N}_])` e `(?![\p{L}\p{N}_])` com a flag `u`. Foram 37 ocorrências sem marcação
@@ -133,6 +135,10 @@ Não repita estas. Cada uma custou uma reversão.
   comprovado sabotando a correção e vendo o portão passar. Por isso `testar-navegador.mjs` sobe um
   servidor estático e testa o site por HTTP. O pacote offline continua em `file://`, e ali está
   certo, porque o CSS dele é embutido.
+- **Fonte de importação publica marcador de string não resolvida como se fosse conteúdo.** O paldb
+  devolve "pt-BR_Text" quando a string PT não existe, e 99 registros foram ao ar com isso no lugar
+  do nome. Todo importador precisa reconhecer marcador e cair para o inglês, nunca gravar o
+  marcador.
 - **Bundle minificado colado no mesmo escopo colide em nome de variável.** Dois módulos
   independentes, ambos minificados, ambos usando `z`, se destruíram ao serem concatenados no pacote
   offline. Todo módulo embutido pelo `gerar-offline.mjs` tem que entrar no próprio invólucro, e não

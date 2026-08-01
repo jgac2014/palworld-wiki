@@ -28,7 +28,8 @@
  * Uma requisição por idioma. A página de índice do paldb já traz cada Pal com as
  * aptidões num atributo data-filters, então não é preciso visitar 288 páginas.
  */
-import { writeFile } from 'node:fs/promises';
+import { writeFile, readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -140,17 +141,66 @@ function extrairTecnologias(html) {
 }
 
 /**
+ * Marcador de string não resolvida.
+ *
+ * Quando a localização do jogo não tem a string em português, o paldb renderiza
+ * o nome do slot em vez de deixar vazio: sai literalmente "pt-BR_Text". O
+ * importador copiava aquilo como se fosse nome, e 99 registros foram publicados
+ * com "pt-BR_Text" no lugar de Pólvora, Esfera de Pal e outros 97.
+ *
+ * O padrão é o de código de idioma BCP-47 seguido de _Text, e cobre en-US_Text,
+ * ja-JP_Text e qualquer outro que apareça no dia em que o paldb servir uma
+ * língua nova pela metade.
+ */
+const MARCADOR_SEM_TRADUCAO = /^[a-z]{2}(?:-[A-Za-z]{2,4})?_Text$/;
+
+/** Nome em português, ou o inglês quando o que veio é marcador e não nome. */
+function nomeEmPortugues(nomePt, nomeEn) {
+  if (!nomePt || MARCADOR_SEM_TRADUCAO.test(nomePt)) return { pt: nomeEn, semTraducao: true };
+  return { pt: nomePt, semTraducao: false };
+}
+
+/**
  * Casa a lista em inglês com a em português pela chave do endereço, que é a
  * mesma nos dois idiomas, e devolve a coleção pronta para gravar.
+ *
+ * `sem_traducao_oficial` só existe quando é verdade, e é o que permite a página
+ * dizer "o jogo não traduziu este" em vez de mostrar o inglês fingindo que é
+ * português. Registro cujo PT é igual ao EN por coincidência NÃO recebe a
+ * marca: Pizza, Katana, Bonsai e Silo são a mesma palavra nos dois idiomas, e
+ * isso é acerto da localização, não falta dela.
  */
 function juntarIdiomas(en, pt, extras = () => ({})) {
   const porChave = new Map(pt.map((x) => [x.chave, x]));
-  return en.map((x) => ({
-    chave: x.chave,
-    en: x.nome,
-    pt: porChave.get(x.chave)?.nome || x.nome,
-    ...extras(x, porChave.get(x.chave)),
-  }));
+  return en.map((x) => {
+    const irmao = porChave.get(x.chave);
+    const { pt: nome, semTraducao } = nomeEmPortugues(irmao?.nome, x.nome);
+    return {
+      chave: x.chave,
+      en: x.nome,
+      pt: nome,
+      ...(semTraducao ? { sem_traducao_oficial: true } : {}),
+      ...extras(x, irmao),
+    };
+  });
+}
+
+/**
+ * Quantos registros SEM tradução oficial a importação anterior tinha.
+ *
+ * Devolve null quando o arquivo é de antes desta contagem existir, e aí não há
+ * com o que comparar: a primeira importação depois da correção passa, e as
+ * seguintes já têm linha de base.
+ */
+async function semTraducaoAnterior(arquivo) {
+  const caminho = join(raiz, 'src/data', arquivo);
+  if (!existsSync(caminho)) return null;
+  try {
+    const anterior = JSON.parse(await readFile(caminho, 'utf-8'));
+    return typeof anterior.sem_traducao_oficial === 'number' ? anterior.sem_traducao_oficial : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Grava uma coleção, ou aborta se ela veio pequena demais para ser verdade. */
@@ -164,6 +214,23 @@ async function gravar(arquivo, colecao, minimo, descricao) {
     console.error(`\n  ABORTADO: nenhum item de ${arquivo} tem nome diferente em português. O índice em PT não foi lido. Nada foi escrito.`);
     process.exit(1);
   }
+
+  // Guarda no mesmo espírito da guarda de aptidão: salto grande na contagem de
+  // registros sem tradução quer dizer que o paldb mudou de forma, e não que a
+  // localização do jogo mudou de um dia para o outro. Gravar em cima seria
+  // trocar dado bom por dado quebrado sem ninguém ver.
+  const semTraducao = colecao.filter((x) => x.sem_traducao_oficial).length;
+  const antes = await semTraducaoAnterior(arquivo);
+  if (antes !== null) {
+    const diferenca = Math.abs(semTraducao - antes);
+    if (diferenca > 10 && diferenca > antes * 0.5 && !process.env.ACEITAR_MUDANCA_DE_TRADUCAO) {
+      console.error(`\n  ABORTADO: ${arquivo} tinha ${antes} registro(s) sem tradução oficial e agora tem ${semTraducao}.`);
+      console.error('  Salto desse tamanho é o paldb mudando de forma, não a localização do jogo mudando.');
+      console.error('  Confira a página no navegador. Se a mudança for real, rode de novo com ACEITAR_MUDANCA_DE_TRADUCAO=1. Nada foi escrito.');
+      process.exit(1);
+    }
+  }
+
   const caminho = join(raiz, 'src/data', arquivo);
   await writeFile(caminho, JSON.stringify({
     _leia_isto: [
@@ -174,9 +241,10 @@ async function gravar(arquivo, colecao, minimo, descricao) {
     fonte: 'paldb.cc',
     importado_em: process.env.DATA_IMPORTACAO || null,
     total: colecao.length,
+    sem_traducao_oficial: semTraducao,
     itens: colecao,
   }, null, 2) + '\n');
-  console.log(`  ${String(colecao.length).padStart(4)} em ${arquivo} (${traduzidos} com nome próprio em português)`);
+  console.log(`  ${String(colecao.length).padStart(4)} em ${arquivo} (${traduzidos} com nome próprio em português, ${semTraducao} sem tradução oficial)`);
 }
 
 /**
@@ -244,12 +312,17 @@ let semPt = 0;
 const pals = en.map((p) => {
   const irmao = porChavePt.get(p.chave);
   if (!irmao) semPt++;
+  // Mesmo tratamento de marcador das outras três coleções: hoje nenhum Pal vem
+  // com "pt-BR_Text", e é justamente por isso que a guarda entra agora, antes
+  // de o paldb servir o primeiro pela metade.
+  const { pt: nomePt, semTraducao } = nomeEmPortugues(irmao?.nome, p.nome);
   return {
     numero: p.numero || null,
     chave: p.chave,
     id: p.idInterno,
     en: p.nome,
-    pt: irmao?.nome || p.nome,
+    pt: nomePt,
+    ...(semTraducao ? { sem_traducao_oficial: true } : {}),
     elementos: p.elementos.map((e) => ({ en: e, pt: ELEMENTOS[e] })),
     apt: p.apt,
   };

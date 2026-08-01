@@ -281,6 +281,25 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   }
   conferir(quebrados.length === 0, 'nenhum link interno quebrado', quebrados.slice(0, 4).join(' | '));
 
+  // 4b. nenhuma página publica marcador de string não resolvida.
+  //     "pt-BR_Text" é o slot da string que a localização do jogo não tem, e o
+  //     paldb o renderiza como se fosse conteúdo. Foram 99 registros no ar,
+  //     visíveis em /itens/, até alguém olhar. O verificador pega no dado; esta
+  //     asserção pega no HTML de TODA página, que é onde o leitor vê, e cobre
+  //     também o marcador que venha por outro caminho um dia.
+  const MARCADOR = /[a-z]{2}(?:-[A-Za-z]{2,4})?_Text/;
+  const comMarcador = [];
+  for (const rota of existentes) {
+    const arq = join(dist, rota, 'index.html');
+    if (!existsSync(arq)) continue;
+    if (MARCADOR.test(await readFile(arq, 'utf-8'))) comMarcador.push(rota || 'a home');
+  }
+  conferir(
+    comMarcador.length === 0,
+    'nenhuma página publica marcador de string não traduzida',
+    `${comMarcador.length} páginas, por exemplo: ${comMarcador.slice(0, 3).join(', ')}`,
+  );
+
   // 5. a moldura inteira alterna de idioma, não só os nomes do jogo.
   //    Quebrou porque menu, filtros e rótulos estavam escritos em português
   //    dentro dos componentes: trocar para EN deixava o site pela metade.

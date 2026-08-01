@@ -5,8 +5,9 @@
     "O que dá para construir na base, com a categoria de construção do jogo, importado das dez abas do paldb."
   ],
   "fonte": "paldb.cc",
-  "importado_em": "2026-07-31",
+  "importado_em": "2026-08-01",
   "total": 496,
+  "sem_traducao_oficial": 18,
   "itens": [
     {
       "chave": "Primitive_Workbench",
@@ -242,14 +243,16 @@
     {
       "chave": "Gigantic_Furnace",
       "en": "Gigantic Furnace",
-      "pt": "pt-BR_Text",
+      "pt": "Gigantic Furnace",
+      "sem_traducao_oficial": true,
       "categoria": "Production",
       "categoria_pt": "Produção"
     },
     {
       "chave": "Advanced_Medicine_Workbench",
       "en": "Advanced Medicine Workbench",
-      "pt": "pt-BR_Text",
+      "pt": "Advanced Medicine Workbench",
+      "sem_traducao_oficial": true,
       "categoria": "Production",
       "categoria_pt": "Produção"
     },
@@ -1677,77 +1680,88 @@
     {
       "chave": "Japanese-Style_Wall",
       "en": "Japanese-Style Wall",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Wall",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Door_A",
       "en": "Japanese-Style Door A",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Door A",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Door_B",
       "en": "Japanese-Style Door B",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Door B",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Roof_A",
       "en": "Japanese-Style Roof A",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Roof A",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Roof_B",
       "en": "Japanese-Style Roof B",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Roof B",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Slanted_Roof",
       "en": "Japanese-Style Slanted Roof",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Slanted Roof",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Triangular_Wall",
       "en": "Japanese-Style Triangular Wall",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Triangular Wall",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Wall_and_Window",
       "en": "Japanese-Style Wall and Window",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Wall and Window",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Foundation",
       "en": "Japanese-Style Foundation",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Foundation",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Stairs",
       "en": "Japanese-Style Stairs",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Stairs",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
     {
       "chave": "Japanese-Style_Pillar",
       "en": "Japanese-Style Pillar",
-      "pt": "pt-BR_Text",
+      "pt": "Japanese-Style Pillar",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
@@ -2104,7 +2118,8 @@
     {
       "chave": "JapaneseStyle_TriangleStairsCorner_02",
       "en": "JapaneseStyle_TriangleStairsCorner_02",
-      "pt": "pt-BR_Text",
+      "pt": "JapaneseStyle_TriangleStairsCorner_02",
+      "sem_traducao_oficial": true,
       "categoria": "Foundations",
       "categoria_pt": "Construção"
     },
@@ -2230,7 +2245,8 @@
     {
       "chave": "Moving_panels",
       "en": "Moving panels",
-      "pt": "pt-BR_Text",
+      "pt": "Moving panels",
+      "sem_traducao_oficial": true,
       "categoria": "Defenses",
       "categoria_pt": "Defesa"
     },
@@ -3259,14 +3275,16 @@
     {
       "chave": "Tuppanyan_sticker",
       "en": "Tuppanyan sticker",
-      "pt": "pt-BR_Text",
+      "pt": "Tuppanyan sticker",
+      "sem_traducao_oficial": true,
       "categoria": "Furniture",
       "categoria_pt": "Mobília"
     },
     {
       "chave": "Fur_rug",
       "en": "Fur rug",
-      "pt": "pt-BR_Text",
+      "pt": "Fur rug",
+      "sem_traducao_oficial": true,
       "categoria": "Furniture",
       "categoria_pt": "Mobília"
     },
@@ -3476,7 +3494,8 @@
     {
       "chave": "WoodCreator",
       "en": "WoodCreator",
-      "pt": "pt-BR_Text",
+      "pt": "WoodCreator",
+      "sem_traducao_oficial": true,
       "categoria": "Other",
       "categoria_pt": "Outros"
     }
