@@ -156,14 +156,76 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     .map((d) => d.name);
 
   let dentroDeProibido = 0;
+  let palDentroDeProibido = 0;
+  let palsMarcados = 0;
   for (const rota of rotas) {
     if (!existsSync(join(dist, rota, 'index.html'))) continue;
     await pagina.goto(`${base}/${rota}/`);
-    dentroDeProibido += await pagina.evaluate(() =>
-      [...document.querySelectorAll('[data-termo]')]
-        .filter((s) => s.closest('a, h1, h2, h3, h4, code, pre')).length);
+    const conta = await pagina.evaluate(() => ({
+      termo: [...document.querySelectorAll('[data-termo]')]
+        .filter((s) => s.closest('a, h1, h2, h3, h4, code, pre')).length,
+      // A mesma regra vale para o nome de Pal marcado para o popover: dentro de
+      // link ele rouba o clique, e dentro de título vira ruído.
+      pal: [...document.querySelectorAll('[data-pal]')]
+        .filter((s) => s.closest('a, h1, h2, h3, h4, code, pre')).length,
+      total: document.querySelectorAll('[data-pal]').length,
+    }));
+    dentroDeProibido += conta.termo;
+    palDentroDeProibido += conta.pal;
+    palsMarcados += conta.total;
   }
   conferir(dentroDeProibido === 0, 'nenhum termo marcado dentro de link, título ou código', `${dentroDeProibido} ocorrências`);
+  conferir(
+    palsMarcados > 0 && palDentroDeProibido === 0,
+    'nome de Pal marcado fora de link, título e código',
+    palsMarcados === 0 ? 'nenhum nome marcado no site inteiro' : `${palDentroDeProibido} dentro de proibido`,
+  );
+
+  // 3b. a ficha do Pal abre por teclado, e não só por mouse.
+  //     R5.3 do PRD. Popover que só responde a hover exclui quem navega por Tab
+  //     e quem usa o site no controle com teclado na mão, que é metade do caso
+  //     de uso deste projeto.
+  //
+  //     O teste estabelece o estado antes de afirmar: primeiro confere que a
+  //     ficha nasce fechada, depois abre. Asserção que herda estado de outro
+  //     teste passa por acidente, e isso já aconteceu aqui com o idioma.
+  await pagina.goto(`${base}/breeding/`);
+  await pagina.waitForTimeout(250);
+  const ALVO = '.conteudo [data-pal]';
+  const lerFicha = () => pagina.evaluate(() => {
+    const c = document.getElementById('ficha-pal');
+    if (!c) return null;
+    return {
+      visivel: !c.hidden && getComputedStyle(c).display !== 'none',
+      nome: c.querySelector('.nome')?.textContent || '',
+      aptidoes: c.querySelectorAll('.apt').length,
+    };
+  });
+
+  const nascendo = await lerFicha();
+  const esperado = await pagina.getAttribute(ALVO, 'data-pal');
+  await pagina.focus(ALVO);
+  await pagina.waitForTimeout(120);
+  const comFoco = await lerFicha();
+  conferir(
+    nascendo?.visivel === false && comFoco?.visivel === true && comFoco.nome === esperado && comFoco.aptidoes > 0,
+    'a ficha do Pal abre com foco de teclado',
+    !nascendo ? 'o popover não existe na página'
+      : nascendo.visivel ? 'nasceu aberta, o teste seguinte não provaria nada'
+      : `com foco: visível ${comFoco.visivel}, nome "${comFoco.nome}" para "${esperado}", ${comFoco.aptidoes} aptidões`,
+  );
+
+  await pagina.keyboard.press('Escape');
+  await pagina.waitForTimeout(120);
+  const depoisDeEsc = await lerFicha();
+  await pagina.hover(ALVO);
+  await pagina.waitForTimeout(120);
+  const comMouse = await lerFicha();
+  conferir(
+    depoisDeEsc?.visivel === false && comMouse?.visivel === true,
+    'a ficha do Pal fecha com Esc e abre com o mouse',
+    `depois do Esc: ${depoisDeEsc?.visivel}, com o mouse: ${comMouse?.visivel}`,
+  );
 
   // 4. nenhum link interno aponta para página que não foi gerada.
   //    A lista de páginas existentes desce a árvore inteira, e não só o

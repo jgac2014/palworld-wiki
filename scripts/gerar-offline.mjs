@@ -106,10 +106,17 @@ for (const extra of ['mapa', 'pals']) {
   }
 }
 
+// Cada pacote entra dentro do próprio invólucro. No site eles são módulos, que
+// têm escopo separado por definição; aqui viram um <script> clássico só, e dois
+// módulos minificados colados no mesmo escopo colidem no primeiro nome curto
+// repetido. Foi exatamente isso ("Identifier 'z' has already been declared") que
+// derrubou o pacote quando o segundo módulo apareceu.
 let js = '';
 for (const m of casca.matchAll(/<script[^>]*src="(\/[^"]+)"[^>]*><\/script>/g)) {
   const p = join(dist, m[1]);
-  if (existsSync(p) && !m[1].startsWith('/pagefind')) js += await readFile(p, 'utf-8') + '\n;\n';
+  if (existsSync(p) && !m[1].startsWith('/pagefind')) {
+    js += `;(function(){\n${await readFile(p, 'utf-8')}\n})();\n`;
+  }
 }
 
 // pegar() devolve só o miolo da tag, então o <nav> precisa ser recolocado à mão.

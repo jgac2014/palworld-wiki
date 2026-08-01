@@ -332,7 +332,7 @@ O painel é a home *da seção* do nosso mundo.
 - Trocar um valor no JSON muda o painel sem tocar em componente.
 - Sinal de gravidade nunca é só cor: tem símbolo e texto.
 
-### [ ] D3 — Ficha do Pal em popover
+### [x] D3 — Ficha do Pal em popover
 
 **Requisito:** R5.3
 **Território:** código e visual

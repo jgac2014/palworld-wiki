@@ -1,0 +1,209 @@
+---
+/**
+ * Ficha do Pal em popover, R5.3 do PRD.
+ *
+ * O erro 3 do diagnóstico das outras wikis é o dado morto: nome de Pal no meio
+ * do parágrafo é texto, e responder "esse serve para quê?" custa sair da
+ * página. Aqui o nome é objeto: passar o mouse ou dar foco abre aptidões,
+ * elementos, onde achar e a nossa nota.
+ *
+ * Quem marca os nomes é o plugin rehype do astro.config.mjs, no build. Este
+ * componente só monta a ficha, e monta a partir do MESMO pals.json, então Pal
+ * novo na curadoria aparece nos dois lugares de uma vez.
+ *
+ * Um popover só, reaproveitado. Um por ocorrência multiplicaria por 300 nós de
+ * DOM que quase nunca são vistos.
+ */
+import { ui } from '../lib/termos.js';
+---
+
+<div id="ficha-pal" role="tooltip" hidden>
+  <div class="cabeca">
+    <b class="nome"></b>
+    <span class="fase"></span>
+  </div>
+  <div class="elems"></div>
+  <div class="apts"></div>
+  <p class="onde"></p>
+  <p class="nota"></p>
+  <a class="mais" href="#" data-rot-pt={ui('ficha_pagina', 'pt')} data-rot-en={ui('ficha_pagina', 'en')}>{ui('ficha_pagina', 'pt')}</a>
+</div>
+
+<!-- is:global e não escopado: o miolo da ficha é montado por createElement no
+     navegador, e nó criado assim não carrega o atributo de escopo que o Astro
+     injeta. Com estilo escopado a caixa abria com elemento e aptidão sem
+     formatação nenhuma, o que só apareceu numa imagem. Todo seletor aqui começa
+     em #ficha-pal ou .pal, então global não vaza para o resto do site. -->
+<style is:global>
+  /* [hidden] precisa de reforço explícito: neste repositório o display de um
+     componente já venceu o atributo uma vez, e o painel do assistente nasceu
+     aberto tapando o conteúdo por causa disso. */
+  #ficha-pal[hidden] { display: none; }
+  #ficha-pal {
+    position: absolute;
+    z-index: 60;
+    width: 274px;
+    background: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 4px;
+    padding: 12px 14px;
+    font-family: var(--sans);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+    line-height: 1.5;
+  }
+  #ficha-pal .cabeca { display: flex; align-items: baseline; gap: 8px; }
+  #ficha-pal .nome { font-size: 15px; }
+  #ficha-pal .fase { font-size: 10.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--acento-2); }
+  #ficha-pal .elems { display: flex; flex-wrap: wrap; gap: 5px; margin: 7px 0 9px; }
+  #ficha-pal .elem { font-size: 10.5px; padding: 1px 8px; border: 1px solid var(--linha); border-radius: 20px; color: var(--texto-2); }
+  #ficha-pal .apt { display: grid; grid-template-columns: 92px 1fr 18px; align-items: center; gap: 7px; margin: 3px 0; }
+  #ficha-pal .apt span { font-size: 11px; color: var(--texto-2); }
+  #ficha-pal .apt .barra { height: 5px; background: var(--fundo); border-radius: 3px; overflow: hidden; }
+  #ficha-pal .apt .barra i { display: block; height: 100%; background: var(--acento); }
+  #ficha-pal .apt .v { font-size: 11px; text-align: right; font-variant-numeric: tabular-nums; }
+  #ficha-pal .onde,
+  #ficha-pal .nota { font-size: 11.5px; color: var(--apagado); margin-top: 8px; }
+  #ficha-pal .nota { color: var(--texto-2); font-style: italic; }
+  #ficha-pal .mais { display: inline-block; font-size: 11.5px; margin-top: 9px; }
+
+  /* O sublinhado avisa que ali tem algo a mais. Tracejado diferente do termo do
+     dicionário, que troca de idioma e não abre nada. */
+  .pal {
+    border-bottom: 1px dashed var(--acento);
+    cursor: help;
+    outline-offset: 3px;
+  }
+  .pal:focus-visible { outline: 2px solid var(--acento); }
+</style>
+
+<script>
+  import { FICHAS, rotuloAptidao } from '../lib/ficha-pal.js';
+
+  const caixa = document.getElementById('ficha-pal');
+  if (caixa) {
+    const alvoAtual = { el: null };
+
+    const idioma = () => (document.documentElement.dataset.idioma === 'en' ? 'en' : 'pt');
+
+    function montar(nome, pagina) {
+      const p = FICHAS[nome];
+      if (!p) return false;
+      const lang = idioma();
+
+      caixa.querySelector('.nome').textContent = p.nome;
+      const fase = caixa.querySelector('.fase');
+      fase.textContent = p.fase || '';
+      fase.hidden = !p.fase;
+
+      const elems = caixa.querySelector('.elems');
+      elems.replaceChildren(
+        ...(p.elementos || []).map((e) => {
+          const s = document.createElement('span');
+          s.className = 'elem';
+          s.textContent = e;
+          return s;
+        })
+      );
+
+      // Só as aptidões que o Pal tem, da mais alta para a mais baixa: a
+      // pergunta que o popover responde é "serve para quê", não "quanto tira
+      // em cada uma das doze".
+      const apts = caixa.querySelector('.apts');
+      apts.replaceChildren(
+        ...Object.entries(p.apt || {})
+          .sort((a, b) => b[1] - a[1])
+          .map(([chave, nivel]) => {
+            const linha = document.createElement('div');
+            linha.className = 'apt';
+            const rot = document.createElement('span');
+            const nomes = rotuloAptidao(chave);
+            rot.textContent = lang === 'en' ? nomes.en : nomes.pt;
+            const barra = document.createElement('div');
+            barra.className = 'barra';
+            const i = document.createElement('i');
+            // Escala de 1 a 10, a mesma do banco de Pals.
+            i.style.width = `${Math.round((nivel / 10) * 100)}%`;
+            barra.appendChild(i);
+            const v = document.createElement('b');
+            v.className = 'v';
+            v.textContent = String(nivel);
+            linha.append(rot, barra, v);
+            return linha;
+          })
+      );
+
+      const onde = caixa.querySelector('.onde');
+      onde.textContent = p.onde || '';
+      onde.hidden = !p.onde;
+      const nota = caixa.querySelector('.nota');
+      nota.textContent = p.nota || p.efeito || '';
+      nota.hidden = !nota.textContent;
+
+      // O endereço da ficha completa é resolvido no build, pelo plugin que
+      // marcou o nome: só o catálogo sabe a chave interna que vira rota.
+      const mais = caixa.querySelector('.mais');
+      mais.hidden = !pagina;
+      if (pagina) mais.href = pagina;
+      return true;
+    }
+
+    function abrir(el) {
+      if (!montar(el.dataset.pal, el.dataset.pagina)) return;
+      caixa.hidden = false;
+      alvoAtual.el = el;
+      el.setAttribute('aria-describedby', 'ficha-pal');
+
+      // Posição em coordenada de página, não de tela: assim a ficha acompanha
+      // a rolagem em vez de descolar do nome que a abriu.
+      const r = el.getBoundingClientRect();
+      const largura = caixa.offsetWidth;
+      const altura = caixa.offsetHeight;
+      const margem = 10;
+      let esquerda = r.left + window.scrollX;
+      esquerda = Math.min(esquerda, window.scrollX + document.documentElement.clientWidth - largura - margem);
+      esquerda = Math.max(esquerda, window.scrollX + margem);
+      // Abre para baixo, e para cima quando não cabe.
+      const cabeAbaixo = r.bottom + altura + margem < window.innerHeight;
+      const topo = cabeAbaixo ? r.bottom + window.scrollY + 6 : r.top + window.scrollY - altura - 6;
+      caixa.style.left = `${esquerda}px`;
+      caixa.style.top = `${Math.max(topo, window.scrollY + margem)}px`;
+    }
+
+    function fechar() {
+      caixa.hidden = true;
+      alvoAtual.el?.removeAttribute('aria-describedby');
+      alvoAtual.el = null;
+    }
+
+    // Delegação: os nomes são marcados no build e podem ser centenas por
+    // página. Um listener por ocorrência é desperdício.
+    document.addEventListener('mouseover', (e) => {
+      const alvo = e.target instanceof Element ? e.target.closest('[data-pal]') : null;
+      if (alvo) abrir(alvo);
+    });
+    document.addEventListener('mouseout', (e) => {
+      const alvo = e.target instanceof Element ? e.target.closest('[data-pal]') : null;
+      if (alvo && alvo === alvoAtual.el) fechar();
+    });
+    // Teclado é requisito, não cortesia: quem navega por Tab tem que chegar na
+    // mesma ficha, e Esc tem que devolver a tela.
+    // Esc devolve o foco para o nome, e o foco de volta NÃO pode reabrir a
+    // ficha que o leitor acabou de dispensar. Sem esta trava o Esc não fecha
+    // nada: fecha e o próprio focus() reabre no mesmo instante.
+    let dispensado = null;
+    document.addEventListener('focusin', (e) => {
+      const alvo = e.target instanceof Element ? e.target.closest('[data-pal]') : null;
+      if (alvo === dispensado) { dispensado = null; return; }
+      if (alvo) abrir(alvo);
+      else if (!caixa.contains(e.target)) fechar();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !caixa.hidden) {
+        const volta = alvoAtual.el;
+        fechar();
+        dispensado = volta;
+        volta?.focus();
+      }
+    });
+  }
+</script>

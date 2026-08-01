@@ -64,6 +64,7 @@
   "gravidade_serio":    { "pt": "Sério",               "en": "Serious" },
   "gravidade_atencao":  { "pt": "Atenção",             "en": "Watch" },
   "gravidade_bom":      { "pt": "Tranquilo",           "en": "Fine" },
+  "ficha_pagina":       { "pt": "Ver a ficha completa", "en": "See the full entry" },
   "nav_idioma":         { "pt": "Nomes do jogo",      "en": "In-game names" },
 
   "busca_placeholder":  { "pt": "Buscar na wiki: Pal, item, passiva, mecânica...", "en": "Search the wiki: Pal, item, passive, mechanic..." },
