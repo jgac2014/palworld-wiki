@@ -1,5 +1,7 @@
 {
+  "_cliente_do_grupo": "A versão que ESTÁ INSTALADA nas máquinas do grupo, que não é necessariamente a publicada. Derivada de duas coisas já registradas: meu-save.md diz que o cliente estava uma versão atrás da publicada em 30.07, e a lista de notas abaixo diz qual era a anterior. Confira na tela de título do jogo e corrija aqui quando o grupo atualizar: cliente e host precisam bater para todo mundo entrar no mundo.",
   "versao": "1.0.2.101103",
+  "cliente_do_grupo": "1.0.2.100993",
   "build": "1.100.933",
   "verificado_em": "2026-07-30",
   "pendente_revisao": false,

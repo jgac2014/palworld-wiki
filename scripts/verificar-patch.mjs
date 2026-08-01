@@ -65,6 +65,52 @@ async function paginasDaWiki() {
   })));
 }
 
+/**
+ * Compara os TRÊS números que existem, e não dois (R3.5, tarefa B2):
+ *
+ *   1. a versão que a wiki declara cobrir
+ *   2. a versão publicada pela Pocketpair
+ *   3. a versão instalada nas máquinas do grupo
+ *
+ * O terceiro é o que faltava, e ele não é detalhe: o mundo é co-op por código
+ * de convite, e cliente e host em versões diferentes não se enxergam. A wiki
+ * pode estar em dia com o jogo e o grupo continuar sem conseguir jogar junto.
+ *
+ * Nunca sai com erro. Cliente atrasado é aviso para o grupo, não defeito de
+ * conteúdo, e quebrar o build por isso pararia o deploy de uma correção de
+ * texto por causa de um jogo que ninguém atualizou.
+ */
+function compararAsTres(registro, publicada) {
+  const wiki = registro.versao;
+  const cliente = registro.cliente_do_grupo;
+
+  console.log('');
+  console.log('  as três versões:');
+  console.log(`    wiki cobre           ${wiki}`);
+  console.log(`    jogo publicado       ${publicada || 'não lido'}`);
+  console.log(`    cliente do grupo     ${cliente || 'não registrado, veja a tela de título do jogo'}`);
+
+  if (!cliente) {
+    console.log('  ~ registre `cliente_do_grupo` em src/data/versao.json para esta conferência valer.');
+    return;
+  }
+
+  const atrasados = [];
+  if (publicada && comparar(wiki, publicada) < 0) atrasados.push(`a wiki, que cobre ${wiki} e o jogo já está em ${publicada}`);
+  if (publicada && comparar(cliente, publicada) < 0) atrasados.push(`o cliente do grupo, em ${cliente} contra ${publicada} publicada`);
+  if (comparar(cliente, wiki) < 0) atrasados.push(`o cliente do grupo em relação à própria wiki, que documenta ${wiki}`);
+
+  if (!atrasados.length) {
+    console.log('  os três batem.');
+    return;
+  }
+  console.log('');
+  for (const a of atrasados) console.log(`  ~ está atrás: ${a}`);
+  if (comparar(cliente, publicada || wiki) < 0) {
+    console.log('  Atualizem juntos: em co-op por convite, cliente e host precisam estar na mesma versão.');
+  }
+}
+
 async function main() {
   const conhecida = existsSync(registro)
     ? JSON.parse(await readFile(registro, 'utf-8'))
@@ -86,8 +132,14 @@ async function main() {
   const maisNova = patches.reduce((a, b) => (comparar(a.versao, b.versao) >= 0 ? a : b));
   console.log(`  versão mais recente publicada: ${maisNova.versao} (${maisNova.data})`);
 
+  // Roda ANTES do retorno antecipado: com a wiki em dia o script saía sem dizer
+  // nada, e era justamente o caso em que o cliente do grupo atrasado passava
+  // despercebido.
+  compararAsTres(conhecida, maisNova.versao);
+
   if (comparar(maisNova.versao, conhecida.versao) <= 0) {
-    console.log('  a wiki está em dia. Nada a fazer.');
+    console.log('');
+    console.log('  a wiki está em dia com o jogo publicado. Nada a revisar.');
     return;
   }
 

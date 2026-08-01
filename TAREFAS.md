@@ -484,7 +484,7 @@ atrás da madeira. Esta tarefa transforma esse diagnóstico em "qual base muda, 
 - Cada base tem um gargalo nomeado, ou a frase explícita de que não tem.
 - `npm run verificar` passa sem aviso de marcador sem anotação.
 
-### [ ] B2 — Registrar a versão do cliente e alertar sobre defasagem
+### [x] B2 — Registrar a versão do cliente e alertar sobre defasagem
 
 **Requisito:** R3.5
 **Território:** conteúdo e dados
@@ -499,6 +499,17 @@ fazer o script avisar quando wiki, jogo publicado e cliente do grupo não forem 
 - `npm run patch:verificar` distingue os três números e diz qual está atrás.
 - O script sai com código 0 quando tudo bate e 0 com aviso quando o cliente está atrás. Nunca
   quebra o build por isso, porque não é erro de conteúdo.
+
+**Feita.** Os dois caminhos foram conferidos rodando: com o cliente atrasado sai aviso e código 0,
+e com os três iguais sai "os três batem" e código 0.
+
+A comparação roda **antes** do retorno antecipado de "a wiki está em dia". Era exatamente esse o
+caso cego: wiki e jogo iguais, o script encerrava, e o cliente atrasado do grupo nunca aparecia.
+
+O valor de `cliente_do_grupo` não foi inventado: `meu-save.md` registra que o cliente estava uma
+versão atrás da publicada em 30.07, e a lista de notas do próprio `versao.json` diz qual era a
+anterior. O campo tem comentário mandando conferir na tela de título e corrigir quando o grupo
+atualizar.
 
 ---
 
