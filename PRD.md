@@ -1,4 +1,4 @@
-# PRD — Wiki Palworld do grupo
+﻿# PRD — Wiki Palworld do grupo
 
 Versão 3, 30.07.2026. Substitui o PRD de 31 páginas que assumia plataforma multi-jogo com usuários
 externos. Aquele escopo foi descartado pelo dono do projeto e este documento existe para que nenhum
@@ -102,8 +102,8 @@ Cada requisito tem um identificador estável. As tarefas citam esses identificad
 | R1.4 | Página por base, com coordenada, Pals alocados e gargalo identificado | **Pendente**, hoje é palpite |
 | R1.5 | Verificador automático que falha em CI se dado ou conteúdo divergir | Feito, `npm run verificar` |
 | R1.6 | **Catálogo completo dos Pals do jogo, importado e não digitado** | Feito, 299 Pals |
-| R1.7 | Página gerada por Pal do catálogo, com ficha e ligação para os guias que o citam | **Pendente**, é o que fecha a Camada 1 |
-| R1.8 | Catálogo de itens, estruturas e tecnologias, importado e exibido em índice filtrável, **sem página por registro** (decisão de 31.07) | Importado: 1.875 itens, 496 estruturas, 588 tecnologias. **Índices pendentes**, tarefa E7 |
+| R1.7 | Página gerada por Pal do catálogo, com ficha e ligação para os guias que o citam | Feito, 299 páginas geradas do catálogo (E1) |
+| R1.8 | Catálogo de itens, estruturas e tecnologias, importado e exibido em índice filtrável, **sem página por registro** (decisão de 31.07) | Feito. Importado: 1.875 itens, 496 estruturas, 588 tecnologias, com os três índices no ar (E7) |
 | R1.9 | Calculadoras universais: cruzamento, taxa de captura, condensação | **Pendente** |
 
 ### R2 — Bilíngue
@@ -113,8 +113,8 @@ Cada requisito tem um identificador estável. As tarefas citam esses identificad
 | R2.1 | Dicionário PT/EN com o nome oficial do jogo, extraído das strings, com origem registrada por termo | Feito, 158 termos |
 | R2.2 | Termo do jogo no texto alterna PT/EN sem recarregar a página, sem quem escreve marcar nada | Feito |
 | R2.3 | Escolha de idioma persiste entre páginas e é compartilhável por endereço | Feito, `localStorage` mais `?idioma=en` |
-| R2.4 | Rótulos da interface (menu, botões, cabeçalho de tabela) também alternam | **Pendente**, 65 strings prontas no Anexo A do `PLANO-BILINGUE.md` |
-| R2.5 | Título e descrição das páginas alternam | **Pendente**, textos prontos no Anexo B |
+| R2.4 | Rótulos da interface (menu, botões, cabeçalho de tabela) também alternam | Feito, inclusive a busca, que traduz a si mesma (A1, A2, A4) |
+| R2.5 | Título e descrição das páginas alternam | Feito no menu, na home e na moldura do guia (A3, A5) |
 | R2.6 | Campos de texto dos dados (`onde`, `nota` em `pals.json`) alternam | **Adiado**, 118 campos. Só se sobrar tempo |
 | R2.7 | O corpo dos guias **não** é traduzido | Decidido. Traduzir 87 mil caracteres cria duas verdades que divergem no primeiro patch |
 
@@ -124,7 +124,7 @@ Cada requisito tem um identificador estável. As tarefas citam esses identificad
 |---|---|---|
 | R3.1 | Busca em todo o conteúdo, gerada no build, funcionando sem servidor de busca | Feito, Pagefind |
 | R3.2 | Mapa interativo com marcadores próprios, editável por JSON, sem depender da arte do jogo no repositório | Feito, 24 marcadores |
-| R3.3 | Banco de Pals filtrável por aptidão e fase | Feito, 77 Pals |
+| R3.3 | Banco de Pals filtrável por aptidão e fase | Feito, 299 Pals do catálogo |
 | R3.4 | Assistente que responde só com o conteúdo da wiki | Parcial, worker escrito e não publicado |
 | R3.5 | Monitor que avisa quando sai patch novo | Feito, `npm run patch:verificar` |
 | R3.6 | Versão offline num arquivo só, para mandar no grupo e abrir sem internet | Feito, `npm run offline` |
@@ -150,12 +150,12 @@ cada requisito abaixo ataca uma delas.
 
 | ID | Requisito | Estado |
 |---|---|---|
-| R5.1 | **Painel do save como home da seção do nosso mundo.** Nível, torres, Palpédia e Palbox como medidores, mais os gargalos por gravidade. A home do SITE é da wiki (ver 3.0); o painel abre a Camada 2 | Protótipo |
+| R5.1 | **Painel do save como home da seção do nosso mundo.** Nível, torres, Palpédia e Palbox como medidores, mais os gargalos por gravidade. A home do SITE é da wiki (ver 3.0); o painel abre a Camada 2 | Feito, `/painel/` (D2) |
 | R5.2 | **Calculadoras que usam o nosso estoque.** A de bolo responde "você faz N bolos e o gargalo é X", não "a receita é 5 farinha" | Protótipo |
-| R5.3 | **Ficha do Pal em popover no meio do texto.** Passar o mouse num nome abre aptidões, elementos e se já temos, vindo do mesmo JSON do banco | Protótipo |
-| R5.4 | **Banco de Pals filtrável pela aptidão que falta**, ordenado por nível de aptidão, com o que já está no Palbox marcado. Responde o que capturar, não o que existe | Protótipo |
-| R5.5 | **Aptidão como barra, não como número solto.** Comparação visual entre Pals sem ler tabela | Protótipo |
-| R5.6 | Tema claro e escuro, os dois desenhados, nenhum sendo inversão automática do outro | Protótipo |
+| R5.3 | **Ficha do Pal em popover no meio do texto.** Passar o mouse num nome abre aptidões, elementos e se já temos, vindo do mesmo JSON do banco | Feito, com teclado e Esc, no site e no offline (D3) |
+| R5.4 | **Banco de Pals filtrável pela aptidão que falta**, ordenado por nível de aptidão, com o que já está no Palbox marcado. Responde o que capturar, não o que existe | Feito (D4) |
+| R5.5 | **Aptidão como barra, não como número solto.** Comparação visual entre Pals sem ler tabela | Feito no banco, na ficha e no popover |
+| R5.6 | Tema claro e escuro, os dois desenhados, nenhum sendo inversão automática do outro | Feito, com preferência do sistema (D6) |
 | R5.7 | Paleta de dados validada para contraste e daltonismo. Nenhuma informação depende só de cor | Feito no protótipo |
 | R5.8 | Toda visualização tem alternativa em tabela | Protótipo |
 
