@@ -1,0 +1,13 @@
+# Fim de linha LF em tudo, no repositório E na cópia de trabalho.
+#
+# Sem este arquivo, quem manda é o core.autocrlf da máquina. Aqui ele está em
+# `true`, o que devolve CRLF na cópia de trabalho a cada checkout, revert ou
+# merge, enquanto editor e script gravam LF. O resultado é uma árvore com os
+# dois formatos misturados, e ela já quebrou coisa de verdade: um `git revert`
+# devolveu o fontes.md em CRLF e o verificador acusou "frontmatter ausente ou
+# malformado" nas 15 páginas de uma vez, sem ninguém ter tocado em conteúdo.
+#
+# `text=auto` deixa o git detectar binário sozinho, então imagem e fonte
+# continuam intactas. `eol=lf` é o que faltava: fixa o formato da cópia de
+# trabalho em vez de deixá-lo depender da configuração de quem clonou.
+* text=auto eol=lf
