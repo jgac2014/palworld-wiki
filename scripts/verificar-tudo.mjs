@@ -33,6 +33,13 @@ const lerJson = async (rel) => {
   catch (e) { erro('dados', `${rel} não é JSON válido: ${e.message}`); return null; }
 };
 
+/** Texto cru de um arquivo do repositório. Devolve null quando não existe. */
+const ler = async (rel) => {
+  const p = join(raiz, rel);
+  if (!existsSync(p)) return null;
+  return readFile(p, 'utf-8');
+};
+
 const pals = await lerJson('src/data/pals.json');
 const mapa = await lerJson('src/data/mapa.json');
 const termos = await lerJson('src/data/termos.json');
@@ -869,6 +876,69 @@ if (pals && catalogo) {
     }
   }
   if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
+}
+
+// ------------------ a home não pode prometer filtro que a página não tem (F7)
+//
+// A home anunciava "filtro por aptidão de trabalho, elemento e nível" e a
+// /pals nunca teve elemento nem nível: tem busca por texto, aptidão, fase e a
+// caixa de curadoria. Trocar a frase e sair resolveria hoje e voltaria a
+// divergir no mês que vem, que é como ela chegou aqui.
+//
+// A checagem lê os controles que a página REALMENTE tem, direto do .astro, e
+// cobra a promessa contra eles. Falta de insumo reprova: sem achar a string ou
+// sem achar controle nenhum, ela não conferiu nada.
+{
+  const interfaceJson = await lerJson('src/data/interface.json');
+  const promessa = interfaceJson?.home_bloco_pals;
+  const fonteDaPagina = await ler('src/pages/pals.astro');
+
+  // Cada filtro que a home pode prometer, e o id do controle que o sustenta.
+  // Acrescentar filtro na página é acrescentar linha aqui, de propósito: é o
+  // que faz a promessa e a página andarem juntas.
+  const FILTROS = [
+    { id: 'txt', pt: /busca por nome|filtro por nome/i, en: /search by name|filter by name/i },
+    { id: 'apt', pt: /aptid[ãa]o/i, en: /work suitabilit/i },
+    { id: 'fase', pt: /fase/i, en: /game stage|\bstage\b/i },
+    { id: 'curadoria', pt: /curadoria/i, en: /curated/i },
+  ];
+  // O que a página NÃO tem e a home já prometeu. Sem esta lista a checagem só
+  // saberia cobrar o que alguém lembrou de cadastrar acima.
+  const NAO_EXISTEM = [
+    { nome: 'elemento', pt: /elemento/i, en: /\belement\b/i },
+    { nome: 'nível', pt: /n[íi]vel/i, en: /\blevel\b/i },
+  ];
+
+  if (!promessa?.pt || !promessa?.en) {
+    erro('promessa', 'interface.json não tem home_bloco_pals nos dois idiomas, e é ela que a home publica sobre o banco de Pals');
+  } else if (!fonteDaPagina) {
+    erro('promessa', 'não consegui ler src/pages/pals.astro para saber que filtros a página tem');
+  } else {
+    const temControle = (id) => new RegExp(`id="${id}"`).test(fonteDaPagina);
+    const existentes = FILTROS.filter((f) => temControle(f.id));
+    if (!existentes.length) {
+      erro('promessa', 'não achei controle nenhum em pals.astro. Ou a página mudou de forma, ou esta checagem virou decoração');
+    }
+    const mentiras = [];
+    for (const idioma of ['pt', 'en']) {
+      for (const f of FILTROS) {
+        if (f[idioma].test(promessa[idioma]) && !temControle(f.id)) {
+          mentiras.push(`${idioma}: promete "${f.id}" e a página não tem o controle`);
+        }
+      }
+      for (const n of NAO_EXISTEM) {
+        if (n[idioma].test(promessa[idioma])) {
+          mentiras.push(`${idioma}: promete filtro por ${n.nome}, que /pals não tem`);
+        }
+      }
+    }
+    if (mentiras.length) {
+      erro('promessa', `a home promete o que /pals não entrega -> ${mentiras.join(' | ')}`);
+    } else {
+      const anunciados = FILTROS.filter((f) => f.pt.test(promessa.pt) || f.en.test(promessa.en));
+      passou(`promessa da home: os ${anunciados.length} filtros anunciados (${anunciados.map((f) => f.id).join(', ')}) existem entre os ${existentes.length} controles de /pals, nos dois idiomas`);
+    }
+  }
 }
 
 // ------------------------- as três contagens de Pal têm que fechar entre si (F6)

@@ -125,7 +125,7 @@
   "home_cobre":         { "pt": "Cobre a versão",     "en": "Covers version" },
   "home_revisao":       { "pt": "última revisão",     "en": "last reviewed" },
   "home_bloco_mapa":    { "pt": "Coordenadas do jogo, spots de recurso, torres e zonas de caça proibida.", "en": "In-game coordinates, resource spots, towers and wildlife sanctuaries." },
-  "home_bloco_pals":    { "pt": "Filtro por aptidão de trabalho, elemento e nível. Nomes em português.", "en": "Filter by work suitability, element and level. Names as your game shows them." },
+  "home_bloco_pals":    { "pt": "Filtro por aptidão de trabalho e fase do jogo, e busca por nome. Nomes em português.", "en": "Filter by work suitability and game stage, and search by name. Names as your game shows them." },
 
   "stat_pals":          { "pt": "Pals no Paldeck",    "en": "Pals in the Paldeck" },
   "stat_level":         { "pt": "Level cap",          "en": "Level cap" },

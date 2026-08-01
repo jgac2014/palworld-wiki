@@ -854,7 +854,7 @@ jogo não conta não sai daqui: o paldb não abre desta máquina, então não h�
 Está no `fontes.md`, na tabela do que continua em disputa, e o verificador **reprova se alguém
 apagar o registro sem resolver a sobra**.
 
-### [ ] F7 — A home promete filtro que `/pals` não tem
+### [x] F7 — A home promete filtro que `/pals` não tem
 
 **Requisito:** R3.3, com R5.4 dizendo para que o filtro serve
 **Território:** conteúdo e dados (a string está em `src/data/interface.json`)
@@ -875,6 +875,18 @@ virar tarefa um dia, e nesse dia o texto volta a citá-lo.
   do defeito no ar, que é o que R2.4 existe para impedir.
 - Provada por sabotagem: devolver "elemento" à string e ver o portão acusar.
 - `npm run portao` passando.
+
+**Feita.** A home passa a dizer "filtro por aptidão de trabalho e fase do jogo, e busca por nome",
+que é o que a página tem. Elemento e nível saíram das duas versões, PT e EN.
+
+**O texto novo não é a entrega, a checagem é.** Trocar a frase resolveria hoje e voltaria a divergir
+no mês que vem, que é exatamente como ela chegou aqui. O verificador passa a ler os controles direto
+do `pals.astro` e a cobrar a promessa contra eles, e reprova nos dois sentidos: quando a home promete
+o que não existe, e quando alguém tira da página um controle que a home anuncia.
+
+**Duas sabotagens, as duas rodadas.** Devolver "elemento" só na versão em português acusou
+`pt: promete filtro por elemento, que /pals não tem`, o que também prova que a checagem não confere
+um idioma só. Renomear o `<select id="fase">` acusou a promessa nos dois idiomas de uma vez.
 
 ### [ ] F8 — "Nosso progresso" troca de rótulo e não mostra nada
 
