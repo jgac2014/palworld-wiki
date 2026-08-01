@@ -133,15 +133,15 @@
     {
       "nome": "Unthawable Lake",
       "categoria": "quartzo",
-      "x": -212,
-      "y": 250,
+      "x": -101,
+      "y": 287,
       "nota": "9 de quartzo puro e 1 de minério. Exige resistência ao frio nível 2 de dia e 3 à noite."
     },
     {
       "nome": "Land of Absolute Zero",
       "categoria": "quartzo",
-      "x": -256,
-      "y": 392,
+      "x": -238,
+      "y": 492,
       "nota": "8 de quartzo puro e 2 de minério."
     },
     {
@@ -175,36 +175,36 @@
     {
       "nome": "Zoe e Grizzbolt",
       "categoria": "torre",
-      "x": 112,
-      "y": -434,
+      "x": 111,
+      "y": -431,
       "nota": "Torre 1, nível 10. Fraqueza: Terra."
     },
     {
       "nome": "Lily e Lyleen",
       "categoria": "torre",
-      "x": -180,
-      "y": -598,
+      "x": 36,
+      "y": -311,
       "nota": "Torre 2, nível 20 a 25. Fraqueza: Fogo. Ela cura, mate rápido."
     },
     {
       "nome": "Axel e Orserk",
       "categoria": "torre",
-      "x": -691,
+      "x": -588,
       "y": -518,
       "nota": "Torre 3, nível 30 a 40. Precisa de Gelo E Terra, é tipo duplo."
     },
     {
       "nome": "Marcus e Faleris",
       "categoria": "torre",
-      "x": -523,
-      "y": 493,
+      "x": 556,
+      "y": 335,
       "nota": "Torre 4, nível 40 a 45. Fraqueza: Água."
     },
     {
       "nome": "Victor e Shadowbeak",
       "categoria": "torre",
-      "x": -103,
-      "y": 523,
+      "x": -148,
+      "y": 447,
       "nota": "Torre 5, nível 50. Fraqueza: Dragão."
     },
     {
@@ -217,22 +217,22 @@
     {
       "nome": "Zona de Caça Proibida I",
       "categoria": "santuario",
-      "x": 95,
-      "y": -730,
+      "x": -344,
+      "y": 270,
       "nota": "Níveis 15 a 20. Penking, Azurobe, Elphidran."
     },
     {
       "nome": "Zona de Caça Proibida II",
       "categoria": "santuario",
-      "x": -662,
-      "y": -116,
+      "x": -676,
+      "y": -111,
       "nota": "Níveis 40 a 45. Jormuntide Ignis, Quivern."
     },
     {
       "nome": "Zona de Caça Proibida III",
       "categoria": "santuario",
-      "x": 665,
-      "y": 645,
+      "x": 663,
+      "y": 634,
       "nota": "O maior atalho de poder do mid game. Shadowbeak, Blazamut, Astegon, Orserk, Faleris e Lyleen como spawns normais."
     },
     {

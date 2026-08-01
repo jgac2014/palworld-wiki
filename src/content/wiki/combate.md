@@ -35,7 +35,7 @@ funcionam, e nenhuma delas tem dois Pals do mesmo elemento.
 
 :::destaque
 **Quatro dos cinco saem da mesma viagem.** Shadowbeak, Blazamut, Astegon, Orserk, Faleris e Lyleen
-aparecem como spawn normal na Zona de Caça Proibida III (665, 645), entre nível 45 e 50. Não é
+aparecem como spawn normal na Zona de Caça Proibida III (663, 634), entre nível 45 e 50. Não é
 preciso lutar contra nenhum deles como chefe de torre. Uma sessão lá troca o squad quase inteiro.
 :::
 

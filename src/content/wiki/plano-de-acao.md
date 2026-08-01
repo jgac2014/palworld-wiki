@@ -24,7 +24,7 @@ Ordem de operações para quebrar o muro do mid game. Está em ordem de retorno 
 
 ## Semana 2, os atalhos de poder
 
-1. **Zona de Caça Proibida (Wildlife Sanctuary) nº 3 (665, 645).** O maior atalho de poder da sua fase. Shadowbeak, Blazamut, Astegon, Orserk, Faleris e Lyleen aparecem como spawns normais, ou seja, você captura Pals de nível tower boss sem lutar contra eles como boss. Leve esferas boas e prepare fuga (drones da PIDF acusam trespassing).
+1. **Zona de Caça Proibida (Wildlife Sanctuary) nº 3 (663, 634).** O maior atalho de poder da sua fase. Shadowbeak, Blazamut, Astegon, Orserk, Faleris e Lyleen aparecem como spawns normais, ou seja, você captura Pals de nível tower boss sem lutar contra eles como boss. Leve esferas boas e prepare fuga (drones da PIDF acusam trespassing).
 1. **Mesa de Operação de Pals (Surgery Table), nível 38.** Provavelmente a estrutura mais forte do jogo para o seu nível. Vem com passivas embutidas de graça (Work Slave, Serious, Viciado no trabalho (Workaholic), Insomnia) e permite trocar as outras três por cerca de 70k de ouro. Passivas implantadas são hereditárias, então passam para os filhotes. Isso encurta metade da cadeia de breeding de Pals de base.
 1. **Breed Anubis** (Gildane + Ophydia) **e Jormuntide Ignis.** Seus dois carries acessíveis. Corrigindo o que estava escrito aqui antes: Anubis tem Manual 6 e Garimpo 6, então ele é forte em base também. A fama de rebaixado vem da condensação, que no 1.0 se distribui entre as aptidões, e com três delas cada uma sobe menos.
 1. **Capturem os Alphas lendários** (Paladius, Necromus, Frostallion) pela passiva *Lendário (Legend)*, mesmo sem usá-los em combate ainda. Lendário só vem de Alpha lendário e é transferível por breeding.

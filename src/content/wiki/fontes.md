@@ -196,6 +196,14 @@ Então o papel dos 24 se inverteu. Eles não aferem o paldb: **eles são a lista
 os quatro piores (Marcus e Faleris, Zona I, Lily e Lyleen, mercador) são por onde começar. O par
 Marcus e Faleris tem cara de sinal trocado em x, de -523 para +556.
 
+**Confirmado em 01.08, e virou armadilha.** A substituição pelas coordenadas importadas levou o
+Marcus e Faleris de `-523` para `+556`: era sinal trocado mesmo. Coordenada digitada com o sinal
+errado **não parece errada**. Ela cai dentro do mapa, tem a ordem de grandeza certa, e o marcador
+aparece num lugar plausível: só está do outro lado. Foi por isso que esse erro sobreviveu a todas as
+revisões de conteúdo até alguém comparar contra uma fonte independente. Onze dos vinte marcadores
+não-base foram substituídos pelo importado; os nove que sobraram são nome nosso, de região ou
+genérico, sem par no paldb, e continuam esperando a leitura na tela.
+
 :::atencao
 **O que ainda não está provado.** A conferência acima mostra que a conversão reproduz a coordenada
 de tela **do paldb**, não que a coordenada de tela do paldb é a que o jogo mostra. As duas coisas
