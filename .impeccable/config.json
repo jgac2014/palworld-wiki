@@ -1,26 +1,10 @@
 {
+  "_motivo_side_tab": "A borda esquerda de acento é idioma deste site, não descuido, e por isso a regra está desligada de uma vez em detector.ignoreRules, e não arquivo por arquivo. Ela aparece em quatro lugares com o mesmo papel: marcar a categoria de um bloco de texto sem depender de cor. `.adm` em src/styles/global.css carrega a gravidade das caixas de destaque e vem sempre com rótulo escrito. `.msg.bot` em src/components/Chat.astro separa resposta do assistente de mensagem de erro. `.gargalo` em src/pages/painel.astro carrega a gravidade do gargalo, que o R5.7 do PRD obriga a ter símbolo e texto além da cor. `.resposta` em src/pages/calculadoras.astro marca o bloco que responde a conta. A do Chat.astro veio do commit inicial, ou seja, do protótipo, e as outras seguiram ela. Registrado assim depois da terceira vez que o detector apontou a mesma borda em arquivo diferente: exceção por arquivo obriga a repetir a decisão a cada componente novo, e a decisão é uma só. Se um dia a borda sair, ela sai das quatro juntas, e esta linha sai com o ignoreRules. As duas exceções por arquivo que existiam aqui antes, para global.css e Chat.astro, foram substituídas por este registro.",
   "detector": {
-    "ignoreRules": [],
+    "ignoreRules": [
+      "side-tab"
+    ],
     "ignoreFiles": [],
-    "ignoreValues": [
-      {
-        "rule": "side-tab",
-        "value": "*",
-        "files": [
-          "src/styles/global.css"
-        ],
-        "createdAt": "2026-07-31T19:06:55.857Z",
-        "reason": "Borda de gravidade das caixas .adm, sempre acompanhada de data-rotulo em texto. R5.7 do PRD exige que nenhuma informacao dependa so de cor"
-      },
-      {
-        "rule": "side-tab",
-        "value": "*",
-        "files": [
-          "src/components/Chat.astro"
-        ],
-        "createdAt": "2026-07-31T19:07:01.109Z",
-        "reason": "Borda separa resposta do assistente de mensagem de erro, junto com fundo e cor de texto distintos. Vem do commit inicial"
-      }
-    ]
+    "ignoreValues": []
   }
 }
