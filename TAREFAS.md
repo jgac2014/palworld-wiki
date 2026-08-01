@@ -227,25 +227,68 @@ Fusão da E5 com a antiga D5, decidida em 31.07 e registrada no `PRD.md`. Separa
 de bolo nascia duas vezes: uma na D5 lendo o nosso estoque e outra na E5 sem ele. É a mesma
 calculadora com o overlay ligado e desligado, então é uma tarefa só.
 
-Quatro calculadoras, todas funcionando sem o overlay, com o usuário digitando os valores, e todas
-com os campos pré-preenchidos pelo nosso estoque quando o overlay estiver ligado:
+Calculadoras funcionando sem o overlay, com o usuário digitando os valores, e todas com os campos
+pré-preenchidos pelo nosso estoque quando o overlay estiver ligado:
 
 1. **Bolo.** Entrada editável para os seis valores: trigo, farinha, frutas vermelhas, leite, ovos e
    mel. A conversão do moinho é 2 de trigo para 1 de farinha. O número de bolos é o piso do
    ingrediente mais escasso, e a mensagem nomeia qual é. O protótipo só tem campo para trigo e
    farinha, e isso é defeito dele: o aceite exige mexer em leite e ovos.
 2. **Cruzamento**, par para alvo e alvo para par, usando o CombiRank do catálogo.
-3. **Taxa de captura.**
-4. **Condensação.**
+3. ~~Taxa de captura.~~ **Fora da E5 por falta de fonte**, ver o impedimento no fim da tarefa.
+4. **Condensação**, só o total para 4★ enquanto a distribuição por estrela não tiver fonte.
 
 **Aceite:**
 - Cada calculadora funciona com o overlay desligado.
 - Cada uma tem versão em tabela.
-- A de cruzamento usa o CombiRank do catálogo, não uma tabela copiada.
+- A de cruzamento usa o CombiRank importado, não uma tabela copiada à mão.
+
+**Bolo**
 - Com o estoque real de 30.07 (leite 0, ovos 0) o bolo dá 0 e a mensagem diz que a trava é leite,
   citando o Mozzarina parado no Palbox.
 - Trocando leite para 180 e ovos para 200, o resultado passa a 18 e a mensagem aponta farinha,
   dizendo que o gargalo real é trigo.
+
+**Cruzamento.** Os três casos abaixo cobrem os três caminhos do cálculo, e cada um veio de tabela do
+paldb, a mesma origem do catálogo. A regra completa, com a conferência que a produziu, está em
+`fontes.md`. Rank aqui é sempre o CombiRank.
+
+- **Média com casamento exato.** Anubis (480) com Chikipi (3080) dá média 1780, e existe espécie
+  exatamente nesse rank. Saída esperada: **Snock**.
+- **Empate na média.** Anubis (480) com Teafant (3070) dá média 1775, entre Hoodle (1770) e Snock
+  (1780). O jogo escolhe o rank maior. Saída esperada: **Snock**. Uma implementação que escolha o
+  menor devolve Hoodle e está errada em 59 dos 148 pares conferidos.
+- **Combinação única vence a média.** Relaxaurus (1090) com Sparkit (3010) dá média 2050, que pela
+  fórmula levaria a Mossanda (2060). A tabela de combinações únicas manda outra coisa e é ela que
+  vale. Saída esperada: **Relaxaurus Lux** (770). No sentido inverso, pedir Relaxaurus Lux como
+  alvo tem que listar o par Relaxaurus + Sparkit.
+
+**Condensação.** O número com fonte é **48 cópias da espécie para 4★**, que está em
+`base-e-trabalho.md` e o verificador já compara entre páginas.
+
+- Com **5 cópias** guardadas, a saída é **faltam 43** para 4★.
+- Com **48 cópias**, a saída é **faltam 0**, e a mensagem diz que dá para condensar agora.
+- A calculadora **não** responde quantas faltam para 1★, 2★ ou 3★. A distribuição por estrela está
+  registrada em `fontes.md` como não oficial, e número inventado numa calculadora é pior que
+  calculadora ausente, porque parece certo. Para destravar: abrir a UI do Casulo de Condensação no
+  jogo, anotar as quatro faixas e registrar em `fontes.md`.
+
+**Impedimento aberto: a calculadora de taxa de captura não entra sem fonte.**
+
+A E5 pedia quatro calculadoras. Três têm fórmula sustentada por fonte; a de captura não, e não é
+por falta de procurar:
+
+- O paldb calcula no servidor, em `/api/captureRate`, e publica por Pal apenas o
+  `CaptureRateCorrect`. O multiplicador de cada tier de esfera, o peso da vida restante e o do nível
+  não aparecem em página nenhuma dele.
+- `palworld.wiki.gg` responde 403 para leitura automatizada daqui.
+- O que esta wiki tem é a transformação de exibição, `TaxaExibida = TaxaReal^1.25` com rolagens de
+  expoente 4/9, 3/9 e 2/9. Isso explica por que capturas de 0,3% acontecem, e **não** permite
+  calcular a taxa: descreve o número da tela, não como ele nasce.
+
+Escrever a fórmula de memória seria exatamente o que o `fontes.md` chama de boato, e o custo já é
+conhecido: 26 dos 77 Pals digitados à mão estavam errados. Para destravar, basta uma fonte que
+publique os multiplicadores: datamine com os valores por esfera, ou a fórmula com constantes.
 
 ### [x] E7 — Índices de item, estrutura e tecnologia
 

@@ -37,13 +37,37 @@ A lição está registrada aqui e não no histórico do Git: **dado numérico co
 | **Níveis dos tower bosses 2, 3, 4, 6 e 7** | Reescalados no 1.0, fontes discordam. Marquei faixas. |
 | **Formato exato da Arena** | Fontes divergem entre 3v3 e 4v4. A leitura mais consistente é 3 Pals por jogador, sendo 1 main cuja partner skill você ativa. |
 | **Estado das Wildlife Sanctuaries** | Patch notes dizem que foram reformuladas. Os guias detalhados ainda descrevem a versão de Early Access. |
-| **Distribuição das 48 cópias por estrela** | Não oficial. Confira a UI do Condenser. |
+| **Distribuição das 48 cópias por estrela** | Não oficial. Confira a UI do Condenser. **Enquanto isso não for conferido no jogo, a calculadora de condensação só responde o total para 4★**, que é o número que tem fonte. |
+| **Fórmula da taxa de captura** | **Sem fonte utilizável.** O paldb calcula no servidor dele, em `/api/captureRate`, e publica por Pal só o `CaptureRateCorrect`; o multiplicador de cada esfera, o peso da vida restante e o do nível não aparecem em lugar nenhum. A wiki.gg responde 403 para leitura automatizada. O que temos é a transformação de exibição, `TaxaExibida = TaxaReal^1.25` com rolagens 4/9, 3/9 e 2/9, que descreve o número da tela e não permite calculá-lo. **A calculadora de captura fica de fora da E5 até aparecer fonte.** |
 | **Tabela de recompensas de raid por tier** | Não existe fonte oficial. Desconfie de listas específicas. |
 
 :::atencao
 **Nota metodológica:** boa parte do conteúdo "1.0" indexado hoje é SEO gerado por IA e se contradiz. Fandom wiki e parte do Game8 ainda estão com dados de Early Access (suitability máxima 4, condensação 116). O que está nesta wiki foi cruzado entre o changelog oficial, databases dataminadas (paldb.cc, palworld.gg) e threads de comunidade com replicação independente.
 
 :::
+
+## A regra de cruzamento, conferida em 01.08.2026
+
+O guia dizia "sai a espécie de rank mais próximo", e isso está **incompleto**. Conferindo contra as
+149 combinações que o paldb publica para o Anubis, a regra do rank mais próximo sozinha acerta
+**60 de 148**. Faltavam duas partes, e as duas saíram do dado, não de palpite:
+
+1. **Empate vai para o rank maior.** Os CombiRanks são múltiplos de 10, então metade das médias cai
+   exatamente no meio de dois Pals. Nesses casos o jogo escolhe o de rank MAIOR, que é o mais fraco.
+   Exemplo conferido: Anubis (480) com Teafant (3070) dá média 1775, entre Hoodle (1770) e Snock
+   (1780), e o resultado é **Snock**.
+2. **Filho de combinação única não entra no sorteio.** Das 299 espécies, **116 só nascem de
+   combinação específica** e nunca aparecem como resultado de média. Incluí-las no pool faz a conta
+   devolver Elphidran Aqua, Dumud Gild e outros onde o jogo devolve outra coisa.
+
+Com as duas correções, a regra acerta **148 de 148**. As três fontes de dado são tabelas do paldb,
+a mesma origem do catálogo: `CombiRank` das 299 espécies, as **162 combinações únicas** e o
+resultado que o próprio paldb calcula por par.
+
+| Fonte | Onde |
+|---|---|
+| CombiRank e combinações únicas | [paldb.cc/en/Breeding_Farm](https://paldb.cc/en/Breeding_Farm), abas *Breed Combi* e *Breed Unique* |
+| Resultado por par, para conferir | `paldb.cc/en/api/pal_breed_2a?parent2a=<Pal>`, usado pela [calculadora deles](https://paldb.cc/en/Breed) |
 
 ## Fontes principais
 
