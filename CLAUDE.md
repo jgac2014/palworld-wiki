@@ -121,6 +121,11 @@ sabotar o que ela cobre e ver o portão acusar, no mesmo ambiente onde ela vai r
 - **`astro-pagefind` precisa da extensão no import:** `astro-pagefind/components/Search.astro`.
 - **`display: flex` vence `[hidden]`.** O painel do assistente nascia aberto tapando o conteúdo.
   Se você der display a um elemento que usa `hidden`, adicione a regra `[hidden] { display: none }`.
+- **CSS de biblioteca carregado depois vence classe nossa de mesma especificidade.** A folha do
+  Leaflet traz `.leaflet-marker-icon { display: block }` e derrubou o marcador de alfa para 2 por
+  16 px, sem erro em log nenhum. É a mesma família do `display: flex` vencendo `[hidden]`. Quando
+  estilizar elemento que uma biblioteca também estiliza, confira a especificidade e a ordem de
+  carregamento, e prefira asserção de tamanho a inspeção visual.
 - **Link absoluto morre em arquivo local.** O site usa `/breeding/`, o que está certo servido por
   HTTP e quebra tudo aberto com duplo clique. É por isso que `npm run offline` existe.
 - **Playwright neste ambiente** precisa de `executablePath: '/opt/pw-browsers/chromium'`, e o script

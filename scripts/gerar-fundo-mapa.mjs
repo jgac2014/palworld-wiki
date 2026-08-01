@@ -388,6 +388,64 @@ for (const c of comparacoes) {
   }
 }
 
+// ------------------------------- o que a textura velha não tem, nomeado
+//
+// Agrupar só os pontos que caem no mar NÃO responde nada: eles saem espalhados
+// em 39 aglomerados com 28 soltos, porque a maioria é ponto de costa e a
+// mediana da distância deles até a terra é de 4,6 unidades. Medido, não achado.
+//
+// A pergunta certa é outra: que LUGAR do 1.0 a textura não tem? Lugar que não
+// existe não põe um ponto na água, põe a vizinhança inteira. Então para cada um
+// dos pontos de viagem rápida, que é como o jogo nomeia lugar, isto mede a
+// fração de TODOS os pontos em volta que caem no mar. Ilha que existe fica entre
+// 24% e 73%, porque ponto de costa molha o pé. Lugar que não existe fica em 92%
+// ou mais, e o vão entre 73% e 92% é o que separa os dois grupos.
+const RAIO_LUGAR = 120;
+const CORTE_AUSENTE = 0.9;
+const lugares = [...pontos.pontos, ...pontos.extras].filter((p) => p.t === 'Fast Travel');
+if (!lugares.length) {
+  abortar('Nenhum ponto de viagem rápida em mapa-pontos.json, e é por eles que o jogo nomeia lugar.');
+}
+const medidos = lugares.map((q) => {
+  const viz = [...pontos.pontos, ...pontos.extras]
+    .filter((r) => Math.hypot(r.x - q.x, r.y - q.y) < RAIO_LUGAR);
+  const molhados = viz.filter((r) => noMar(declarado, r.x, r.y)).length;
+  return { pt: q.pt || q.en, en: q.en || q.pt, x: q.x, y: q.y, pontos: viz.length, fracao: molhados / viz.length };
+});
+const ausentes = medidos.filter((l) => l.fracao >= CORTE_AUSENTE).sort((a, b) => b.fracao - a.fracao);
+const maiorPresente = Math.max(...medidos.filter((l) => l.fracao < CORTE_AUSENTE).map((l) => l.fracao));
+
+// Agrupamento por proximidade dos ausentes: separa a região nova, que é um
+// bolo de lugares vizinhos, das ilhas, que são pontos isolados no oceano.
+const LIGACAO = 300;
+const agrupar = (lista, limiar) => {
+  const pai = lista.map((_, i) => i);
+  const achar = (i) => (pai[i] === i ? i : (pai[i] = achar(pai[i])));
+  for (let i = 0; i < lista.length; i++) {
+    for (let j = i + 1; j < lista.length; j++) {
+      if (Math.hypot(lista[i].x - lista[j].x, lista[i].y - lista[j].y) <= limiar) pai[achar(i)] = achar(j);
+    }
+  }
+  const g = new Map();
+  for (let i = 0; i < lista.length; i++) {
+    const r = achar(i);
+    if (!g.has(r)) g.set(r, []);
+    g.get(r).push(lista[i]);
+  }
+  return [...g.values()].sort((a, b) => b.length - a.length);
+};
+const aglomerados = agrupar(ausentes, LIGACAO);
+const isolados = aglomerados.filter((g) => g.length === 1).map((g) => g[0]);
+
+console.log('');
+console.log(`   Lugares que a textura não tem: ${ausentes.length} de ${lugares.length}`);
+console.log(`     corte em ${(CORTE_AUSENTE * 100).toFixed(0)}% da vizinhança na água; o lugar que EXISTE mais molhado fica em ${(maiorPresente * 100).toFixed(0)}%`);
+for (const g of aglomerados) {
+  const cx = g.reduce((s, l) => s + l.x, 0) / g.length;
+  const cy = g.reduce((s, l) => s + l.y, 0) / g.length;
+  console.log(`     ${g.length === 1 ? 'isolado ' : `grupo ${g.length}`} em ${cx.toFixed(0)}, ${cy.toFixed(0)}: ${g.map((l) => l.pt).join(', ')}`);
+}
+
 // -------------------------------------------------------------- tiles
 if (existsSync(pastaTiles)) {
   for (const entrada of await readdir(pastaTiles, { withFileTypes: true })) {
@@ -491,6 +549,37 @@ const manifesto = {
     no_mar_com_a_build_ativa: foraAtual,
     no_mar_com_as_outras: Object.fromEntries(comparacoes.map((c) => [c.nome, c.fora])),
     fracao_de_mar_da_imagem: Number(fracao.toFixed(4)),
+  },
+  lugares_sem_terra: {
+    _leia_isto:
+      'O que esta textura NÃO tem, medido e nomeado, em vez de "faltam umas ilhas". Agrupar os ' +
+      'pontos que caem no mar não responde isso: eles saem espalhados, porque quase todos são ponto ' +
+      'de costa. Quem responde é a vizinhança: lugar que não existe põe TUDO em volta na água, não ' +
+      'um ponto. Para cada ponto de viagem rápida, a fração dos pontos num raio de ' + RAIO_LUGAR +
+      ' unidades que caem no mar. Lugar que existe fica no máximo em ' +
+      `${(maiorPresente * 100).toFixed(0)}%; o corte está em ${(CORTE_AUSENTE * 100).toFixed(0)}%.`,
+    raio: RAIO_LUGAR,
+    corte: CORTE_AUSENTE,
+    maior_fracao_de_lugar_presente: Number(maiorPresente.toFixed(3)),
+    quantos: ausentes.length,
+    de_quantos_lugares: lugares.length,
+    ligacao_do_agrupamento: LIGACAO,
+    aglomerados: aglomerados.map((g) => ({
+      quantos: g.length,
+      x: Number((g.reduce((s, l) => s + l.x, 0) / g.length).toFixed(1)),
+      y: Number((g.reduce((s, l) => s + l.y, 0) / g.length).toFixed(1)),
+      lugares: g.map((l) => ({ pt: l.pt, en: l.en, x: l.x, y: l.y, fracao: Number(l.fracao.toFixed(3)) })),
+    })),
+    isolados: isolados.map((l) => ({ pt: l.pt, en: l.en, x: l.x, y: l.y })),
+    // A separação entre ilha e o resto é pelo NOME QUE O JOGO DÁ, não por
+    // geometria: o jogo chama toda ilhota de `Islet` em inglês e de `Ilha
+    // Solitária` em português, e as sete que faltam usam a palavra. A primeira
+    // tentativa testou o FIM do nome e perdeu "Islet of Circular Ruins", que a
+    // usa no começo: por isso o teste é da palavra inteira em qualquer posição.
+    // O balde `outros` existe para o dia em que a regra parar de valer: nada
+    // some da lista, muda de balde, e a soma continua batendo com `quantos`.
+    ilhas: isolados.filter((l) => /\bIslet\b/i.test(l.en)).map((l) => ({ pt: l.pt, en: l.en, x: l.x, y: l.y })),
+    outros: isolados.filter((l) => !/\bIslet\b/i.test(l.en)).map((l) => ({ pt: l.pt, en: l.en, x: l.x, y: l.y })),
   },
 };
 await writeFile(join(raiz, 'src/data/mapa-fundo.json'), JSON.stringify(manifesto, null, 2) + '\n', 'utf-8');

@@ -68,6 +68,18 @@ const rotCoord = {
   pt: { atual: ui('mapa_coord_atual', 'pt'), clicado: ui('mapa_clicado', 'pt') },
   en: { atual: ui('mapa_coord_atual', 'en'), clicado: ui('mapa_clicado', 'en') },
 };
+
+// O que a textura de fundo NÃO tem, nomeado. A lista vem medida do manifesto e
+// não digitada aqui: no dia em que a base for trocada, o aviso encolhe sozinho
+// em vez de continuar avisando de ilha que já apareceu.
+const semTerra = fundo.lugares_sem_terra;
+const agrupados = (semTerra?.aglomerados || []).filter((g) => g.quantos > 1);
+const sozinhos = semTerra?.isolados || [];
+// A separação vem medida do manifesto, não refeita aqui: dois lugares
+// classificando a mesma coisa divergem no dia em que um dos dois mudar.
+const ilhasQueFaltam = semTerra?.ilhas || [];
+const outrosQueFaltam = semTerra?.outros || [];
+const listar = (ls, l) => ls.map((x) => (l === 'en' ? x.en : x.pt)).join(', ');
 ---
 <Base
   titulo={ui('mapa_titulo', 'pt')}
@@ -115,9 +127,35 @@ const rotCoord = {
 
     <aside class="adm adm-atencao" data-rotulo="A base do mapa está velha">
       <p>
-        A imagem de fundo é anterior ao 1.0. Faltam as 7 ilhas pequenas acrescentadas no lançamento
-        e as edições de terreno. Os pontos são do 1.0 e estão no lugar certo. A base é trocada quando
-        a extração do jogo ficar pronta.
+        A imagem de fundo é anterior ao 1.0. Os pontos são do 1.0 e estão no lugar certo. A base é
+        trocada quando a extração do jogo ficar pronta.
+      </p>
+      <p>
+        <b>O que falta não é genérico, é medido e tem nome.</b> Destes {semTerra.de_quantos_lugares} lugares
+        que o jogo nomeia, {semTerra.quantos} não têm terra nenhuma nesta textura:
+      </p>
+      <ul>
+        <li>
+          <b>As {ilhasQueFaltam.length} ilhas pequenas do lançamento</b>, todas em mar aberto aqui:
+          <span data-rot-pt={listar(ilhasQueFaltam, 'pt')} data-rot-en={listar(ilhasQueFaltam, 'en')}>{listar(ilhasQueFaltam, 'pt')}</span>.
+        </li>
+        {agrupados.map((g) => (
+          <li>
+            <b>A região nova do 1.0</b>, Sunreach, em torno de {g.x.toFixed(0)}, {g.y.toFixed(0)}, com
+            os {g.quantos} lugares dela:
+            <span data-rot-pt={listar(g.lugares, 'pt')} data-rot-en={listar(g.lugares, 'en')}>{listar(g.lugares, 'pt')}</span>.
+          </li>
+        ))}
+        {outrosQueFaltam.length > 0 && (
+          <li>
+            <b>E mais {outrosQueFaltam.length}</b>, que não {outrosQueFaltam.length === 1 ? 'é ilha' : 'são ilhas'}:
+            <span data-rot-pt={listar(outrosQueFaltam, 'pt')} data-rot-en={listar(outrosQueFaltam, 'en')}>{listar(outrosQueFaltam, 'pt')}</span>.
+          </li>
+        )}
+      </ul>
+      <p>
+        Se um marcador seu cair em cima de água, é provável que seja um destes: a água é que está
+        desatualizada, não a coordenada.
       </p>
     </aside>
 

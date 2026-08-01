@@ -68,5 +68,279 @@
       "paldb_1_0": 1200
     },
     "fracao_de_mar_da_imagem": 0.8243
+  },
+  "lugares_sem_terra": {
+    "_leia_isto": "O que esta textura NÃO tem, medido e nomeado, em vez de \"faltam umas ilhas\". Agrupar os pontos que caem no mar não responde isso: eles saem espalhados, porque quase todos são ponto de costa. Quem responde é a vizinhança: lugar que não existe põe TUDO em volta na água, não um ponto. Para cada ponto de viagem rápida, a fração dos pontos num raio de 120 unidades que caem no mar. Lugar que existe fica no máximo em 73%; o corte está em 90%.",
+    "raio": 120,
+    "corte": 0.9,
+    "maior_fracao_de_lugar_presente": 0.727,
+    "quantos": 14,
+    "de_quantos_lugares": 137,
+    "ligacao_do_agrupamento": 300,
+    "aglomerados": [
+      {
+        "quantos": 6,
+        "x": -394.7,
+        "y": -1460.5,
+        "lugares": [
+          {
+            "pt": "Torre da Aliança: Entrada",
+            "en": "Azure Covenant Tower Entrance",
+            "x": -432.7,
+            "y": -1424,
+            "fracao": 1
+          },
+          {
+            "pt": "Fissura do Cerúleo Remoto",
+            "en": "The Azure Tapestry",
+            "x": -478.9,
+            "y": -1381.7,
+            "fracao": 1
+          },
+          {
+            "pt": "Terra Encantada Celeste",
+            "en": "Enchanted Firmament",
+            "x": -213.9,
+            "y": -1512.3,
+            "fracao": 1
+          },
+          {
+            "pt": "Pântano da Lama e das Nuvens",
+            "en": "Farcry Marsh",
+            "x": -325.4,
+            "y": -1410.5,
+            "fracao": 1
+          },
+          {
+            "pt": "Arquipélago de Cristal",
+            "en": "Crystalline Archipelago",
+            "x": -386.2,
+            "y": -1536.4,
+            "fracao": 1
+          },
+          {
+            "pt": "Ravina dos Nenúfares",
+            "en": "Waterlily Gorge",
+            "x": -531.3,
+            "y": -1498,
+            "fracao": 1
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": 939.9,
+        "y": -63.7,
+        "lugares": [
+          {
+            "pt": "Ilha Solitária da Ruína Circular",
+            "en": "Islet of Circular Ruins",
+            "x": 939.9,
+            "y": -63.7,
+            "fracao": 1
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": 447.4,
+        "y": -713.2,
+        "lugares": [
+          {
+            "pt": "Ilha Solitária da Erosão Eólica",
+            "en": "Scouring Islet",
+            "x": 447.4,
+            "y": -713.2,
+            "fracao": 1
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": -1658.9,
+        "y": -969.1,
+        "lugares": [
+          {
+            "pt": "Ilha Solitária da Ruína Gelada",
+            "en": "Glacial Memento Islet",
+            "x": -1658.9,
+            "y": -969.1,
+            "fracao": 1
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": -1296,
+        "y": -660.2,
+        "lugares": [
+          {
+            "pt": "Ilha Solitária do Portão de Arenito",
+            "en": "Sandstone Gate Islet",
+            "x": -1296,
+            "y": -660.2,
+            "fracao": 1
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": -838.8,
+        "y": 689.3,
+        "lugares": [
+          {
+            "pt": "Base da Árvore Mundial",
+            "en": "Foot of the World Tree",
+            "x": -838.8,
+            "y": 689.3,
+            "fracao": 1
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": -880.3,
+        "y": 135.2,
+        "lugares": [
+          {
+            "pt": "Ilha Solitária do Brasão Solar",
+            "en": "Suncrest Islet",
+            "x": -880.3,
+            "y": 135.2,
+            "fracao": 0.983
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": -1152.9,
+        "y": -1874,
+        "lugares": [
+          {
+            "pt": "Ilha Solitária dos Chifres Duplos",
+            "en": "Bicornis Islet",
+            "x": -1152.9,
+            "y": -1874,
+            "fracao": 0.965
+          }
+        ]
+      },
+      {
+        "quantos": 1,
+        "x": 761.2,
+        "y": 408.1,
+        "lugares": [
+          {
+            "pt": "Ilha Solitária do Veio de Fogo",
+            "en": "Flamepulse Islet",
+            "x": 761.2,
+            "y": 408.1,
+            "fracao": 0.918
+          }
+        ]
+      }
+    ],
+    "isolados": [
+      {
+        "pt": "Ilha Solitária da Ruína Circular",
+        "en": "Islet of Circular Ruins",
+        "x": 939.9,
+        "y": -63.7
+      },
+      {
+        "pt": "Ilha Solitária da Erosão Eólica",
+        "en": "Scouring Islet",
+        "x": 447.4,
+        "y": -713.2
+      },
+      {
+        "pt": "Ilha Solitária da Ruína Gelada",
+        "en": "Glacial Memento Islet",
+        "x": -1658.9,
+        "y": -969.1
+      },
+      {
+        "pt": "Ilha Solitária do Portão de Arenito",
+        "en": "Sandstone Gate Islet",
+        "x": -1296,
+        "y": -660.2
+      },
+      {
+        "pt": "Base da Árvore Mundial",
+        "en": "Foot of the World Tree",
+        "x": -838.8,
+        "y": 689.3
+      },
+      {
+        "pt": "Ilha Solitária do Brasão Solar",
+        "en": "Suncrest Islet",
+        "x": -880.3,
+        "y": 135.2
+      },
+      {
+        "pt": "Ilha Solitária dos Chifres Duplos",
+        "en": "Bicornis Islet",
+        "x": -1152.9,
+        "y": -1874
+      },
+      {
+        "pt": "Ilha Solitária do Veio de Fogo",
+        "en": "Flamepulse Islet",
+        "x": 761.2,
+        "y": 408.1
+      }
+    ],
+    "ilhas": [
+      {
+        "pt": "Ilha Solitária da Ruína Circular",
+        "en": "Islet of Circular Ruins",
+        "x": 939.9,
+        "y": -63.7
+      },
+      {
+        "pt": "Ilha Solitária da Erosão Eólica",
+        "en": "Scouring Islet",
+        "x": 447.4,
+        "y": -713.2
+      },
+      {
+        "pt": "Ilha Solitária da Ruína Gelada",
+        "en": "Glacial Memento Islet",
+        "x": -1658.9,
+        "y": -969.1
+      },
+      {
+        "pt": "Ilha Solitária do Portão de Arenito",
+        "en": "Sandstone Gate Islet",
+        "x": -1296,
+        "y": -660.2
+      },
+      {
+        "pt": "Ilha Solitária do Brasão Solar",
+        "en": "Suncrest Islet",
+        "x": -880.3,
+        "y": 135.2
+      },
+      {
+        "pt": "Ilha Solitária dos Chifres Duplos",
+        "en": "Bicornis Islet",
+        "x": -1152.9,
+        "y": -1874
+      },
+      {
+        "pt": "Ilha Solitária do Veio de Fogo",
+        "en": "Flamepulse Islet",
+        "x": 761.2,
+        "y": 408.1
+      }
+    ],
+    "outros": [
+      {
+        "pt": "Base da Árvore Mundial",
+        "en": "Foot of the World Tree",
+        "x": -838.8,
+        "y": 689.3
+      }
+    ]
   }
 }

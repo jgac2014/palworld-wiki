@@ -351,8 +351,40 @@ montanha escura não contarem como oceano) e mede onde os pontos caem:
 **O que os 77 são.** Medido, não suposto: a mediana da distância deles até a terra mais próxima é de
 **4,6 unidades**, 44 estão a menos de 5 e 62 a menos de 40. São ponto de costa, e a essa distância a
 explicação é a resolução em que a máscara é medida, mais recuo de linha de costa entre as duas
-builds. **Quinze estão longe de qualquer terra**, e esses são candidatos ao que o 1.0 acrescentou. O
-número fica gravado em `src/data/mapa-fundo.json` e tem que cair quando a base for trocada.
+builds. **Quinze estão longe de qualquer terra.** O número fica gravado em `src/data/mapa-fundo.json`
+e tem que cair quando a base for trocada.
+
+### Agrupar os 77 não responde nada, e a pergunta certa é outra
+
+A hipótese era que eles formassem sete aglomerados, um por ilha nova do 1.0. **Não formam.** Com
+ligação simples a 120 unidades saem **39 aglomerados, 28 deles com um ponto só**, e não há limiar em
+que o número se estabilize perto de sete: de 30 a 300 unidades de ligação, a contagem passa por
+56, 53, 49, 47, 39, 27, 19 e 10 sem nenhum patamar. Isso é o esperado, porque a maioria dos 77 é
+ponto de costa: eles não localizam nada.
+
+A pergunta que responde é outra. **Lugar que não existe na textura não põe um ponto na água: põe a
+vizinhança inteira.** Então, para cada um dos 137 pontos de viagem rápida, que é como o jogo nomeia
+lugar, medimos a fração de **todos** os pontos num raio de 120 unidades que caem no mar.
+
+O resultado separa em dois grupos, com um vão limpo entre eles: **lugar que existe fica no máximo em
+73%**, porque ponto de costa molha o pé, e o grupo seguinte começa em **92%**. Nada cai entre os
+dois. Acima do corte de 90% ficam **14 lugares de 137**, e agrupá-los por proximidade a 300 unidades
+dá **um aglomerado de seis e oito isolados**:
+
+| O que é | Onde | Lugares |
+|---|---|---|
+| **As 7 ilhas do lançamento** | espalhadas em mar aberto | Ilha Solitária da Ruína Circular, da Erosão Eólica, da Ruína Gelada, do Portão de Arenito, do Brasão Solar, dos Chifres Duplos e do Veio de Fogo |
+| **A região nova, Sunreach** | em torno de -395, -1460 | Torre da Aliança, Fissura do Cerúleo Remoto, Terra Encantada Celeste, Pântano da Lama e das Nuvens, Arquipélago de Cristal, Ravina dos Nenúfares |
+| **A Árvore Mundial** | -839, 689 | Base da Árvore Mundial |
+
+**São sete ilhas, com nome, e a hipótese estava certa quanto a elas.** O que ela não previa é que
+faltam mais duas coisas grandes: a região inteira de Sunreach e a base da Árvore Mundial, as duas do
+1.0. Conferido por imagem nos catorze: no lugar de cada um há oceano liso, e nos dois controles
+usados para escala (Ilha Solitária do Oásis, 73%, e do Tesouro Deteriorado, 53%) há ilha desenhada.
+
+A medição é refeita a cada `npm run mapa:fundo` e a lista fica em `src/data/mapa-fundo.json`. A
+página do mapa **lê essa lista** em vez de repetir os nomes à mão: no dia em que a base for trocada,
+o aviso encolhe sozinho.
 
 :::atencao
 **A Zona de Caça Proibida I não tem ilha nesta textura, e isso não é erro de enquadramento.** As
