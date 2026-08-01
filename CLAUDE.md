@@ -101,6 +101,17 @@ Três coisas que a implementação precisa continuar acertando, aprendidas erran
 
 Não repita estas. Cada uma custou uma reversão.
 
+**Toda verificação precisa poder falhar por falta de insumo.** O modo de falha mais caro deste
+repositório não é a checagem que reprova, é a que aprova sem ter conferido. Já aconteceu quatro
+vezes, sempre com a mesma forma: o teste por file:// passava porque o CSS não carregava e
+`getComputedStyle` devolvia o padrão do navegador; a checagem de tradução reconhecia "pt-BR_Text" e
+devolvia o próprio marcador; a asserção de idioma passava porque o teste anterior tinha deixado a
+página em inglês; e a checagem de carimbo passaria em CI porque o clone raso do `actions/checkout`
+não traz histórico e `git log` por arquivo volta vazio.
+Regra: quando o insumo não estiver disponível, FALHE dizendo que faltou insumo. Nunca pule, nunca
+devolva vazio como sucesso. E a prova de que uma checagem nova vale alguma coisa continua sendo
+sabotar o que ela cobre e ver o portão acusar, no mesmo ambiente onde ela vai rodar.
+
 - **Substituição automática de termo quebra concordância.** Trocar em massa gerou "do seu Caixa de
   Pal" e "um Águas Termais". Por isso `padronizar-conteudo.mjs` tem um passo separado de correção
   de artigo, e uma lista `NAO_MEXER` que protege `glossario.md` e `fontes.md`, que *são* a tabela
@@ -151,6 +162,9 @@ Não repita estas. Cada uma custou uma reversão.
 - **Tradução de elemento tem três pegadinhas oficiais:** Dark é "Escuridão" (não "Sombrio"),
   Dragon é "Dracônico" (não "Dragão"), Neutral é "Não elemental" (não "Neutro"). Conferido nos
   tooltips da página PT do paldb, que serve as strings do jogo.
+- **`actions/checkout` clona raso por padrão.** Sem `fetch-depth: 0`, `git log` por arquivo volta
+  vazio em CI e qualquer checagem que leia histórico vira placebo. O `portao.yml` pede histórico
+  inteiro por isso.
 - **Mensagem de commit escrita pelo PowerShell entra com BOM no título.** O `git log` mostra um
   caractere invisível antes da primeira letra, e ele fica no histórico para sempre. Dois commits
   deste repositório já saíram assim (`9fb6841` e `770409b`). **Documentar não impediu: escrever a
