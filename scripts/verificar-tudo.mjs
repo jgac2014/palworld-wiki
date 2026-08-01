@@ -280,11 +280,16 @@ const carimbos = {};
 
 for (const arquivo of arquivos) {
   const bruto = await readFile(join(pastaWiki, arquivo), 'utf-8');
-  const m = bruto.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  // `\r?\n` porque no Windows qualquer operação do git que reescreva o arquivo
+  // (checkout, revert, merge) o devolve em CRLF, e aí um regex preso em `\n`
+  // acusa "frontmatter malformado" em arquivo que está perfeito. Aconteceu
+  // rodando `git revert` durante a prova da checagem do carimbo: as 15 páginas
+  // viraram erro de uma vez, sem ninguém ter tocado em conteúdo.
+  const m = bruto.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   if (!m) { erro('conteudo', `${arquivo}: frontmatter ausente ou malformado`); continue; }
   const [, fm, corpo] = m;
   corpos[arquivo] = corpo;
-  carimbos[arquivo] = fm.match(/^atualizado:\s*["']?(\d{4}-\d{2}-\d{2})["']?\s*$/m)?.[1] || null;
+  carimbos[arquivo] = fm.match(/^atualizado:\s*["']?(\d{4}-\d{2}-\d{2})["']?\s*\r?$/m)?.[1] || null;
 
   for (const campo of ['titulo', 'descricao', 'ordem']) {
     if (!new RegExp(`^${campo}:`, 'm').test(fm)) erro('conteudo', `${arquivo}: falta "${campo}" no frontmatter`);

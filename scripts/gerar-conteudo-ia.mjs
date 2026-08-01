@@ -16,7 +16,10 @@ const arquivos = (await readdir(pastaWiki)).filter((f) => f.endsWith('.md')).sor
 const partes = [];
 for (const arquivo of arquivos) {
   const bruto = await readFile(join(pastaWiki, arquivo), 'utf-8');
-  const m = bruto.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  // `\r?\n`: o mesmo motivo do verificador. No Windows o git devolve o arquivo
+  // em CRLF depois de checkout, revert ou merge, e um regex preso em `\n`
+  // engoliria o frontmatter inteiro em silêncio, gerando contexto sem título.
+  const m = bruto.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   const frontmatter = m ? m[1] : '';
   const corpo = m ? m[2] : bruto;
   const titulo = (frontmatter.match(/titulo:\s*"?([^"\n]+)"?/) || [, arquivo])[1];
