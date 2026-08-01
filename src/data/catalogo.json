@@ -28,7 +28,8 @@
         "manual": 1,
         "transporte": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 3050
     },
     {
       "numero": "2",
@@ -47,7 +48,8 @@
         "coleta": 1,
         "garimpo": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2760
     },
     {
       "numero": "3",
@@ -64,7 +66,8 @@
       "apt": {
         "coleta": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 3080
     },
     {
       "numero": "4",
@@ -84,7 +87,8 @@
         "coleta": 1,
         "madeira": 1,
         "manipulacao": 1
-      }
+      },
+      "combi": 3020
     },
     {
       "numero": "5",
@@ -102,7 +106,8 @@
         "rega": 1,
         "manual": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2980
     },
     {
       "numero": "5B",
@@ -125,7 +130,9 @@
         "rega": 2,
         "manual": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2300,
+      "so_combinacao_unica": true
     },
     {
       "numero": "6",
@@ -142,7 +149,8 @@
       "apt": {
         "coleta": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 3060
     },
     {
       "numero": "7",
@@ -159,7 +167,8 @@
       "apt": {
         "rega": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2740
     },
     {
       "numero": "7B",
@@ -181,7 +190,9 @@
         "rega": 1,
         "energia": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2380,
+      "so_combinacao_unica": true
     },
     {
       "numero": "8",
@@ -198,7 +209,8 @@
       "apt": {
         "coleta": 1,
         "fazenda": 2
-      }
+      },
+      "combi": 2890
     },
     {
       "numero": "9",
@@ -217,7 +229,8 @@
         "manual": 1,
         "coleta": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2600
     },
     {
       "numero": "9B",
@@ -240,7 +253,9 @@
         "manual": 2,
         "coleta": 1,
         "transporte": 1
-      }
+      },
+      "combi": 1860,
+      "so_combinacao_unica": true
     },
     {
       "numero": "10",
@@ -262,7 +277,8 @@
         "plantio": 1,
         "coleta": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2630
     },
     {
       "numero": "11",
@@ -278,7 +294,8 @@
       ],
       "apt": {
         "rega": 1
-      }
+      },
+      "combi": 3070
     },
     {
       "numero": "12",
@@ -298,7 +315,8 @@
       ],
       "apt": {
         "plantio": 1
-      }
+      },
+      "combi": 2950
     },
     {
       "numero": "13",
@@ -316,7 +334,8 @@
         "coleta": 1,
         "madeira": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2930
     },
     {
       "numero": "14",
@@ -337,7 +356,8 @@
       "apt": {
         "plantio": 1,
         "coleta": 1
-      }
+      },
+      "combi": 2970
     },
     {
       "numero": "15",
@@ -353,7 +373,8 @@
       ],
       "apt": {
         "energia": 1
-      }
+      },
+      "combi": 3030
     },
     {
       "numero": "15B",
@@ -369,7 +390,9 @@
       ],
       "apt": {
         "refrigeracao": 1
-      }
+      },
+      "combi": 2850,
+      "so_combinacao_unica": true
     },
     {
       "numero": "16",
@@ -388,7 +411,8 @@
         "garimpo": 1,
         "transporte": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 3000
     },
     {
       "numero": "17",
@@ -411,7 +435,8 @@
         "manual": 1,
         "refrigeracao": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2960
     },
     {
       "numero": "17B",
@@ -434,7 +459,9 @@
         "energia": 2,
         "manual": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2490,
+      "so_combinacao_unica": true
     },
     {
       "numero": "18",
@@ -458,7 +485,8 @@
         "garimpo": 3,
         "refrigeracao": 2,
         "transporte": 3
-      }
+      },
+      "combi": 2070
     },
     {
       "numero": "18B",
@@ -482,7 +510,9 @@
         "manual": 2,
         "garimpo": 3,
         "transporte": 3
-      }
+      },
+      "combi": 1850,
+      "so_combinacao_unica": true
     },
     {
       "numero": "19",
@@ -498,7 +528,8 @@
       ],
       "apt": {
         "coleta": 1
-      }
+      },
+      "combi": 2940
     },
     {
       "numero": "20",
@@ -514,7 +545,8 @@
       ],
       "apt": {
         "fazenda": 2
-      }
+      },
+      "combi": 2720
     },
     {
       "numero": "21",
@@ -530,7 +562,8 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 2220
     },
     {
       "numero": "21B",
@@ -547,7 +580,9 @@
       "apt": {
         "coleta": 2,
         "refrigeracao": 4
-      }
+      },
+      "combi": 1530,
+      "so_combinacao_unica": true
     },
     {
       "numero": "22",
@@ -565,7 +600,8 @@
         "manual": 1,
         "coleta": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2910
     },
     {
       "numero": "23",
@@ -585,7 +621,8 @@
         "coleta": 1,
         "madeira": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2900
     },
     {
       "numero": "23B",
@@ -604,7 +641,9 @@
         "manual": 1,
         "madeira": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2830,
+      "so_combinacao_unica": true
     },
     {
       "numero": "24",
@@ -620,7 +659,8 @@
       ],
       "apt": {
         "coleta": 1
-      }
+      },
+      "combi": 2920
     },
     {
       "numero": "25",
@@ -639,7 +679,8 @@
         "manual": 1,
         "transporte": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 2700
     },
     {
       "numero": "26",
@@ -656,7 +697,8 @@
       "apt": {
         "acender": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 2870
     },
     {
       "numero": "27",
@@ -673,7 +715,8 @@
       "apt": {
         "coleta": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 3040
     },
     {
       "numero": "27B",
@@ -690,7 +733,9 @@
       "apt": {
         "refrigeracao": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 2750,
+      "so_combinacao_unica": true
     },
     {
       "numero": "28",
@@ -706,7 +751,8 @@
       ],
       "apt": {
         "garimpo": 1
-      }
+      },
+      "combi": 2880
     },
     {
       "numero": "29",
@@ -722,7 +768,8 @@
       ],
       "apt": {
         "acender": 1
-      }
+      },
+      "combi": 2990
     },
     {
       "numero": "29B",
@@ -738,7 +785,9 @@
       ],
       "apt": {
         "refrigeracao": 2
-      }
+      },
+      "combi": 2500,
+      "so_combinacao_unica": true
     },
     {
       "numero": "30",
@@ -760,7 +809,8 @@
         "rega": 1,
         "coleta": 1,
         "transporte": 2
-      }
+      },
+      "combi": 2770
     },
     {
       "numero": "30B",
@@ -782,7 +832,9 @@
         "rega": 1,
         "coleta": 1,
         "transporte": 2
-      }
+      },
+      "combi": 2540,
+      "so_combinacao_unica": true
     },
     {
       "numero": "31",
@@ -800,7 +852,8 @@
         "manual": 1,
         "garimpo": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2790
     },
     {
       "numero": "32",
@@ -816,7 +869,8 @@
       ],
       "apt": {
         "madeira": 2
-      }
+      },
+      "combi": 2710
     },
     {
       "numero": "32B",
@@ -832,7 +886,9 @@
       ],
       "apt": {
         "madeira": 2
-      }
+      },
+      "combi": 2580,
+      "so_combinacao_unica": true
     },
     {
       "numero": "33",
@@ -848,7 +904,8 @@
       ],
       "apt": {
         "coleta": 1
-      }
+      },
+      "combi": 2680
     },
     {
       "numero": "34",
@@ -865,7 +922,8 @@
       "apt": {
         "plantio": 2,
         "fazenda": 1
-      }
+      },
+      "combi": 2610
     },
     {
       "numero": "34B",
@@ -882,7 +940,9 @@
       "apt": {
         "plantio": 2,
         "fazenda": 1
-      }
+      },
+      "combi": 1940,
+      "so_combinacao_unica": true
     },
     {
       "numero": "35",
@@ -899,7 +959,8 @@
       "apt": {
         "coleta": 1,
         "refrigeracao": 1
-      }
+      },
+      "combi": 2840
     },
     {
       "numero": "36",
@@ -916,7 +977,8 @@
       "apt": {
         "coleta": 2,
         "refrigeracao": 3
-      }
+      },
+      "combi": 2150
     },
     {
       "numero": "37",
@@ -934,7 +996,8 @@
         "rega": 2,
         "garimpo": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2410
     },
     {
       "numero": "37B",
@@ -956,7 +1019,9 @@
         "rega": 2,
         "garimpo": 3,
         "transporte": 1
-      }
+      },
+      "combi": 1330,
+      "so_combinacao_unica": true
     },
     {
       "numero": "38",
@@ -974,7 +1039,8 @@
         "manual": 1,
         "coleta": 1,
         "transporte": 2
-      }
+      },
+      "combi": 2780
     },
     {
       "numero": "38B",
@@ -993,7 +1059,9 @@
         "coleta": 2,
         "refrigeracao": 2,
         "transporte": 3
-      }
+      },
+      "combi": 2510,
+      "so_combinacao_unica": true
     },
     {
       "numero": "39",
@@ -1009,7 +1077,8 @@
       ],
       "apt": {
         "fazenda": 1
-      }
+      },
+      "combi": 2820
     },
     {
       "numero": "39B",
@@ -1025,7 +1094,9 @@
       ],
       "apt": {
         "fazenda": 1
-      }
+      },
+      "combi": 2030,
+      "so_combinacao_unica": true
     },
     {
       "numero": "40",
@@ -1041,7 +1112,8 @@
       ],
       "apt": {
         "fazenda": 2
-      }
+      },
+      "combi": 2800
     },
     {
       "numero": "41",
@@ -1061,7 +1133,8 @@
       ],
       "apt": {
         "rega": 4
-      }
+      },
+      "combi": 1830
     },
     {
       "numero": "41B",
@@ -1081,7 +1154,9 @@
       ],
       "apt": {
         "refrigeracao": 4
-      }
+      },
+      "combi": 1220,
+      "so_combinacao_unica": true
     },
     {
       "numero": "42",
@@ -1100,7 +1175,8 @@
         "manual": 1,
         "transporte": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 3010
     },
     {
       "numero": "43",
@@ -1117,7 +1193,8 @@
       "apt": {
         "rega": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 2810
     },
     {
       "numero": "43B",
@@ -1134,7 +1211,8 @@
       "apt": {
         "acender": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 2470
     },
     {
       "numero": "44",
@@ -1152,7 +1230,8 @@
         "manual": 1,
         "coleta": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2860
     },
     {
       "numero": "44B",
@@ -1171,7 +1250,9 @@
         "manual": 2,
         "coleta": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2460,
+      "so_combinacao_unica": true
     },
     {
       "numero": "45",
@@ -1189,7 +1270,8 @@
         "rega": 2,
         "manual": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2650
     },
     {
       "numero": "46",
@@ -1212,7 +1294,8 @@
         "manual": 1,
         "manipulacao": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2590
     },
     {
       "numero": "47",
@@ -1230,7 +1313,8 @@
         "rega": 1,
         "manual": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2520
     },
     {
       "numero": "48",
@@ -1252,7 +1336,8 @@
         "rega": 2,
         "manual": 2,
         "transporte": 2
-      }
+      },
+      "combi": 2530
     },
     {
       "numero": "48B",
@@ -1274,7 +1359,9 @@
         "rega": 2,
         "manual": 2,
         "transporte": 2
-      }
+      },
+      "combi": 1630,
+      "so_combinacao_unica": true
     },
     {
       "numero": "49",
@@ -1290,7 +1377,8 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 2570
     },
     {
       "numero": "50",
@@ -1309,7 +1397,8 @@
         "madeira": 1,
         "manipulacao": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2250
     },
     {
       "numero": "51",
@@ -1325,7 +1414,8 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 2560
     },
     {
       "numero": "52",
@@ -1343,7 +1433,8 @@
         "coleta": 2,
         "garimpo": 3,
         "transporte": 2
-      }
+      },
+      "combi": 2340
     },
     {
       "numero": "53",
@@ -1359,7 +1450,8 @@
       ],
       "apt": {
         "coleta": 1
-      }
+      },
+      "combi": 2730
     },
     {
       "numero": "54",
@@ -1376,7 +1468,8 @@
       "apt": {
         "energia": 3,
         "madeira": 1
-      }
+      },
+      "combi": 2270
     },
     {
       "numero": "54B",
@@ -1393,7 +1486,9 @@
       "apt": {
         "madeira": 3,
         "refrigeracao": 6
-      }
+      },
+      "combi": 540,
+      "so_combinacao_unica": true
     },
     {
       "numero": "55",
@@ -1411,7 +1506,8 @@
         "rega": 2,
         "manual": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2550
     },
     {
       "numero": "55B",
@@ -1429,7 +1525,9 @@
         "acender": 2,
         "manual": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2430,
+      "so_combinacao_unica": true
     },
     {
       "numero": "56",
@@ -1445,7 +1543,8 @@
       ],
       "apt": {
         "manual": 2
-      }
+      },
+      "combi": 2110
     },
     {
       "numero": "56B",
@@ -1462,7 +1561,9 @@
       "apt": {
         "manual": 4,
         "refrigeracao": 4
-      }
+      },
+      "combi": 1290,
+      "so_combinacao_unica": true
     },
     {
       "numero": "57",
@@ -1479,7 +1580,8 @@
       "apt": {
         "madeira": 2,
         "fazenda": 1
-      }
+      },
+      "combi": 2370
     },
     {
       "numero": "58",
@@ -1496,7 +1598,8 @@
       "apt": {
         "acender": 3,
         "madeira": 2
-      }
+      },
+      "combi": 2320
     },
     {
       "numero": "59",
@@ -1513,7 +1616,8 @@
       "apt": {
         "refrigeracao": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2480
     },
     {
       "numero": "60",
@@ -1533,7 +1637,8 @@
         "coleta": 2,
         "manipulacao": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2690
     },
     {
       "numero": "61",
@@ -1551,7 +1656,8 @@
         "plantio": 2,
         "coleta": 2,
         "manipulacao": 2
-      }
+      },
+      "combi": 2620
     },
     {
       "numero": "62",
@@ -1568,7 +1674,8 @@
       "apt": {
         "energia": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2360
     },
     {
       "numero": "63",
@@ -1584,7 +1691,8 @@
       ],
       "apt": {
         "madeira": 3
-      }
+      },
+      "combi": 2280
     },
     {
       "numero": "63B",
@@ -1605,7 +1713,9 @@
       "apt": {
         "rega": 4,
         "madeira": 3
-      }
+      },
+      "combi": 1640,
+      "so_combinacao_unica": true
     },
     {
       "numero": "64",
@@ -1626,7 +1736,8 @@
       "apt": {
         "acender": 2,
         "transporte": 3
-      }
+      },
+      "combi": 1650
     },
     {
       "numero": "64B",
@@ -1647,7 +1758,9 @@
       "apt": {
         "refrigeracao": 2,
         "transporte": 3
-      }
+      },
+      "combi": 1430,
+      "so_combinacao_unica": true
     },
     {
       "numero": "65",
@@ -1663,7 +1776,8 @@
       ],
       "apt": {
         "manipulacao": 3
-      }
+      },
+      "combi": 1570
     },
     {
       "numero": "66",
@@ -1684,7 +1798,8 @@
         "manipulacao": 3,
         "transporte": 2,
         "fazenda": 2
-      }
+      },
+      "combi": 1480
     },
     {
       "numero": "67",
@@ -1706,7 +1821,8 @@
         "manipulacao": 2,
         "transporte": 2,
         "fazenda": 3
-      }
+      },
+      "combi": 2350
     },
     {
       "numero": "68",
@@ -1726,7 +1842,8 @@
         "coleta": 4,
         "madeira": 3,
         "manipulacao": 4
-      }
+      },
+      "combi": 1790
     },
     {
       "numero": "69",
@@ -1745,7 +1862,8 @@
         "garimpo": 2,
         "manipulacao": 3,
         "transporte": 2
-      }
+      },
+      "combi": 2090
     },
     {
       "numero": "70",
@@ -1761,7 +1879,8 @@
       ],
       "apt": {
         "coleta": 3
-      }
+      },
+      "combi": 2120
     },
     {
       "numero": "71",
@@ -1780,7 +1899,8 @@
         "coleta": 3,
         "manipulacao": 2,
         "transporte": 2
-      }
+      },
+      "combi": 1730
     },
     {
       "numero": "72",
@@ -1801,7 +1921,8 @@
       "apt": {
         "rega": 3,
         "refrigeracao": 4
-      }
+      },
+      "combi": 1660
     },
     {
       "numero": "72B",
@@ -1822,7 +1943,9 @@
       "apt": {
         "garimpo": 4,
         "refrigeracao": 4
-      }
+      },
+      "combi": 1100,
+      "so_combinacao_unica": true
     },
     {
       "numero": "73",
@@ -1840,7 +1963,8 @@
         "manual": 2,
         "coleta": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2670
     },
     {
       "numero": "73B",
@@ -1859,7 +1983,9 @@
         "manual": 2,
         "coleta": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2640,
+      "so_combinacao_unica": true
     },
     {
       "numero": "74",
@@ -1877,7 +2003,8 @@
         "manual": 2,
         "madeira": 3,
         "transporte": 3
-      }
+      },
+      "combi": 2140
     },
     {
       "numero": "74B",
@@ -1895,7 +2022,9 @@
         "manual": 2,
         "garimpo": 3,
         "transporte": 3
-      }
+      },
+      "combi": 1880,
+      "so_combinacao_unica": true
     },
     {
       "numero": "75",
@@ -1912,7 +2041,8 @@
       "apt": {
         "rega": 3,
         "fazenda": 2
-      }
+      },
+      "combi": 2440
     },
     {
       "numero": "75B",
@@ -1928,7 +2058,9 @@
       ],
       "apt": {
         "coleta": 3
-      }
+      },
+      "combi": 1840,
+      "so_combinacao_unica": true
     },
     {
       "numero": "76",
@@ -1949,7 +2081,9 @@
         "madeira": 2,
         "manipulacao": 1,
         "transporte": 2
-      }
+      },
+      "combi": 2260,
+      "so_combinacao_unica": true
     },
     {
       "numero": "76B",
@@ -1973,7 +2107,9 @@
         "madeira": 2,
         "manipulacao": 2,
         "transporte": 2
-      }
+      },
+      "combi": 2050,
+      "so_combinacao_unica": true
     },
     {
       "numero": "77",
@@ -1993,7 +2129,8 @@
         "coleta": 2,
         "manipulacao": 1,
         "transporte": 1
-      }
+      },
+      "combi": 2660
     },
     {
       "numero": "78",
@@ -2011,7 +2148,8 @@
         "acender": 3,
         "manual": 3,
         "transporte": 2
-      }
+      },
+      "combi": 2080
     },
     {
       "numero": "78B",
@@ -2033,7 +2171,9 @@
         "acender": 4,
         "manual": 4,
         "transporte": 2
-      }
+      },
+      "combi": 1490,
+      "so_combinacao_unica": true
     },
     {
       "numero": "79",
@@ -2051,7 +2191,8 @@
         "manual": 3,
         "manipulacao": 3,
         "transporte": 2
-      }
+      },
+      "combi": 2040
     },
     {
       "numero": "79B",
@@ -2074,7 +2215,9 @@
         "manual": 3,
         "manipulacao": 3,
         "transporte": 2
-      }
+      },
+      "combi": 1800,
+      "so_combinacao_unica": true
     },
     {
       "numero": "80",
@@ -2090,7 +2233,8 @@
       ],
       "apt": {
         "transporte": 4
-      }
+      },
+      "combi": 1130
     },
     {
       "numero": "80B",
@@ -2111,7 +2255,9 @@
       "apt": {
         "energia": 4,
         "transporte": 5
-      }
+      },
+      "combi": 960,
+      "so_combinacao_unica": true
     },
     {
       "numero": "81",
@@ -2131,7 +2277,8 @@
         "madeira": 3,
         "garimpo": 2,
         "transporte": 3
-      }
+      },
+      "combi": 2020
     },
     {
       "numero": "81B",
@@ -2150,7 +2297,9 @@
         "garimpo": 3,
         "refrigeracao": 5,
         "transporte": 3
-      }
+      },
+      "combi": 440,
+      "so_combinacao_unica": true
     },
     {
       "numero": "82",
@@ -2168,7 +2317,8 @@
         "manual": 4,
         "coleta": 2,
         "transporte": 2
-      }
+      },
+      "combi": 2010
     },
     {
       "numero": "83",
@@ -2184,7 +2334,8 @@
       ],
       "apt": {
         "madeira": 3
-      }
+      },
+      "combi": 1960
     },
     {
       "numero": "83B",
@@ -2201,7 +2352,9 @@
       "apt": {
         "energia": 5,
         "madeira": 4
-      }
+      },
+      "combi": 900,
+      "so_combinacao_unica": true
     },
     {
       "numero": "84",
@@ -2222,7 +2375,8 @@
       "apt": {
         "plantio": 3,
         "madeira": 3
-      }
+      },
+      "combi": 2100
     },
     {
       "numero": "84B",
@@ -2243,7 +2397,9 @@
       "apt": {
         "energia": 3,
         "madeira": 4
-      }
+      },
+      "combi": 1890,
+      "so_combinacao_unica": true
     },
     {
       "numero": "85",
@@ -2263,7 +2419,8 @@
         "coleta": 1,
         "madeira": 3,
         "transporte": 2
-      }
+      },
+      "combi": 1560
     },
     {
       "numero": "85B",
@@ -2287,7 +2444,9 @@
         "coleta": 1,
         "madeira": 5,
         "transporte": 2
-      }
+      },
+      "combi": 840,
+      "so_combinacao_unica": true
     },
     {
       "numero": "86",
@@ -2309,7 +2468,8 @@
         "rega": 2,
         "refrigeracao": 3,
         "transporte": 1
-      }
+      },
+      "combi": 2130
     },
     {
       "numero": "87",
@@ -2331,7 +2491,8 @@
         "plantio": 4,
         "madeira": 4,
         "garimpo": 4
-      }
+      },
+      "combi": 1340
     },
     {
       "numero": "87B",
@@ -2353,7 +2514,9 @@
         "madeira": 5,
         "garimpo": 4,
         "refrigeracao": 5
-      }
+      },
+      "combi": 1070,
+      "so_combinacao_unica": true
     },
     {
       "numero": "88",
@@ -2370,7 +2533,8 @@
       "apt": {
         "rega": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2450
     },
     {
       "numero": "88B",
@@ -2392,7 +2556,9 @@
         "acender": 2,
         "rega": 2,
         "transporte": 1
-      }
+      },
+      "combi": 2240,
+      "so_combinacao_unica": true
     },
     {
       "numero": "89",
@@ -2412,7 +2578,8 @@
         "coleta": 3,
         "manipulacao": 4,
         "transporte": 2
-      }
+      },
+      "combi": 1720
     },
     {
       "numero": "89B",
@@ -2436,7 +2603,9 @@
         "coleta": 3,
         "manipulacao": 4,
         "transporte": 2
-      }
+      },
+      "combi": 820,
+      "so_combinacao_unica": true
     },
     {
       "numero": "90",
@@ -2455,7 +2624,8 @@
         "manual": 3,
         "coleta": 3,
         "transporte": 2
-      }
+      },
+      "combi": 1410
     },
     {
       "numero": "91",
@@ -2478,7 +2648,8 @@
         "manual": 2,
         "garimpo": 3,
         "transporte": 2
-      }
+      },
+      "combi": 1470
     },
     {
       "numero": "91B",
@@ -2496,7 +2667,9 @@
         "manual": 3,
         "garimpo": 4,
         "transporte": 3
-      }
+      },
+      "combi": 1310,
+      "so_combinacao_unica": true
     },
     {
       "numero": "92",
@@ -2514,7 +2687,8 @@
         "energia": 3,
         "manual": 2,
         "transporte": 2
-      }
+      },
+      "combi": 2400
     },
     {
       "numero": "92B",
@@ -2537,7 +2711,9 @@
         "manual": 1,
         "manipulacao": 1,
         "transporte": 2
-      }
+      },
+      "combi": 1910,
+      "so_combinacao_unica": true
     },
     {
       "numero": "93",
@@ -2554,7 +2730,8 @@
       "apt": {
         "acender": 4,
         "madeira": 2
-      }
+      },
+      "combi": 1980
     },
     {
       "numero": "93B",
@@ -2575,7 +2752,9 @@
       "apt": {
         "acender": 4,
         "madeira": 3
-      }
+      },
+      "combi": 1870,
+      "so_combinacao_unica": true
     },
     {
       "numero": "94",
@@ -2596,7 +2775,8 @@
       "apt": {
         "rega": 3,
         "transporte": 3
-      }
+      },
+      "combi": 1090
     },
     {
       "numero": "94B",
@@ -2617,7 +2797,9 @@
       "apt": {
         "energia": 4,
         "transporte": 3
-      }
+      },
+      "combi": 770,
+      "so_combinacao_unica": true
     },
     {
       "numero": "95",
@@ -2634,7 +2816,8 @@
       "apt": {
         "refrigeracao": 4,
         "fazenda": 3
-      }
+      },
+      "combi": 1970
     },
     {
       "numero": "96",
@@ -2652,7 +2835,8 @@
         "energia": 4,
         "coleta": 2,
         "transporte": 5
-      }
+      },
+      "combi": 1690
     },
     {
       "numero": "96B",
@@ -2670,7 +2854,9 @@
         "coleta": 2,
         "refrigeracao": 5,
         "transporte": 5
-      }
+      },
+      "combi": 580,
+      "so_combinacao_unica": true
     },
     {
       "numero": "97",
@@ -2691,7 +2877,8 @@
       "apt": {
         "rega": 5,
         "transporte": 2
-      }
+      },
+      "combi": 880
     },
     {
       "numero": "97B",
@@ -2713,7 +2900,9 @@
         "acender": 5,
         "rega": 5,
         "transporte": 2
-      }
+      },
+      "combi": 720,
+      "so_combinacao_unica": true
     },
     {
       "numero": "98",
@@ -2729,7 +2918,8 @@
       ],
       "apt": {
         "energia": 4
-      }
+      },
+      "combi": 1920
     },
     {
       "numero": "98B",
@@ -2745,7 +2935,9 @@
       ],
       "apt": {
         "refrigeracao": 3
-      }
+      },
+      "combi": 1600,
+      "so_combinacao_unica": true
     },
     {
       "numero": "99",
@@ -2766,7 +2958,8 @@
       "apt": {
         "madeira": 3,
         "garimpo": 5
-      }
+      },
+      "combi": 1120
     },
     {
       "numero": "99B",
@@ -2783,7 +2976,9 @@
       "apt": {
         "madeira": 3,
         "garimpo": 6
-      }
+      },
+      "combi": 640,
+      "so_combinacao_unica": true
     },
     {
       "numero": "100",
@@ -2801,7 +2996,8 @@
         "plantio": 3,
         "coleta": 3,
         "transporte": 1
-      }
+      },
+      "combi": 2420
     },
     {
       "numero": "100B",
@@ -2823,7 +3019,9 @@
         "plantio": 3,
         "coleta": 3,
         "transporte": 1
-      }
+      },
+      "combi": 1580,
+      "so_combinacao_unica": true
     },
     {
       "numero": "101",
@@ -2840,7 +3038,8 @@
       "apt": {
         "madeira": 3,
         "refrigeracao": 3
-      }
+      },
+      "combi": 1930
     },
     {
       "numero": "102",
@@ -2859,7 +3058,8 @@
         "manual": 2,
         "madeira": 4,
         "transporte": 4
-      }
+      },
+      "combi": 2060
     },
     {
       "numero": "102B",
@@ -2878,7 +3078,9 @@
         "manual": 3,
         "madeira": 4,
         "transporte": 4
-      }
+      },
+      "combi": 1440,
+      "so_combinacao_unica": true
     },
     {
       "numero": "103",
@@ -2899,7 +3101,8 @@
       "apt": {
         "coleta": 1,
         "refrigeracao": 2
-      }
+      },
+      "combi": 2330
     },
     {
       "numero": "103B",
@@ -2920,7 +3123,9 @@
       "apt": {
         "acender": 4,
         "coleta": 3
-      }
+      },
+      "combi": 1950,
+      "so_combinacao_unica": true
     },
     {
       "numero": "104",
@@ -2937,7 +3142,8 @@
       "apt": {
         "acender": 4,
         "transporte": 5
-      }
+      },
+      "combi": 1050
     },
     {
       "numero": "105",
@@ -2958,7 +3164,8 @@
       "apt": {
         "acender": 5,
         "garimpo": 5
-      }
+      },
+      "combi": 750
     },
     {
       "numero": "105B",
@@ -2979,7 +3186,9 @@
       "apt": {
         "garimpo": 5,
         "refrigeracao": 5
-      }
+      },
+      "combi": 380,
+      "so_combinacao_unica": true
     },
     {
       "numero": "106",
@@ -2997,7 +3206,8 @@
         "plantio": 4,
         "coleta": 4,
         "garimpo": 5
-      }
+      },
+      "combi": 1240
     },
     {
       "numero": "107",
@@ -3013,7 +3223,8 @@
       ],
       "apt": {
         "garimpo": 4
-      }
+      },
+      "combi": 1550
     },
     {
       "numero": "108",
@@ -3029,7 +3240,8 @@
       ],
       "apt": {
         "plantio": 5
-      }
+      },
+      "combi": 1380
     },
     {
       "numero": "108B",
@@ -3049,7 +3261,9 @@
       ],
       "apt": {
         "rega": 5
-      }
+      },
+      "combi": 1080,
+      "so_combinacao_unica": true
     },
     {
       "numero": "109",
@@ -3072,7 +3286,8 @@
         "garimpo": 2,
         "transporte": 1,
         "fazenda": 1
-      }
+      },
+      "combi": 2290
     },
     {
       "numero": "109B",
@@ -3095,7 +3310,9 @@
         "garimpo": 2,
         "transporte": 1,
         "fazenda": 4
-      }
+      },
+      "combi": 1620,
+      "so_combinacao_unica": true
     },
     {
       "numero": "110",
@@ -3117,7 +3334,8 @@
         "plantio": 5,
         "coleta": 5,
         "garimpo": 3
-      }
+      },
+      "combi": 1030
     },
     {
       "numero": "111",
@@ -3133,7 +3351,8 @@
       ],
       "apt": {
         "acender": 3
-      }
+      },
+      "combi": 1670
     },
     {
       "numero": "111B",
@@ -3149,7 +3368,9 @@
       ],
       "apt": {
         "acender": 4
-      }
+      },
+      "combi": 800,
+      "so_combinacao_unica": true
     },
     {
       "numero": "112",
@@ -3166,7 +3387,8 @@
       "apt": {
         "acender": 5,
         "madeira": 3
-      }
+      },
+      "combi": 1360
     },
     {
       "numero": "112B",
@@ -3187,7 +3409,9 @@
       "apt": {
         "acender": 5,
         "madeira": 3
-      }
+      },
+      "combi": 1270,
+      "so_combinacao_unica": true
     },
     {
       "numero": "113",
@@ -3210,7 +3434,8 @@
         "manual": 3,
         "madeira": 4,
         "transporte": 5
-      }
+      },
+      "combi": 1280
     },
     {
       "numero": "113B",
@@ -3228,7 +3453,9 @@
         "manual": 2,
         "garimpo": 5,
         "transporte": 5
-      }
+      },
+      "combi": 630,
+      "so_combinacao_unica": true
     },
     {
       "numero": "114",
@@ -3245,7 +3472,8 @@
       "apt": {
         "coleta": 2,
         "refrigeracao": 4
-      }
+      },
+      "combi": 860
     },
     {
       "numero": "115",
@@ -3268,7 +3496,8 @@
         "manual": 5,
         "manipulacao": 3,
         "transporte": 2
-      }
+      },
+      "combi": 1010
     },
     {
       "numero": "116",
@@ -3286,7 +3515,8 @@
         "manipulacao": 3,
         "refrigeracao": 3,
         "fazenda": 3
-      }
+      },
+      "combi": 1810
     },
     {
       "numero": "116B",
@@ -3303,7 +3533,9 @@
       "apt": {
         "manipulacao": 3,
         "fazenda": 4
-      }
+      },
+      "combi": 650,
+      "so_combinacao_unica": true
     },
     {
       "numero": "117",
@@ -3320,7 +3552,8 @@
       "apt": {
         "coleta": 4,
         "garimpo": 4
-      }
+      },
+      "combi": 1710
     },
     {
       "numero": "118",
@@ -3340,7 +3573,8 @@
         "coleta": 3,
         "madeira": 2,
         "fazenda": 3
-      }
+      },
+      "combi": 1520
     },
     {
       "numero": "118B",
@@ -3363,7 +3597,8 @@
         "manual": 3,
         "coleta": 3,
         "madeira": 2
-      }
+      },
+      "combi": 1450
     },
     {
       "numero": "119",
@@ -3382,7 +3617,8 @@
         "manipulacao": 4,
         "refrigeracao": 5,
         "transporte": 2
-      }
+      },
+      "combi": 1260
     },
     {
       "numero": "120",
@@ -3404,7 +3640,8 @@
         "manual": 5,
         "manipulacao": 4,
         "transporte": 2
-      }
+      },
+      "combi": 1170
     },
     {
       "numero": "121",
@@ -3424,7 +3661,8 @@
       ],
       "apt": {
         "rega": 7
-      }
+      },
+      "combi": 590
     },
     {
       "numero": "121B",
@@ -3444,7 +3682,9 @@
       ],
       "apt": {
         "acender": 7
-      }
+      },
+      "combi": 170,
+      "so_combinacao_unica": true
     },
     {
       "numero": "122",
@@ -3460,7 +3700,8 @@
       ],
       "apt": {
         "acender": 5
-      }
+      },
+      "combi": 1200
     },
     {
       "numero": "122B",
@@ -3476,7 +3717,9 @@
       ],
       "apt": {
         "rega": 6
-      }
+      },
+      "combi": 740,
+      "so_combinacao_unica": true
     },
     {
       "numero": "123",
@@ -3492,7 +3735,8 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 2210
     },
     {
       "numero": "124",
@@ -3511,7 +3755,8 @@
         "coleta": 3,
         "garimpo": 4,
         "transporte": 5
-      }
+      },
+      "combi": 1210
     },
     {
       "numero": "124B",
@@ -3535,7 +3780,9 @@
         "coleta": 4,
         "garimpo": 3,
         "transporte": 4
-      }
+      },
+      "combi": 1300,
+      "so_combinacao_unica": true
     },
     {
       "numero": "125",
@@ -3554,7 +3801,8 @@
         "manual": 3,
         "coleta": 2,
         "manipulacao": 3
-      }
+      },
+      "combi": 1990
     },
     {
       "numero": "126",
@@ -3570,7 +3818,8 @@
       ],
       "apt": {
         "garimpo": 1
-      }
+      },
+      "combi": 2310
     },
     {
       "numero": "127",
@@ -3586,7 +3835,8 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 2230
     },
     {
       "numero": "128",
@@ -3604,7 +3854,8 @@
         "rega": 4,
         "coleta": 1,
         "madeira": 4
-      }
+      },
+      "combi": 1420
     },
     {
       "numero": "128B",
@@ -3627,7 +3878,9 @@
         "rega": 2,
         "coleta": 2,
         "madeira": 3
-      }
+      },
+      "combi": 1590,
+      "so_combinacao_unica": true
     },
     {
       "numero": "129",
@@ -3648,7 +3901,8 @@
       "apt": {
         "acender": 5,
         "garimpo": 5
-      }
+      },
+      "combi": 1060
     },
     {
       "numero": "129B",
@@ -3669,7 +3923,9 @@
       "apt": {
         "garimpo": 5,
         "refrigeracao": 5
-      }
+      },
+      "combi": 600,
+      "so_combinacao_unica": true
     },
     {
       "numero": "130",
@@ -3685,7 +3941,8 @@
       ],
       "apt": {
         "coleta": 5
-      }
+      },
+      "combi": 1150
     },
     {
       "numero": "130B",
@@ -3701,7 +3958,9 @@
       ],
       "apt": {
         "coleta": 7
-      }
+      },
+      "combi": 430,
+      "so_combinacao_unica": true
     },
     {
       "numero": "131",
@@ -3717,7 +3976,8 @@
       ],
       "apt": {
         "garimpo": 5
-      }
+      },
+      "combi": 1110
     },
     {
       "numero": "131B",
@@ -3734,7 +3994,9 @@
       "apt": {
         "garimpo": 5,
         "refrigeracao": 6
-      }
+      },
+      "combi": 460,
+      "so_combinacao_unica": true
     },
     {
       "numero": "132",
@@ -3753,7 +4015,8 @@
         "madeira": 4,
         "refrigeracao": 4,
         "transporte": 4
-      }
+      },
+      "combi": 1040
     },
     {
       "numero": "132B",
@@ -3772,7 +4035,9 @@
         "madeira": 6,
         "garimpo": 5,
         "transporte": 4
-      }
+      },
+      "combi": 470,
+      "so_combinacao_unica": true
     },
     {
       "numero": "133",
@@ -3791,7 +4056,8 @@
         "garimpo": 3,
         "refrigeracao": 3,
         "transporte": 2
-      }
+      },
+      "combi": 2390
     },
     {
       "numero": "134",
@@ -3810,7 +4076,8 @@
         "madeira": 5,
         "refrigeracao": 5,
         "transporte": 6
-      }
+      },
+      "combi": 830
     },
     {
       "numero": "134B",
@@ -3829,7 +4096,8 @@
         "manual": 3,
         "madeira": 5,
         "transporte": 6
-      }
+      },
+      "combi": 610
     },
     {
       "numero": "135",
@@ -3853,7 +4121,8 @@
         "coleta": 2,
         "garimpo": 3,
         "fazenda": 2
-      }
+      },
+      "combi": 980
     },
     {
       "numero": "136",
@@ -3872,7 +4141,8 @@
         "manual": 4,
         "coleta": 4,
         "transporte": 2
-      }
+      },
+      "combi": 1700
     },
     {
       "numero": "137",
@@ -3889,7 +4159,8 @@
       "apt": {
         "acender": 6,
         "garimpo": 7
-      }
+      },
+      "combi": 410
     },
     {
       "numero": "137B",
@@ -3910,7 +4181,9 @@
       "apt": {
         "acender": 6,
         "garimpo": 7
-      }
+      },
+      "combi": 100,
+      "so_combinacao_unica": true
     },
     {
       "numero": "138",
@@ -3934,7 +4207,8 @@
         "madeira": 5,
         "garimpo": 6,
         "transporte": 6
-      }
+      },
+      "combi": 510
     },
     {
       "numero": "138B",
@@ -3958,7 +4232,9 @@
         "madeira": 5,
         "garimpo": 6,
         "transporte": 6
-      }
+      },
+      "combi": 250,
+      "so_combinacao_unica": true
     },
     {
       "numero": "139",
@@ -3976,7 +4252,8 @@
         "manual": 6,
         "garimpo": 6,
         "transporte": 4
-      }
+      },
+      "combi": 480
     },
     {
       "numero": "140",
@@ -3994,7 +4271,8 @@
         "manual": 6,
         "garimpo": 3,
         "transporte": 2
-      }
+      },
+      "combi": 870
     },
     {
       "numero": "141",
@@ -4016,7 +4294,8 @@
         "coleta": 2,
         "madeira": 4,
         "manipulacao": 2
-      }
+      },
+      "combi": 1510
     },
     {
       "numero": "141B",
@@ -4039,7 +4318,9 @@
         "coleta": 2,
         "madeira": 4,
         "manipulacao": 2
-      }
+      },
+      "combi": 850,
+      "so_combinacao_unica": true
     },
     {
       "numero": "142",
@@ -4055,7 +4336,8 @@
       ],
       "apt": {
         "garimpo": 4
-      }
+      },
+      "combi": 790
     },
     {
       "numero": "142B",
@@ -4071,7 +4353,9 @@
       ],
       "apt": {
         "garimpo": 6
-      }
+      },
+      "combi": 200,
+      "so_combinacao_unica": true
     },
     {
       "numero": "143",
@@ -4090,7 +4374,8 @@
         "coleta": 4,
         "madeira": 2,
         "transporte": 3
-      }
+      },
+      "combi": 1250
     },
     {
       "numero": "144",
@@ -4107,7 +4392,9 @@
       "apt": {
         "coleta": 1,
         "transporte": 2
-      }
+      },
+      "combi": 1740,
+      "so_combinacao_unica": true
     },
     {
       "numero": "145",
@@ -4124,7 +4411,9 @@
       "apt": {
         "madeira": 3,
         "transporte": 2
-      }
+      },
+      "combi": 1820,
+      "so_combinacao_unica": true
     },
     {
       "numero": "146",
@@ -4140,7 +4429,9 @@
       ],
       "apt": {
         "garimpo": 4
-      }
+      },
+      "combi": 990,
+      "so_combinacao_unica": true
     },
     {
       "numero": "147",
@@ -4164,7 +4455,8 @@
         "coleta": 2,
         "manipulacao": 3,
         "transporte": 1
-      }
+      },
+      "combi": 1390
     },
     {
       "numero": "148",
@@ -4181,7 +4473,8 @@
       "apt": {
         "manual": 4,
         "transporte": 2
-      }
+      },
+      "combi": 1230
     },
     {
       "numero": "148B",
@@ -4199,7 +4492,9 @@
         "plantio": 3,
         "manual": 4,
         "transporte": 2
-      }
+      },
+      "combi": 1320,
+      "so_combinacao_unica": true
     },
     {
       "numero": "149",
@@ -4215,7 +4510,8 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 1760
     },
     {
       "numero": "149B",
@@ -4236,7 +4532,9 @@
       "apt": {
         "coleta": 2,
         "refrigeracao": 2
-      }
+      },
+      "combi": 1610,
+      "so_combinacao_unica": true
     },
     {
       "numero": "150",
@@ -4252,7 +4550,8 @@
       ],
       "apt": {
         "coleta": 5
-      }
+      },
+      "combi": 1140
     },
     {
       "numero": "151",
@@ -4273,7 +4572,8 @@
       "apt": {
         "rega": 5,
         "refrigeracao": 6
-      }
+      },
+      "combi": 710
     },
     {
       "numero": "151B",
@@ -4294,7 +4594,9 @@
       "apt": {
         "acender": 5,
         "refrigeracao": 6
-      }
+      },
+      "combi": 370,
+      "so_combinacao_unica": true
     },
     {
       "numero": "152",
@@ -4314,7 +4616,8 @@
         "coleta": 5,
         "madeira": 3,
         "transporte": 3
-      }
+      },
+      "combi": 1160
     },
     {
       "numero": "153",
@@ -4333,7 +4636,8 @@
         "madeira": 3,
         "manipulacao": 5,
         "transporte": 2
-      }
+      },
+      "combi": 780
     },
     {
       "numero": "154",
@@ -4349,7 +4653,8 @@
       ],
       "apt": {
         "coleta": 5
-      }
+      },
+      "combi": 730
     },
     {
       "numero": "155",
@@ -4369,7 +4674,8 @@
         "madeira": 3,
         "manipulacao": 2,
         "transporte": 3
-      }
+      },
+      "combi": 1460
     },
     {
       "numero": "156",
@@ -4386,7 +4692,8 @@
       "apt": {
         "garimpo": 4,
         "transporte": 3
-      }
+      },
+      "combi": 1190
     },
     {
       "numero": "157",
@@ -4403,7 +4710,9 @@
       "apt": {
         "coleta": 4,
         "madeira": 7
-      }
+      },
+      "combi": 570,
+      "so_combinacao_unica": true
     },
     {
       "numero": "157B",
@@ -4420,7 +4729,9 @@
       "apt": {
         "coleta": 4,
         "madeira": 8
-      }
+      },
+      "combi": 270,
+      "so_combinacao_unica": true
     },
     {
       "numero": "158",
@@ -4441,7 +4752,8 @@
       "apt": {
         "manual": 3,
         "garimpo": 7
-      }
+      },
+      "combi": 490
     },
     {
       "numero": "159",
@@ -4459,7 +4771,8 @@
         "coleta": 4,
         "garimpo": 7,
         "transporte": 7
-      }
+      },
+      "combi": 260
     },
     {
       "numero": "159B",
@@ -4477,7 +4790,9 @@
         "acender": 5,
         "garimpo": 7,
         "transporte": 7
-      }
+      },
+      "combi": 210,
+      "so_combinacao_unica": true
     },
     {
       "numero": "160",
@@ -4493,7 +4808,8 @@
       ],
       "apt": {
         "madeira": 6
-      }
+      },
+      "combi": 560
     },
     {
       "numero": "161",
@@ -4509,7 +4825,8 @@
       ],
       "apt": {
         "energia": 5
-      }
+      },
+      "combi": 420
     },
     {
       "numero": "162",
@@ -4525,7 +4842,8 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 1900
     },
     {
       "numero": "163",
@@ -4541,7 +4859,8 @@
       ],
       "apt": {
         "energia": 4
-      }
+      },
+      "combi": 1780
     },
     {
       "numero": "163B",
@@ -4561,7 +4880,9 @@
       ],
       "apt": {
         "energia": 4
-      }
+      },
+      "combi": 1500,
+      "so_combinacao_unica": true
     },
     {
       "numero": "164",
@@ -4578,7 +4899,8 @@
       "apt": {
         "plantio": 2,
         "transporte": 2
-      }
+      },
+      "combi": 2000
     },
     {
       "numero": "165",
@@ -4597,7 +4919,8 @@
         "coleta": 4,
         "garimpo": 2,
         "transporte": 1
-      }
+      },
+      "combi": 1680
     },
     {
       "numero": "166",
@@ -4614,7 +4937,8 @@
       "apt": {
         "manual": 1,
         "transporte": 1
-      }
+      },
+      "combi": 1770
     },
     {
       "numero": "167",
@@ -4630,7 +4954,8 @@
       ],
       "apt": {
         "energia": 3
-      }
+      },
+      "combi": 1750
     },
     {
       "numero": "168",
@@ -4648,7 +4973,8 @@
         "manual": 3,
         "manipulacao": 4,
         "transporte": 2
-      }
+      },
+      "combi": 1540
     },
     {
       "numero": "169",
@@ -4664,7 +4990,8 @@
       ],
       "apt": {
         "rega": 4
-      }
+      },
+      "combi": 1370
     },
     {
       "numero": "169B",
@@ -4685,7 +5012,9 @@
       "apt": {
         "rega": 4,
         "energia": 6
-      }
+      },
+      "combi": 1000,
+      "so_combinacao_unica": true
     },
     {
       "numero": "170",
@@ -4702,7 +5031,8 @@
       "apt": {
         "manual": 6,
         "coleta": 5
-      }
+      },
+      "combi": 810
     },
     {
       "numero": "171",
@@ -4722,7 +5052,8 @@
       ],
       "apt": {
         "transporte": 6
-      }
+      },
+      "combi": 300
     },
     {
       "numero": "171B",
@@ -4743,7 +5074,9 @@
       "apt": {
         "acender": 6,
         "transporte": 6
-      }
+      },
+      "combi": 140,
+      "so_combinacao_unica": true
     },
     {
       "numero": "172",
@@ -4761,7 +5094,8 @@
         "energia": 6,
         "coleta": 3,
         "transporte": 3
-      }
+      },
+      "combi": 1400
     },
     {
       "numero": "173",
@@ -4778,7 +5112,8 @@
       "apt": {
         "plantio": 5,
         "coleta": 5
-      }
+      },
+      "combi": 1350
     },
     {
       "numero": "174",
@@ -4796,7 +5131,8 @@
         "acender": 7,
         "manual": 6,
         "transporte": 2
-      }
+      },
+      "combi": 390
     },
     {
       "numero": "175",
@@ -4817,7 +5153,8 @@
       "apt": {
         "rega": 5,
         "plantio": 7
-      }
+      },
+      "combi": 230
     },
     {
       "numero": "176",
@@ -4836,7 +5173,8 @@
         "manual": 5,
         "manipulacao": 4,
         "transporte": 2
-      }
+      },
+      "combi": 520
     },
     {
       "numero": "177",
@@ -4853,7 +5191,8 @@
       "apt": {
         "coleta": 5,
         "transporte": 5
-      }
+      },
+      "combi": 530
     },
     {
       "numero": "178",
@@ -4872,7 +5211,8 @@
         "coleta": 6,
         "manipulacao": 5,
         "transporte": 2
-      }
+      },
+      "combi": 970
     },
     {
       "numero": "179",
@@ -4891,7 +5231,8 @@
         "manual": 4,
         "coleta": 4,
         "manipulacao": 6
-      }
+      },
+      "combi": 760
     },
     {
       "numero": "180",
@@ -4913,7 +5254,8 @@
         "acender": 4,
         "manual": 4,
         "manipulacao": 4
-      }
+      },
+      "combi": 890
     },
     {
       "numero": "181",
@@ -4931,7 +5273,8 @@
         "manual": 6,
         "manipulacao": 6,
         "transporte": 1
-      }
+      },
+      "combi": 1180
     },
     {
       "numero": "182",
@@ -4953,7 +5296,8 @@
         "manual": 8,
         "coleta": 4,
         "transporte": 2
-      }
+      },
+      "combi": 280
     },
     {
       "numero": "183",
@@ -4972,7 +5316,8 @@
         "manual": 6,
         "coleta": 5,
         "transporte": 5
-      }
+      },
+      "combi": 290
     },
     {
       "numero": "184",
@@ -4992,7 +5337,8 @@
       ],
       "apt": {
         "garimpo": 8
-      }
+      },
+      "combi": 30
     },
     {
       "numero": "185",
@@ -5011,7 +5357,9 @@
         "manual": 4,
         "madeira": 3,
         "transporte": 5
-      }
+      },
+      "combi": 1020,
+      "so_combinacao_unica": true
     },
     {
       "numero": "186",
@@ -5030,7 +5378,9 @@
         "manual": 5,
         "coleta": 6,
         "manipulacao": 5
-      }
+      },
+      "combi": 240,
+      "so_combinacao_unica": true
     },
     {
       "numero": "186B",
@@ -5048,7 +5398,9 @@
         "manual": 5,
         "coleta": 6,
         "manipulacao": 7
-      }
+      },
+      "combi": 220,
+      "so_combinacao_unica": true
     },
     {
       "numero": "187",
@@ -5070,7 +5422,9 @@
         "energia": 8,
         "manual": 3,
         "transporte": 4
-      }
+      },
+      "combi": 120,
+      "so_combinacao_unica": true
     },
     {
       "numero": "188",
@@ -5087,7 +5441,9 @@
       "apt": {
         "acender": 6,
         "transporte": 3
-      }
+      },
+      "combi": 500,
+      "so_combinacao_unica": true
     },
     {
       "numero": "188B",
@@ -5104,7 +5460,9 @@
       "apt": {
         "rega": 6,
         "transporte": 5
-      }
+      },
+      "combi": 450,
+      "so_combinacao_unica": true
     },
     {
       "numero": "189",
@@ -5120,7 +5478,9 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 550,
+      "so_combinacao_unica": true
     },
     {
       "numero": "190",
@@ -5142,7 +5502,9 @@
         "manual": 7,
         "manipulacao": 6,
         "transporte": 3
-      }
+      },
+      "combi": 360,
+      "so_combinacao_unica": true
     },
     {
       "numero": "191",
@@ -5160,7 +5522,9 @@
         "madeira": 6,
         "garimpo": 5,
         "refrigeracao": 8
-      }
+      },
+      "combi": 50,
+      "so_combinacao_unica": true
     },
     {
       "numero": "192",
@@ -5181,7 +5545,9 @@
       "apt": {
         "rega": 8,
         "coleta": 5
-      }
+      },
+      "combi": 40,
+      "so_combinacao_unica": true
     },
     {
       "numero": "193",
@@ -5201,7 +5567,9 @@
         "coleta": 4,
         "manipulacao": 8,
         "transporte": 2
-      }
+      },
+      "combi": 80,
+      "so_combinacao_unica": true
     },
     {
       "numero": "194",
@@ -5225,7 +5593,9 @@
         "coleta": 5,
         "manipulacao": 6,
         "transporte": 3
-      }
+      },
+      "combi": 60,
+      "so_combinacao_unica": true
     },
     {
       "numero": "195",
@@ -5243,7 +5613,9 @@
         "manual": 5,
         "manipulacao": 5,
         "transporte": 4
-      }
+      },
+      "combi": 620,
+      "so_combinacao_unica": true
     },
     {
       "numero": "195B",
@@ -5261,7 +5633,9 @@
         "manual": 6,
         "manipulacao": 7,
         "transporte": 4
-      }
+      },
+      "combi": 130,
+      "so_combinacao_unica": true
     },
     {
       "numero": "196",
@@ -5281,7 +5655,9 @@
       ],
       "apt": {
         "coleta": 2
-      }
+      },
+      "combi": 400,
+      "so_combinacao_unica": true
     },
     {
       "numero": "197",
@@ -5298,7 +5674,9 @@
       "apt": {
         "coleta": 7,
         "madeira": 7
-      }
+      },
+      "combi": 90,
+      "so_combinacao_unica": true
     },
     {
       "numero": "198",
@@ -5315,7 +5693,9 @@
       "apt": {
         "madeira": 6,
         "garimpo": 6
-      }
+      },
+      "combi": 180,
+      "so_combinacao_unica": true
     },
     {
       "numero": "199",
@@ -5332,7 +5712,9 @@
       "apt": {
         "madeira": 6,
         "garimpo": 6
-      }
+      },
+      "combi": 190,
+      "so_combinacao_unica": true
     },
     {
       "numero": "200",
@@ -5348,7 +5730,9 @@
       ],
       "apt": {
         "refrigeracao": 7
-      }
+      },
+      "combi": 150,
+      "so_combinacao_unica": true
     },
     {
       "numero": "200B",
@@ -5364,7 +5748,9 @@
       ],
       "apt": {
         "coleta": 7
-      }
+      },
+      "combi": 110,
+      "so_combinacao_unica": true
     },
     {
       "numero": "201",
@@ -5380,7 +5766,9 @@
       ],
       "apt": {
         "rega": 7
-      }
+      },
+      "combi": 160,
+      "so_combinacao_unica": true
     },
     {
       "numero": "202",
@@ -5396,7 +5784,9 @@
       ],
       "apt": {
         "coleta": 8
-      }
+      },
+      "combi": 70,
+      "so_combinacao_unica": true
     },
     {
       "numero": "203",
@@ -5410,7 +5800,9 @@
           "pt": "Água"
         }
       ],
-      "apt": {}
+      "apt": {},
+      "combi": 20,
+      "so_combinacao_unica": true
     },
     {
       "numero": "204",
@@ -5419,7 +5811,9 @@
       "en": "Astralym",
       "pt": "Astralym",
       "elementos": [],
-      "apt": {}
+      "apt": {},
+      "combi": 10,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5435,7 +5829,9 @@
       ],
       "apt": {
         "transporte": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5451,7 +5847,9 @@
       ],
       "apt": {
         "coleta": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5467,7 +5865,9 @@
       ],
       "apt": {
         "transporte": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5483,7 +5883,9 @@
       ],
       "apt": {
         "madeira": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5499,7 +5901,9 @@
       ],
       "apt": {
         "transporte": 4
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5515,7 +5919,9 @@
       ],
       "apt": {
         "transporte": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5531,7 +5937,9 @@
       ],
       "apt": {
         "coleta": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5547,7 +5955,9 @@
       ],
       "apt": {
         "transporte": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5563,7 +5973,9 @@
       ],
       "apt": {
         "transporte": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5579,7 +5991,9 @@
       ],
       "apt": {
         "transporte": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     },
     {
       "numero": null,
@@ -5595,7 +6009,826 @@
       ],
       "apt": {
         "transporte": 1
-      }
+      },
+      "combi": 3100,
+      "so_combinacao_unica": true
     }
+  ],
+  "cruzamentos_unicos": [
+    [
+      "Relaxaurus",
+      "Sparkit",
+      "Relaxaurus_Lux"
+    ],
+    [
+      "Incineram",
+      "Maraith",
+      "Incineram_Noct"
+    ],
+    [
+      "Mau",
+      "Pengullet",
+      "Mau_Cryst"
+    ],
+    [
+      "Vanwyrm",
+      "Foxcicle",
+      "Vanwyrm_Cryst"
+    ],
+    [
+      "Eikthyrdeer",
+      "Hangyu",
+      "Eikthyrdeer_Terra"
+    ],
+    [
+      "Elphidran",
+      "Surfent",
+      "Elphidran_Aqua"
+    ],
+    [
+      "Pyrin",
+      "Katress",
+      "Pyrin_Noct"
+    ],
+    [
+      "Mammorest",
+      "Wumpo",
+      "Mammorest_Cryst"
+    ],
+    [
+      "Mossanda",
+      "Grizzbolt",
+      "Mossanda_Lux"
+    ],
+    [
+      "Dinossom",
+      "Rayhound",
+      "Dinossom_Lux"
+    ],
+    [
+      "Jolthog",
+      "Pengullet",
+      "Jolthog_Cryst"
+    ],
+    [
+      "Frostallion",
+      "Helzephyr",
+      "Frostallion_Noct"
+    ],
+    [
+      "Kingpaca",
+      "Reindrix",
+      "Kingpaca_Cryst"
+    ],
+    [
+      "Lyleen",
+      "Menasting",
+      "Lyleen_Noct"
+    ],
+    [
+      "Leezpunk",
+      "Flambelle",
+      "Leezpunk_Ignis"
+    ],
+    [
+      "Blazehowl",
+      "Felbat",
+      "Blazehowl_Noct"
+    ],
+    [
+      "Robinquill",
+      "Fuddler",
+      "Robinquill_Terra"
+    ],
+    [
+      "Broncherry",
+      "Fuack",
+      "Broncherry_Aqua"
+    ],
+    [
+      "Surfent",
+      "Dumud",
+      "Surfent_Terra"
+    ],
+    [
+      "Gobfin",
+      "Rooby",
+      "Gobfin_Ignis"
+    ],
+    [
+      "Suzaku",
+      "Jormuntide",
+      "Suzaku_Aqua"
+    ],
+    [
+      "Reptyro",
+      "Foxcicle",
+      "Reptyro_Cryst"
+    ],
+    [
+      "Hangyu",
+      "Swee",
+      "Hangyu_Cryst"
+    ],
+    [
+      "Jormuntide",
+      "Blazehowl",
+      "Jormuntide_Ignis"
+    ],
+    [
+      "Bellanoir",
+      "Bellanoir_Libero",
+      "Bellanoir"
+    ],
+    [
+      "Katress",
+      "Wixen",
+      "Wixen_Noct"
+    ],
+    [
+      "Katress",
+      "Wixen",
+      "Katress_Ignis"
+    ],
+    [
+      "Gorirat",
+      "Kikit",
+      "Gorirat_Terra"
+    ],
+    [
+      "Chillet",
+      "Arsox",
+      "Chillet_Ignis"
+    ],
+    [
+      "Quivern",
+      "Lullu",
+      "Quivern_Botan"
+    ],
+    [
+      "Helzephyr",
+      "Beakon",
+      "Helzephyr_Lux"
+    ],
+    [
+      "Bushi",
+      "Sootseer",
+      "Bushi_Noct"
+    ],
+    [
+      "Menasting",
+      "Knocklem",
+      "Menasting_Terra"
+    ],
+    [
+      "Foxparks",
+      "Foxcicle",
+      "Foxparks_Cryst"
+    ],
+    [
+      "Dazzi",
+      "Omascul",
+      "Dazzi_Noct"
+    ],
+    [
+      "Cryolinx",
+      "Dazemu",
+      "Cryolinx_Terra"
+    ],
+    [
+      "Fenglope",
+      "Azurmane",
+      "Fenglope_Lux"
+    ],
+    [
+      "Caprity",
+      "Tarantriss",
+      "Caprity_Noct"
+    ],
+    [
+      "Loupmoon",
+      "Sweepa",
+      "Loupmoon_Cryst"
+    ],
+    [
+      "Faleris",
+      "Jormuntide",
+      "Faleris_Aqua"
+    ],
+    [
+      "Ribbuny",
+      "Bristla",
+      "Ribbuny_Botan"
+    ],
+    [
+      "Warsect",
+      "Digtoise",
+      "Warsect_Terra"
+    ],
+    [
+      "Kitsun",
+      "Nyafia",
+      "Kitsun_Noct"
+    ],
+    [
+      "Gildane",
+      "Eikthyrdeer_Terra",
+      "Celesdir"
+    ],
+    [
+      "Green_Slime",
+      "Blue_Slime",
+      "Blue_Slime"
+    ],
+    [
+      "Green_Slime",
+      "Red_Slime",
+      "Red_Slime"
+    ],
+    [
+      "Green_Slime",
+      "Purple_Slime",
+      "Purple_Slime"
+    ],
+    [
+      "Green_Slime",
+      "Illuminant_Slime",
+      "Illuminant_Slime"
+    ],
+    [
+      "Green_Slime",
+      "Rainbow_Slime",
+      "Rainbow_Slime"
+    ],
+    [
+      "Green_Slime",
+      "Enchanted_Sword",
+      "Enchanted_Sword"
+    ],
+    [
+      "Green_Slime",
+      "Cave_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Green_Slime",
+      "Illuminant_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Green_Slime",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Green_Slime",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Blue_Slime",
+      "Red_Slime",
+      "Purple_Slime"
+    ],
+    [
+      "Blue_Slime",
+      "Purple_Slime",
+      "Purple_Slime"
+    ],
+    [
+      "Blue_Slime",
+      "Illuminant_Slime",
+      "Illuminant_Slime"
+    ],
+    [
+      "Blue_Slime",
+      "Rainbow_Slime",
+      "Rainbow_Slime"
+    ],
+    [
+      "Blue_Slime",
+      "Enchanted_Sword",
+      "Enchanted_Sword"
+    ],
+    [
+      "Blue_Slime",
+      "Cave_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Blue_Slime",
+      "Illuminant_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Blue_Slime",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Blue_Slime",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Red_Slime",
+      "Purple_Slime",
+      "Purple_Slime"
+    ],
+    [
+      "Red_Slime",
+      "Illuminant_Slime",
+      "Illuminant_Slime"
+    ],
+    [
+      "Red_Slime",
+      "Rainbow_Slime",
+      "Rainbow_Slime"
+    ],
+    [
+      "Red_Slime",
+      "Enchanted_Sword",
+      "Enchanted_Sword"
+    ],
+    [
+      "Red_Slime",
+      "Cave_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Red_Slime",
+      "Illuminant_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Red_Slime",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Red_Slime",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Purple_Slime",
+      "Illuminant_Slime",
+      "Illuminant_Slime"
+    ],
+    [
+      "Purple_Slime",
+      "Rainbow_Slime",
+      "Rainbow_Slime"
+    ],
+    [
+      "Purple_Slime",
+      "Enchanted_Sword",
+      "Enchanted_Sword"
+    ],
+    [
+      "Purple_Slime",
+      "Cave_Bat",
+      "Illuminant_Bat"
+    ],
+    [
+      "Purple_Slime",
+      "Illuminant_Bat",
+      "Illuminant_Bat"
+    ],
+    [
+      "Purple_Slime",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Purple_Slime",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Illuminant_Slime",
+      "Rainbow_Slime",
+      "Rainbow_Slime"
+    ],
+    [
+      "Illuminant_Slime",
+      "Enchanted_Sword",
+      "Enchanted_Sword"
+    ],
+    [
+      "Illuminant_Slime",
+      "Cave_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Illuminant_Slime",
+      "Illuminant_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Illuminant_Slime",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Illuminant_Slime",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Rainbow_Slime",
+      "Enchanted_Sword",
+      "Rainbow_Slime"
+    ],
+    [
+      "Rainbow_Slime",
+      "Cave_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Rainbow_Slime",
+      "Illuminant_Bat",
+      "Rainbow_Slime"
+    ],
+    [
+      "Rainbow_Slime",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Rainbow_Slime",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Enchanted_Sword",
+      "Cave_Bat",
+      "Enchanted_Sword"
+    ],
+    [
+      "Enchanted_Sword",
+      "Illuminant_Bat",
+      "Enchanted_Sword"
+    ],
+    [
+      "Enchanted_Sword",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Enchanted_Sword",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Cave_Bat",
+      "Illuminant_Bat",
+      "Illuminant_Bat"
+    ],
+    [
+      "Cave_Bat",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Cave_Bat",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Illuminant_Bat",
+      "Eye_of_Cthulhu",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Illuminant_Bat",
+      "Demon_Eye",
+      "Demon_Eye"
+    ],
+    [
+      "Eye_of_Cthulhu",
+      "Demon_Eye",
+      "Eye_of_Cthulhu"
+    ],
+    [
+      "Killamari",
+      "Ribbuny",
+      "Killamari_Primo"
+    ],
+    [
+      "Pengullet",
+      "Sparkit",
+      "Pengullet_Lux"
+    ],
+    [
+      "Penking",
+      "Rayhound",
+      "Penking_Lux"
+    ],
+    [
+      "Celaray",
+      "Univolt",
+      "Celaray_Lux"
+    ],
+    [
+      "Fuack",
+      "Flambelle",
+      "Fuack_Ignis"
+    ],
+    [
+      "Dumud",
+      "Eikthyrdeer_Terra",
+      "Dumud_Gild"
+    ],
+    [
+      "Turtacle",
+      "Digtoise",
+      "Turtacle_Terra"
+    ],
+    [
+      "Croajiro",
+      "Bushi_Noct",
+      "Croajiro_Noct"
+    ],
+    [
+      "Azurobe",
+      "Frostplume",
+      "Azurobe_Cryst"
+    ],
+    [
+      "Whalaska",
+      "Chillet_Ignis",
+      "Whalaska_Ignis"
+    ],
+    [
+      "Ghangler",
+      "Sootseer",
+      "Ghangler_Ignis"
+    ],
+    [
+      "Finsider",
+      "Gobfin_Ignis",
+      "Finsider_Ignis"
+    ],
+    [
+      "Tanzee",
+      "Flambelle",
+      "Tanzee_Ignis"
+    ],
+    [
+      "Univolt",
+      "Frostplume",
+      "Univolt_Cryst"
+    ],
+    [
+      "Rayhound",
+      "Foxcicle",
+      "Rayhound_Cryst"
+    ],
+    [
+      "Beakon",
+      "Frostplume",
+      "Beakon_Cryst"
+    ],
+    [
+      "Woolipop",
+      "Kikit",
+      "Woolipop_Terra"
+    ],
+    [
+      "Prixter",
+      "Helzephyr_Lux",
+      "Prixter_Lux"
+    ],
+    [
+      "Smokie",
+      "Munchill",
+      "Smokie_Cryst"
+    ],
+    [
+      "Nitemary",
+      "Petallia",
+      "Nitemary_Botan"
+    ],
+    [
+      "Starryon",
+      "Celesdir",
+      "Starryon_Primo"
+    ],
+    [
+      "Gloopie",
+      "Valentail",
+      "Gloopie_Primo"
+    ],
+    [
+      "Sibelyx",
+      "Lapure",
+      "Sibelyx_Primo"
+    ],
+    [
+      "Knocklem",
+      "Ragnahawk",
+      "Knocklem_Ignis"
+    ],
+    [
+      "Petallia",
+      "Bushi",
+      "Petallia_Ignis"
+    ],
+    [
+      "Celesdir",
+      "Kitsun_Noct",
+      "Celesdir_Noct"
+    ],
+    [
+      "Polapup",
+      "Surfent_Terra",
+      "Polapup_Terra"
+    ],
+    [
+      "Solmora",
+      "Slowatt",
+      "Solmora_Lux"
+    ],
+    [
+      "Dualith",
+      "Sootseer",
+      "Dualith_Noct"
+    ],
+    [
+      "Tetroise",
+      "Celesdir",
+      "Tetroise_Primo"
+    ],
+    [
+      "Eidrolon",
+      "Suzaku",
+      "Eidrolon_Ignis"
+    ],
+    [
+      "Moldron",
+      "Reptyro_Cryst",
+      "Moldron_Cryst"
+    ],
+    [
+      "Pierdon",
+      "Wumpo",
+      "Pierdon_Cryst"
+    ],
+    [
+      "Skutlass",
+      "Gobfin_Ignis",
+      "Skutlass_Ignis"
+    ],
+    [
+      "Snock",
+      "Turtacle_Terra",
+      "Snock_Lux"
+    ],
+    [
+      "Needoll",
+      "Prunelia",
+      "Needoll_Noct"
+    ],
+    [
+      "Elgrove",
+      "Pierdon_Cryst",
+      "Elgrove_Cryst"
+    ],
+    [
+      "Frostallion",
+      "Frostallion",
+      "Frostallion"
+    ],
+    [
+      "Jetragon",
+      "Jetragon",
+      "Jetragon"
+    ],
+    [
+      "Paladius",
+      "Paladius",
+      "Paladius"
+    ],
+    [
+      "Necromus",
+      "Necromus",
+      "Necromus"
+    ],
+    [
+      "Lyleen",
+      "Lyleen",
+      "Lyleen"
+    ],
+    [
+      "Faleris",
+      "Faleris",
+      "Faleris"
+    ],
+    [
+      "Grizzbolt",
+      "Grizzbolt",
+      "Grizzbolt"
+    ],
+    [
+      "Orserk",
+      "Orserk",
+      "Orserk"
+    ],
+    [
+      "Shadowbeak",
+      "Shadowbeak",
+      "Shadowbeak"
+    ],
+    [
+      "Bellanoir_Libero",
+      "Bellanoir_Libero",
+      "Bellanoir_Libero"
+    ],
+    [
+      "Blazamut_Ryu",
+      "Blazamut_Ryu",
+      "Blazamut_Ryu"
+    ],
+    [
+      "Mimog",
+      "Mimog",
+      "Mimog"
+    ],
+    [
+      "Selyne",
+      "Selyne",
+      "Selyne"
+    ],
+    [
+      "Xenovader",
+      "Xenovader",
+      "Xenovader"
+    ],
+    [
+      "Xenogard",
+      "Xenogard",
+      "Xenogard"
+    ],
+    [
+      "Xenolord",
+      "Xenolord",
+      "Xenolord"
+    ],
+    [
+      "Bastigor",
+      "Bastigor",
+      "Bastigor"
+    ],
+    [
+      "Green_Slime",
+      "Green_Slime",
+      "Green_Slime"
+    ],
+    [
+      "Cave_Bat",
+      "Cave_Bat",
+      "Cave_Bat"
+    ],
+    [
+      "Neptilius",
+      "Neptilius",
+      "Neptilius"
+    ],
+    [
+      "Hartalis",
+      "Hartalis",
+      "Hartalis"
+    ],
+    [
+      "Shaolong",
+      "Shaolong",
+      "Shaolong"
+    ],
+    [
+      "Dandilord",
+      "Dandilord",
+      "Dandilord"
+    ],
+    [
+      "Silvance",
+      "Silvance",
+      "Silvance"
+    ],
+    [
+      "Panthalus",
+      "Panthalus",
+      "Panthalus"
+    ],
+    [
+      "Astralym",
+      "Astralym",
+      "Astralym"
+    ],
+    [
+      "Felbat",
+      "Robinquill",
+      "Robinquill"
+    ]
   ]
 }

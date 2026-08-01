@@ -83,6 +83,46 @@ async function baixar(idioma, pagina = 'Pals') {
   return r.text();
 }
 
+/**
+ * Dados de cruzamento, da página Breeding Farm do paldb.
+ *
+ * Duas tabelas numa página só:
+ *
+ *   #BreedCombi   as 299 espécies com o CombiRank de cada uma
+ *   #BreedUnique  as combinações que NÃO seguem a média de rank
+ *
+ * As duas são necessárias, e a conferência de 01.08 mostrou por quê: a regra da
+ * média sozinha acerta 60 de 148 pares. Com a tabela de únicas e as duas
+ * correções registradas em `fontes.md`, acerta 148 de 148.
+ */
+function extrairCruzamento(html) {
+  // O recorte vai de um painel até o começo do outro. Cortar no próximo id=
+  // qualquer não serve: as linhas da tabela também têm id, e o recorte sairia
+  // vazio, que foi o primeiro jeito tentado aqui.
+  const inicioCombi = html.indexOf('id="BreedCombi"');
+  const inicioUnique = html.indexOf('id="BreedUnique"');
+  const painel = (id) =>
+    id === 'BreedCombi'
+      ? (inicioCombi === -1 ? '' : html.slice(inicioCombi, inicioUnique === -1 ? undefined : inicioUnique))
+      : (inicioUnique === -1 ? '' : html.slice(inicioUnique));
+
+  const ranks = new Map();
+  for (const m of painel('BreedCombi').matchAll(
+    /data-pal-id="[^"]+"[^>]*href="([^"]+)"[^>]*>[\s\S]*?<\/a><\/td><td>(\d+)<\/td>/g
+  )) {
+    ranks.set(decodeURIComponent(m[1]), Number(m[2]));
+  }
+
+  const unicas = [];
+  for (const linha of painel('BreedUnique').split('<tr>').slice(1)) {
+    const nomes = [...linha.matchAll(/href="([^"]+)"[^>]*>(?:<img[^>]*>)?\s*([A-Za-z][^<]*)</g)]
+      .map((m) => decodeURIComponent(m[1]));
+    if (nomes.length >= 3) unicas.push(nomes.slice(0, 3));
+  }
+
+  return { ranks, unicas };
+}
+
 /** Primeiro link de nome dentro de um bloco já recortado. */
 const primeiroNome = (bloco) => {
   const m = bloco.match(/<a class="itemname"[^>]*href="([^"]+)"[^>]*>([^<]+)</);
@@ -367,6 +407,52 @@ for (const chave of ['energia', 'manipulacao', 'garimpo', 'fazenda']) {
 if (aptidoesDesconhecidas.size) {
   console.log(`  atenção: nomes de aptidão não reconhecidos no data-filters: ${[...aptidoesDesconhecidas].join(', ')}`);
 }
+
+// --------------------------------------------------------------- cruzamento
+console.log('\n  baixando os dados de cruzamento...');
+const { ranks, unicas } = extrairCruzamento(await baixar('en', 'Breeding_Farm'));
+
+// Mesma desconfiança das outras guardas: sem rank não existe calculadora de
+// cruzamento, e sem a tabela de únicas ela erra 116 espécies em silêncio, que é
+// pior que não existir.
+if (ranks.size < 250) {
+  console.error(`\n  ABORTADO: só ${ranks.size} CombiRanks lidos (mínimo 250). A tabela do paldb mudou. Nada foi escrito.`);
+  process.exit(1);
+}
+if (unicas.length < 100) {
+  console.error(`\n  ABORTADO: só ${unicas.length} combinações únicas lidas (mínimo 100). A tabela do paldb mudou. Nada foi escrito.`);
+  process.exit(1);
+}
+// A tabela de únicas mora numa página cheia de outros links, e o recorte pega
+// junto linhas que não são cruzamento nenhum: "Wooden Board + Stone = Fiber" é
+// receita de item. Só passa a linha cujos três nomes são Pal do catálogo.
+const chavesDePal = new Set(pals.map((p) => p.chave));
+const soDePal = unicas.filter((linha) => linha.every((n) => chavesDePal.has(n)));
+if (unicas.length - soDePal.length > 20) {
+  console.error(`\n  ABORTADO: ${unicas.length - soDePal.length} das ${unicas.length} linhas de combinação única não são de Pal. O recorte da tabela mudou. Nada foi escrito.`);
+  process.exit(1);
+}
+unicas.length = 0;
+unicas.push(...soDePal);
+
+const semRank = pals.filter((p) => !ranks.has(p.chave));
+if (semRank.length > 5) {
+  console.error(`\n  ABORTADO: ${semRank.length} Pals sem CombiRank, por exemplo ${semRank[0].en}. As duas listas deixaram de casar pela chave. Nada foi escrito.`);
+  process.exit(1);
+}
+for (const p of pals) {
+  const r = ranks.get(p.chave);
+  if (r !== undefined) p.combi = r;
+}
+// Espécie que só nasce de combinação específica não entra no sorteio da média.
+// Guardar isso aqui, e não recalcular na página, mantém a regra num lugar só.
+const soDeCombinacaoUnica = new Set(unicas.map(([, , filho]) => filho));
+for (const p of pals) {
+  if (soDeCombinacaoUnica.has(p.chave)) p.so_combinacao_unica = true;
+}
+catalogo.cruzamentos_unicos = unicas;
+console.log(`  ${ranks.size} CombiRanks e ${unicas.length} combinações únicas`);
+console.log(`  ${soDeCombinacaoUnica.size} espécies que só nascem de combinação específica`);
 
 await writeFile(SAIDA, JSON.stringify(catalogo, null, 2) + '\n');
 

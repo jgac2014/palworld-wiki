@@ -1,0 +1,391 @@
+﻿---
+/**
+ * As três calculadoras da E5 (R1.9 e R5.2).
+ *
+ * O erro 2 do diagnóstico do R5 é que as wikis publicam a receita e deixam a
+ * conta para você. Estas respondem com número: quantos bolos saem, o que trava,
+ * que filhote sai do par, quantas cópias faltam.
+ *
+ * A quarta calculadora, a de taxa de captura, foi CANCELADA em 01.08 e a
+ * decisão está na seção 5 do PRD: a fórmula do 1.0 não está recuperada
+ * publicamente e o jogo já mostra a probabilidade na mira.
+ *
+ * Nenhum número mora neste arquivo. A receita vem de receitas.json, conferida
+ * pelo verificador contra o texto dos guias; rank e combinação única vêm do
+ * catálogo importado; o estoque vem de guilda.json e só entra com o overlay
+ * ligado, porque isto é Camada 1 e a decisão 3.0 do PRD vale aqui.
+ */
+import Base from '../layouts/Base.astro';
+import catalogo from '../data/catalogo.json';
+import curadoria from '../data/pals.json';
+import receitas from '../data/receitas.json';
+import { GUILDA } from '../lib/progresso.js';
+import { ui } from '../lib/termos.js';
+import { calcularBolo } from '../lib/calculos.js';
+
+// Só o que a conta precisa vai para o navegador. Mandar o catálogo inteiro
+// custaria 110 KB de aptidão e elemento que nenhuma calculadora lê.
+const paraOCliente = {
+  pals: catalogo.pals
+    .filter((p) => typeof p.combi === 'number')
+    .map((p) => ({
+      chave: p.chave,
+      en: p.en,
+      pt: p.pt,
+      combi: p.combi,
+      ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}),
+    })),
+  cruzamentos_unicos: catalogo.cruzamentos_unicos || [],
+};
+
+// Quem produz cada ingrediente, ligado pelo campo `efeito` da curadoria. A
+// ponta solta é conferida pelo verificador: ingrediente que aponta para efeito
+// que nenhum Pal tem vira erro, não mensagem vazia.
+const produtores = Object.fromEntries(
+  receitas.bolo.ingredientes
+    .filter((i) => i.efeito_do_pal)
+    .map((i) => [i.chave, curadoria.pals.find((p) => p.efeito === i.efeito_do_pal)?.nome || null])
+);
+
+const dados = {
+  receita: receitas.bolo,
+  condensacao: receitas.condensacao,
+  produtores,
+  estoque: GUILDA.bau || {},
+  catalogo: paraOCliente,
+  rotulos: {
+    pt: {
+      bolos: ui('calc_bolos', 'pt'),
+      trava: ui('calc_trava', 'pt'),
+      travaPal: ui('calc_trava_pal', 'pt'),
+      semTrava: ui('calc_sem_trava', 'pt'),
+      travaMoinho: ui('calc_trava_moinho', 'pt'),
+      faltam: ui('calc_faltam', 'pt'),
+      completo: ui('calc_condensa_pronto', 'pt'),
+      filhote: ui('calc_filhote', 'pt'),
+      porUnica: ui('calc_por_unica', 'pt'),
+      porMedia: ui('calc_por_media', 'pt'),
+      semPar: ui('calc_sem_par', 'pt'),
+      pares: ui('calc_pares', 'pt'),
+      contagemPares: ui('calc_contagem_pares', 'pt'),
+      contagemTodos: ui('calc_contagem_todos', 'pt'),
+    },
+    en: {
+      bolos: ui('calc_bolos', 'en'),
+      trava: ui('calc_trava', 'en'),
+      travaPal: ui('calc_trava_pal', 'en'),
+      semTrava: ui('calc_sem_trava', 'en'),
+      travaMoinho: ui('calc_trava_moinho', 'en'),
+      faltam: ui('calc_faltam', 'en'),
+      completo: ui('calc_condensa_pronto', 'en'),
+      filhote: ui('calc_filhote', 'en'),
+      porUnica: ui('calc_por_unica', 'en'),
+      porMedia: ui('calc_por_media', 'en'),
+      semPar: ui('calc_sem_par', 'en'),
+      pares: ui('calc_pares', 'en'),
+      contagemPares: ui('calc_contagem_pares', 'en'),
+      contagemTodos: ui('calc_contagem_todos', 'en'),
+    },
+  },
+};
+
+// A tabela alternativa do bolo (R5.8) é renderizada no build com o estoque
+// zerado, que é o estado de quem chega de fora. O script atualiza os números
+// quando alguém digita ou liga o overlay.
+const zerado = calcularBolo(receitas.bolo, {});
+const emOrdem = [...catalogo.pals].sort((a, b) => a.pt.localeCompare(b.pt, 'pt-BR'));
+---
+<Base titulo={ui('calc_titulo', 'pt')} descricao={ui('calc_sub', 'pt')}>
+  <article data-pagefind-body>
+    <h1 data-rot-pt={ui('calc_titulo', 'pt')} data-rot-en={ui('calc_titulo', 'en')}>{ui('calc_titulo', 'pt')}</h1>
+    <p class="subtitulo" data-rot-pt={ui('calc_sub', 'pt')} data-rot-en={ui('calc_sub', 'en')}>{ui('calc_sub', 'pt')}</p>
+    <div class="carimbo" data-rot-pt={ui('calc_carimbo', 'pt')} data-rot-en={ui('calc_carimbo', 'en')}>{ui('calc_carimbo', 'pt')}</div>
+
+    <!-- ------------------------------------------------------------ bolo -->
+    <h2 data-rot-pt={ui('calc_bolo_titulo', 'pt')} data-rot-en={ui('calc_bolo_titulo', 'en')}>{ui('calc_bolo_titulo', 'pt')}</h2>
+    <p data-rot-pt={ui('calc_bolo_explica', 'pt')} data-rot-en={ui('calc_bolo_explica', 'en')}>{ui('calc_bolo_explica', 'pt')}</p>
+
+    <div class="campos" id="campos-bolo">
+      <label>
+        <span data-rot-pt={receitas.bolo.moinho.de_pt} data-rot-en={receitas.bolo.moinho.de_en}>{receitas.bolo.moinho.de_pt}</span>
+        <input type="number" min="0" step="1" value="0" data-ingrediente={receitas.bolo.moinho.de} />
+      </label>
+      {receitas.bolo.ingredientes.map((i) => (
+        <label>
+          <span data-rot-pt={i.pt} data-rot-en={i.en}>{i.pt}</span>
+          <input type="number" min="0" step="1" value="0" data-ingrediente={i.chave} />
+        </label>
+      ))}
+    </div>
+
+    <p class="resposta" id="resposta-bolo"></p>
+
+    <table class="alternativa">
+      <thead>
+        <tr>
+          <th data-rot-pt={ui('calc_col_ingrediente', 'pt')} data-rot-en={ui('calc_col_ingrediente', 'en')}>{ui('calc_col_ingrediente', 'pt')}</th>
+          <th data-rot-pt={ui('calc_col_receita', 'pt')} data-rot-en={ui('calc_col_receita', 'en')}>{ui('calc_col_receita', 'pt')}</th>
+          <th data-rot-pt={ui('calc_col_disponivel', 'pt')} data-rot-en={ui('calc_col_disponivel', 'en')}>{ui('calc_col_disponivel', 'pt')}</th>
+          <th data-rot-pt={ui('calc_col_banca', 'pt')} data-rot-en={ui('calc_col_banca', 'en')}>{ui('calc_col_banca', 'pt')}</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-bolo">
+        {zerado.linhas.map((l) => (
+          <tr data-linha={l.chave}>
+            <td data-rot-pt={l.pt} data-rot-en={l.en}>{l.pt}</td>
+            <td>{l.quantidade}</td>
+            <td class="disponivel">{l.disponivel}</td>
+            <td class="banca">{l.bolos}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <!-- ------------------------------------------------------ cruzamento -->
+    <h2 data-rot-pt={ui('calc_cruz_titulo', 'pt')} data-rot-en={ui('calc_cruz_titulo', 'en')}>{ui('calc_cruz_titulo', 'pt')}</h2>
+    <p data-rot-pt={ui('calc_cruz_explica', 'pt')} data-rot-en={ui('calc_cruz_explica', 'en')}>{ui('calc_cruz_explica', 'pt')}</p>
+
+    <div class="campos">
+      <label>
+        <span data-rot-pt={ui('calc_pai', 'pt')} data-rot-en={ui('calc_pai', 'en')}>{ui('calc_pai', 'pt')}</span>
+        <select id="pai-a">
+          {emOrdem.map((p) => <option value={p.chave} data-rot-pt={p.pt} data-rot-en={p.en}>{p.pt}</option>)}
+        </select>
+      </label>
+      <label>
+        <span data-rot-pt={ui('calc_mae', 'pt')} data-rot-en={ui('calc_mae', 'en')}>{ui('calc_mae', 'pt')}</span>
+        <select id="pai-b">
+          {emOrdem.map((p) => <option value={p.chave} data-rot-pt={p.pt} data-rot-en={p.en}>{p.pt}</option>)}
+        </select>
+      </label>
+    </div>
+    <p class="resposta" id="resposta-cruz"></p>
+
+    <div class="campos">
+      <label>
+        <span data-rot-pt={ui('calc_alvo', 'pt')} data-rot-en={ui('calc_alvo', 'en')}>{ui('calc_alvo', 'pt')}</span>
+        <select id="alvo">
+          {emOrdem.map((p) => <option value={p.chave} data-rot-pt={p.pt} data-rot-en={p.en}>{p.pt}</option>)}
+        </select>
+      </label>
+    </div>
+    <p class="contagem" id="contagem-pares"></p>
+    <div class="rolagem">
+      <table class="alternativa">
+        <thead>
+          <tr>
+            <th data-rot-pt={ui('calc_pai', 'pt')} data-rot-en={ui('calc_pai', 'en')}>{ui('calc_pai', 'pt')}</th>
+            <th data-rot-pt={ui('calc_mae', 'pt')} data-rot-en={ui('calc_mae', 'en')}>{ui('calc_mae', 'pt')}</th>
+            <th data-rot-pt={ui('calc_col_como', 'pt')} data-rot-en={ui('calc_col_como', 'en')}>{ui('calc_col_como', 'pt')}</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-pares"></tbody>
+      </table>
+    </div>
+
+    <!-- ----------------------------------------------------- condensação -->
+    <h2 data-rot-pt={ui('calc_cond_titulo', 'pt')} data-rot-en={ui('calc_cond_titulo', 'en')}>{ui('calc_cond_titulo', 'pt')}</h2>
+    <p data-rot-pt={ui('calc_cond_explica', 'pt')} data-rot-en={ui('calc_cond_explica', 'en')}>{ui('calc_cond_explica', 'pt')}</p>
+
+    <div class="campos">
+      <label>
+        <span data-rot-pt={ui('calc_copias', 'pt')} data-rot-en={ui('calc_copias', 'en')}>{ui('calc_copias', 'pt')}</span>
+        <input type="number" min="0" step="1" value="0" id="copias" />
+      </label>
+    </div>
+    <p class="resposta" id="resposta-cond"></p>
+
+    <table class="alternativa">
+      <thead>
+        <tr>
+          <th data-rot-pt={ui('calc_copias', 'pt')} data-rot-en={ui('calc_copias', 'en')}>{ui('calc_copias', 'pt')}</th>
+          <th data-rot-pt={ui('calc_col_faltam', 'pt')} data-rot-en={ui('calc_col_faltam', 'en')}>{ui('calc_col_faltam', 'pt')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {[0, 12, 24, 36, receitas.condensacao.copias_para_4_estrelas].map((n) => (
+          <tr>
+            <td>{n}</td>
+            <td>{Math.max(0, receitas.condensacao.copias_para_4_estrelas - n)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <p class="nota-fonte" data-rot-pt={ui('calc_nota_captura', 'pt')} data-rot-en={ui('calc_nota_captura', 'en')}>{ui('calc_nota_captura', 'pt')}</p>
+  </article>
+
+  <script type="application/json" id="dados-calc" set:html={JSON.stringify(dados)} data-pagefind-ignore></script>
+</Base>
+
+<style>
+  .campos { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 12px; font-family: var(--sans); }
+  .campos label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--texto-2); }
+  .campos input, .campos select {
+    background: var(--cartao); border: 1px solid var(--linha); color: var(--texto);
+    padding: 8px 10px; border-radius: 3px; font-size: 14px; font-family: var(--sans); outline: none;
+    min-width: 110px;
+  }
+  .campos select { min-width: 190px; }
+  .campos input:focus, .campos select:focus { border-color: var(--acento); }
+  .resposta {
+    font-family: var(--sans); font-size: 15px; background: var(--cartao);
+    border: 1px solid var(--linha); border-left: 3px solid var(--acento);
+    border-radius: 3px; padding: 12px 15px; margin: 4px 0 18px; line-height: 1.55;
+  }
+  .resposta b { color: var(--forte); }
+  .resposta .numero { font-family: var(--serif); font-size: 26px; line-height: 1; margin-right: 6px; }
+  .alternativa { font-size: 13.5px; }
+  .alternativa td, .alternativa th { font-variant-numeric: tabular-nums; }
+  .nota-fonte { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-top: 30px; }
+  tr.trava td { color: var(--atencao); font-weight: 600; }
+</style>
+
+<script>
+  import { calcularBolo, filhoteDoPar, paresQueGeram, calcularCondensacao } from '../lib/calculos.js';
+
+  const bruto = document.getElementById('dados-calc');
+  const D = bruto ? JSON.parse(bruto.textContent || '{}') : null;
+
+  if (D) {
+    const idioma = () => (document.documentElement.dataset.idioma === 'en' ? 'en' : 'pt');
+    const rot = () => D.rotulos[idioma()];
+    const nomeDoPal = (p) => (p ? (idioma() === 'en' ? p.en : p.pt) : '');
+    const porChave = new Map(D.catalogo.pals.map((p) => [p.chave, p]));
+
+    // ------------------------------------------------------------- bolo
+    const campos = () => [...document.querySelectorAll('#campos-bolo input[data-ingrediente]')];
+    const lerEstoque = () => Object.fromEntries(campos().map((c) => [c.dataset.ingrediente, Number(c.value) || 0]));
+
+    function pintarBolo() {
+      const r = calcularBolo(D.receita, lerEstoque());
+      const t = rot();
+
+      for (const linha of r.linhas) {
+        const tr = document.querySelector(`#tabela-bolo tr[data-linha="${linha.chave}"]`);
+        if (!tr) continue;
+        tr.querySelector('.disponivel').textContent = String(linha.disponivel);
+        tr.querySelector('.banca').textContent = String(linha.bolos);
+        tr.classList.toggle('trava', linha.chave === r.trava.chave);
+      }
+
+      const alvo = document.getElementById('resposta-bolo');
+      alvo.replaceChildren();
+      const n = document.createElement('b');
+      n.className = 'numero';
+      n.textContent = String(r.bolos);
+      alvo.appendChild(n);
+
+      const texto = document.createElement('span');
+      const nomeTrava = idioma() === 'en' ? r.trava.en : r.trava.pt;
+      const produtor = D.produtores[r.trava.chave];
+      // A mensagem nomeia a trava, e quando existe Pal que produz aquilo, diz
+      // qual é: "faltam 0 de leite" não resolve a sessão de ninguém.
+      // O espaço na frente não é estética: sem ele o leitor de tela lê
+      // "0bolos", porque o número é outro elemento e textContent cola os dois.
+      texto.textContent = ` ${t.bolos} ${t.trava} ${nomeTrava}.`;
+      // Farinha travando não é problema de farinha: ela sai do moinho, e quem
+      // acaba é o trigo. Dizer só "a trava é farinha" manda a pessoa procurar
+      // farinha em vez de plantar trigo.
+      if (r.trava.chave === D.receita.moinho.para) {
+        const de = idioma() === 'en' ? D.receita.moinho.de_en : D.receita.moinho.de_pt;
+        texto.textContent += ` ${t.travaMoinho.replace('{de}', de)}`;
+      }
+      if (produtor) texto.textContent += ` ${t.travaPal.replace('{pal}', produtor)}`;
+      alvo.appendChild(texto);
+    }
+
+    campos().forEach((c) => c.addEventListener('input', pintarBolo));
+
+    // O estoque da guilda só entra com o overlay ligado: isto é Camada 1, e a
+    // decisão 3.0 do PRD manda o nosso save ficar do outro lado do interruptor.
+    function aplicarOverlay() {
+      const ligado = document.documentElement.hasAttribute('data-progresso');
+      campos().forEach((c) => {
+        const doBau = D.estoque[c.dataset.ingrediente];
+        c.value = ligado && doBau !== undefined ? String(doBau) : '0';
+      });
+      pintarBolo();
+    }
+    document.addEventListener('progresso:mudou', aplicarOverlay);
+
+    // -------------------------------------------------------- cruzamento
+    const paiA = document.getElementById('pai-a');
+    const paiB = document.getElementById('pai-b');
+    const alvoSel = document.getElementById('alvo');
+
+    function pintarCruz() {
+      const r = filhoteDoPar(D.catalogo, paiA.value, paiB.value);
+      const alvo = document.getElementById('resposta-cruz');
+      const t = rot();
+      alvo.replaceChildren();
+      if (!r || !r.filho) {
+        alvo.textContent = t.semPar;
+        return;
+      }
+      const b = document.createElement('b');
+      b.textContent = nomeDoPal(r.filho);
+      alvo.append(`${t.filhote} `, b, ` ${r.unica ? t.porUnica : t.porMedia.replace('{n}', String(r.alvo))}`);
+    }
+
+    function pintarPares() {
+      const t = rot();
+      const { pares: achados, total } = paresQueGeram(D.catalogo, alvoSel.value, 12);
+      // Quantos de quantos, sempre. A tabela mostra os primeiros e diz o total,
+      // em vez de cortar sem avisar.
+      const contagem = document.getElementById('contagem-pares');
+      contagem.textContent = total > achados.length
+        ? t.contagemPares.replace('{n}', String(achados.length)).replace('{total}', String(total))
+        : t.contagemTodos.replace('{total}', String(total));
+      const corpo = document.getElementById('tabela-pares');
+      corpo.replaceChildren();
+      for (const par of achados) {
+        const tr = document.createElement('tr');
+        for (const chave of [par.a, par.b]) {
+          const td = document.createElement('td');
+          td.textContent = nomeDoPal(porChave.get(chave));
+          tr.appendChild(td);
+        }
+        const como = document.createElement('td');
+        como.textContent = par.unica ? t.porUnica : t.pares;
+        tr.appendChild(como);
+        corpo.appendChild(tr);
+      }
+      if (!achados.length) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 3;
+        td.textContent = t.semPar;
+        tr.appendChild(td);
+        corpo.appendChild(tr);
+      }
+    }
+
+    paiA.addEventListener('change', pintarCruz);
+    paiB.addEventListener('change', pintarCruz);
+    alvoSel.addEventListener('change', pintarPares);
+
+    // ------------------------------------------------------ condensação
+    const copias = document.getElementById('copias');
+    function pintarCond() {
+      const r = calcularCondensacao({ condensacao: D.condensacao }, copias.value);
+      const t = rot();
+      const alvo = document.getElementById('resposta-cond');
+      alvo.replaceChildren();
+      const n = document.createElement('b');
+      n.className = 'numero';
+      n.textContent = String(r.faltam);
+      alvo.append(n, ` ${(r.completo ? t.completo : t.faltam.replace('{total}', String(r.total))).trim()}`);
+    }
+    copias.addEventListener('input', pintarCond);
+
+    // Trocar de idioma redesenha o que foi montado por script: o seletor só
+    // sabe trocar texto declarado em data-rot-*, e nada aqui é.
+    document.addEventListener('idioma:mudou', () => { pintarBolo(); pintarCruz(); pintarPares(); pintarCond(); });
+
+    aplicarOverlay();
+    pintarCruz();
+    pintarPares();
+    pintarCond();
+  }
+</script>

@@ -217,7 +217,7 @@ achar a página de índice de cada tipo no paldb e extrair.
 - O verificador confere estrutura de todas, como já faz com Pals.
 - Nenhum campo é digitado à mão.
 
-### [ ] E5 — As calculadoras, todas de uma vez
+### [x] E5 — As calculadoras, todas de uma vez
 
 **Requisito:** R1.9 e R5.2
 **Território:** código e visual

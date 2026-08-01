@@ -360,6 +360,64 @@ for (const regra of REGRAS) {
   }
 }
 
+// ------------------------------- dado das calculadoras x texto dos guias (E5)
+// receitas.json existe para a calculadora não refazer uma conta que o guia já
+// publica. Duas cópias do mesmo número divergem no primeiro patch, e aí o site
+// passa a dizer duas coisas: é o defeito que este verificador existe para pegar.
+const receitas = await lerJson('src/data/receitas.json');
+if (receitas) {
+  const textoEconomia = corpos['economia.md'] || '';
+  const linhaReceita = textoEconomia.match(/Receita do Cake b[áa]sico:([^\n]+)/)?.[1] || '';
+  if (!linhaReceita) {
+    erro('receitas', 'não achei a linha da receita do Cake básico em economia.md, que é a fonte do que está em receitas.json');
+  } else {
+    for (const ing of receitas.bolo.ingredientes) {
+      const noTexto = linhaReceita.match(new RegExp(`${ing.en}\\s*x?(\\d+)`, 'i'))?.[1];
+      if (!noTexto) erro('receitas', `${ing.en} não aparece na receita de economia.md`);
+      else if (Number(noTexto) !== ing.quantidade) {
+        erro('receitas', `${ing.en}: receitas.json diz ${ing.quantidade} e economia.md diz ${noTexto}`);
+      }
+    }
+  }
+
+  // O efeito do Pal liga o ingrediente a quem produz, e a ponta solta seria uma
+  // mensagem de gargalo sem ninguém para resolver.
+  if (pals) {
+    const efeitos = new Set(pals.pals.map((p) => p.efeito).filter(Boolean));
+    for (const ing of receitas.bolo.ingredientes) {
+      if (ing.efeito_do_pal && !efeitos.has(ing.efeito_do_pal)) {
+        erro('receitas', `nenhum Pal da curadoria produz "${ing.efeito_do_pal}", citado no ingrediente ${ing.pt}`);
+      }
+    }
+  }
+
+  const noGuia = (corpos['base-e-trabalho.md'] || '').match(/(\d{2,3})\s*c[óo]pias da esp[ée]cie para 4/i)?.[1];
+  if (noGuia && Number(noGuia) !== receitas.condensacao.copias_para_4_estrelas) {
+    erro('receitas', `condensação: receitas.json diz ${receitas.condensacao.copias_para_4_estrelas} e base-e-trabalho.md diz ${noGuia}`);
+  }
+  passou(`receitas.json: receita do bolo e total de condensação batem com o texto dos guias`);
+}
+
+// ---------------------------------------------------- cruzamento (E5)
+if (pals && catalogo) {
+  const comCombi = catalogo.pals.filter((p) => typeof p.combi === 'number').length;
+  if (comCombi < catalogo.pals.length - 5) {
+    erro('cruzamento', `${catalogo.pals.length - comCombi} Pals sem CombiRank. A calculadora de cruzamento não funciona sem ele. Rode npm run catalogo:importar`);
+  }
+  const unicos = catalogo.cruzamentos_unicos || [];
+  if (unicos.length < 100) {
+    erro('cruzamento', `só ${unicos.length} combinações únicas no catálogo. Sem elas a calculadora erra as 117 espécies que só nascem de par específico`);
+  }
+  const chaves = new Set(catalogo.pals.map((p) => p.chave));
+  const soltas = unicos.filter((u) => u.length !== 3 || u.some((n) => !chaves.has(n)));
+  if (soltas.length) {
+    erro('cruzamento', `${soltas.length} combinações únicas citam nome que não é Pal do catálogo, por exemplo ${JSON.stringify(soltas[0])}`);
+  }
+  if (!soltas.length && unicos.length >= 100) {
+    passou(`cruzamento: ${comCombi} CombiRanks e ${unicos.length} combinações únicas, todas de Pal do catálogo`);
+  }
+}
+
 // ------------------------------------------- Pals citados x catalogados
 if (pals) {
   const catalogados = new Set(pals.pals.map((p) => p.nome));

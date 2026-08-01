@@ -1,0 +1,30 @@
+{
+  "_leia_isto": "Números que as calculadoras usam e que NÃO vêm do paldb: eles já estavam escritos nos guias, e aqui viram dado para a conta não ser feita duas vezes com valores diferentes. O verificador compara este arquivo com o texto das páginas e falha se divergirem.",
+
+  "bolo": {
+    "_fonte": "economia.md, 'Receita do Cake básico: Flour x5, Red Berries x8, Milk x7, Egg x8, Honey x2 (Cooking Pot, nível 17)'. A mesma receita está em nossas-bases.md.",
+    "_ordem": "A ordem dos ingredientes é a da fonte, e ela importa: quando dois ingredientes empatam como gargalo, a calculadora nomeia o primeiro da receita.",
+    "nivel_da_receita": 17,
+    "ingredientes": [
+      { "chave": "farinha", "pt": "Farinha", "en": "Flour", "quantidade": 5 },
+      { "chave": "frutas", "pt": "Frutas vermelhas", "en": "Red Berries", "quantidade": 8, "efeito_do_pal": "Frutinhas vermelhas" },
+      { "chave": "leite", "pt": "Leite", "en": "Milk", "quantidade": 7, "efeito_do_pal": "Leite" },
+      { "chave": "ovos", "pt": "Ovos", "en": "Egg", "quantidade": 8, "efeito_do_pal": "Ovo" },
+      { "chave": "mel", "pt": "Mel", "en": "Honey", "quantidade": 2, "efeito_do_pal": "Mel" }
+    ],
+    "moinho": {
+      "_fonte": "base-e-trabalho.md e o aceite da E5: o moinho converte 2 de trigo em 1 de farinha.",
+      "de": "trigo",
+      "de_pt": "Trigo",
+      "de_en": "Wheat",
+      "para": "farinha",
+      "por_unidade": 2
+    }
+  },
+
+  "condensacao": {
+    "_fonte": "base-e-trabalho.md, '48 cópias da espécie para 4★'. O verificador já compara esse número entre as páginas.",
+    "_limite": "A distribuição por estrela NÃO tem fonte, e está registrada como não oficial em fontes.md. Enquanto não tiver, a calculadora só responde o total para 4★.",
+    "copias_para_4_estrelas": 48
+  }
+}

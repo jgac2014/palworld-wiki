@@ -461,6 +461,83 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   );
   await pagina.fill(campoBusca, '');
 
+  // 6c. as três calculadoras respondem os casos fixados no aceite da E5.
+  //     Cada caso tem entrada e saída esperada, e os números vieram de fonte:
+  //     a receita do bolo está em economia.md, e os pares de cruzamento foram
+  //     conferidos contra as 149 combinações que o paldb publica. Critério que
+  //     só julga existência passa com a fórmula errada, e foi por isso que este
+  //     aceite foi reescrito antes de a primeira linha de conta ser escrita.
+  await pagina.goto(`${base}/calculadoras/`);
+  await pagina.waitForTimeout(300);
+  await pagina.click('.seletor button[data-idioma="pt"]');
+  await pagina.waitForTimeout(150);
+
+  const preencherBolo = async (valores) => {
+    for (const [chave, v] of Object.entries(valores)) {
+      await pagina.fill(`#campos-bolo input[data-ingrediente="${chave}"]`, String(v));
+    }
+    await pagina.waitForTimeout(120);
+    return pagina.textContent('#resposta-bolo');
+  };
+
+  // Caso 1: o estoque real de 30.07, com leite e ovos zerados.
+  const bau = JSON.parse(await readFile(join(raiz, 'src/data/guilda.json'), 'utf-8')).bau;
+  const caso1 = await preencherBolo({
+    trigo: bau.trigo, farinha: bau.farinha, frutas: bau.frutas,
+    leite: bau.leite, ovos: bau.ovos, mel: bau.mel,
+  });
+  conferir(
+    /^0\b/.test(caso1.trim()) && /leite/i.test(caso1) && /Mozzarina/.test(caso1),
+    'bolo: com o estoque real dá 0 e a trava é leite, citando o Mozzarina',
+    `respondeu: "${caso1.trim()}"`,
+  );
+
+  // Caso 2: leite e ovos resolvidos. A trava passa a ser farinha, e a mensagem
+  // tem que apontar o trigo, que é o gargalo de verdade atrás dela.
+  const caso2 = await preencherBolo({ leite: 180, ovos: 200 });
+  conferir(
+    /^18\b/.test(caso2.trim()) && /farinha/i.test(caso2) && /trigo/i.test(caso2),
+    'bolo: com leite 180 e ovos 200 dá 18, e aponta farinha e trigo',
+    `respondeu: "${caso2.trim()}"`,
+  );
+
+  // Cruzamento: os três caminhos do cálculo, um caso cada.
+  const cruzar = async (a, b) => {
+    await pagina.selectOption('#pai-a', a);
+    await pagina.selectOption('#pai-b', b);
+    await pagina.waitForTimeout(120);
+    return pagina.textContent('#resposta-cruz');
+  };
+  const exato = await cruzar('Anubis', 'Chikipi');
+  const empate = await cruzar('Anubis', 'Teafant');
+  const unica = await cruzar('Relaxaurus', 'Sparkit');
+  conferir(
+    /Snock/.test(exato) && /Snock/.test(empate) && /Relaxaurus Lux/.test(unica) && /única|unica/i.test(unica),
+    'cruzamento: casamento exato, empate e combinação única',
+    `exato "${exato.trim()}" | empate "${empate.trim()}" | única "${unica.trim()}"`,
+  );
+
+  // Condensação: só o total para 4★, que é o número com fonte.
+  const condensar = async (n) => {
+    await pagina.fill('#copias', String(n));
+    await pagina.waitForTimeout(120);
+    return pagina.textContent('#resposta-cond');
+  };
+  const cond5 = await condensar(5);
+  const cond48 = await condensar(48);
+  conferir(
+    /^43\b/.test(cond5.trim()) && /^0\b/.test(cond48.trim()),
+    'condensação: 5 cópias faltam 43, e 48 cópias fecham',
+    `com 5: "${cond5.trim()}" | com 48: "${cond48.trim()}"`,
+  );
+
+  // As três têm alternativa em tabela, que é o R5.8 e não é enfeite: o número
+  // desenhado numa barra precisa existir em algum lugar legível por leitor de
+  // tela e por quem não enxerga a cor.
+  const tabelas = await pagina.evaluate(() =>
+    [...document.querySelectorAll('.alternativa')].filter((t) => t.querySelectorAll('tr').length > 1).length);
+  conferir(tabelas >= 3, 'cada calculadora tem alternativa em tabela', `${tabelas} tabelas com linha`);
+
   // 7. as duas camadas não se misturam na navegação.
   //    Decisão 3.0 do PRD. A wiki é pública e o nosso save não é assunto de
   //    quem chegou pelo Google. O menu mostra a porta da seção, não o conteúdo

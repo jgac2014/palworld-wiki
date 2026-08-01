@@ -149,6 +149,13 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       data-rot-pt={ui('nav_mapa', 'pt')}
       data-rot-en={ui('nav_mapa', 'en')}
     >{ui('nav_mapa', 'pt')}</a>
+    <a
+      class="item"
+      href={`${base}/calculadoras`}
+      aria-current={eh(`${base}/calculadoras`) ? 'page' : undefined}
+      data-rot-pt={ui('nav_calculadoras', 'pt')}
+      data-rot-en={ui('nav_calculadoras', 'en')}
+    >{ui('nav_calculadoras', 'pt')}</a>
 
     <div class="grupo" data-rot-pt={ui('nav_guias', 'pt')} data-rot-en={ui('nav_guias', 'en')}>{ui('nav_guias', 'pt')}</div>
     {guias.map((p) => (
