@@ -579,38 +579,56 @@ foi só o primeiro a envelhecer.
 - O número de URLs que ainda abrem e o de mortas, dito em vez de estimado.
 - `npm run portao` passando.
 
-**Feita, e a contagem certa é 28, não 27.** A extração acha 28 URLs distintas no corpo da página, e
-a diferença não é detalhe: contar de cabeça é o que produz este tipo de defeito. **25 abrem e
-renderam trecho gravado, 3 não abrem por comando.**
+**Feita. São 28 URLs, não 27: 27 com trecho gravado e 1 sem prova reproduzível.** A extração acha 28
+distintas no corpo da página, e a diferença não é detalhe, é o mesmo defeito em escala menor: contar
+de cabeça é o que produz este tipo de coisa.
 
-**A primeira leitura dizia 5 mortas e estava errada.** Requisição direta reprovava o changelog
-oficial da Steam (que monta a página por JavaScript e volta como casca), o Dot Esports, a wiki.gg e
-o Reddit. Marcar essas quatro como perdidas teria enfiado no `fontes.md` uma perda inventada, que é
-o defeito oposto e igualmente caro. O `gravar-recortes.mjs` tenta **duas vezes por URL**, requisição
-direta e navegador de verdade, e só chama de perdida a que falha nas duas.
+**A contagem de mortas errou duas vezes, nas duas direções, e as duas correções valem mais que o
+número final.**
 
-As três que sobraram respondem **403 nas duas tentativas**, com tela de robô da Cloudflare e não
-página removida: SteamDB e as duas do VGC. Elas viraram `bloqueada`, não `morta`, porque chamar 403
-de 404 seria gravar imprecisão justamente no arquivo que existe para registrar imprecisão. Para o
-que a tarefa cobra dá no mesmo: prova que só existe se um humano clicar não é prova reproduzível.
-Nenhuma foi substituída, e nenhuma afirmação caiu, porque as três têm redundância gravada.
+Primeiro erro, 5 mortas. Requisição direta reprovava o changelog oficial da Steam (que monta a
+página por JavaScript e volta como casca), o Dot Esports, a wiki.gg e o Reddit. Marcar essas quatro
+como perdidas teria enfiado no `fontes.md` uma perda inventada, que é o defeito oposto e igualmente
+caro. O `gravar-recortes.mjs` passou a tentar **duas vezes por URL**, requisição direta e navegador
+de verdade, e só chama de perdida a que falha nas duas.
+
+Segundo erro, 3 bloqueadas. **Duas delas estavam vivas**, e a máquina é que não alcançava: as duas
+do VGC foram capturadas pelo Cowork, que não recebe o 403 da Cloudflare. Ou seja, a segunda
+tentativa não bastou, porque as duas rodavam no mesmo lugar. **Veredito de fonte não sai de um
+ambiente só**, e "não abre" dito por uma máquina quer dizer "não abre aqui".
+
+Isso criou um risco novo que precisou de guarda: recorte capturado fora não pode ser regravado
+daqui, senão o script apaga o conteúdo e devolve "bloqueada", desfazendo em silêncio o trabalho de
+quem capturou. Alvo com `origem` é **preservado**, e se o arquivo sumir o script **aborta**, porque
+não sabe refazer o que não capturou.
+
+Sobrou o **SteamDB**, e ele não é bloqueio: a página abre e **não publica o dado em HTML**. O corpo
+volta com "Loading…" e a lista de builds é montada por JavaScript. É a mesma categoria da página do
+Anubis no paldb, e o rótulo mudou de `bloqueada` para `sem-html` porque "bloqueada" sugere que outro
+cliente resolveria, e manda a próxima pessoa gastar tempo à toa. O que dá para ler dali sem
+JavaScript ficou gravado (changenumber 37340689, último registro 17.07.2026, lançamento 10.07.2026),
+e não responde a pergunta, que é qual build é qual versão. Nenhuma afirmação caiu do site: quem
+responde é o changelog oficial, o The Big Lead e o `npm run patch:verificar`.
 
 **O recorte é citação, não arquivo.** Cada um traz até cinco trechos, um por termo de relevância,
 com o hash e o tamanho da página original no cabeçalho para o que ficou de fora aparecer. Arquivar
 artigo inteiro seria copiar conteúdo dos outros e não provaria mais nada: quem reconfere quer a
 linha do número.
 
-**Três sabotagens, todas rodadas.** Apagar `palcalc.md` fez o portão acusar a URL do PalCalc sem
-recorte; apagar as linhas de citação de `steam-changelog-1-0.md` fez ele acusar recorte que se diz
-vivo sem trecho dentro; e tirar `vgc-9-mudancas.md` do texto do `fontes.md` fez ele acusar fonte
-bloqueada que não está registrada na página. Essa última é a que impede a regressão real: sem ela, a
-perda ficaria num arquivo de dados que ninguém abre enquanto a página seguiria exibindo o link como
-conferência.
+**Quatro sabotagens, todas rodadas.** Apagar `palcalc.md` fez o portão acusar a URL do PalCalc sem
+recorte. Apagar as linhas de citação de `steam-changelog-1-0.md` fez ele acusar recorte que se diz
+vivo sem trecho dentro. Tirar `steamdb-patchnotes.md` do texto do `fontes.md` fez ele acusar fonte
+sem prova que não está registrada na página, que é a que impede a regressão real: sem ela, a perda
+ficaria num arquivo de dados que ninguém abre enquanto a página seguiria exibindo o link como
+conferência. E apagar `vgc-world-tree.md`, que veio do Cowork, fez o `gravar-recortes.mjs` **abortar
+com código 1** em vez de gravar por cima o 403 local.
 
-Dois achados que o ato de gravar produziu, os dois no `fontes.md`: o **259 da BisectHosting** é soma
-sobre base velha, demonstrável agora que os dois trechos estão lado a lado (os dois falam em 72 Pals
-novos, e só um parte de 215); e o **3v3 contra 4v4 da Arena** é o mesmo fato dito de dois jeitos, o
-que rebaixa a disputa sem encerrá-la, porque a fonte é uma só e é a mesma que erra a contagem.
+Dois achados que o ato de gravar produziu, os dois no `fontes.md`. A **contagem de Pals saiu da
+disputa**: os três recortes dizem 72 Pals novos, o oficial e o VGC chegam a 287, e o 259 da
+BisectHosting é soma sobre base velha, porque 215 mais 72 dá 287 e 259 menos 72 dá 187, que não é
+contagem de lugar nenhum. Não eram duas fontes discordando, era uma somando errado com duas do lado
+certo. E o **3v3 contra 4v4 da Arena** é o mesmo fato dito de dois jeitos, o que rebaixa a disputa
+sem encerrá-la, porque a fonte é uma só e é a mesma que erra a contagem.
 
 Encostou em `package.json`, território compartilhado, pelo mínimo: uma linha de script
 (`npm run recortes:gravar`), sem a qual a captura não seria reproduzível por comando.
@@ -730,6 +748,32 @@ scripts, marcação bilíngue, assistente por último.
   na base de destino, com `npm run verificar` passando lá.
 
 ---
+
+### [ ] B4 — A cadeia de acesso à Árvore Mundial não está documentada
+
+**Requisito:** R1.1
+**Território:** conteúdo e dados
+
+A `endgame.md` fala da Árvore Mundial e **não diz como entrar nela**. O grupo está no nível 52 e vai
+esbarrar nisso no 70, que é o requisito.
+
+A matéria-prima já está no repositório, gravada e datada, e esta tarefa é de escrever, não de
+pesquisar. O recorte `src/data/recortes/vgc-world-tree.md` traz o nível (70 e acima), o lugar (ponto
+mais ao norte do mapa), os seis pré-requisitos em ordem (descobrir Sunreach, derrotar Auri e
+Shaolong, achar o Deserted Islet, achar os materiais da Echoing Flute, fabricar a Echoing Flute,
+derrotar e capturar o Panthalus) e o passo final, que é ir à base da árvore com o Panthalus no time
+e interagir com o altar.
+
+**Duas fontes gravadas concordam em parte da cadeia, e isso é para ser dito no texto:** o recorte
+`nexttier-sunreach.md` registra Auri e Shaolong como o chefe de nível 68 da última torre padrão, o
+portão para o endgame. Onde as duas se cruzam, a wiki afirma. Onde só uma fala, a wiki cita a fonte.
+
+**Aceite:**
+- A `endgame.md` passa a ter a cadeia completa, em ordem, com o nível e o lugar.
+- Os nomes próprios que existirem no `termos.json` aparecem marcados pelo mecanismo bilíngue, sem
+  ninguém marcar à mão. O que não existir lá entra como está e é registrado na tarefa.
+- Nenhum número ou passo que não esteja num recorte gravado. Se faltar, a página diz que falta.
+- `npm run portao` passando.
 
 ### [ ] B3 — Reativar o leitor de save quando a biblioteca atualizar
 

@@ -27,9 +27,17 @@
  *     404 seria imprecisão gravada justamente no arquivo que existe para
  *     registrar imprecisão.
  *
+ *   - Alvo com `origem` foi capturado em outro ambiente e NÃO é regravado aqui.
+ *     As duas do VGC vieram do Cowork, que não leva o 403 da Cloudflare, e desta
+ *     máquina voltam 403: regravar apagaria o conteúdo delas. Se o arquivo
+ *     sumir, o script aborta, porque não sabe refazer o que não capturou.
+ *
  * Só `viva` conta como conferida. Todo o resto tem que estar registrado no
  * fontes.md como afirmação sem prova reproduzível, e o `npm run verificar`
- * reprova quando não está.
+ * reprova quando não está. `sem-html` é o caso do SteamDB: a página abre, e o
+ * que ela publica em HTML não é o dado, que é montado por JavaScript. Isso não
+ * é bloqueio, e a distinção importa porque "bloqueada" sugere que outro cliente
+ * resolveria.
  */
 import { writeFile, readFile, readdir, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -75,6 +83,7 @@ const ALVOS = {
     arquivo: 'steamdb-patchnotes.md',
     usado_para: 'Histórico de patches, para saber qual versão é a publicada',
     termos: ['1.0.2', '1.0.1', 'patchnotes', 'Palworld'],
+    origem: 'lido sem JavaScript: a lista de builds não existe no HTML, só o cabeçalho do app',
   },
   'https://paldb.cc/en/v1.0.0': {
     arquivo: 'paldb-v1-0-0.md',
@@ -93,8 +102,9 @@ const ALVOS = {
   },
   'https://www.videogameschronicle.com/guide/palworld-1-0-patch-notes-9-biggest-changes/': {
     arquivo: 'vgc-9-mudancas.md',
-    usado_para: 'Level cap e as mudanças do 1.0, uma das sete fontes que convergem em 80',
+    usado_para: 'As nove mudanças do 1.0, o level cap e a contagem de 72 Pals novos',
     termos: ['level cap', 'level 80', 'Pals', 'World Tree'],
+    origem: 'capturado via Cowork porque a máquina local recebe 403 da Cloudflare',
   },
   'https://dotesports.com/palworld/guides/palworld-1-0-patch-notes': {
     arquivo: 'dotesports-patch-notes.md',
@@ -158,8 +168,9 @@ const ALVOS = {
   },
   'https://www.videogameschronicle.com/guide/palworld-10-enter-world-tree/': {
     arquivo: 'vgc-world-tree.md',
-    usado_para: 'Como entrar na Árvore Mundial, requisito de endgame',
+    usado_para: 'A cadeia de acesso à Árvore Mundial: nível, lugar e os seis pré-requisitos',
     termos: ['World Tree', 'enter', 'Sunreach'],
+    origem: 'capturado via Cowork porque a máquina local recebe 403 da Cloudflare',
   },
   'https://nexttier.pro/guide/palworld-sunreach': {
     arquivo: 'nexttier-sunreach.md',
@@ -380,7 +391,7 @@ console.log('');
 console.log(`  Gravando recorte de ${fila.length} URL${fila.length === 1 ? '' : 's'} citada${fila.length === 1 ? '' : 's'} no fontes.md`);
 console.log('');
 
-const resumo = { viva: [], 'sem-trecho': [], bloqueada: [], morta: [] };
+const resumo = { viva: [], 'sem-trecho': [], bloqueada: [], morta: [], preservado: [] };
 
 const analisar = (corpo, termos) => {
   const blocos = paraTexto(corpo);
@@ -391,6 +402,29 @@ const descrever = (t) => `${t.via} ${t.r.http ? `HTTP ${t.r.http}` : `falhou (${
 
 for (const url of fila) {
   const alvo = ALVOS[url];
+
+  // Recorte que veio de outro ambiente não é regravável aqui, e regravar seria
+  // destruir prova: as duas do VGC foram capturadas pelo Cowork, que não leva o
+  // 403 da Cloudflare, e desta máquina elas voltam 403. Rodar o script sem esta
+  // guarda apagaria o conteúdo delas e devolveria "bloqueada", desfazendo em
+  // silêncio o trabalho de quem capturou. Some o arquivo, o script ABORTA: ele
+  // não sabe refazer o que não capturou.
+  if (alvo.origem) {
+    const caminho = join(pastaRecortes, alvo.arquivo);
+    if (!existsSync(caminho)) {
+      console.error('');
+      console.error(`  ABORTADO. ${alvo.arquivo} veio de fora (${alvo.origem}) e não está no repositório.`);
+      console.error('  Este script não consegue recapturá-lo. Recupere o arquivo do histórico do Git.');
+      console.error('');
+      process.exit(1);
+    }
+    const cab = (await readFile(caminho, 'utf-8')).match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] || '';
+    const status = cab.match(/^status:\s*(\S+)\s*\r?$/m)?.[1] || 'sem status';
+    resumo.preservado.push({ url, arquivo: alvo.arquivo, status });
+    console.log(`   ${'preservado'.padEnd(12)} ${status.padEnd(10)} ${url}`);
+    continue;
+  }
+
   const feitas = [];
 
   // Requisição direta primeiro, que é barata. Navegador só quando ela não
@@ -506,7 +540,7 @@ const esperados = new Set(Object.values(ALVOS).map((a) => a.arquivo));
 const sobrando = gravados.filter((f) => !esperados.has(f));
 
 console.log('');
-console.log(`  ${resumo.viva.length} com recorte, ${resumo['sem-trecho'].length} sem trecho, ${resumo.bloqueada.length} bloqueadas, ${resumo.morta.length} mortas, de ${fila.length} tentadas`);
+console.log(`  ${resumo.viva.length} com recorte, ${resumo.preservado.length} preservados de outro ambiente, ${resumo['sem-trecho'].length} sem trecho, ${resumo.bloqueada.length} bloqueadas, ${resumo.morta.length} mortas, de ${fila.length}`);
 const semProva = [...resumo['sem-trecho'], ...resumo.bloqueada, ...resumo.morta];
 if (semProva.length) {
   console.log('');

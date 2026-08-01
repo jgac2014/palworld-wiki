@@ -346,7 +346,7 @@ passou(`conteúdo: ${arquivos.length} páginas, frontmatter e marcação verific
 // O CLAUDE.md registra que "fonte consultada e não gravada deixa de existir", e
 // o repositório provou isso do jeito caro: a regra de cruzamento foi validada
 // contra uma lista do paldb que ninguém consegue mais reabrir, e a validação
-// virou afirmação sem prova. As outras 27 URLs do fontes.md estavam no mesmo
+// virou afirmação sem prova. As 28 URLs citadas no fontes.md estavam no mesmo
 // estado, só que ainda não tinham envelhecido.
 //
 // Daqui em diante, citar URL como conferência obriga a gravar o recorte. E
@@ -356,7 +356,7 @@ passou(`conteúdo: ${arquivos.length} páginas, frontmatter e marcação verific
 // arquivo de dados que ninguém abre.
 const pastaRecortes = join(raiz, 'src/data/recortes');
 const fontesTexto = corpos['fontes.md'];
-const STATUS_RECORTE = new Set(['viva', 'sem-trecho', 'bloqueada', 'morta']);
+const STATUS_RECORTE = new Set(['viva', 'sem-trecho', 'sem-html', 'bloqueada', 'morta']);
 
 if (!fontesTexto) {
   // Falta de insumo é erro, nunca passagem em silêncio: sem o corpo do
