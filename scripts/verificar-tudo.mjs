@@ -457,6 +457,50 @@ if (mapaPontos && refMapa) {
     }
   }
 
+  // ------------------------ nome importado que se repete em lugar diferente
+  //
+  // Esta checagem existe porque a coisa que ela pega ESTAVA no ar. O importador
+  // casava o nome em português com o em inglês por `id`, e 13.139 dos 13.755
+  // pontos não têm `id`: `undefined === undefined` é verdade, então todo ponto
+  // de um tipo herdava o nome do primeiro daquele tipo. Os 137 pontos de viagem
+  // rápida se chamavam todos "Ilha Solitária Esquecida" e as 66 recompensas se
+  // chamavam todas "Carente de Aprovação Dazzle". Eram 3.622 pontos com nome
+  // errado, no popup e na tabela, e nada acusava: o nome estava lá, era
+  // plausível, e o defeito só apareceu quando a busca do mapa passou a listar
+  // três resultados diferentes com o mesmo rótulo.
+  //
+  // O critério não é "nenhum nome repetido", que seria falso: a localização do
+  // jogo colapsa "Fort Ruins" e "Fortress Ruins" no mesmo "Restos da Fortaleza".
+  // O que ela mede é quantos nomes em português cobrem mais de um nome em
+  // inglês, contra o número congelado na referência.
+  const porNomePt = new Map();
+  for (const p of [...mapaPontos.pontos, ...mapaPontos.extras]) {
+    if (!p.pt || !p.en) continue;
+    if (!porNomePt.has(p.pt)) porNomePt.set(p.pt, new Set());
+    porNomePt.get(p.pt).add(p.en);
+  }
+  const ambiguos = [...porNomePt.entries()].filter(([, ens]) => ens.size > 1);
+  const tetoAmbiguo = refMapa.nomes_pt_cobrindo_mais_de_um_en;
+  if (typeof tetoAmbiguo !== 'number') {
+    derivou++;
+    erro('mapa', 'referencia-mapa.json não declara nomes_pt_cobrindo_mais_de_um_en, então nome importado repetido não tem com o que ser comparado');
+  } else if (ambiguos.length > tetoAmbiguo) {
+    derivou++;
+    const piores = ambiguos.sort((a, b) => b[1].size - a[1].size).slice(0, 3)
+      .map(([pt, ens]) => `"${pt}" em ${ens.size} lugares`).join(', ');
+    erro('mapa', `${ambiguos.length} nomes em português cobrem mais de um lugar diferente, contra ${tetoAmbiguo} na referência: ${piores}. O casamento entre os dois idiomas quebrou, e nome errado é pior que nome ausente`);
+  }
+
+  const rotulosPt = Object.values(mapaPontos.tipos).filter((t) => !t.sem_traducao_oficial).length;
+  if (rotulosPt !== refMapa.tipos_com_rotulo_em_portugues) {
+    derivou++;
+    erro('mapa', `${rotulosPt} tipos com rótulo em português na importação e ${refMapa.tipos_com_rotulo_em_portugues} na referência. O paldb mudou o que traduz: aceite atualizando a referência e registrando em fontes.md`);
+  }
+  if (Object.keys(mapaPontos.tipos).length !== refMapa.total_de_tipos) {
+    derivou++;
+    erro('mapa', `${Object.keys(mapaPontos.tipos).length} tipos na importação e ${refMapa.total_de_tipos} na referência`);
+  }
+
   // ---------------------------------------------- prova da projeção (H3)
   //
   // O paldb publica DOIS sistemas de coordenada no mesmo pacote: `fixedDungeon`

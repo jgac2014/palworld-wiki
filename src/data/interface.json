@@ -172,6 +172,13 @@
   "mapa_clicado":       { "pt": "clicado",            "en": "clicked" },
   "mapa_como_add":      { "pt": "Como adicionar um ponto", "en": "How to add a marker" },
   "mapa_pontos":        { "pt": "pontos marcados",    "en": "markers" },
+  "mapa_busca":         { "pt": "Achar no mapa: nome do ponto ou tipo...", "en": "Find on the map: point name or type..." },
+  "mapa_busca_nada":    { "pt": "Nenhum ponto com esse nome.", "en": "No point with that name." },
+  "mapa_busca_conta":   { "pt": "{n} encontrados.",   "en": "{n} found." },
+  "mapa_busca_corte":   { "pt": "{n} encontrados, mostrando os {m} primeiros. Escreva mais para estreitar.", "en": "{n} found, showing the first {m}. Type more to narrow it down." },
+  "mapa_busca_curta":   { "pt": "Escreva pelo menos duas letras.", "en": "Type at least two letters." },
+  "mapa_busca_ligou":   { "pt": "A categoria estava desligada e foi ligada para mostrar este ponto.", "en": "That category was off and was switched on to show this point." },
+  "mapa_nivel":         { "pt": "nível",              "en": "level" },
 
   "cat_base":           { "pt": "Nossas bases",       "en": "Our bases" },
   "cat_minerio":        { "pt": "Minério",            "en": "Ore" },

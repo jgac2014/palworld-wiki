@@ -754,6 +754,48 @@ para um arquivo que não existe mais, e o `fontes.md` ganhou a seção da diverg
 `package.json`, compartilhado, por uma linha de script e a declaração do `sharp`, que já vinha junto
 do Astro e agora é usado por comando nosso.
 
+### [x] H7 — As três melhorias do mapa que não dependem de imagem
+
+**Requisito:** R3.2, R5.8
+**Território:** código e visual, encostando em conteúdo e dados por um defeito que a busca revelou
+
+Nível no marcador de alfa, contagem por categoria no controle de camadas, busca no mapa.
+
+**Aceite:**
+- O marcador de cada alfa mostra o nível sem precisar de clique.
+- Cada caixa do controle de camadas diz quantos pontos tem.
+- A busca acha ponto por nome ou tipo, nos dois idiomas, e leva até ele.
+- `npm run portao` passando, com asserção de navegador para cada uma das três.
+
+**Feita.** Os 83 alfas passaram a ser marcador de DOM em vez de ponto de canvas, porque número não
+se desenha no canvas do Leaflet, e 83 elementos é volume que o DOM aguenta: os outros 13.755 pontos
+continuam em canvas. A camada de Inimigos nasce desligada, então ninguém paga por isso sem pedir. O
+nível também entrou na tabela alternativa, na coluna do tipo e não numa quarta coluna: só 914 dos
+13.755 pontos têm nível, e coluna vazia em nove de cada dez linhas atrapalha quem lê por leitor de
+tela.
+
+A busca procura nos 13.755 do paldb **e** nos nossos 35, no nome e no tipo, nos dois idiomas, com ou
+sem acento. Procurar só no que está marcado seria pior que não ter busca: "não achei" e "está
+desmarcado" virariam a mesma resposta. Achar ponto de camada desligada **liga a camada e diz que
+ligou**, para o mapa não mudar sozinho sem explicação.
+
+**E ela achou um defeito de dado que estava no ar.** Procurar "anubis" devolvia três lugares
+diferentes, todos chamados "Ilha Solitária Esquecida". O importador casava PT com EN por `id`, e
+13.139 dos 13.755 pontos não têm `id`: `undefined === undefined` fazia todo ponto de um tipo herdar
+o nome do primeiro. Eram **3.622 pontos com nome errado** no popup e na tabela, desde a importação.
+Corrigido casando por índice, com aborto se as duas listas deixarem de estar na mesma ordem, e com
+guarda nova no verificador contra o número congelado de nomes ambíguos. Detalhe em `fontes.md`.
+Isso encostou em conteúdo e dados, e foi de propósito: publicar uma busca que lista 137 lugares com
+o mesmo nome seria entregar a função quebrada de fábrica.
+
+**Quatro sabotagens, todas rodadas.** Somar 1 na contagem de cada categoria fez o teste acusar as
+três primeiras erradas. Devolver o alfa para o canvas fez ele acusar 0 etiquetas para 83 alfas.
+Limitar a busca ao que está marcado fez ele acusar 0 resultados com a camada desligada. E devolver o
+dado importado com o casamento velho fez o verificador acusar 24 nomes cobrindo mais de um lugar,
+contra 1 na referência. A sabotagem da busca também derrubou o teste com exceção na primeira
+tentativa, em vez de reprovar com explicação: teste que estoura some do resumo, então ele passou a
+conferir a lista antes de clicar nela.
+
 ### [ ] H5 — O mapa funcionar no pacote offline
 
 **Requisito:** R3.6

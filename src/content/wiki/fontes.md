@@ -368,6 +368,41 @@ santuário, e no mesmo lugar o paldb põe a viagem rápida `Ilha Solitária Esqu
 como divergência em aberto, e é item da B1: quem abrir o jogo confere na tela.
 :::
 
+## 3.622 pontos do mapa estavam com o nome errado, e o nome era plausível
+
+Registrado em **01.08.2026**, e achado por acidente: a busca nova do mapa devolveu três lugares
+diferentes com o mesmo rótulo.
+
+O importador casava o nome em português com o em inglês por `id` mais `type`. **13.139 dos 13.755
+pontos não têm campo `id`**, e em JavaScript `undefined === undefined` é verdade, então o
+`find` devolvia sempre o **primeiro ponto daquele tipo**. Resultado: todo ponto de um tipo herdava o
+nome do primeiro.
+
+| Tipo | Quantos | O nome que todos exibiam |
+|---|---|---|
+| Viagem rápida | 137 | Ilha Solitária Esquecida |
+| Recompensa | 66 | Carente de Aprovação Dazzle |
+| Anotação de náufrago | 55 | Anotações de um náufrago, dia 5 |
+| Peixe | 41 | Lapure |
+
+Eram **3.622 pontos** publicando nome errado, no popup e na tabela alternativa, desde a importação.
+**Nada acusava**, e é isso que vale registrar: o nome estava lá, era um nome de verdade, em português
+correto, no lugar certo da tela. Só não era o nome daquele ponto. Checagem de contagem não pega isso,
+checagem de marcador de string não resolvida não pega isso, e olhar a tela não pega isso.
+
+A correção é casar por **índice**: as duas listas são a mesma lista em dois idiomas, com o mesmo
+comprimento, o mesmo `type` e a mesma `pos` em cada posição, conferido nos 13.755. O bloco de
+`extrasIngame` do mesmo importador sempre casou assim. O importador agora **aborta** se a fonte
+deixar de valer isso.
+
+A regressão passou a ter guarda: o verificador conta quantos nomes em português cobrem mais de um
+nome em inglês e compara com o número congelado. Hoje é **1**, e é legítimo, porque a localização do
+jogo chama `Fort Ruins` e `Fortress Ruins` de "Restos da Fortaleza". Com o casamento velho, eram 24.
+
+**Uma deriva menor apareceu junto:** o paldb deixou de traduzir o tipo `Awakening`, que voltou para
+inglês. São 38 rótulos traduzidos virando 37. Nenhuma afirmação da wiki dependia dessa palavra. Ela
+também estava passando em silêncio, porque nada comparava esse número: agora compara.
+
 ## O "149 de 149" não é reproduzível, e por isso a receita do Anubis saiu
 
 Registrado em **01.08.2026**, tentando reconciliar dois números que deveriam ser o mesmo: a seção

@@ -5,7 +5,10 @@
   "total_de_pontos": 13755,
   "total_de_extras": 121,
   "total_de_tipos": 84,
-  "tipos_com_rotulo_em_portugues": 38,
+  "tipos_com_rotulo_em_portugues": 37,
+  "_sobre_o_37": "Era 38 até 01.08.2026, e caiu porque o paldb deixou de traduzir o tipo `Awakening`: o rótulo dele voltou para inglês e ganhou `sem_traducao_oficial`. Nenhuma afirmação da wiki dependia dessa palavra, e não há o que consertar do nosso lado. Fica registrado porque este arquivo existe para a deriva não passar em silêncio, e esta passou: até 01.08 nada comparava este número, e a queda só apareceu porque alguém leu a linha de resumo do importador.",
+  "nomes_pt_cobrindo_mais_de_um_en": 1,
+  "_sobre_nome_repetido": "Quantos nomes em português cobrem mais de um nome em inglês. Hoje é 1, e é legítimo: `Restos da Fortaleza` traduz `Fort Ruins` e `Fortress Ruins`, dois lugares que a localização do jogo chama igual. O número existe porque em 01.08 ele era 24, e isso NÃO era tradução: o importador casava PT com EN por `id`, 13.139 dos 13.755 pontos não têm `id`, e `undefined === undefined` fazia todo ponto de um tipo herdar o nome do primeiro. Os 137 pontos de viagem rápida chamavam-se todos `Ilha Solitária Esquecida` e as 66 recompensas chamavam-se todas `Carente de Aprovação Dazzle`. 3.622 pontos publicavam nome errado, e nada acusava, porque nome errado é plausível.",
   "por_categoria": {
     "Mine": 3713,
     "Fishing": 3232,

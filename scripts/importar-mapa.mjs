@@ -124,11 +124,36 @@ if (!Object.keys(tipos).length) abortar('o iconLookup veio vazio.');
 
 // ------------------------------------------------------------------ pontos
 const pontos = [];
-for (const p of en.fixedDungeon || []) {
+// PT casa com EN por ÍNDICE, e isso não é preguiça: é o único critério que
+// funciona aqui.
+//
+// O casamento anterior era por `id` mais `type`, e ele publicou nome errado em
+// silêncio durante uma semana. 13.139 dos 13.755 pontos NÃO TÊM campo `id`, e
+// `undefined === undefined` é verdade: o `find` devolvia o primeiro ponto
+// daquele tipo, então os 137 pontos de viagem rápida saíram todos chamados
+// "Ilha Solitária Esquecida", que é o nome do primeiro. Vinte e quatro nomes em
+// português cobriam mais de um lugar diferente. Nada disso aparecia num teste,
+// porque o nome estava lá, era plausível, e só estava errado.
+//
+// As duas listas são a mesma lista em dois idiomas: mesmo comprimento, mesma
+// ordem, mesmo `type` e mesma `pos` em cada índice, conferido nos 13.755. O
+// bloco de `extrasIngame` logo abaixo sempre casou por índice, pelo mesmo
+// motivo. A guarda abaixo ABORTA se a fonte deixar de valer isso, porque nome
+// trocado é pior que nome ausente.
+const dungeonPt = pt.fixedDungeon || [];
+const dungeonEn = en.fixedDungeon || [];
+if (dungeonPt.length !== dungeonEn.length) {
+  abortar(`fixedDungeon veio com ${dungeonEn.length} pontos em inglês e ${dungeonPt.length} em português. Casar por índice trocaria nome de lugar.`);
+}
+const foraDeOrdem = dungeonEn.filter((p, i) => dungeonPt[i]?.type !== p.type).length;
+if (foraDeOrdem) {
+  abortar(`${foraDeOrdem} pontos de fixedDungeon têm tipo diferente entre inglês e português no mesmo índice. As duas listas deixaram de estar na mesma ordem.`);
+}
+for (const [i, p] of dungeonEn.entries()) {
   if (!p.pos || !p.type) continue;
   const tela = paraTela(p.pos);
   const nomeEn = limpar(p.item);
-  const nomePt = limpar((pt.fixedDungeon || []).find((q) => q.id === p.id && q.type === p.type)?.item);
+  const nomePt = limpar(dungeonPt[i]?.item);
   pontos.push({
     t: p.type,
     x: tela.x,

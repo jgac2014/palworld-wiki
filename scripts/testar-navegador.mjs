@@ -914,6 +914,143 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     );
   }
 
+  // 13. o controle de camadas diz quantos pontos cada uma tem.
+  //
+  // Sem o número, marcar a caixa é a única forma de descobrir se a categoria
+  // vale a pena, e "Pesca" e "Sem categoria no paldb" parecem a mesma oferta
+  // até você ver 3.232 contra zero. A asserção compara com a contagem feita
+  // aqui, a partir do JSON, em vez de aceitar qualquer número na tela: rótulo
+  // que mostra um número errado é pior que rótulo sem número.
+  const pontosJson = JSON.parse(await readFile(join(raiz, 'src/data/mapa-pontos.json'), 'utf-8'));
+  const esperadoPorCat = {};
+  for (const chave of Object.keys(pontosJson.categorias)) esperadoPorCat[chave] = 0;
+  for (const p of [...pontosJson.pontos, ...pontosJson.extras]) {
+    const cat = pontosJson.tipos[p.t]?.categoria;
+    if (cat in esperadoPorCat) esperadoPorCat[cat]++;
+  }
+  const naTela = await pagina.evaluate(() =>
+    Object.fromEntries([...document.querySelectorAll('#filtros-paldb .filtro')].map((l) => [
+      l.querySelector('input').value,
+      l.querySelector('.quantos')?.textContent.trim() ?? null,
+    ])));
+  const contasErradas = Object.entries(esperadoPorCat).filter(
+    ([chave, n]) => naTela[chave] !== n.toLocaleString('pt-BR'));
+  conferir(
+    Object.keys(naTela).length === Object.keys(esperadoPorCat).length && contasErradas.length === 0,
+    `o controle de camadas mostra a contagem de cada uma das ${Object.keys(esperadoPorCat).length} categorias`,
+    contasErradas.length
+      ? `erradas: ${contasErradas.slice(0, 3).map(([c, n]) => `${c} mostra "${naTela[c]}" e são ${n}`).join(', ')}`
+      : `${Object.keys(naTela).length} rótulos na tela para ${Object.keys(esperadoPorCat).length} categorias`,
+  );
+
+  // 14. o marcador de alfa traz o nível, e a busca acha e vai até o ponto.
+  //
+  // O nível no marcador é o dado que decide se dá para enfrentar aquele alfa
+  // agora, e ele só existe em DOM porque número não se desenha no canvas do
+  // Leaflet, onde moram os outros 13.755 pontos. Se alguém devolver o alfa para
+  // o canvas, o mapa continua bonito e o número some sem erro nenhum.
+  //
+  // A busca é conferida ponta a ponta, incluindo a parte que dá trabalho: ela
+  // acha um ponto de camada DESLIGADA, liga a camada e abre o popup. Buscar só
+  // no que está marcado faria "não achei" e "está desmarcado" darem a mesma
+  // resposta na tela.
+  const alfasEsperados = [...pontosJson.pontos, ...pontosJson.extras]
+    .filter((p) => p.t === 'Alpha Pal' && typeof p.lv === 'number');
+  await pagina.evaluate(() => {
+    const cx = document.querySelector('#filtros-paldb input[value="Enemies"]');
+    cx.checked = true;
+    cx.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  await pagina.waitForTimeout(600);
+  // De longe o número fica escondido de propósito, senão "62" ao lado de "60"
+  // vira "6260". Então a asserção aproxima antes de olhar: contar elemento com
+  // display none seria aprovar uma etiqueta que ninguém enxerga, que é o mesmo
+  // placebo do teste por file://.
+  for (let i = 0; i < 3; i++) {
+    await pagina.click('.leaflet-control-zoom-in');
+    await pagina.waitForTimeout(400);
+  }
+  await pagina.waitForTimeout(600);
+  const etiquetas = await pagina.evaluate(() =>
+    [...document.querySelectorAll('#mapa .alfa b')].map((b) => ({
+      txt: b.textContent.trim(),
+      alto: b.getBoundingClientRect().height > 0,
+    })));
+  const niveisEsperados = new Set(alfasEsperados.map((p) => String(p.lv)));
+  const visiveisAlfa = etiquetas.filter((e) => e.alto).length;
+  conferir(
+    alfasEsperados.length > 0
+      && etiquetas.length === alfasEsperados.length
+      && visiveisAlfa > 0
+      && etiquetas.every((e) => niveisEsperados.has(e.txt)),
+    `o marcador de cada um dos ${alfasEsperados.length} Pals alfa mostra o nível`,
+    `${etiquetas.length} etiquetas na tela para ${alfasEsperados.length} alfas com nível no JSON, ${visiveisAlfa} com altura maior que zero`,
+  );
+
+  // O marcador do alfa é bola E número lado a lado, e essa parte quebra sem dar
+  // erro: a folha do Leaflet traz `.leaflet-marker-icon { display: block }` com
+  // a mesma especificidade da nossa classe e carregada depois, e ganhava. A
+  // bola virava caixa em linha de 2 por 16 px. Só apareceu numa imagem, então
+  // aqui a medida é a geometria: bola quadrada, e número à direita dela.
+  const formaAlfa = await pagina.evaluate(() => {
+    const el = document.querySelector('#mapa .alfa');
+    if (!el) return null;
+    const bola = el.querySelector('i').getBoundingClientRect();
+    const num = el.querySelector('b').getBoundingClientRect();
+    return {
+      display: getComputedStyle(el).display,
+      largura: Math.round(bola.width), altura: Math.round(bola.height),
+      numeroADireita: num.left >= bola.right - 1,
+    };
+  });
+  conferir(
+    formaAlfa && formaAlfa.display === 'flex'
+      && formaAlfa.largura >= 6 && Math.abs(formaAlfa.largura - formaAlfa.altura) <= 2
+      && formaAlfa.numeroADireita,
+    'o marcador do alfa é bola redonda com o número ao lado, e não empilhado',
+    formaAlfa
+      ? `display ${formaAlfa.display}, bola ${formaAlfa.largura}x${formaAlfa.altura}, número à direita ${formaAlfa.numeroADireita}`
+      : 'nenhum marcador de alfa no mapa',
+  );
+
+  // Desliga de novo, para a busca ter mesmo que ligar a camada sozinha.
+  await pagina.evaluate(() => {
+    const cx = document.querySelector('#filtros-paldb input[value="Enemies"]');
+    cx.checked = false;
+    cx.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  await pagina.waitForTimeout(400);
+  const alvoBusca = alfasEsperados.find((p) => p.en && /^[\w ]{5,}$/.test(p.en));
+  if (!alvoBusca) {
+    falha('a busca do mapa acha um ponto de camada desligada (nenhum alfa com nome utilizável no JSON, então a busca não pôde ser testada)');
+  } else {
+    await pagina.fill('#busca-mapa', alvoBusca.en);
+    await pagina.waitForTimeout(500);
+    const achados = await pagina.evaluate(() => ({
+      itens: document.querySelectorAll('#busca-lista button').length,
+      conta: document.getElementById('busca-conta').textContent.trim(),
+      ligada: document.querySelector('#filtros-paldb input[value="Enemies"]').checked,
+    }));
+    // Clicar num resultado que não existe derruba o teste com exceção em vez de
+    // reprovar com explicação, e teste que estoura some do resumo.
+    let depois = { popup: '', ligada: achados.ligada };
+    if (achados.itens > 0) {
+      await pagina.click('#busca-lista button');
+      await pagina.waitForTimeout(1200);
+      depois = await pagina.evaluate(() => ({
+        popup: document.querySelector('.leaflet-popup-content')?.textContent.trim() ?? '',
+        ligada: document.querySelector('#filtros-paldb input[value="Enemies"]').checked,
+      }));
+    }
+    conferir(
+      achados.itens > 0 && achados.ligada === false
+        && depois.ligada === true && depois.popup.includes(alvoBusca.en),
+      'a busca do mapa acha um ponto de camada desligada, liga a camada e abre o ponto',
+      `procurando "${alvoBusca.en}": ${achados.itens} resultados, camada antes ${achados.ligada}, depois ${depois.ligada}, popup "${depois.popup.slice(0, 40)}"`,
+    );
+    await pagina.fill('#busca-mapa', '');
+  }
+
   conferir(errosJs.length === 0, 'nenhum erro de JavaScript no site', errosJs.slice(0, 2).join(' | '));
   await pagina.close();
 }

@@ -38,10 +38,31 @@ const CORES = {
   Collectibles: '#d4b158', NPCs: '#c98f8f', Locations: '#9fb8d4', Enemies: '#e07a5f',
   Other: '#9a9a9a', Oilrig: '#8f7fc9', _sem_categoria: '#6f6f6f',
 };
+// Quantos pontos cada categoria tem. Sem isso o controle de camadas pede que a
+// pessoa marque uma caixa para descobrir se ela vale a pena: "Pesca" e "Sem
+// categoria no paldb" parecem a mesma coisa até você ver 3.232 contra zero.
+// A contagem é feita aqui, no build, e não no navegador: é dado que não muda.
+const contaPaldb = {};
+for (const chave of Object.keys(pontos.categorias)) contaPaldb[chave] = 0;
+for (const p of [...pontos.pontos, ...pontos.extras]) {
+  const cat = pontos.tipos[p.t]?.categoria;
+  if (cat in contaPaldb) contaPaldb[cat]++;
+}
+const contaNossa = {};
+for (const chave of Object.keys(dados.categorias)) contaNossa[chave] = 0;
+for (const m of dados.marcadores) if (m.categoria in contaNossa) contaNossa[m.categoria]++;
+const numero = (n, l) => n.toLocaleString(l === 'en' ? 'en-US' : 'pt-BR');
+
 const catsPaldb = Object.entries(pontos.categorias)
-  .map(([chave, nome]) => ({ chave, ...nome, cor: CORES[chave] || '#888' }))
+  .map(([chave, nome]) => ({ chave, ...nome, cor: CORES[chave] || '#888', quantos: contaPaldb[chave] }))
   .sort((a, b) => a.pt.localeCompare(b.pt, 'pt-BR'));
 const doPaldb = { categorias: pontos.categorias, tipos: pontos.tipos, pontos: pontos.pontos, extras: pontos.extras, cores: CORES };
+// Rótulos que o script escreve em tempo de execução precisam viajar nos dois
+// idiomas, senão trocar de idioma depois de buscar devolve a frase inicial.
+const rotBusca = {
+  pt: { nada: ui('mapa_busca_nada', 'pt'), conta: ui('mapa_busca_conta', 'pt'), corte: ui('mapa_busca_corte', 'pt'), curta: ui('mapa_busca_curta', 'pt'), ligou: ui('mapa_busca_ligou', 'pt'), nivel: ui('mapa_nivel', 'pt') },
+  en: { nada: ui('mapa_busca_nada', 'en'), conta: ui('mapa_busca_conta', 'en'), corte: ui('mapa_busca_corte', 'en'), curta: ui('mapa_busca_curta', 'en'), ligou: ui('mapa_busca_ligou', 'en'), nivel: ui('mapa_nivel', 'en') },
+};
 // A leitura de coordenada é escrita pelo script, então os dois idiomas vão junto
 const rotCoord = {
   pt: { atual: ui('mapa_coord_atual', 'pt'), clicado: ui('mapa_clicado', 'pt') },
@@ -57,12 +78,26 @@ const rotCoord = {
     <p class="subtitulo" data-rot-pt={subtitulo('pt')} data-rot-en={subtitulo('en')}>{subtitulo('pt')}</p>
     <div class="carimbo" data-rot-pt={ui('mapa_dica', 'pt')} data-rot-en={ui('mapa_dica', 'en')}>{ui('mapa_dica', 'pt')}</div>
 
+    <div class="busca-mapa">
+      <input
+        type="search"
+        id="busca-mapa"
+        autocomplete="off"
+        placeholder={ui('mapa_busca', 'pt')}
+        data-ph-pt={ui('mapa_busca', 'pt')}
+        data-ph-en={ui('mapa_busca', 'en')}
+      />
+      <p class="achados" id="busca-conta" role="status" aria-live="polite"></p>
+      <ul class="achados-lista" id="busca-lista"></ul>
+    </div>
+
     <div id="filtros" class="filtros">
       {categorias.map(([chave, cat]) => (
         <label class={`filtro${cat.nosso ? ' so-com-progresso' : ''}`}>
           <input type="checkbox" value={chave} checked />
           <span class="ponto" style={`background:${cat.cor}`}></span>
           <span data-rot-pt={rotCat(chave, cat.nome).pt} data-rot-en={rotCat(chave, cat.nome).en}>{rotCat(chave, cat.nome).pt}</span>
+          <span class="quantos" data-rot-pt={numero(contaNossa[chave], 'pt')} data-rot-en={numero(contaNossa[chave], 'en')}>{numero(contaNossa[chave], 'pt')}</span>
         </label>
       ))}
     </div>
@@ -73,6 +108,7 @@ const rotCoord = {
           <input type="checkbox" value={c.chave} />
           <span class="ponto" style={`background:${c.cor}`}></span>
           <span data-rot-pt={c.pt} data-rot-en={c.en}>{c.pt}</span>
+          <span class="quantos" data-rot-pt={numero(c.quantos, 'pt')} data-rot-en={numero(c.quantos, 'en')}>{numero(c.quantos, 'pt')}</span>
         </label>
       ))}
     </div>
@@ -154,6 +190,64 @@ const rotCoord = {
   .filtro { display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--texto-2); user-select: none; }
   .filtro input { accent-color: var(--acento); cursor: pointer; }
   .ponto { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .quantos { font-variant-numeric: tabular-nums; font-size: 11.5px; color: var(--apagado); }
+
+  /* --- busca no mapa --- */
+  .busca-mapa { margin: 18px 0 0; font-family: var(--sans); }
+  .busca-mapa input {
+    width: 100%; padding: 9px 11px; font: inherit; font-size: 14px;
+    background: var(--cartao); color: var(--texto);
+    border: 1px solid var(--linha); border-radius: 3px;
+  }
+  .busca-mapa input:focus-visible { outline: 2px solid var(--acento); outline-offset: 1px; }
+  .achados { font-size: 12.5px; color: var(--texto-2); margin: 8px 0 0; }
+  .achados:empty { display: none; }
+  .achados-lista { list-style: none; margin: 6px 0 0; padding: 0; max-height: 240px; overflow-y: auto; }
+  .achados-lista:empty { display: none; }
+  /* :global porque o `li` e o `button` nascem do script, e elemento criado em
+     tempo de execução não recebe o atributo de escopo que o Astro põe no HTML.
+     Sem isto a lista sai sem estilo nenhum: os campos colam uns nos outros e o
+     botão aparece com a moldura padrão do navegador. Foi assim que ela saiu na
+     primeira tentativa, e só apareceu numa imagem. */
+  .achados-lista :global(li) { margin: 0; }
+  .achados-lista :global(button) {
+    display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+    padding: 6px 8px; font: inherit; font-size: 13px; color: var(--texto);
+    background: none; border: 0; border-radius: 3px; cursor: pointer;
+  }
+  .achados-lista :global(button:hover), .achados-lista :global(button:focus-visible) { background: var(--bloco); }
+  .achados-lista :global(.ponto) { flex: none; width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .achados-lista :global(.onde) { margin-left: auto; color: var(--apagado); font-family: ui-monospace, monospace; font-size: 11.5px; }
+  .achados-lista :global(.qual) { color: var(--texto-2); }
+  .achados-lista :global(.nome) { font-weight: 600; }
+
+  /* --- etiqueta de nível no marcador de alfa --- */
+  /* Ela é DOM e não canvas, ao contrário dos outros 13.755 pontos: número não
+     se desenha em canvas do Leaflet, e são 83 alfas, um volume que o DOM
+     aguenta. A camada de Inimigos nasce desligada, então ninguém paga por isso
+     sem pedir. */
+  /* Duas classes de propósito. A folha do Leaflet traz
+     `.leaflet-marker-icon { display: block }`, com a mesma especificidade de
+     `.alfa` e carregada DEPOIS, então ela vencia: a bola virava caixa em linha,
+     de 2 por 16, e o número saía fora do lugar. Nada disso dá erro, o marcador
+     continua no mapa, e só apareceu numa imagem. É primo da armadilha do
+     `display: flex` contra `[hidden]` que o CLAUDE.md já registra. */
+  :global(.leaflet-marker-icon.alfa) { display: flex; align-items: center; gap: 3px; white-space: nowrap; }
+  :global(.alfa i) {
+    width: 8px; height: 8px; flex: none; border-radius: 50%;
+    background: var(--cor-alfa, #e07a5f);
+    border: 1px solid rgba(0, 0, 0, .6);
+  }
+  :global(.alfa b) {
+    font: 700 10.5px/1 var(--sans); color: #fff;
+    text-shadow: 0 0 3px #000, 0 0 2px #000, 0 0 1px #000;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Longe, os 83 números se encavalam e "62" ao lado de "60" viram "6260": um
+     número inventado com cara de número lido. Abaixo do nível 2 fica só a bola,
+     e o número volta quando há espaço para ele. */
+  #mapa[data-zoom="0"] :global(.alfa b),
+  #mapa[data-zoom="1"] :global(.alfa b) { display: none; }
   #mapa {
     width: 100%;
     height: 560px;
@@ -190,7 +284,7 @@ const rotCoord = {
 
 <script type="application/json" id="dados-paldb" set:html={JSON.stringify(doPaldb)} data-pagefind-ignore></script>
 
-<script define:vars={{ dados, projecao, fundo, base, rotCoord }}>
+<script define:vars={{ dados, projecao, fundo, base, rotCoord, rotBusca }}>
   import('https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js').then((L) => {
     const { categorias, marcadores } = dados;
 
@@ -293,6 +387,12 @@ const rotCoord = {
     const camadas = {};
     for (const chave of Object.keys(categorias)) camadas[chave] = L.layerGroup();
 
+    // Índice único da busca: os nossos 35 marcadores e os 13.755 do paldb na
+    // mesma lista, cada um sabendo em que camada mora. Sem isso, buscar um
+    // ponto de camada desligada devolveria nada, e "não existe" e "está
+    // desmarcado" seriam a mesma resposta na tela.
+    const indiceBusca = [];
+
     // Categoria marcada como nossa no JSON é Camada 2: só entra no mapa com o
     // overlay ligado. Desligado, o mapa é o mapa do jogo e mais nada.
     const nossas = Object.keys(categorias).filter((c) => categorias[c].nosso);
@@ -322,6 +422,11 @@ const rotCoord = {
         (m.nota ? `<p style="margin:6px 0 0">${m.nota}</p>` : '')
       );
       marcador.addTo(camadas[m.categoria] || mapa);
+      indiceBusca.push({
+        p: { x: m.x, y: m.y, pt: m.nome, en: m.nome, t: null },
+        camada: m.categoria, cor: cat.cor, marcador, nosso: true,
+        rotulo: { pt: cat.nome, en: cat.nome },
+      });
     }
 
     // --- os 13.755 pontos do paldb, desenhados em CANVAS ---
@@ -349,14 +454,33 @@ const rotCoord = {
         const tipo = rotuloDoTipo(p.t);
         const camada = camadasPaldb[tipo.categoria];
         if (!camada) continue;
-        const c = L.circleMarker(paraLatLng(p.x, p.y), {
-          renderer: tela,
-          radius: 3.5,
-          stroke: false,
-          fillColor: P.cores[tipo.categoria] || '#888',
-          fillOpacity: 0.85,
-        });
+        const cor = P.cores[tipo.categoria] || '#888';
+
+        // O nível do alfa vai NO marcador, não só no popup. Quem abre esta
+        // camada está escolhendo qual alfa dá para enfrentar agora, e ter que
+        // clicar num ponto de cada vez para descobrir o nível transforma a
+        // decisão numa caçada. Só o alfa ganha etiqueta: são 83, e o dado é
+        // exatamente o que faz a pessoa ir ou não ir.
+        const ehAlfa = p.t === 'Alpha Pal' && typeof p.lv === 'number';
+        const c = ehAlfa
+          ? L.marker(paraLatLng(p.x, p.y), {
+              icon: L.divIcon({
+                className: 'alfa',
+                html: `<i style="--cor-alfa:${cor}"></i><b>${p.lv}</b>`,
+                iconSize: [26, 12],
+                iconAnchor: [5, 6],
+              }),
+              keyboard: false,
+            })
+          : L.circleMarker(paraLatLng(p.x, p.y), {
+              renderer: tela,
+              radius: 3.5,
+              stroke: false,
+              fillColor: cor,
+              fillOpacity: 0.85,
+            });
         c.dadosDoPonto = p;
+        indiceBusca.push({ p, camada: tipo.categoria, cor, marcador: c, nosso: false, rotulo: tipo });
         c.bindPopup(() => {
           const l = idioma();
           return `<b>${nomeDoPonto(p)}</b><span class="cd">${tipo[l]} · ${p.x}, ${p.y}${typeof p.lv === 'number' ? ` · Lv.${p.lv}` : ''}</span>`;
@@ -383,7 +507,14 @@ const rotCoord = {
         corpo.replaceChildren();
         for (const p of visiveis.slice(0, TETO)) {
           const tr = document.createElement('tr');
-          for (const txt of [nomeDoPonto(p), rotuloDoTipo(p.t)[l], `${p.x}, ${p.y}`]) {
+          // O nível entra na coluna do tipo, e não numa quarta coluna: só 914
+          // dos 13.755 pontos têm nível, e uma coluna vazia em nove de cada dez
+          // linhas atrapalha quem lê por leitor de tela. Se ele aparece no
+          // marcador, precisa aparecer aqui: a tabela é a alternativa dele.
+          const tipoComNivel = typeof p.lv === 'number'
+            ? `${rotuloDoTipo(p.t)[l]} · ${rotBusca[l].nivel} ${p.lv}`
+            : rotuloDoTipo(p.t)[l];
+          for (const txt of [nomeDoPonto(p), tipoComNivel, `${p.x}, ${p.y}`]) {
             const td = document.createElement('td');
             td.textContent = txt;
             tr.appendChild(td);
@@ -418,13 +549,150 @@ const rotCoord = {
       aplicarPaldb();
     }
 
+    // O nível do zoom vira atributo no container: é o que permite ao CSS
+    // esconder o número do alfa quando ele não cabe. Arredondado para baixo,
+    // porque o zoom aqui é contínuo.
+    const caixaDoMapa = document.getElementById('mapa');
+    const marcarZoom = () => { caixaDoMapa.dataset.zoom = String(Math.floor(mapa.getZoom())); };
+    mapa.on('zoomend', marcarZoom);
+
     mapa.fitBounds(limites);
+    marcarZoom();
 
     // --- filtros ---
     document.querySelectorAll('#filtros input').forEach((cx) => {
       cx.addEventListener('change', aplicarOverlay);
     });
     aplicarOverlay();
+
+    // --- busca no mapa ---
+    //
+    // Ela procura nos 13.755 do paldb E nos nossos 35, no nome e no tipo, nos
+    // dois idiomas, com ou sem acento. Procurar só no que está marcado seria
+    // pior que não ter busca: "não achei" e "está desmarcado" viram a mesma
+    // resposta, e quem não sabe em que categoria o paldb pôs a coisa nunca
+    // descobre. Achar um ponto de camada desligada LIGA a camada e diz que
+    // ligou, para o mapa não mudar sozinho sem explicação.
+    const campo = document.getElementById('busca-mapa');
+    const listaEl = document.getElementById('busca-lista');
+    const contaEl = document.getElementById('busca-conta');
+    const TETO_BUSCA = 30;
+
+    const semAcento = (s) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+    const nomeDe = (it, l) => (l === 'en' ? it.p.en : it.p.pt || it.p.en) || (it.rotulo ? it.rotulo[l] : '');
+    // A chave de busca é montada uma vez só, na primeira tecla, e não a cada
+    // tecla: normalizar 13.755 registros a cada letra digitada engasga o campo.
+    let indexado = false;
+    const indexar = () => {
+      if (indexado) return;
+      for (const it of indiceBusca) {
+        it.chave = semAcento([it.p.pt, it.p.en, it.rotulo?.pt, it.rotulo?.en].filter(Boolean).join(' '));
+      }
+      indexado = true;
+    };
+
+    let achadosAtuais = [];
+    const escreverConta = (pt, en) => {
+      contaEl.dataset.rotPt = pt;
+      contaEl.dataset.rotEn = en;
+      contaEl.textContent = idioma() === 'en' ? en : pt;
+    };
+
+    function irPara(it) {
+      const onde = it.nosso ? '#filtros' : '#filtros-paldb';
+      const caixa = document.querySelector(`${onde} input[value="${it.camada}"]`);
+      let ligou = false;
+      if (caixa && !caixa.checked) {
+        caixa.checked = true;
+        caixa.dispatchEvent(new Event('change', { bubbles: true }));
+        ligou = true;
+      }
+      mapa.setView(it.marcador.getLatLng(), Math.min(NATIVO, 3));
+      // Camada nossa desligada pelo overlay não tem marcador no mapa, e mandar
+      // abrir popup nela não faz nada em silêncio. Melhor não prometer.
+      if (it.marcador._map) it.marcador.openPopup();
+      if (ligou) escreverConta(rotBusca.pt.ligou, rotBusca.en.ligou);
+    }
+
+    function pintarAchados() {
+      const l = idioma();
+      listaEl.replaceChildren();
+      for (const it of achadosAtuais.slice(0, TETO_BUSCA)) {
+        const li = document.createElement('li');
+        const bt = document.createElement('button');
+        bt.type = 'button';
+        const ponto = document.createElement('span');
+        ponto.className = 'ponto';
+        ponto.style.background = it.cor;
+        const nome = document.createElement('span');
+        nome.className = 'nome';
+        nome.textContent = nomeDe(it, l) || (it.rotulo ? it.rotulo[l] : '');
+        const qual = document.createElement('span');
+        qual.className = 'qual';
+        const rot = it.rotulo ? it.rotulo[l] : '';
+        qual.textContent = typeof it.p.lv === 'number' ? `${rot} · ${rotBusca[l].nivel} ${it.p.lv}` : rot;
+        const onde = document.createElement('span');
+        onde.className = 'onde';
+        onde.textContent = `${it.p.x}, ${it.p.y}`;
+        // Os quatro pedaços são separados por espaço no visual, e por nada
+        // nenhum no texto que o leitor de tela lê. O aria-label existe para o
+        // botão ser anunciado como frase, e não como palavras coladas.
+        bt.setAttribute('aria-label', [nome.textContent, qual.textContent, onde.textContent].filter(Boolean).join(', '));
+        bt.append(ponto, nome, qual, onde);
+        bt.addEventListener('click', () => irPara(it));
+        li.appendChild(bt);
+        listaEl.appendChild(li);
+      }
+    }
+
+    function buscar() {
+      const cru = campo.value.trim();
+      if (!cru) {
+        achadosAtuais = [];
+        listaEl.replaceChildren();
+        escreverConta('', '');
+        return;
+      }
+      if (cru.length < 2) {
+        achadosAtuais = [];
+        listaEl.replaceChildren();
+        escreverConta(rotBusca.pt.curta, rotBusca.en.curta);
+        return;
+      }
+      indexar();
+      const alvo = semAcento(cru);
+      const l = idioma();
+      achadosAtuais = indiceBusca.filter((it) => it.chave.includes(alvo));
+      // Os nossos vêm primeiro: são 35 anotados à mão contra 13.755 importados,
+      // e é neles que este grupo mexe.
+      achadosAtuais.sort((a, b) =>
+        (b.nosso - a.nosso) || nomeDe(a, l).localeCompare(nomeDe(b, l), 'pt-BR'));
+      pintarAchados();
+      const n = achadosAtuais.length;
+      if (!n) escreverConta(rotBusca.pt.nada, rotBusca.en.nada);
+      else if (n > TETO_BUSCA) {
+        escreverConta(
+          rotBusca.pt.corte.replace('{n}', n).replace('{m}', TETO_BUSCA),
+          rotBusca.en.corte.replace('{n}', n).replace('{m}', TETO_BUSCA),
+        );
+      } else {
+        escreverConta(rotBusca.pt.conta.replace('{n}', n), rotBusca.en.conta.replace('{n}', n));
+      }
+    }
+
+    let relogioBusca = null;
+    campo.addEventListener('input', () => {
+      clearTimeout(relogioBusca);
+      relogioBusca = setTimeout(buscar, 120);
+    });
+    campo.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      clearTimeout(relogioBusca);
+      buscar();
+      if (achadosAtuais.length) irPara(achadosAtuais[0]);
+    });
+    document.addEventListener('idioma:mudou', () => { if (achadosAtuais.length) pintarAchados(); });
 
     // --- leitura de coordenada ---
     // Guarda os dois idiomas junto do texto: sem isso, trocar de idioma depois
