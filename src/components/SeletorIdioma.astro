@@ -91,6 +91,11 @@ import { ui } from '../lib/termos.js';
     });
 
     try { localStorage.setItem(CHAVE, idioma); } catch {}
+
+    // Quem não é texto simples se inscreve aqui, como a busca do Pagefind, que
+    // monta o próprio DOM e precisa ser avisada em vez de reescrita. Mesmo
+    // padrão do progresso:mudou.
+    document.dispatchEvent(new CustomEvent('idioma:mudou', { detail: { idioma } }));
   }
 
   function idiomaInicial() {

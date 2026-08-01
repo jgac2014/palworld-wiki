@@ -85,7 +85,7 @@ Palbox, guild chest and the real bottlenecks.`
 - Clicar em EN troca o texto do menu lateral inteiro.
 - `npm run verificar` passa.
 
-### [ ] A4 — Resultados da busca também alternam
+### [x] A4 — Resultados da busca também alternam
 
 **Requisito:** R2.4
 **Território:** código e visual
@@ -103,6 +103,21 @@ estado: quem já digitou uma busca não pode perder o que escreveu na troca.
 - Trocar de idioma com uma busca digitada mantém o texto no campo.
 - Asserção nova em `scripts/testar-navegador.mjs`, servida por HTTP, e provada sabotando a
   correção: com o código antigo de volta, ela tem que falhar.
+
+**Feita, por um caminho diferente do previsto, e a diferença importa.** A tarefa supunha o
+`PagefindUI` antigo, com traduções passadas na inicialização. A versão instalada do
+`astro-pagefind` é a de web components, e o `uiOptions` que estava no `Base.astro` **nunca chegou à
+busca**: prop desconhecida em componente Astro é ignorada sem aviso. Ninguém tinha errado ao
+escrever a tradução, ela só nunca foi lida.
+
+O componente traz o conjunto completo nos dois idiomas, com o termo buscado dentro da mensagem de
+vazio, plural e texto de leitor de tela. Trocar o idioma da instância é uma chamada e preserva o
+que já foi digitado, porque quem redesenha é o próprio componente. Reconstruir a instância, que era
+a saída prevista aqui, perderia a busca em andamento.
+
+`busca_vazio` e `busca_mais` saíram do `interface.json`: eram piores que as do componente (a nossa
+de vazio nem mostrava o termo buscado) e, paradas ali, seriam lidas como a fonte da verdade da
+busca pelo próximo que abrisse o arquivo.
 
 ### [ ] A5 — Moldura das páginas de guia
 

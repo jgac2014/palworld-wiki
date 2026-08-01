@@ -322,6 +322,50 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     tortas.map((b) => `nível ${b.nivel} desenhou ${(b.proporcao * 100).toFixed(1)}%`).join(' | '),
   );
 
+  // 6b. a busca também alterna de idioma, e não perde o que já foi digitado.
+  //     R2.4. A mensagem de vazio nascia em português e ficava: as traduções
+  //     eram passadas numa prop que a versão instalada do astro-pagefind não
+  //     conhece, e prop desconhecida em componente Astro some sem avisar.
+  //
+  //     O teste estabelece o idioma que precisa antes de afirmar, pelo botão e
+  //     não pela URL, para exercitar o caminho que o leitor usa de verdade.
+  await pagina.goto(`${base}/`);
+  await pagina.waitForTimeout(300);
+  await pagina.click('.seletor button[data-idioma="pt"]');
+  await pagina.waitForTimeout(150);
+  const campoBusca = '.caixa-busca input[type="search"], .caixa-busca input';
+  const NADA = 'zzzznaoexistenawiki';
+  const vazioDe = async (idioma) => {
+    await pagina.click(`.seletor button[data-idioma="${idioma}"]`);
+    await pagina.waitForTimeout(200);
+    await pagina.fill(campoBusca, '');
+    await pagina.fill(campoBusca, NADA);
+    await pagina.waitForTimeout(900);
+    return pagina.evaluate(() =>
+      document.querySelector('.pf-searchbox-empty, .pf-searchbox-status')?.textContent?.trim() || '');
+  };
+  const vazioPt = await vazioDe('pt');
+  const vazioEn = await vazioDe('en');
+  conferir(
+    vazioPt !== '' && vazioEn !== '' && vazioPt !== vazioEn && /no results/i.test(vazioEn),
+    'a mensagem de busca vazia alterna de idioma',
+    `pt: "${vazioPt}" | en: "${vazioEn}"`,
+  );
+
+  // Trocar de idioma no meio de uma busca não pode apagar o que a pessoa
+  // escreveu. É o motivo de a instância ser avisada em vez de reconstruída.
+  await pagina.fill(campoBusca, 'anubis');
+  await pagina.waitForTimeout(400);
+  await pagina.click('.seletor button[data-idioma="pt"]');
+  await pagina.waitForTimeout(300);
+  const textoQueSobrou = await pagina.inputValue(campoBusca);
+  conferir(
+    textoQueSobrou === 'anubis',
+    'trocar de idioma mantém a busca digitada',
+    `sobrou "${textoQueSobrou}"`,
+  );
+  await pagina.fill(campoBusca, '');
+
   // 7. as duas camadas não se misturam na navegação.
   //    Decisão 3.0 do PRD. A wiki é pública e o nosso save não é assunto de
   //    quem chegou pelo Google. O menu mostra a porta da seção, não o conteúdo

@@ -70,9 +70,8 @@
   "tema_escuro":        { "pt": "Escuro",             "en": "Dark" },
   "tema_claro":         { "pt": "Claro",              "en": "Light" },
 
+  "_busca": "A busca do Pagefind traduz a si mesma: o componente traz o conjunto completo em PT e EN, com o termo buscado dentro da mensagem de vazio, plural e texto para leitor de tela. Quem troca o idioma dela é o script da moldura em Base.astro, chamando setLanguage. Por isso só o placeholder mora aqui: as outras strings da busca existiram neste arquivo, nunca chegaram na tela e foram removidas em 31.07 para não parecerem a fonte da verdade.",
   "busca_placeholder":  { "pt": "Buscar na wiki: Pal, item, passiva, mecânica...", "en": "Search the wiki: Pal, item, passive, mechanic..." },
-  "busca_vazio":        { "pt": "Nada encontrado para", "en": "No results for" },
-  "busca_mais":         { "pt": "Ver mais resultados", "en": "Load more results" },
   "busca_limpar":       { "pt": "Limpar",             "en": "Clear" },
 
   "home_sub":           { "pt": "Em português, com os nomes como aparecem no jogo.", "en": "In Portuguese, with names as they appear in your game." },

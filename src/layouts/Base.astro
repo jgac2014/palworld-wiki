@@ -175,20 +175,49 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       data-ph-pt={ui('busca_placeholder', 'pt')}
       data-ph-en={ui('busca_placeholder', 'en')}
     >
-      <Search id="busca" className="pagefind-ui" uiOptions={{
-        showImages: false,
-        excerptLength: 22,
-        translations: {
-          placeholder: ui('busca_placeholder', 'pt'),
-          zero_results: `${ui('busca_vazio', 'pt')} [SEARCH_TERM]`,
-          many_results: '[COUNT] resultados para [SEARCH_TERM]',
-          one_result: '1 resultado para [SEARCH_TERM]',
-          searching: 'Buscando...',
-          load_more: ui('busca_mais', 'pt'),
-          clear_search: ui('busca_limpar', 'pt'),
-        },
-      }} />
+      <Search className="pagefind-ui" />
     </div>
+
+    <script>
+      /**
+       * A busca também alterna de idioma (R2.4).
+       *
+       * O que estava aqui antes era um objeto `uiOptions` com as traduções
+       * escritas à mão. Ele nunca chegou à busca: a versão instalada do
+       * astro-pagefind é a de web components, cujas props são outras, e prop
+       * desconhecida em componente Astro é ignorada em silêncio. Por isso a
+       * mensagem de vazio nascia em português e ficava, mesmo com o site em
+       * inglês, e ninguém tinha errado ao escrever a tradução.
+       *
+       * O componente traz o conjunto completo nos dois idiomas, incluindo o
+       * termo buscado dentro da mensagem de vazio, plural e o texto que vai
+       * para o leitor de tela. Trocar o idioma da instância aproveita tudo
+       * isso e é uma chamada, contra reconstruir a busca inteira.
+       *
+       * O texto já digitado sobrevive porque quem redesenha é o próprio
+       * componente, que guarda e devolve o valor do campo. Reconstruir a
+       * instância, que era o caminho previsto na tarefa, perderia a busca em
+       * andamento.
+       */
+      const CODIGO = { pt: 'pt-BR', en: 'en' };
+
+      function trocarIdiomaDaBusca(idioma) {
+        const instancias = new Set();
+        document.querySelectorAll('pagefind-searchbox, pagefind-modal').forEach((el) => {
+          if (el.instance) instancias.add(el.instance);
+        });
+        instancias.forEach((i) => i.setLanguage(CODIGO[idioma] || CODIGO.pt));
+      }
+
+      const atual = () => (document.documentElement.dataset.idioma === 'en' ? 'en' : 'pt');
+
+      // Na carga a ordem não é garantida: o seletor pode aplicar o idioma antes
+      // de o componente existir, e aí a busca nasceria em português com o site
+      // em inglês. whenDefined resolve depois do connectedCallback, quando a
+      // instância já está pendurada no elemento.
+      customElements.whenDefined('pagefind-searchbox').then(() => trocarIdiomaDaBusca(atual()));
+      document.addEventListener('idioma:mudou', (e) => trocarIdiomaDaBusca(e.detail.idioma));
+    </script>
 
     <slot />
 
