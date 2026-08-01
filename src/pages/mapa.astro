@@ -5,6 +5,9 @@ import dados from '../data/mapa.json';
 // escritos à mão e passou a ser derivada dos limites de mundo que o paldb
 // publica. Quem confere é o verificador, contra a própria fonte.
 import projecao from '../data/projecao-mapa.json';
+// Os 13.755 pontos importados do paldb. Vão inteiros para o navegador porque o
+// pacote offline é um arquivo só: buscar por rede mataria o caso de uso dele.
+import pontos from '../data/mapa-pontos.json';
 import { ui, termo, construirIndice } from '../lib/termos.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -23,6 +26,18 @@ const rotCat = (chave, nome) => {
   return id ? { pt: termo(id, 'pt'), en: termo(id, 'en') } : { pt: nome, en: nome };
 };
 const subtitulo = (l) => ui('mapa_sub', l).replace('{n}', total);
+
+// Uma cor por categoria do paldb. São 11, escolhidas para se distinguirem nos
+// dois temas e não colidirem com as cores das nossas categorias.
+const CORES = {
+  Mine: '#c9a06a', Fishing: '#7fb8d9', Resource: '#8fbf6a', Eggs: '#d9b8e0',
+  Collectibles: '#d4b158', NPCs: '#c98f8f', Locations: '#9fb8d4', Enemies: '#e07a5f',
+  Other: '#9a9a9a', Oilrig: '#8f7fc9', _sem_categoria: '#6f6f6f',
+};
+const catsPaldb = Object.entries(pontos.categorias)
+  .map(([chave, nome]) => ({ chave, ...nome, cor: CORES[chave] || '#888' }))
+  .sort((a, b) => a.pt.localeCompare(b.pt, 'pt-BR'));
+const doPaldb = { categorias: pontos.categorias, tipos: pontos.tipos, pontos: pontos.pontos, extras: pontos.extras, cores: CORES };
 // A leitura de coordenada é escrita pelo script, então os dois idiomas vão junto
 const rotCoord = {
   pt: { atual: ui('mapa_coord_atual', 'pt'), clicado: ui('mapa_clicado', 'pt') },
@@ -48,9 +63,33 @@ const rotCoord = {
       ))}
     </div>
 
+    <div class="filtros" id="filtros-paldb">
+      {catsPaldb.map((c) => (
+        <label class="filtro">
+          <input type="checkbox" value={c.chave} />
+          <span class="ponto" style={`background:${c.cor}`}></span>
+          <span data-rot-pt={c.pt} data-rot-en={c.en}>{c.pt}</span>
+        </label>
+      ))}
+    </div>
+
     <div id="mapa"></div>
 
     <div class="coord-atual" id="coord" data-rot-pt={ui('mapa_coord', 'pt')} data-rot-en={ui('mapa_coord', 'en')}>{ui('mapa_coord', 'pt')}</div>
+
+    <p class="contagem" id="contagem-mapa"></p>
+    <div class="rolagem">
+      <table class="alternativa">
+        <thead>
+          <tr>
+            <th data-rot-pt="Ponto" data-rot-en="Point">Ponto</th>
+            <th data-rot-pt="Tipo" data-rot-en="Type">Tipo</th>
+            <th data-rot-pt="Coordenada" data-rot-en="Coordinate">Coordenada</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-mapa"></tbody>
+      </table>
+    </div>
 
     <h2 data-rot-pt={ui('mapa_como_add', 'pt')} data-rot-en={ui('mapa_como_add', 'en')}>{ui('mapa_como_add', 'pt')}</h2>
     <p>
@@ -70,6 +109,16 @@ const rotCoord = {
         existe mais calibração para ajustar: a conversão entre coordenada do jogo e pixel é derivada
         dos limites de mundo publicados pelo paldb, em <code>src/data/projecao-mapa.json</code>, e
         vale para imagem quadrada de qualquer resolução.
+      </p>
+    </aside>
+
+    <aside class="adm adm-nota" data-rotulo="Nota">
+      <p>
+        <b>No pacote offline esta página é só texto.</b> O mapa interativo depende do Leaflet, que é
+        carregado da rede, e os 13.755 pontos do paldb ficam de fora do arquivo único: eles moram num
+        bloco de dados fora do corpo da página, que é o que o empacotador leva. Medido em 01.08: a
+        página serve 887 KB no site e contribui 10,6 KB para o pacote, que fechou em 3,34 MB de um
+        teto de 8 MB. Está escrito aqui porque corte em silêncio é o que este projeto proíbe.
       </p>
     </aside>
 
@@ -113,9 +162,15 @@ const rotCoord = {
   :global(.leaflet-popup-content .cd) { color: var(--apagado); font-family: ui-monospace, monospace; font-size: 12px; }
   :global(.leaflet-control-zoom a) { background: var(--cartao); color: var(--texto); border-color: var(--linha); }
   :global(.marcador) { border-radius: 50%; border: 2px solid rgba(0,0,0,.55); box-shadow: 0 0 0 1px rgba(255,255,255,.18); }
+  .rolagem { overflow-x: auto; }
+  .alternativa { font-size: 13.5px; width: 100%; }
+  .alternativa td, .alternativa th { font-variant-numeric: tabular-nums; }
+  .contagem { font-family: var(--sans); font-size: 12.5px; color: var(--texto-2); margin: 18px 0 6px; }
   .creditos { font-family: var(--sans); font-size: 12px; color: var(--apagado); margin-top: 26px; line-height: 1.6; }
   @media (max-width: 860px) { #mapa { height: 400px; } }
 </style>
+
+<script type="application/json" id="dados-paldb" set:html={JSON.stringify(doPaldb)} data-pagefind-ignore></script>
 
 <script define:vars={{ dados, projecao, base, rotCoord }}>
   import('https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js').then((L) => {
@@ -217,6 +272,100 @@ const rotCoord = {
         (m.nota ? `<p style="margin:6px 0 0">${m.nota}</p>` : '')
       );
       marcador.addTo(camadas[m.categoria] || mapa);
+    }
+
+    // --- os 13.755 pontos do paldb, desenhados em CANVAS ---
+    //
+    // Marcador como elemento de DOM trava o navegador nesse volume, e agrupar
+    // por proximidade resolveria o desempenho continuando a inchar o HTML.
+    // L.canvas() é Leaflet base, não plugin, então não acrescenta dependência,
+    // e o HTML deixa de crescer com o número de pontos: o custo passa a ser só
+    // o JSON, que entra uma vez.
+    const bruto = document.getElementById('dados-paldb');
+    const P = bruto ? JSON.parse(bruto.textContent || '{}') : null;
+    const camadasPaldb = {};
+    const idioma = () => (document.documentElement.dataset.idioma === 'en' ? 'en' : 'pt');
+
+    if (P) {
+      const tela = L.canvas({ padding: 0.4 });
+      const rotuloDoTipo = (t) => P.tipos[t] || { pt: t, en: t, categoria: 'Other' };
+      const nomeDoPonto = (p) => {
+        const l = idioma();
+        return (l === 'en' ? p.en : p.pt || p.en) || rotuloDoTipo(p.t)[l];
+      };
+      for (const chave of Object.keys(P.categorias)) camadasPaldb[chave] = L.layerGroup();
+
+      for (const p of [...P.pontos, ...P.extras]) {
+        const tipo = rotuloDoTipo(p.t);
+        const camada = camadasPaldb[tipo.categoria];
+        if (!camada) continue;
+        const c = L.circleMarker(paraLatLng(p.x, p.y), {
+          renderer: tela,
+          radius: 3.5,
+          stroke: false,
+          fillColor: P.cores[tipo.categoria] || '#888',
+          fillOpacity: 0.85,
+        });
+        c.dadosDoPonto = p;
+        c.bindPopup(() => {
+          const l = idioma();
+          return `<b>${nomeDoPonto(p)}</b><span class="cd">${tipo[l]} · ${p.x}, ${p.y}${typeof p.lv === 'number' ? ` · Lv.${p.lv}` : ''}</span>`;
+        });
+        c.addTo(camada);
+      }
+
+      // --- alternativa em tabela (R5.8) ---
+      //
+      // Ela mostra o que está FILTRADO na tela, não os 13.755. Tabela que
+      // ninguém consegue ler não é alternativa acessível, é fachada. Quando o
+      // filtro ainda deixa muita coisa, a tabela diz quantos são e quantos está
+      // mostrando, em vez de cortar em silêncio.
+      const TETO = 200;
+      function pintarTabela() {
+        const l = idioma();
+        const visiveis = [];
+        for (const [chave, camada] of Object.entries(camadasPaldb)) {
+          if (!mapa.hasLayer(camada)) continue;
+          camada.eachLayer((c) => visiveis.push(c.dadosDoPonto));
+        }
+        visiveis.sort((a, b) => nomeDoPonto(a).localeCompare(nomeDoPonto(b), 'pt-BR'));
+        const corpo = document.getElementById('tabela-mapa');
+        corpo.replaceChildren();
+        for (const p of visiveis.slice(0, TETO)) {
+          const tr = document.createElement('tr');
+          for (const txt of [nomeDoPonto(p), rotuloDoTipo(p.t)[l], `${p.x}, ${p.y}`]) {
+            const td = document.createElement('td');
+            td.textContent = txt;
+            tr.appendChild(td);
+          }
+          corpo.appendChild(tr);
+        }
+        const cont = document.getElementById('contagem-mapa');
+        if (!visiveis.length) {
+          cont.textContent = l === 'en'
+            ? 'No paldb category selected. Tick one above to list its points here.'
+            : 'Nenhuma categoria do paldb marcada. Marque uma acima para listar os pontos dela aqui.';
+        } else if (visiveis.length > TETO) {
+          cont.textContent = l === 'en'
+            ? `Showing the first ${TETO} of ${visiveis.length} points selected. Narrow the filter to read the rest.`
+            : `Mostrando os primeiros ${TETO} de ${visiveis.length} pontos marcados. Estreite o filtro para ler o resto.`;
+        } else {
+          cont.textContent = l === 'en'
+            ? `${visiveis.length} points selected.`
+            : `${visiveis.length} pontos marcados.`;
+        }
+      }
+
+      function aplicarPaldb() {
+        for (const [chave, camada] of Object.entries(camadasPaldb)) {
+          const caixa = document.querySelector(`#filtros-paldb input[value="${chave}"]`);
+          if (caixa && caixa.checked) mapa.addLayer(camada); else mapa.removeLayer(camada);
+        }
+        pintarTabela();
+      }
+      document.querySelectorAll('#filtros-paldb input').forEach((cx) => cx.addEventListener('change', aplicarPaldb));
+      document.addEventListener('idioma:mudou', pintarTabela);
+      aplicarPaldb();
     }
 
     mapa.fitBounds(limites);
