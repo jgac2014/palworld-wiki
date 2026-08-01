@@ -5,7 +5,7 @@
     "Tudo que entra no inventário, importado do índice de itens do paldb nos dois idiomas. Os atributos numéricos, como o poder de captura das esferas, vêm da página de categoria."
   ],
   "fonte": "paldb.cc",
-  "importado_em": "2026-08-01",
+  "importado_em": null,
   "total": 1875,
   "sem_traducao_oficial": 79,
   "itens": [

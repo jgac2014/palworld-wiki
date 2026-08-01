@@ -11,6 +11,7 @@
  */
 import { readFile, readdir } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
+import { filhoteDoPar } from '../src/lib/calculos.js';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -616,6 +617,41 @@ if (pals && catalogo) {
   if (!soltas.length && unicos.length >= 100) {
     passou(`cruzamento: ${comCombi} CombiRanks e ${unicos.length} combinações únicas, todas de Pal do catálogo`);
   }
+
+  // ------------------- receita escrita na curadoria x o que a conta responde
+  // A F1 nasceu porque a curadoria dizia "Anubis: Cruzamento de Vanwyrm com
+  // Azurobe" e a calculadora respondia Slowatt para esse par. Uma das duas
+  // estava errada, e ninguém tinha como saber qual sem abrir o JSON na mão.
+  // Agora o par escrito é passado pela MESMA função que a página usa, e texto
+  // que discorda da conta vira erro.
+  const porNome = new Map();
+  for (const p of catalogo.pals) {
+    for (const n of [p.chave, p.en, p.pt]) if (n) porNome.set(String(n).toLowerCase(), p.chave);
+  }
+  const paraConta = {
+    pals: catalogo.pals
+      .filter((p) => typeof p.combi === 'number')
+      .map((p) => ({ chave: p.chave, en: p.en, pt: p.pt, combi: p.combi, ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}) })),
+    cruzamentos_unicos: catalogo.cruzamentos_unicos || [],
+  };
+  let receitas = 0;
+  for (const p of pals.pals) {
+    const m = String(p.onde || '').match(/^Cruzamento:\s*(.+?)\s+com\s+(.+?)\s*$/i);
+    if (!m) continue;
+    const a = porNome.get(m[1].toLowerCase());
+    const b = porNome.get(m[2].toLowerCase());
+    if (!a || !b) {
+      erro('receita', `${p.nome}: a receita "${p.onde}" cita ${!a ? m[1] : m[2]}, que não é Pal do catálogo`);
+      continue;
+    }
+    receitas++;
+    const filho = filhoteDoPar(paraConta, a, b)?.filho?.chave;
+    const esperado = porNome.get(String(p.nome).toLowerCase());
+    if (filho !== esperado) {
+      erro('receita', `${p.nome}: a curadoria diz "${p.onde}" e esse par devolve ${filho || 'nada'} na calculadora. Uma das duas está errada, e receita pré-1.0 é a suspeita de sempre: os 215 Pals antigos tiveram o rank de cruzamento alterado`);
+    }
+  }
+  if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
 }
 
 // ------------------------------ poder de captura x referência congelada (E5)

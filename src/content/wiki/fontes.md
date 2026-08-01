@@ -126,6 +126,38 @@ contra referência conferida**, dizendo qual esfera mudou e de quanto. Esfera qu
 ou aparecer sem estar na referência também quebra: linha entrando ou saindo da tabela do site sem
 ninguém olhar é o defeito que este projeto mais repete.
 
+## A receita do Anubis era de antes do 1.0, e a importação perdia linha
+
+Registrado em **01.08.2026**. A wiki dizia em três lugares que Anubis sai de **Vanwyrm com
+Azurobe**, e a calculadora respondia **Slowatt** para esse par. A calculadora estava certa: Vanwyrm
+é rank 1650, Azurobe é 1830, a média dá 1740, e Anubis é 480. O par é receita de **Early Access**, e
+a própria `breeding.md` avisa que os 215 Pals antigos tiveram o rank de cruzamento alterado no 1.0.
+Corrigido para **Gildane com Ophydia**, que é o par cuja média cai exatamente em 480.
+
+Vale saber que **239 pares chegam no Anubis**, então não existe "a" receita: existe uma lista, e ela
+está na calculadora. O texto cita um par para dar um ponto de partida, não para ser exaustivo.
+
+**O aceite mandava começar pela importação e estava certo, porque ela perdia linha mesmo.** Dois
+defeitos, os dois em silêncio:
+
+1. O recorte da tabela de combinações únicas ia **até o fim do documento** em vez de parar no
+   fechamento da tabela. A prosa de "How Breeding Works" que vem depois tem exemplo com link de Pal,
+   e o parser lia aquilo como linha: 178 "linhas" para uma tabela que tem 165.
+2. O regex só tolerava `<img>` entre o link e o nome. Pal marcado como **alfa** traz um `<span>`
+   antes da imagem, e a linha inteira era descartada. Relaxaurus Lux e Mossanda Lux perdiam a
+   própria linha de espécie por causa disso.
+
+Com os dois corrigidos são **164 combinações únicas** e **116 espécies que só nascem de par
+específico**, e o 116 agora bate com o que esta página já afirmava. O importador passou a **abortar**
+quando uma linha tem Pal dentro e não rende os três nomes, porque perder linha aqui faz a calculadora
+responder outro filhote sem avisar ninguém.
+
+Nenhum dos dois defeitos explicava o Anubis: ele **não está** na tabela de únicas do paldb, nem
+antes nem depois. Eram dois problemas diferentes na mesma queixa.
+
+O verificador agora passa toda receita escrita na curadoria pela **mesma função** que a página usa, e
+texto que discorda da conta vira erro. Hoje isso cobre um par, que é quanto a curadoria tem escrito.
+
 ## Mapa: a projeção está provada, os nossos 24 marcadores é que não
 
 Registrado em **01.08.2026**, ao importar os 13.755 marcadores do paldb.

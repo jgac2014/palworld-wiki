@@ -9,7 +9,7 @@
     "fase. Os dois se cruzam pelo nome em inglês."
   ],
   "fonte": "paldb.cc",
-  "importado_em": "2026-08-01",
+  "importado_em": null,
   "total": 299,
   "pals": [
     {
@@ -2082,8 +2082,7 @@
         "manipulacao": 1,
         "transporte": 2
       },
-      "combi": 2260,
-      "so_combinacao_unica": true
+      "combi": 2260
     },
     {
       "numero": "76B",
@@ -6816,6 +6815,16 @@
       "Silvance"
     ],
     [
+      "Relaxaurus_Lux",
+      "Relaxaurus_Lux",
+      "Relaxaurus_Lux"
+    ],
+    [
+      "Mossanda_Lux",
+      "Mossanda_Lux",
+      "Mossanda_Lux"
+    ],
+    [
       "Panthalus",
       "Panthalus",
       "Panthalus"
@@ -6824,11 +6833,6 @@
       "Astralym",
       "Astralym",
       "Astralym"
-    ],
-    [
-      "Felbat",
-      "Robinquill",
-      "Robinquill"
     ]
   ]
 }

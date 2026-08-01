@@ -478,7 +478,7 @@ As cores de dado do protótipo já passaram no verificador de contraste e dalton
 
 ## Bloco F — Quando a wiki afirma e o site desmente
 
-### [ ] F1 — O par que gera Anubis não gera Anubis na calculadora
+### [x] F1 — O par que gera Anubis não gera Anubis na calculadora
 
 **Requisito:** R1.9
 **Território:** conteúdo e dados
@@ -506,6 +506,21 @@ e deixaria os outros Pals de receita única errados do mesmo jeito, sem ninguém
   três lugares e a divergência é registrada em `fontes.md` com a fonte que decidiu. Não vale
   escolher em silêncio.
 - `npm run portao` passando.
+
+**Feita, e eram dois problemas na mesma queixa.** A importação perdia linha de verdade, então
+começar por ela estava certo: o recorte da tabela de únicas ia até o fim do documento em vez de
+parar no `</table>`, e engolia a prosa seguinte como se fosse linha; e o regex só tolerava `<img>`
+entre o link e o nome, então Pal marcado como alfa, que traz um `<span>` antes, tinha a linha
+inteira descartada. São 164 combinações únicas e 116 espécies de par específico, e o 116 agora bate
+com o que o `fontes.md` já afirmava. O importador aborta quando linha com Pal dentro não rende três
+nomes.
+
+Só que nada disso explicava o Anubis: ele não está na tabela de únicas do paldb, nem antes nem
+depois. O par escrito na curadoria era **receita de Early Access**, e a calculadora estava certa.
+Corrigido para Gildane com Ophydia nos três lugares.
+
+A checagem nova cobre **um par**, que é quanto a curadoria tem escrito hoje, e a linha de resumo diz
+esse número em vez de sugerir que conferiu 77. Ela vale para qualquer receita que for acrescentada.
 
 ## Bloco B — Fechar as pontas do conteúdo
 

@@ -101,10 +101,15 @@ function extrairCruzamento(html) {
   // vazio, que foi o primeiro jeito tentado aqui.
   const inicioCombi = html.indexOf('id="BreedCombi"');
   const inicioUnique = html.indexOf('id="BreedUnique"');
+  // O recorte do painel de únicas TERMINA no fechamento da tabela. Ir até o fim
+  // do documento engolia a prosa de "How Breeding Works" que vem depois, onde há
+  // exemplo com link de Pal, e o parser lia aquilo como se fosse linha de
+  // tabela: 178 "linhas" para uma tabela que tem 165.
+  const fimUnique = inicioUnique === -1 ? -1 : html.indexOf('</table>', inicioUnique);
   const painel = (id) =>
     id === 'BreedCombi'
       ? (inicioCombi === -1 ? '' : html.slice(inicioCombi, inicioUnique === -1 ? undefined : inicioUnique))
-      : (inicioUnique === -1 ? '' : html.slice(inicioUnique));
+      : (inicioUnique === -1 ? '' : html.slice(inicioUnique, fimUnique === -1 ? undefined : fimUnique));
 
   const ranks = new Map();
   for (const m of painel('BreedCombi').matchAll(
@@ -113,14 +118,20 @@ function extrairCruzamento(html) {
     ranks.set(decodeURIComponent(m[1]), Number(m[2]));
   }
 
+  // Entre o `>` do link e o nome pode vir QUALQUER marcação, não só um <img>.
+  // Pal marcado como alfa traz um <span class="palAlpha"> antes da imagem, e o
+  // regex antigo, que só tolerava <img>, descartava a linha inteira em silêncio:
+  // Relaxaurus Lux e Mossanda Lux sumiam da tabela de únicas por causa disso.
+  const linhasDescartadas = [];
   const unicas = [];
   for (const linha of painel('BreedUnique').split('<tr>').slice(1)) {
-    const nomes = [...linha.matchAll(/href="([^"]+)"[^>]*>(?:<img[^>]*>)?\s*([A-Za-z][^<]*)</g)]
+    const nomes = [...linha.matchAll(/href="([^"]+)"[^>]*>(?:<[^>]*>|\s)*([A-Za-z][^<]*)</g)]
       .map((m) => decodeURIComponent(m[1]));
     if (nomes.length >= 3) unicas.push(nomes.slice(0, 3));
+    else if (/data-pal-id=/.test(linha)) linhasDescartadas.push(nomes.length);
   }
 
-  return { ranks, unicas };
+  return { ranks, unicas, linhasDescartadas };
 }
 
 /** Primeiro link de nome dentro de um bloco já recortado. */
@@ -443,7 +454,13 @@ if (aptidoesDesconhecidas.size) {
 
 // --------------------------------------------------------------- cruzamento
 console.log('\n  baixando os dados de cruzamento...');
-const { ranks, unicas } = extrairCruzamento(await baixar('en', 'Breeding_Farm'));
+const { ranks, unicas, linhasDescartadas } = extrairCruzamento(await baixar('en', 'Breeding_Farm'));
+// Linha que TEM Pal dentro e mesmo assim não rendeu três nomes é linha perdida,
+// e perder linha aqui faz a calculadora responder outro filhote sem avisar.
+if (linhasDescartadas.length) {
+  console.error(`\n  ABORTADO: ${linhasDescartadas.length} linha(s) da tabela de combinações únicas têm Pal dentro e não renderam os três nomes. O markup do paldb mudou e a calculadora responderia errado em silêncio. Nada foi escrito.`);
+  process.exit(1);
+}
 
 // Mesma desconfiança das outras guardas: sem rank não existe calculadora de
 // cruzamento, e sem a tabela de únicas ela erra 116 espécies em silêncio, que é
