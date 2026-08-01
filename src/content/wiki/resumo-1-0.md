@@ -4,7 +4,7 @@ descricao: "Panorama do lançamento, level cap, contagem de Pals e histórico de
 titulo_en: "What changed in 1.0"
 descricao_en: "Launch overview, level cap, Pal count and patch history."
 ordem: 1
-atualizado: 2026-07-30
+atualizado: 2026-08-01
 ---
 
 O 1.0 não é um patch de conteúdo, é uma reescrita das regras de progressão. Três coisas mudaram o suficiente para invalidar quase tudo que você sabia: a escala de Aptidão para trabalho (Work Suitability) foi de 4 para 10 níveis com curva não linear, toda a tabela de breeding foi refeita, e condensar Pals ficou barato o bastante para virar rotina em vez de projeto de fim de jogo.
@@ -26,7 +26,9 @@ O 1.0 não é um patch de conteúdo, é uma reescrita das regras de progressão.
 :::
 
 :::destaque
-**2. Especialista venceu o versátil.** Cada rank de condensação sobe uma única suitability, e em Pals com três funções o ganho se espalha. Anubis começa em Trabalho manual (Handiwork) 6 e para em 8 mesmo no 4★. Jormuntide Ignis começa em Acender fogo 7 e chega a 10 com 3 estrelas. Prefira Pals de função única.
+**2. Especialista venceu o versátil, na condensação.** Cada rank de condensação sobe uma única suitability, então em Pal com três funções o ganho se espalha e cada cópia gasta rende menos. Jormuntide Ignis começa em Acender fogo 7 e chega a 10 com 3 estrelas, e é assim que rende um Pal de função única. Prefira Pals de função única **para condensar**.
+
+Isso é uma regra sobre condensação, não uma sentença sobre o Pal. O Anubis, o mais citado como rebaixado do 1.0, tem Trabalho manual (Handiwork) 6 e Garimpo (Mining) 6 e é um dos melhores Pals de base do jogo. Render menos por cópia condensada é diferente de ser fraco, e esta página já disse a segunda coisa quando só a primeira é verdade.
 
 :::
 

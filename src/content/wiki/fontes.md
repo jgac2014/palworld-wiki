@@ -23,6 +23,15 @@ Outros que estavam errados por dois pontos ou mais: Reptyro (Acender 3, é 5), F
 
 A lição está registrada aqui e não no histórico do Git: **dado numérico copiado de guia não é fonte,
 é boato.** O script agora roda contra o paldb e a conferência é reproduzível por qualquer um.
+
+**Corrigir o número não corrigiu a conclusão, e isso levou dois dias a mais.** Em 01.08 o
+`resumo-1-0.md` ainda usava o Anubis como o exemplo do Pal versátil que perdeu no 1.0, dizendo que
+ele "para em 8 mesmo no 4★", enquanto `plano-de-acao.md`, `combate.md` e a curadoria em `pals.json`
+diziam o contrário na mesma wiki: Manual 6 e Garimpo 6, um dos melhores de base do jogo. As duas
+coisas não podiam ser verdade. O que vale é a regra sobre **condensação**, que rende menos em Pal de
+três funções, e não uma sentença sobre o Pal. O endpoint "para em 8 no 4★" saiu junto: a
+distribuição por estrela está registrada logo abaixo como não oficial, e a calculadora se recusa a
+respondê-la, então publicá-la em prosa era dizer em texto o que o site se recusa a calcular.
 :::
 
 ## O que ainda está em disputa
