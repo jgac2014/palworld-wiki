@@ -1,0 +1,21 @@
+{
+  "_leia_isto": "Referência CONGELADA do poder de captura de cada esfera. Este arquivo não é o que o site exibe: a tabela de /calculadoras/ lê src/data/itens.json, que vem da importação do paldb. Aqui ficam os mesmos números depois de conferidos, para o verificador comparar uma importação nova contra o que já foi aceito e dizer qual esfera mudou e de quanto. Antes existia um gatilho comparando o importado com a palworld.wiki.gg, e ele estava condenado a falhar para sempre: a wiki.gg foi declarada desatualizada em 01.08 (motivo em src/content/wiki/fontes.md), então a diferença que ele acusava já era conhecida e resolvida. Quando uma mudança for real e aceita, atualize o número aqui NO MESMO COMMIT que atualiza a tabela, e escreva em fontes.md o que mudou e por quê. Mexer aqui para calar o verificador, sem registrar, desfaz o único aviso que existe.",
+  "fonte": "paldb.cc, página de categoria Sphere, atributo Capture Power. Nível de tecnologia da mesma página, conferido contra tecnologias.json",
+  "congelado_em": "2026-08-01",
+  "versao_do_jogo": "1.0.2",
+  "decisao": "01.08.2026: vale a coluna do paldb inteira, incluindo as sete esferas em que ela diverge da wiki.gg ou em que a wiki.gg não publica nada",
+  "esferas": {
+    "Pal_Sphere": { "poder": 7, "tecnologia": 2 },
+    "Mega_Sphere": { "poder": 14, "tecnologia": 14 },
+    "Giga_Sphere": { "poder": 20, "tecnologia": 20 },
+    "Hyper_Sphere": { "poder": 27, "tecnologia": 27 },
+    "Ultra_Sphere": { "poder": 33, "tecnologia": 35 },
+    "Legendary_Sphere": { "poder": 38, "tecnologia": 44 },
+    "Ultimate_Sphere": { "poder": 44, "tecnologia": 51 },
+    "Exotic_Sphere": { "poder": 50, "tecnologia": 58 },
+    "Sol_Sphere": { "poder": 58, "tecnologia": 67 },
+    "Ancient_Sphere": { "poder": 64, "tecnologia": 74 },
+    "Radar_Sphere": { "poder": 20, "tecnologia": null }
+  },
+  "_sobre_tecnologia_nula": "A Radar Sphere é a única com poder de captura e sem nível de tecnologia, e nenhuma linha de tecnologias.json a desbloqueia. É esse o critério que a tira da lista principal da tabela: não é esfera da progressão, e o 20 dela é o mesmo da Giga, o que sugeriria equivalência que não existe. O número continua publicado, separado e com o motivo à vista."
+}

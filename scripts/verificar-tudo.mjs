@@ -418,6 +418,64 @@ if (pals && catalogo) {
   }
 }
 
+// ------------------------------ poder de captura x referência congelada (E5)
+// A tabela de /calculadoras/ publica número importado do paldb, e importação
+// muda sozinha: basta o paldb rebalancear ou mudar o markup. Este é o gatilho
+// que acusa a mudança em vez de deixá-la subir para o site em silêncio.
+//
+// A referência é src/data/poder-captura.json, congelada em 01.08 depois da
+// conferência. NÃO é mais a palworld.wiki.gg: aquela comparação foi trocada
+// porque a wiki.gg é anterior ao 1.0 (o porquê está em fontes.md), então ela
+// acusaria para sempre sete diferenças já conhecidas e decididas. Gatilho que
+// falha por motivo resolvido é gatilho que alguém desliga.
+const referencia = await lerJson('src/data/poder-captura.json');
+const itensParaEsferas = await lerJson('src/data/itens.json');
+if (referencia && itensParaEsferas) {
+  const congelado = referencia.esferas || {};
+  const importado = new Map(
+    (itensParaEsferas.itens || [])
+      .filter((i) => i.atributos && i.atributos.capture_power !== undefined)
+      .map((i) => [i.chave, i]),
+  );
+
+  const nomeDe = (chave) => importado.get(chave)?.pt || importado.get(chave)?.en || chave;
+  let mudou = 0;
+
+  for (const [chave, esperado] of Object.entries(congelado)) {
+    const item = importado.get(chave);
+    if (!item) {
+      mudou++;
+      erro('captura', `${chave} sumiu da importação e está na referência com poder ${esperado.poder}. A tabela do site perderia uma linha sem ninguém ver`);
+      continue;
+    }
+    const poder = item.atributos.capture_power;
+    if (poder !== esperado.poder) {
+      mudou++;
+      const delta = poder - esperado.poder;
+      erro('captura', `${nomeDe(chave)}: poder de captura ${poder} na importação e ${esperado.poder} na referência (${delta > 0 ? '+' : ''}${delta}). Confira no jogo, registre em fontes.md e só então atualize src/data/poder-captura.json`);
+    }
+    const tecnologia = item.atributos.technology ?? null;
+    if (tecnologia !== esperado.tecnologia) {
+      mudou++;
+      erro('captura', `${nomeDe(chave)}: nível de tecnologia ${tecnologia === null ? 'ausente' : tecnologia} na importação e ${esperado.tecnologia === null ? 'ausente' : esperado.tecnologia} na referência. É esse campo que separa a esfera da progressão da que não é, então a tabela do site muda de forma com ele`);
+    }
+  }
+
+  // Esfera nova é notícia, não ruído: o dia em que o jogo acrescentar uma, a
+  // tabela do site ganha linha sozinha. Quebrar aqui obriga alguém a conferir
+  // o número antes de ele virar conteúdo publicado.
+  for (const chave of importado.keys()) {
+    if (!(chave in congelado)) {
+      mudou++;
+      erro('captura', `${nomeDe(chave)} tem poder de captura ${importado.get(chave).atributos.capture_power} e não existe em src/data/poder-captura.json. Esfera nova entraria direto na tabela do site sem conferência`);
+    }
+  }
+
+  if (!mudou) {
+    passou(`poder de captura: ${importado.size} esferas importadas batem com a referência congelada em ${referencia.congelado_em}`);
+  }
+}
+
 // ------------------------------------------- Pals citados x catalogados
 if (pals) {
   const catalogados = new Set(pals.pals.map((p) => p.nome));

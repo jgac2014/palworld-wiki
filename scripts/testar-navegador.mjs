@@ -538,6 +538,40 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     [...document.querySelectorAll('.alternativa')].filter((t) => t.querySelectorAll('tr').length > 1).length);
   conferir(tabelas >= 3, 'cada calculadora tem alternativa em tabela', `${tabelas} tabelas com linha`);
 
+  // 6d. a tabela de poder de captura publica o dado importado, e as onze
+  //     esferas continuam todas na página. A de fora da progressão sai da
+  //     lista principal e vira nota com o motivo, em vez de sumir: corte em
+  //     silêncio é o que este repositório proíbe, e a Radar Sphere tem o mesmo
+  //     20 da Giga sem ser esfera de captura, o que sugeriria equivalência
+  //     falsa se ela ficasse na tabela.
+  const esferasImportadas = JSON.parse(await readFile(join(raiz, 'src/data/itens.json'), 'utf-8'))
+    .itens.filter((i) => i.atributos && i.atributos.capture_power !== undefined);
+  const naPagina = await pagina.evaluate(() => ({
+    linhas: [...document.querySelectorAll('#tabela-captura tbody tr')].map((tr) => ({
+      chave: tr.dataset.esfera,
+      poder: tr.querySelector('.poder')?.textContent?.trim(),
+    })),
+    fora: [...document.querySelectorAll('[data-esfera-fora]')].map((p) => ({
+      chave: p.dataset.esferaFora,
+      texto: p.textContent || '',
+    })),
+  }));
+  const esperadasNaTabela = esferasImportadas.filter((e) => e.atributos.technology !== undefined);
+  const esperadasFora = esferasImportadas.filter((e) => e.atributos.technology === undefined);
+  const erradas = esperadasNaTabela.filter((e) => {
+    const linha = naPagina.linhas.find((l) => l.chave === e.chave);
+    return !linha || linha.poder !== String(e.atributos.capture_power);
+  });
+  const foraSemMotivo = esperadasFora.filter((e) => {
+    const nota = naPagina.fora.find((f) => f.chave === e.chave);
+    return !nota || !nota.texto.includes(String(e.atributos.capture_power));
+  });
+  conferir(
+    naPagina.linhas.length === esperadasNaTabela.length && !erradas.length && !foraSemMotivo.length,
+    'poder de captura: a tabela publica o número importado de cada esfera, e a que fica de fora aparece com o motivo',
+    `${naPagina.linhas.length} linhas para ${esperadasNaTabela.length} esperadas, ${erradas.length} com número errado, ${foraSemMotivo.length} fora sem nota`,
+  );
+
   // 7. as duas camadas não se misturam na navegação.
   //    Decisão 3.0 do PRD. A wiki é pública e o nosso save não é assunto de
   //    quem chegou pelo Google. O menu mostra a porta da seção, não o conteúdo

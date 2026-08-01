@@ -237,7 +237,7 @@ pré-preenchidos pelo nosso estoque quando o overlay estiver ligado:
 2. **Cruzamento**, par para alvo e alvo para par, usando o CombiRank do catálogo.
 3. ~~Taxa de captura.~~ **CANCELADA em definitivo em 01.08**, decisão registrada na seção 5 do
    `PRD.md`. No lugar dela entra uma **tabela de poder de captura**, que é dado e não fórmula, e que
-   está esperando números: ver o impedimento no fim da tarefa.
+   está publicada com os onze valores importados: ver o registro no fim da tarefa.
 4. **Condensação**, só o total para 4★ enquanto a distribuição por estrela não tiver fonte.
 
 **Aceite:**
@@ -282,27 +282,39 @@ do `PRD.md`.
 
 **A tabela de poder de captura deixou de depender de número colado.** O paldb publica "Capture
 Power" como atributo do item, e o importador passou a trazer os atributos numéricos da página de
-categoria: **onze esferas numa requisição**, com aborto se nenhuma vier com poder de captura. A
-divergência entre fontes está resolvida em `fontes.md`: a wiki.gg não lista Sol, Ancient nem Raider
-e se refere ao Feybreak, anterior ao 1.0, enquanto o paldb dá os mesmos números do `palmods.gg`.
+categoria: **onze esferas numa requisição**, com aborto se nenhuma vier com poder de captura.
 
 Efígie de Lifmunk, módulo de esfera e penalidade de alfa **ficam de fora**: o paldb não publica
-esses como atributo, e a página vai dizer que ficaram de fora e por quê, em vez de deixar linha
-vazia.
+esses como atributo, e a página diz que ficaram de fora e por quê, em vez de deixar linha vazia.
 
-**Impedimento aberto: duas esferas divergem da conferência independente.**
+**Impedimento fechado em 01.08: vale a coluna do paldb, inteira.** A tabela subiu para
+`/calculadoras/` com os onze valores importados, e o `fontes.md` registra os oito pares de números
+para a conclusão poder ser reconferida sem refazer a pesquisa.
 
-A conferência de 01.08 cobria cinco esferas e bateu em três. As outras duas:
+Duas coisas que estavam escritas errado aqui e no `fontes.md` foram corrigidas junto, porque
+mudavam o argumento: a wiki.gg **lista** a Exotic, com 48, nas páginas Capture Power e Spheres, e a
+divergência **não é de um ponto uniforme**. Ela é 0 em Pal, Mega e Giga, +1 em Hyper, Ultra,
+Legendary e Ultimate, e +2 em Exotic. Diferença que cresce com o tier é forma de rebalanceamento de
+patch, não de erro de transcrição, o que reforça que o paldb reflete o 1.0 e a página da wiki.gg é
+anterior.
 
-| Esfera | paldb, importado | conferência da wiki.gg |
-|---|---|---|
-| Hyper Sphere | **27** | **26** |
-| Ultra Sphere | **33** | **32** |
+A **Radar Sphere sai da lista principal**: tem poder 20, o mesmo da Giga, e é a única das onze que
+nenhuma linha de `tecnologias.json` desbloqueia, ou seja, não é esfera da progressão. Ela aparece em
+nota logo abaixo da tabela, com o número e o motivo, em vez de sumir ou de sugerir equivalência com
+a Giga. A separação sai do dado, não de lista escrita à mão: esfera com nível de tecnologia entra na
+tabela, esfera sem nível vira nota.
 
-A regra combinada é não escolher em silêncio quando o importado difere do conferido, então a tabela
-não sobe até a confirmação. Vale notar que a diferença de um ponto é a mesma já observada em
-Legendary e Ultimate, e que as três esferas antigas bateram exatamente, o que aponta para a mesma
-causa: a página da wiki.gg parou antes do 1.0.
+**O gatilho trocou de referência.** Comparar o importado com a wiki.gg falharia para sempre por
+motivo já resolvido, e gatilho que acusa o que já foi decidido é gatilho que alguém desliga. Os onze
+valores estão congelados em `src/data/poder-captura.json`, e o verificador compara importação nova
+contra essa referência, dizendo qual esfera mudou e de quanto. Esfera que sumir da importação ou
+aparecer sem estar na referência também quebra o portão.
+
+As três sabotagens que provam o gatilho, todas rodadas: trocar o poder da Ultra de 33 para 31 fez o
+verificador dizer `Esfera Ultra: poder de captura 31 na importação e 33 na referência (-2)`; apagar
+o nível de tecnologia da Sol acusou a esfera certa; inventar uma esfera nova com poder 70 acusou que
+ela entraria na tabela sem conferência. A asserção de navegador que compara a tabela publicada com
+`itens.json` foi provada da mesma forma, subtraindo 1 de cada número: acusou as dez linhas.
 
 ### [x] E7 — Índices de item, estrutura e tecnologia
 

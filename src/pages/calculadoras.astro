@@ -8,7 +8,8 @@
  *
  * A quarta calculadora, a de taxa de captura, foi CANCELADA em 01.08 e a
  * decisão está na seção 5 do PRD: a fórmula do 1.0 não está recuperada
- * publicamente e o jogo já mostra a probabilidade na mira.
+ * publicamente e o jogo já mostra a probabilidade na mira. No lugar dela está a
+ * tabela de poder de captura, que é dado e não fórmula.
  *
  * Nenhum número mora neste arquivo. A receita vem de receitas.json, conferida
  * pelo verificador contra o texto dos guias; rank e combinação única vêm do
@@ -18,6 +19,7 @@
 import Base from '../layouts/Base.astro';
 import catalogo from '../data/catalogo.json';
 import curadoria from '../data/pals.json';
+import itens from '../data/itens.json';
 import receitas from '../data/receitas.json';
 import { GUILDA } from '../lib/progresso.js';
 import { ui } from '../lib/termos.js';
@@ -94,6 +96,26 @@ const dados = {
 // quando alguém digita ou liga o overlay.
 const zerado = calcularBolo(receitas.bolo, {});
 const emOrdem = [...catalogo.pals].sort((a, b) => a.pt.localeCompare(b.pt, 'pt-BR'));
+
+// A tabela de poder de captura lê o dado IMPORTADO, em itens.json, e não a
+// referência congelada de poder-captura.json. A referência é o gatilho do
+// verificador: publicar a partir dela esconderia exatamente a mudança que ela
+// existe para acusar, porque site e gatilho passariam a ler a mesma cópia.
+//
+// A separação entre as duas listas também sai do dado, não de uma lista
+// escrita à mão: esfera da progressão é a que tem nível de tecnologia, ou seja,
+// a que a árvore desbloqueia. A Radar Sphere é a única com poder de captura e
+// sem nível, e por isso fica fora da lista principal, com o motivo à vista. Se
+// o campo sumir numa importação, quem acusa é o verificador, não o silêncio.
+const esferas = itens.itens
+  .filter((i) => i.atributos && i.atributos.capture_power !== undefined)
+  .sort((a, b) => a.atributos.capture_power - b.atributos.capture_power);
+const daProgressao = esferas.filter((e) => e.atributos.technology !== undefined);
+const foraDaProgressao = esferas.filter((e) => e.atributos.technology === undefined);
+const notaFora = (e: (typeof esferas)[number], idioma: 'pt' | 'en') =>
+  ui('calc_cap_fora', idioma)
+    .replace('{esfera}', idioma === 'en' ? e.en : e.pt)
+    .replace('{poder}', String(e.atributos.capture_power));
 ---
 <Base titulo={ui('calc_titulo', 'pt')} descricao={ui('calc_sub', 'pt')}>
   <article data-pagefind-body>
@@ -212,6 +234,34 @@ const emOrdem = [...catalogo.pals].sort((a, b) => a.pt.localeCompare(b.pt, 'pt-B
       </tbody>
     </table>
 
+    <!-- ------------------------------------------- poder de captura -->
+    <h2 data-rot-pt={ui('calc_cap_titulo', 'pt')} data-rot-en={ui('calc_cap_titulo', 'en')}>{ui('calc_cap_titulo', 'pt')}</h2>
+    <p data-rot-pt={ui('calc_cap_explica', 'pt')} data-rot-en={ui('calc_cap_explica', 'en')}>{ui('calc_cap_explica', 'pt')}</p>
+
+    <table class="alternativa" id="tabela-captura">
+      <thead>
+        <tr>
+          <th data-rot-pt={ui('calc_col_esfera', 'pt')} data-rot-en={ui('calc_col_esfera', 'en')}>{ui('calc_col_esfera', 'pt')}</th>
+          <th data-rot-pt={ui('calc_col_poder', 'pt')} data-rot-en={ui('calc_col_poder', 'en')}>{ui('calc_col_poder', 'pt')}</th>
+          <th data-rot-pt={ui('calc_col_tecnologia', 'pt')} data-rot-en={ui('calc_col_tecnologia', 'en')}>{ui('calc_col_tecnologia', 'pt')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {daProgressao.map((e) => (
+          <tr data-esfera={e.chave}>
+            <td data-rot-pt={e.pt} data-rot-en={e.en}>{e.pt}</td>
+            <td class="poder">{e.atributos.capture_power}</td>
+            <td>{e.atributos.technology}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    {foraDaProgressao.map((e) => (
+      <p class="nota-fonte" data-esfera-fora={e.chave} data-rot-pt={notaFora(e, 'pt')} data-rot-en={notaFora(e, 'en')}>{notaFora(e, 'pt')}</p>
+    ))}
+    <p class="nota-fonte" data-rot-pt={ui('calc_cap_faltam', 'pt')} data-rot-en={ui('calc_cap_faltam', 'en')}>{ui('calc_cap_faltam', 'pt')}</p>
+
     <p class="nota-fonte" data-rot-pt={ui('calc_nota_captura', 'pt')} data-rot-en={ui('calc_nota_captura', 'en')}>{ui('calc_nota_captura', 'pt')}</p>
   </article>
 
@@ -238,6 +288,11 @@ const emOrdem = [...catalogo.pals].sort((a, b) => a.pt.localeCompare(b.pt, 'pt-B
   .alternativa { font-size: 13.5px; }
   .alternativa td, .alternativa th { font-variant-numeric: tabular-nums; }
   .nota-fonte { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-top: 30px; }
+  /* Três notas seguidas embaixo da tabela de captura viram três blocos soltos
+     com 30px entre eles. Depois da primeira, elas são um parágrafo do mesmo
+     assunto. */
+  .nota-fonte + .nota-fonte { margin-top: 10px; }
+  #tabela-captura .poder { font-weight: 600; color: var(--forte); }
   tr.trava td { color: var(--atencao); font-weight: 600; }
 </style>
 

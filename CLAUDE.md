@@ -151,6 +151,12 @@ Não repita estas. Cada uma custou uma reversão.
 - **Tradução de elemento tem três pegadinhas oficiais:** Dark é "Escuridão" (não "Sombrio"),
   Dragon é "Dracônico" (não "Dragão"), Neutral é "Não elemental" (não "Neutro"). Conferido nos
   tooltips da página PT do paldb, que serve as strings do jogo.
+- **Mensagem de commit escrita pelo PowerShell entra com BOM no título.** O `git log` mostra um
+  caractere invisível antes da primeira letra, e ele fica no histórico para sempre. Dois commits
+  deste repositório já saíram assim (`9fb6841` e `770409b`). **Documentar não impediu: escrever a
+  mensagem por outro caminho impede.** Use `git commit -F <arquivo>` com o texto num arquivo, ou um
+  heredoc no Bash. Nunca monte a mensagem com `-m` a partir do PowerShell. Para conferir antes de
+  empurrar: `git log --format=%s -1 | cat -A` não pode começar com `M-oM-;M-?`.
 
 ## Como entregar
 

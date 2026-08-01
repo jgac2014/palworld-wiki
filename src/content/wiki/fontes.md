@@ -4,7 +4,7 @@ descricao: "O que está em disputa entre fontes e de onde veio cada dado."
 titulo_en: "Sources and uncertainty"
 descricao_en: "What sources disagree on and where each figure came from."
 ordem: 15
-atualizado: 2026-07-30
+atualizado: 2026-08-01
 ---
 
 :::destaque
@@ -38,7 +38,7 @@ A lição está registrada aqui e não no histórico do Git: **dado numérico co
 | **Formato exato da Arena** | Fontes divergem entre 3v3 e 4v4. A leitura mais consistente é 3 Pals por jogador, sendo 1 main cuja partner skill você ativa. |
 | **Estado das Wildlife Sanctuaries** | Patch notes dizem que foram reformuladas. Os guias detalhados ainda descrevem a versão de Early Access. |
 | **Distribuição das 48 cópias por estrela** | Não oficial. Confira a UI do Condenser. **Enquanto isso não for conferido no jogo, a calculadora de condensação só responde o total para 4★**, que é o número que tem fonte. |
-| **Poder de captura por esfera** | **Resolvido em 01.08**, com duas linhas ainda esperando confirmação. Ver a seção abaixo. |
+| **Poder de captura por esfera** | **Resolvido em 01.08.** Vale a coluna do paldb inteira, e a tabela está publicada em Calculadoras. A conferência que produziu a decisão, com os oito pares de números, está na seção abaixo. |
 | **Fórmula da taxa de captura** | **Sem fonte utilizável.** O paldb calcula no servidor dele, em `/api/captureRate`, e publica por Pal só o `CaptureRateCorrect`; o multiplicador de cada esfera, o peso da vida restante e o do nível não aparecem em lugar nenhum. A wiki.gg responde 403 para leitura automatizada. O que temos é a transformação de exibição, `TaxaExibida = TaxaReal^1.25` com rolagens 4/9, 3/9 e 2/9, que descreve o número da tela e não permite calculá-lo. **A calculadora de captura fica de fora da E5 até aparecer fonte.** |
 | **Tabela de recompensas de raid por tier** | Não existe fonte oficial. Desconfie de listas específicas. |
 
@@ -52,37 +52,55 @@ A lição está registrada aqui e não no histórico do Git: **dado numérico co
 Registrado em **01.08.2026**. A calculadora de taxa de captura foi recusada (ver a seção 5 do
 `PRD.md`) e no lugar dela entra uma tabela de poder de captura, que é dado e não fórmula.
 
-A dúvida inicial era um empate entre duas fontes que davam números diferentes. **Não é empate.** A
-`palworld.wiki.gg` não lista Sol, Ancient nem Raider, e a página dela se refere ao Feybreak, que é
-anterior ao 1.0. O paldb dá 58 para a Sol, o mesmo do `palmods.gg`. É fonte desatualizada contra a
-fonte que este repositório já usa para o catálogo inteiro, e por isso **o paldb vale**.
-
 O poder de captura deixou de ser número colado e passou a ser **dado importado**: o paldb publica
 "Capture Power" como atributo do item, e o importador o traz da página de categoria das esferas,
 junto com os outros atributos numéricos. Onze esferas, uma requisição.
 
-| Esfera | paldb, importado | conferência da wiki.gg |
-|---|---|---|
-| Pal Sphere | 7 | 7 |
-| Mega Sphere | 14 | 14 |
-| Giga Sphere | 20 | 20 |
-| Hyper Sphere | **27** | **26** |
-| Ultra Sphere | **33** | **32** |
-| Legendary Sphere | 38 | 37 |
-| Ultimate Sphere | 44 | 43 |
-| Exotic Sphere | 50 | não lista |
-| Sol Sphere | 58 | não lista |
-| Ancient Sphere | 64 | não lista |
-| Radar Sphere | 20 | não lista |
+A dúvida inicial era um empate entre duas fontes que davam números diferentes. **Não é empate**, e
+a decisão de 01.08 é que **vale a coluna do paldb inteira**. Os oito pares abaixo ficam registrados
+para a conclusão poder ser reconferida sem refazer a pesquisa.
 
-O padrão que aparece aqui **reforça a conclusão**: as três esferas antigas batem exatamente, e as
-quatro que o 1.0 mexeu estão um ponto acima na fonte atual. A wiki.gg não errou, ela parou no tempo.
+| Esfera | paldb, importado | palworld.wiki.gg | diferença |
+|---|---|---|---|
+| Pal Sphere | 7 | 7 | 0 |
+| Mega Sphere | 14 | 14 | 0 |
+| Giga Sphere | 20 | 20 | 0 |
+| Hyper Sphere | **27** | 26 | +1 |
+| Ultra Sphere | **33** | 32 | +1 |
+| Legendary Sphere | **38** | 37 | +1 |
+| Ultimate Sphere | **44** | 43 | +1 |
+| Exotic Sphere | **50** | 48 | +2 |
+| Sol Sphere | 58 | não lista | sem par |
+| Ancient Sphere | 64 | não lista | sem par |
+| Radar Sphere | 20 | não lista | sem par |
+
+**A diferença cresce com o tier, e é isso que decide.** Ela é zero nas três esferas antigas, um
+ponto nas quatro do meio e dois na Exotic. Erro de transcrição não tem gradiente: ele é aleatório ou
+constante. Diferença que sobe junto com o tier é a forma de um **rebalanceamento de patch**, em que
+o topo da curva foi mexido mais que a base. Isso reforça a leitura de que o paldb reflete o 1.0
+enquanto a página da wiki.gg é anterior, e é por isso que a coluna do paldb vale onde as duas
+divergem.
+
+Os outros dois indícios apontam para o mesmo lado. A wiki.gg **não lista Sol, Ancient nem Radar**, e
+a página dela se refere ao Feybreak, anterior ao 1.0. O paldb dá 58 para a Sol, o mesmo do
+`palmods.gg`. É fonte parada no tempo contra a fonte que este repositório já usa para o catálogo
+inteiro.
 
 :::atencao
-**Duas linhas ainda esperam confirmação do dono do projeto.** A conferência independente de 01.08
-cobria cinco esferas e bateu em três; Hyper e Ultra divergem em um ponto cada, e a regra combinada é
-não escolher em silêncio quando o importado difere do conferido. Até a confirmação, a tabela não
-sobe para o site.
+**Correção do que estava escrito aqui antes.** A versão anterior desta seção dizia que a wiki.gg não
+lista a Exotic e tratava a divergência como um ponto uniforme. **As duas coisas estavam erradas**: a
+wiki.gg lista a Exotic com 48, nas páginas Capture Power e Spheres, e a diferença não é uniforme.
+Ela é 0 em Pal, Mega e Giga, +1 em Hyper, Ultra, Legendary e Ultimate, e +2 em Exotic. O erro não
+mudou a conclusão, mas mudava o argumento: "um ponto em tudo que o 1.0 mexeu" é coincidência
+suspeita, e "a diferença cresce com o tier" é padrão.
+:::
+
+:::nota
+**A Radar Sphere fica fora da lista principal da tabela.** Ela tem poder de captura 20, o mesmo da
+Giga, e nenhuma linha de `tecnologias.json` a desbloqueia: é a única das onze sem nível de
+tecnologia, ou seja, não é esfera da progressão. Listada junto, ela sugeriria uma equivalência com a
+Giga que não existe. O número continua publicado logo abaixo da tabela, com esse motivo à vista, em
+vez de sumir.
 :::
 
 :::nota
@@ -90,6 +108,14 @@ sobe para o site.
 módulo de esfera e a penalidade de alfa **não são publicados pelo paldb** como atributo. Sem fonte,
 não entram: linha vazia numa tabela é convite para alguém preencher de cabeça depois.
 :::
+
+**O gatilho que vigia esses números mudou de referência em 01.08.** Ele comparava o importado com a
+wiki.gg, que esta mesma seção acabou de declarar desatualizada, então falharia para sempre por
+motivo já resolvido, e gatilho que acusa o que já foi decidido é gatilho que alguém desliga. Os onze
+valores foram congelados em `src/data/poder-captura.json`, e o verificador compara **importação nova
+contra referência conferida**, dizendo qual esfera mudou e de quanto. Esfera que sumir da importação
+ou aparecer sem estar na referência também quebra: linha entrando ou saindo da tabela do site sem
+ninguém olhar é o defeito que este projeto mais repete.
 
 ## A regra de cruzamento, conferida em 01.08.2026
 
