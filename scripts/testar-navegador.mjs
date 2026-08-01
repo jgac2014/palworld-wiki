@@ -699,11 +699,11 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   for (const [rota, minimo] of [['itens', 1200], ['estruturas', 250], ['tecnologias', 400]]) {
     await pagina.goto(`${base}/${rota}/`);
     await pagina.waitForTimeout(250);
-    const antes = await pagina.evaluate(() => document.querySelectorAll('#tabela tbody tr:not(.escondida)').length);
-    const total = await pagina.evaluate(() => document.querySelectorAll('#tabela tbody tr').length);
+    const antes = await pagina.evaluate(() => document.querySelectorAll('#grade > li:not(.escondida)').length);
+    const total = await pagina.evaluate(() => document.querySelectorAll('#grade > li').length);
     await pagina.fill('#filtro', 'zzzznaoexiste');
     await pagina.waitForTimeout(200);
-    const depois = await pagina.evaluate(() => document.querySelectorAll('#tabela tbody tr:not(.escondida)').length);
+    const depois = await pagina.evaluate(() => document.querySelectorAll('#grade > li:not(.escondida)').length);
     // A contagem tem que dizer quantos de quantos, sempre. É o que impede o
     // filtro de esconder registro sem o leitor perceber. Lida do rótulo em
     // português, e não do texto na tela, senão o teste depende do idioma que
@@ -718,6 +718,69 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     'os três índices listam, filtram e dizem quantos de quantos',
     ruins.map((i) => `${i.rota}: ${i.total} linhas, ${i.antes} visíveis, ${i.depois} após filtro sem resultado, contagem "${i.contagem}"`).join(' | '),
   );
+
+  // 9b. em 1440px o catálogo e os índices usam a largura, e o guia não (F4).
+  //
+  //     O alvo do site é PC, decidido em 01.08.2026, e antes desta tarefa a
+  //     coluna travava em 860px em qualquer monitor: sobravam 316px vazios,
+  //     /pals mostrava 2 cartões onde cabem 4 e /itens era uma coluna de nomes
+  //     com 116.412px de altura.
+  //
+  //     A asserção mede as três coisas porque as três podem regredir sozinhas,
+  //     e a terceira é a que mais importa: alargar a página sem trocar a
+  //     tabela por grade só muda o vazio de lugar, e foi o que aconteceu na
+  //     primeira tentativa desta tarefa, abrindo um vão de 800px entre "Nome"
+  //     e "Categoria" em /estruturas.
+  //
+  //     O guia entra junto de propósito. Sem ele, "usar a largura" viraria
+  //     alargar tudo, e prosa de 1176px é pior de ler que prosa de 780px.
+  const ALTURA_ITENS_ANTES_DA_F4 = 116412;
+  {
+    const largo = await navegador.newPage({ viewport: { width: 1440, height: 900 } });
+    const medir = async (rota, seletor) => {
+      await largo.goto(`${base}${rota}`);
+      await largo.waitForTimeout(250);
+      return largo.evaluate((sel) => {
+        const itens = [...document.querySelectorAll(sel)];
+        // Colunas por linha é a contagem de itens que dividem o mesmo topo.
+        // Medido do que o navegador desenhou, não do CSS declarado: é a
+        // diferença entre provar que a grade acontece e repetir a regra.
+        const porTopo = new Map();
+        for (const e of itens) {
+          const t = Math.round(e.getBoundingClientRect().top);
+          porTopo.set(t, (porTopo.get(t) || 0) + 1);
+        }
+        const c = document.querySelector('.conteudo');
+        return {
+          colunas: Math.max(0, ...porTopo.values()),
+          altura: Math.round(document.documentElement.scrollHeight),
+          conteudo: c ? Math.round(c.getBoundingClientRect().width) : 0,
+        };
+      }, seletor);
+    };
+
+    const pals = await medir('/pals/', '.grade > .cartao');
+    const itens = await medir('/itens/', '#grade > li:not(.escondida)');
+    const guia = await medir('/breeding/', 'article > p');
+    await largo.close();
+
+    const problemas = [];
+    if (pals.colunas < 4) problemas.push(`/pals com ${pals.colunas} cartões por linha, mínimo 4`);
+    if (itens.colunas < 3) problemas.push(`/itens com ${itens.colunas} colunas, mínimo 3`);
+    if (itens.altura > ALTURA_ITENS_ANTES_DA_F4 / 2) {
+      problemas.push(`/itens com ${itens.altura}px de altura, teto ${ALTURA_ITENS_ANTES_DA_F4 / 2}px`);
+    }
+    // O teto do guia é 860px, que é a medida de leitura mais o respiro lateral.
+    if (guia.conteudo > 900) problemas.push(`guia com coluna de ${guia.conteudo}px, devia ficar na medida de leitura`);
+
+    conferir(
+      problemas.length === 0,
+      'em 1440px o catálogo e o índice usam a largura, e o guia continua estreito',
+      problemas.length
+        ? problemas.join(' | ')
+        : `/pals ${pals.colunas} por linha, /itens ${itens.colunas} colunas e ${itens.altura}px (era ${ALTURA_ITENS_ANTES_DA_F4}px), guia ${guia.conteudo}px`,
+    );
+  }
 
   // Um item que só existe em itens.json é achável pela busca do site. Sem isto
   // as três coleções ficariam invisíveis para quem não sabe que a página existe.

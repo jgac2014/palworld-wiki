@@ -35,6 +35,7 @@
   --serif:      "Iowan Old Style", Georgia, "Times New Roman", serif;
   --sans:       "Helvetica Neue", Inter, system-ui, Arial, sans-serif;
   --largura:    780px;
+  --largura-cheia: 1560px;
 }
 
 :root[data-tema="claro"] {
@@ -168,7 +169,20 @@ html[data-progresso] .so-vencido:not([data-vencido]) { display: none !important;
   background: var(--realce-2);
 }
 
+/*
+ * Duas larguras, e a diferença é de propósito.
+ *
+ * Guia é texto corrido, e prosa larga cansa: 780px é medida de leitura e
+ * continua sendo o padrão. Índice e catálogo não são texto, são grade de
+ * objeto, e ali estreitar é desperdício: em 1440px o conteúdo travava em 860px
+ * e sobravam 316px vazios à direita, com /pals mostrando 2 cartões onde cabem
+ * 4 e /itens virando uma coluna de nomes de 116 mil pixels de altura.
+ *
+ * O teto de 1560px existe para monitor ultralargo não render uma linha de dez
+ * cartões, que é o mesmo defeito virado do avesso.
+ */
 .conteudo { flex: 1; padding: 34px 40px 100px; max-width: calc(var(--largura) + 80px); }
+.conteudo.cheia { max-width: var(--largura-cheia); }
 
 /* ---------- tipografia ---------- */
 h1 {

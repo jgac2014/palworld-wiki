@@ -47,6 +47,7 @@ const rotContagem = {
 <Base
   titulo={ui('pals_titulo', 'pt')}
   descricao="Todos os Pals de Palworld 1.0 com aptidões de trabalho em português, filtráveis por função, fase do jogo e nível."
+  largura="cheia"
 >
   <article>
     <h1 data-rot-pt={ui('pals_titulo', 'pt')} data-rot-en={ui('pals_titulo', 'en')}>{ui('pals_titulo', 'pt')}</h1>
@@ -190,7 +191,13 @@ const rotContagem = {
   .so-curadoria input { accent-color: var(--acento); cursor: pointer; }
   .contagem { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin-bottom: 10px; }
 
-  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 12px; }
+  /*
+   * 250px e não 258px: com a coluna larga da F4, 258 fazia 4 cartões caberem
+   * por 28px de folga em 1440, e barra de rolagem de sistema come mais que
+   * isso. Cair para 250 dá 45px de folga e mantém a quarta coluna em pé no
+   * navegador de verdade, não só na medição headless.
+   */
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
   .cartao {
     background: var(--cartao);
     border: 1px solid var(--linha);

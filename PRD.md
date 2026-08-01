@@ -176,6 +176,12 @@ Escrito explicitamente porque cada item já foi proposto e recusado.
 - **Monetização, anúncio, métrica de audiência.** Não há audiência.
 - **Backend, banco de dados, conteúdo dinâmico.** A única peça com servidor é o worker do assistente,
   e ele é opcional: sem ele o site funciona inteiro.
+- **Layout para telefone.** O grupo consulta a wiki no PC. Layout para telefone deixa de ser
+  requisito em 01.08.2026. Isso cancelou a tarefa do menu no celular e virou a F4 nova, que ataca o
+  defeito oposto: a coluna de conteúdo travava em 860px e desperdiçava 316px em 1440px de tela.
+  **O que continua valendo é janela estreita, que não é a mesma coisa.** O caso de uso declarado
+  logo acima é segunda tela com o jogo aberto, e ali a wiki roda em meia tela de PC. As regras de
+  `@media (max-width: 860px)` seguem no lugar por isso, e não por telefone.
 - **Calculadora de taxa de captura.** Recusada em 01.08.2026, por três motivos somados. A fórmula
   nativa do 1.0 **não está recuperada publicamente**: o `palmods.gg` declara isso e ajusta o modelo dele
   ao comportamento dataminado da 0.7.3. Nenhuma fonte publica a fórmula com citação, e o paldb

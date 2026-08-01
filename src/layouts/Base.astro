@@ -15,9 +15,13 @@ interface Props {
   descricao?: string;
   atualizado?: Date;
   arquivoFonte?: string;
+  // "texto" é medida de leitura, 780px, e é o padrão porque a maioria das
+  // páginas é guia. "cheia" é para índice e catálogo, que são grade de objeto
+  // e não prosa: ali a coluna estreita só produz espaço vazio à direita.
+  largura?: 'texto' | 'cheia';
 }
 
-const { titulo, descricao = '', atualizado, arquivoFonte } = Astro.props;
+const { titulo, descricao = '', atualizado, arquivoFonte, largura = 'texto' } = Astro.props;
 
 const paginas = (await getCollection('wiki', ({ data }) => !data.rascunho))
   .sort((a, b) => a.data.ordem - b.data.ordem);
@@ -177,7 +181,7 @@ const REPO = 'https://github.com/nederreis/PalCrew';
     >{ui('nav_contribuir', 'pt')}</a>
   </nav>
 
-  <main class="conteudo">
+  <main class:list={['conteudo', largura === 'cheia' && 'cheia']}>
     <div
       class="caixa-busca"
       data-ph-pt={ui('busca_placeholder', 'pt')}

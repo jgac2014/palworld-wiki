@@ -633,6 +633,69 @@ sem encerrá-la, porque a fonte é uma só e é a mesma que erra a contagem.
 Encostou em `package.json`, território compartilhado, pelo mínimo: uma linha de script
 (`npm run recortes:gravar`), sem a qual a captura não seria reproduzível por comando.
 
+### [x] F4 — Largura desperdiçada no desktop
+
+**Requisito:** R5.4 e R1.8, sob a emenda de 01.08.2026 que fixou o PC como alvo
+**Território:** código e visual
+
+**Substitui a F4 antiga, do menu no celular, cancelada.** O cancelamento está registrado na lista do
+que foi recusado no `PRD.md`, com o motivo, porque decisão que só existe numa conversa some em três
+meses e alguém reabre.
+
+Em 1440px a coluna de conteúdo travava em ~780px e sobravam ~350px vazios à direita. `/pals` mostrava
+2 cartões por linha onde cabiam 4, e `/itens` era uma coluna de nomes com metade da tela em branco e
+116 mil pixels de altura.
+
+Guia continua com medida de leitura estreita: prosa larga demais cansa, e 780px está certo para texto
+corrido. O que cresce é ÍNDICE e CATÁLOGO.
+
+**Aceite:**
+- Em 1440px, `/pals` mostra pelo menos 4 cartões por linha e `/itens` pelo menos 3 colunas.
+- A altura total de `/itens` cai pelo menos à metade.
+- Asserção nova medindo as duas coisas.
+- Screenshot olhado antes do commit: grade que se adapta erra feio em largura intermediária, e o
+  portão não sabe julgar isso.
+
+**Feita. Medido em 1440px, antes e depois:**
+
+| Página | Antes | Depois |
+|---|---|---|
+| `/pals` | 2 cartões por linha, 32.277px | **4 por linha**, 18.384px |
+| `/itens` | 1 coluna, 116.412px | **4 colunas**, 34.566px |
+| `/estruturas` | 1 por linha, 31.985px | **4 por linha**, 12.515px |
+| `/tecnologias` | 1 por linha, 37.823px | **4 por linha**, 16.658px |
+| `/breeding`, guia | 860px de coluna | **860px**, sem mudança |
+
+**A primeira tentativa alargou a página e não resolveu, e o screenshot é que mostrou.** Só subir o
+teto da coluna deixou `/estruturas` e `/tecnologias` como tabelas de duas e quatro colunas esticadas
+a 1176px, com um vão de quase 800px entre "Nome" e "Categoria". O vazio não sumiu, mudou de fora da
+coluna para dentro da tabela. **Sem olhar a imagem, isso passaria**: a página usava a largura toda e
+o número de "por linha" continuaria 1 sem ninguém notar o porquê.
+
+A correção foi trocar a forma, não o tamanho: **índice de nome curto é grade, não tabela.** A regra
+sai do dado e não de lista de rota escrita à mão, do mesmo jeito que a esfera com nível de tecnologia
+entra na tabela de captura e a sem nível vira nota. Os campos de dado viraram uma linha de metadados
+dentro do cartão, **com o rótulo junto do valor**, porque fora de tabela um "12" sozinho não diz se é
+nível ou custo.
+
+**Nenhuma media query ficou órfã, e tirar as que existem seria erro.** A única regra responsiva do
+site é `@media (max-width: 860px)`, que empilha a lateral, e ela não é de telefone: o caso de uso
+declarado no PRD é segunda tela com o jogo aberto, ou seja, a wiki em meia tela de PC. Medido em
+760px, ela é o que mantém a página legível. Nunca houve menu de celular implementado, então o
+cancelamento não deixou código para trás.
+
+**Três sabotagens, todas rodadas.** Tirar `.conteudo.cheia` fez o portão acusar `/pals` com 3 cartões
+por linha. Colapsar a grade do índice para uma coluna acusou as duas coisas de uma vez, 1 coluna e
+125.461px de altura. E dar coluna larga ao guia acusou prosa de 1176px, que é a cláusula que impede
+"usar a largura" virar "alargar tudo".
+
+A asserção mede o que o navegador desenhou, contando itens que dividem o mesmo topo, e não o CSS
+declarado. O teto de altura é metade dos 116.412px medidos antes da tarefa, congelado no script com a
+data, no mesmo padrão das outras referências do repositório: se o catálogo crescer muito, alguém
+remede e atualiza o número em vez de o teto virar decoração.
+
+Tarefa inteira em território de código e visual, o que é fora do meu, feita porque a emenda pediu.
+
 ### [ ] H5 — O mapa funcionar no pacote offline
 
 **Requisito:** R3.6
