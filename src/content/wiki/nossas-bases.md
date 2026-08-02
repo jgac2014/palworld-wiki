@@ -5,7 +5,7 @@ titulo_en: "Our 4 bases"
 descricao_en: "Blueprint per base, roster and unlock order."
 camada: nosso-mundo
 ordem: 4
-atualizado: 2026-07-30
+atualizado: 2026-08-02
 ---
 
 A arquitetura de quatro bases que vocês montaram está certa. O problema não é quantas bases, é que três das quatro provavelmente estão perdendo produção por motivos que não aparecem na tela. Abaixo o diagnóstico e o redesenho, base por base.

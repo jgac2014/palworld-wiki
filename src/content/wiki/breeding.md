@@ -4,7 +4,7 @@ descricao: "Herança de passivas, bolos, mutação e a cadeia de produção de P
 titulo_en: "Breeding and mutation"
 descricao_en: "Passive inheritance, cakes, mutation and the Pal production chain."
 ordem: 6
-atualizado: 2026-07-30
+atualizado: 2026-08-02
 ---
 
 :::cuidado

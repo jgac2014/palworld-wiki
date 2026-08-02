@@ -34,7 +34,13 @@ const carimbo = {
   atualizado={pagina.data.atualizado}
   arquivoFonte={`${pagina.id}.md`}
 >
-  <article data-pagefind-body>
+  {/*
+    O id do topo existe para a seção "Onde aparece nos guias" das fichas de
+    Pal ter para onde apontar quando a citação está antes do primeiro
+    subtítulo. São 29 das 415 citações, e sem uma âncora de verdade elas
+    voltariam a ser link para o topo de um guia de dez mil caracteres.
+  */}
+  <article data-pagefind-body id="topo">
     <h1 data-rot-pt={titulo.pt} data-rot-en={titulo.en}>{titulo.pt}</h1>
     <p class="subtitulo" data-rot-pt={descricao.pt} data-rot-en={descricao.en}>{descricao.pt}</p>
     <div class="carimbo" data-rot-pt={carimbo.pt} data-rot-en={carimbo.en}>{carimbo.pt}</div>

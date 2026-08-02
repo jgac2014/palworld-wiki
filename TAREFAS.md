@@ -1076,7 +1076,7 @@ da lista seria sinal de que alguém inventou a tradução.
 **Duas sabotagens, as duas rodadas.** Devolver "Legend" solto à tabela acusou o termo e disse o nome
 oficial. Esvaziar a lista `NAO_MARCAR` acusou falta de insumo em vez de aprovar sem conferir.
 
-### [ ] F11 — "Onde aparece nos guias" sem âncora, e 10 de 15 não é sinal
+### [x] F11 — "Onde aparece nos guias" sem âncora, e 10 de 15 não é sinal
 
 **Requisito:** R1.7
 **Território:** código e visual
@@ -1103,6 +1103,37 @@ nomeadas são dez respostas. Dez links para dez topos são ruído.
 - Um comando imprime quantos itens ganharam âncora e quantos Pals continuam sem citação.
 - Provado por sabotagem: apagar o id de uma seção do guia e ver o portão acusar o link órfão.
 - `npm run portao` passando.
+
+**Feita. São 359 links, todos com âncora que existe no guia de destino**, e 179 das 299 fichas
+continuam sem citação nenhuma, número dito em vez de escondido.
+
+**A lista deixou de ser de guias e passou a ser de trechos.** Cada item traz o nome do guia e, embaixo,
+as seções onde o Pal aparece: Anubis em "Combate e squad" vira três links nomeados, "O nosso squad
+alvo", "Duas exceções à regra do elemento único" e "Squad para o mid game". Dez links para dez topos
+eram ruído; dez seções nomeadas são dez respostas. Foi assim que "10 de 15" deixou de ser um número
+sem significado sem precisar de corte arbitrário.
+
+**A âncora sai do mesmo `github-slugger` que o Astro usa para gerar o id do título**, e não de uma
+regra reescrita à mão: duas implementações da mesma coisa divergem no primeiro título com acento ou
+com ponto, e "Os bolos do 1.0" vira `os-bolos-do-10`. O slugger é reiniciado por página porque ele
+numera repetição.
+
+**29 das 415 citações estão antes do primeiro subtítulo**, e para elas o guia ganhou `id="topo"` no
+layout: sem uma âncora de verdade, essas voltariam a ser link para o topo de um guia de dez mil
+caracteres, exatamente o que a tarefa existe para acabar.
+
+**Duas sabotagens, as duas rodadas.** Voltar a ligar para o guia sem âncora acusou "nenhum link com
+âncora, então esta asserção não conferiu nada", que é a metade que impede a asserção de se aprovar
+sozinha. E fabricar âncora inexistente acusou 331 links apontando para id que não existe: sem essa
+segunda metade, âncora quebrada passaria, e ela é pior que link para o topo, porque promete precisão
+e entrega rolagem aleatória.
+
+**Encostou em `package.json`, território compartilhado, por uma linha:** `github-slugger` era
+dependência transitiva do Astro e passou a ser declarada. Depender de algo que só existe por acaso na
+árvore de outro pacote quebra no dia da atualização, sem aviso.
+
+**O portão pegou seis carimbos vencidos da F10 no meio desta tarefa.** As páginas revisadas ontem
+prometiam data mais velha que a revisão que receberam, e a virada do dia expôs isso. Corrigidos aqui.
 
 ### [x] F12 — A coluna TIPO de `/tecnologias` está em inglês
 

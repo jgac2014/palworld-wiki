@@ -159,6 +159,7 @@
   "pal_contribuir":     { "pt": "Como escrever uma",  "en": "How to write one" },
   "pal_sem_apt":        { "pt": "Nenhuma aptidão para trabalho.", "en": "No work suitability." },
   "pal_nos_guias":      { "pt": "Onde aparece nos guias", "en": "Where the guides mention it" },
+  "pal_guia_topo":      { "pt": "no começo do guia", "en": "at the top of the guide" },
   "pal_sem_guias":      { "pt": "Nenhum guia cita este Pal ainda.", "en": "No guide mentions this Pal yet." },
 
   "fase_mid":           { "pt": "Acessível agora",    "en": "Available now" },

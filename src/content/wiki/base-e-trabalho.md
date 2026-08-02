@@ -4,7 +4,7 @@ descricao: "Aptid√£o para trabalho, auras, layout de base e defesa contra invas√
 titulo_en: "Bases and work"
 descricao_en: "Work suitability, auras, base layout and raid defence."
 ordem: 5
-atualizado: 2026-07-30
+atualizado: 2026-08-02
 ---
 
 ## Como funciona Work Suitability no 1.0

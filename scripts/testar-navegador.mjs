@@ -18,7 +18,7 @@ import { chromium } from 'playwright';
 import { readdir, readFile } from 'node:fs/promises';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { join, dirname, extname } from 'node:path';
+import { join, dirname, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -434,6 +434,53 @@ const desviarLeaflet = (alvo) =>
     comMarcador.length === 0,
     'nenhuma página publica marcador de string não traduzida',
     `${comMarcador.length} páginas, por exemplo: ${comMarcador.slice(0, 3).join(', ')}`,
+  );
+
+  // 4b. "Onde aparece nos guias" leva ao TRECHO, não ao topo (F11).
+  //
+  //     A lista ligava para `/breeding/` e parava aí. O guia mais longo tem
+  //     34.314 caracteres: o link caía no topo e quem clicou procurava o nome
+  //     à mão, que é o trabalho que a seção existe para poupar.
+  //
+  //     As duas metades são obrigatórias. Só conferir que todo href tem "#"
+  //     aprovaria âncora quebrada, e âncora quebrada é pior que link para o
+  //     topo: ela promete precisão e entrega rolagem aleatória. Por isso o id
+  //     é procurado no HTML do guia de DESTINO.
+  const idsPorRota = new Map();
+  const idsDe = async (rota) => {
+    if (!idsPorRota.has(rota)) {
+      const arq = join(dist, rota, 'index.html');
+      const html = existsSync(arq) ? await readFile(arq, 'utf-8') : '';
+      idsPorRota.set(rota, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+    }
+    return idsPorRota.get(rota);
+  };
+
+  let comAncora = 0;
+  const semAncora = [];
+  const orfaos = [];
+  const fichasSemCitacao = [];
+  const fichas = (await todosOsHtml()).filter((a) => a.includes(`${sep}pal${sep}`));
+  for (const arq of fichas) {
+    const html = await readFile(arq, 'utf-8');
+    const lista = html.match(/class="guias"[\s\S]*?<\/ul>/)?.[0];
+    if (!lista) { fichasSemCitacao.push(arq); continue; }
+    for (const m of lista.matchAll(/href="([^"]+)"/g)) {
+      const [rota, ancora] = m[1].replace(/^\//, '').replace(/\/$/, '').split('/#');
+      if (!ancora) { semAncora.push(`${arq.replace(dist, '')} -> ${m[1]}`); continue; }
+      comAncora++;
+      if (!(await idsDe(rota)).has(decodeURIComponent(ancora))) {
+        orfaos.push(`${arq.replace(dist, '')} -> ${m[1]}`);
+      }
+    }
+  }
+  conferir(
+    fichas.length > 0 && comAncora > 0 && semAncora.length === 0 && orfaos.length === 0,
+    `os ${comAncora} links de "onde aparece nos guias" levam a uma seção que existe`
+    + ` (${fichasSemCitacao.length} das ${fichas.length} fichas não são citadas em guia nenhum)`,
+    comAncora === 0 ? 'nenhum link com âncora, então esta asserção não conferiu nada'
+      : semAncora.length ? `${semAncora.length} sem âncora, por exemplo ${semAncora[0]}`
+      : `${orfaos.length} apontam para id que não existe, por exemplo ${orfaos[0]}`,
   );
 
   // 5. a moldura inteira alterna de idioma, não só os nomes do jogo.

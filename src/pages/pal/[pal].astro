@@ -15,6 +15,7 @@ import curadoria from '../../data/pals.json';
 import { termo, ui, rotuloApt } from '../../lib/termos.js';
 import { quemTem } from '../../lib/progresso.js';
 import { enderecoPal } from '../../lib/enderecos.js';
+import GithubSlugger from 'github-slugger';
 
 const REPO = 'https://github.com/nederreis/PalCrew';
 
@@ -35,28 +36,69 @@ export async function getStaticPaths() {
     'gu',
   );
 
+  // Onde DENTRO do guia, e não só em qual guia.
+  //
+  // Antes a lista ligava para `/breeding/` e parava aí. O guia mais longo tem
+  // 34.314 caracteres e a média é 8.615: o link caía no topo e quem clicou
+  // procurava o nome à mão. Pior, Anubis aparecia em 10 dos 15 guias, e uma
+  // lista com dois terços dos guias não responde "onde", responde "em quase
+  // todo lugar".
+  //
+  // A âncora sai do MESMO slugger que o Astro usa para gerar o id do título,
+  // github-slugger, e não de uma regra reescrita aqui: duas implementações da
+  // mesma coisa divergem no primeiro título com acento ou com ponto. O
+  // slugger é reiniciado por página porque ele numera repetição, e o segundo
+  // "Combate" de um documento vira "combate-1".
+  //
+  // Citação antes do primeiro subtítulo aponta para #topo, que existe no
+  // layout do guia. São 29 das 415, e sem âncora de verdade elas voltariam a
+  // ser link para o topo.
   const citacoes = new Map();
   for (const pagina of paginas) {
-    for (const achado of pagina.body.matchAll(varredura)) {
-      const nome = achado[1];
-      if (!citacoes.has(nome)) citacoes.set(nome, new Map());
-      citacoes.get(nome).set(pagina.id, pagina.data);
+    const slugger = new GithubSlugger();
+    let secao = { texto: null, ancora: 'topo' };
+    for (const linha of pagina.body.split('\n')) {
+      const titulo = linha.match(/^#{2,6}\s+(.+?)\s*$/);
+      if (titulo) {
+        const texto = titulo[1].replace(/[*_`]/g, '').trim();
+        secao = { texto, ancora: slugger.slug(texto) };
+        continue;
+      }
+      for (const achado of linha.matchAll(varredura)) {
+        const nome = achado[1];
+        if (!citacoes.has(nome)) citacoes.set(nome, new Map());
+        const porPagina = citacoes.get(nome);
+        if (!porPagina.has(pagina.id)) {
+          porPagina.set(pagina.id, { ...pagina.data, secoes: new Map() });
+        }
+        porPagina.get(pagina.id).secoes.set(secao.ancora, secao);
+      }
     }
   }
 
   const porNome = new Map(curadoria.pals.map((p) => [p.nome, p]));
 
   return catalogo.pals.map((pal) => {
-    const guias = new Map([
-      ...(citacoes.get(pal.en) || []),
-      ...(citacoes.get(pal.pt) || []),
-    ]);
+    // O nome em inglês e o em português podem cair em seções diferentes do
+    // mesmo guia, então as duas listas são somadas por seção e não
+    // sobrescritas uma pela outra.
+    const guias = new Map();
+    for (const fonte of [citacoes.get(pal.en), citacoes.get(pal.pt)]) {
+      for (const [id, data] of fonte || []) {
+        if (!guias.has(id)) guias.set(id, { ...data, secoes: new Map() });
+        for (const [ancora, secao] of data.secoes) guias.get(id).secoes.set(ancora, secao);
+      }
+    }
     return {
       params: { pal: enderecoPal(pal.chave) },
       props: {
         pal,
         nossa: porNome.get(pal.en) || null,
-        guias: [...guias.entries()].map(([id, data]) => ({ id, ...data })),
+        guias: [...guias.entries()].map(([id, data]) => ({
+          id,
+          ...data,
+          secoes: [...data.secoes.values()],
+        })),
       },
     };
   });
@@ -165,7 +207,12 @@ const carimbo = (l) => [
       <ul class="guias">
         {guias.map((g) => (
           <li>
-            <a href={`${base}/${g.id}`} data-rot-pt={g.titulo} data-rot-en={g.titulo_en || g.titulo}>{g.titulo}</a>
+            <span class="guia" data-rot-pt={g.titulo} data-rot-en={g.titulo_en || g.titulo}>{g.titulo}</span>
+            <span class="secoes">
+              {g.secoes.map((s) => (
+                <a href={`${base}/${g.id}/#${s.ancora}`}>{s.texto || ui('pal_guia_topo', 'pt')}</a>
+              ))}
+            </span>
           </li>
         ))}
       </ul>
@@ -201,4 +248,8 @@ const carimbo = (l) => [
   }
   .sem-curadoria { font-size: 14px; color: var(--apagado); margin-top: 16px; }
   .guias { margin: 10px 0 0 20px; }
+  .guias li { margin-bottom: 6px; }
+  .guias .guia { font-weight: 600; }
+  .guias .secoes { display: block; font-size: 13px; }
+  .guias .secoes a + a::before { content: ' · '; color: var(--apagado); }
 </style>
