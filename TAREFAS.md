@@ -1404,7 +1404,7 @@ scripts, marcação bilíngue, assistente por último.
 
 ---
 
-### [ ] B4 — A cadeia de acesso à Árvore Mundial não está documentada
+### [x] B4 — A cadeia de acesso à Árvore Mundial não está documentada
 
 **Requisito:** R1.1
 **Território:** conteúdo e dados
@@ -1429,6 +1429,33 @@ portão para o endgame. Onde as duas se cruzam, a wiki afirma. Onde só uma fala
   ninguém marcar à mão. O que não existir lá entra como está e é registrado na tarefa.
 - Nenhum número ou passo que não esteja num recorte gravado. Se faltar, a página diz que falta.
 - `npm run portao` passando.
+
+**Feita, e a página não estava vazia como a tarefa supunha: estava errada em parte.** A `endgame.md`
+já tinha uma seção "Como entrar" com seis passos, e ela **não batia com os recortes**. Dizia "derrote
+todas as torres" onde a fonte diz "descubra Sunreach, depois derrote Auri & Shaolong", e não trazia
+nem o nível nem o lugar, que são as duas coisas que alguém precisa saber antes de ir.
+
+A cadeia agora está na ordem do recorte, com **nível 70 ou mais** e **o ponto mais ao norte do mapa**
+ditos na primeira linha, e o passo final separado dos seis pré-requisitos, porque ele é o que
+acontece depois deles e não mais um da fila.
+
+**O cruzamento das duas fontes está no texto, e é o que a tarefa pedia.** Onde as duas se encontram,
+Auri & Shaolong como o portão do endgame, a página afirma. Onde só o NextTier fala, o nível 68 e "a
+oitava e última torre padrão", a página diz de onde veio.
+
+**Três afirmações saíram da página por não terem prova gravada.** "4 echobones: Marine, Silent,
+Seafoam e Tidewind" e o Cientista da civilização antiga na ilha não estão em recorte nenhum do
+repositório. Elas viraram registro em `fontes.md`, com o caminho de volta: quem conferir no jogo,
+grava o recorte e devolve o texto. Tirar isso é desconfortável e é a regra: afirmação sem prova
+reproduzível vira boato no dia seguinte.
+
+**A marcação bilíngue aconteceu sozinha**, sem ninguém anotar nada, em `local_world_tree`,
+`echoing_flute`, `corrosive_mask`, `local_u_female_nomad01_v05` e nos Pals Panthalus, Shaolong e
+Bastigor.
+
+**O que não está no dicionário entrou como está, e fica registrado aqui:** Sunreach, Deserted Islet,
+Auri, Defense Module, Tower of the Azure Covenant e echobone. Nenhum tem nome oficial em português
+extraído das strings do jogo, e o `termos:atualizar` não alcança o paldb desta máquina.
 
 ### [ ] B3 — Reativar o leitor de save quando a biblioteca atualizar
 
