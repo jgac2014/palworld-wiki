@@ -19,9 +19,19 @@ interface Props {
   // páginas é guia. "cheia" é para índice e catálogo, que são grade de objeto
   // e não prosa: ali a coluna estreita só produz espaço vazio à direita.
   largura?: 'texto' | 'cheia';
+  // A página tem alguma coisa para o overlay do progresso revelar.
+  //
+  // O interruptor ficava nas 323 páginas e trocava de rótulo sem mostrar nada
+  // em 319 delas: só /pals, /pal/*, /mapa e /calculadoras reagem. Botão que
+  // muda de estado e não muda nada ensina que ele não funciona.
+  //
+  // A declaração é da página e não de uma lista de rotas escrita aqui, pelo
+  // mesmo motivo da F4: lista central envelhece calada. Página que ganhar
+  // overlay e esquecer de declarar é acusada pelo verificador.
+  usaProgresso?: boolean;
 }
 
-const { titulo, descricao = '', atualizado, arquivoFonte, largura = 'texto' } = Astro.props;
+const { titulo, descricao = '', atualizado, arquivoFonte, largura = 'texto', usaProgresso = false } = Astro.props;
 
 const paginas = (await getCollection('wiki', ({ data }) => !data.rascunho))
   .sort((a, b) => a.data.ordem - b.data.ordem);
@@ -100,7 +110,7 @@ const REPO = 'https://github.com/nederreis/PalCrew';
       faria os 17 links da wiki serem lidos como parte do nosso mundo.
     */}
     <div class="camada" data-rot-pt={ui('nav_camada_mundo', 'pt')} data-rot-en={ui('nav_camada_mundo', 'en')}>{ui('nav_camada_mundo', 'pt')}</div>
-    <SeletorProgresso />
+    {usaProgresso && <SeletorProgresso />}
     <a
       class="item"
       href={`${base}/nosso-mundo`}

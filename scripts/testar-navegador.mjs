@@ -18,12 +18,24 @@ import { chromium } from 'playwright';
 import { readdir, readFile } from 'node:fs/promises';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { join, dirname, extname } from 'node:path';
+import { join, dirname, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(raiz, 'dist');
 const offline = join(raiz, 'wiki-palworld-offline.html');
+
+/**
+ * Todo HTML gerado, a árvore inteira.
+ *
+ * Para asserção que precisa falar das 323 páginas e não da amostra que coube
+ * na visita do navegador. Abrir todas no Chromium a cada portão não paga; ler
+ * todas em disco custa milissegundos.
+ */
+const todosOsHtml = async () =>
+  (await readdir(dist, { recursive: true, withFileTypes: true }))
+    .filter((d) => d.isFile() && d.name.endsWith('.html'))
+    .map((d) => join(d.parentPath ?? d.path, d.name));
 
 const falhas = [];
 const passes = [];
@@ -124,27 +136,151 @@ const base = await new Promise((resolve) => {
 
 const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() });
 
+/**
+ * O `/mapa` pede o Leaflet ao unpkg no `<head>`. Sem saída para a internet, e
+ * o sandbox e o CI restrito não têm, a página abria sem mapa nenhum e as
+ * asserções do mapa morriam por timeout de 30s, derrubando o processo ANTES
+ * das outras trinta e poucas. Um host bloqueado apagava a suíte inteira.
+ *
+ * O desvio serve a cópia local do MESMO pino que o `package.json` declara, que
+ * é o que torna as asserções do mapa reais aqui em vez de impossíveis. E ele
+ * FALHA dizendo que faltou insumo quando a cópia não existe: pular calado é o
+ * modo de errar mais caro deste repositório, está escrito no CLAUDE.md.
+ */
+const LEAFLET = join(raiz, 'node_modules/leaflet/dist');
+// A página pede dois arquivos e um deles é módulo ES. Servir o UMD no lugar do
+// .esm faz o import() devolver objeto vazio e o mapa não desenhar, então o
+// desvio respeita o nome pedido em vez de adivinhar.
+const temLeafletLocal = existsSync(join(LEAFLET, 'leaflet-src.esm.js'));
+const desviarLeaflet = (alvo) =>
+  alvo.route(/unpkg\.com\/leaflet@/, async (rota) => {
+    const pedido = rota.request().url().split('/').pop();
+    const arquivo = join(LEAFLET, pedido);
+    if (!existsSync(arquivo)) return rota.abort();
+    await rota.fulfill({
+      contentType: pedido.endsWith('.css') ? 'text/css' : 'application/javascript',
+      body: await readFile(arquivo, 'utf-8'),
+    });
+  });
+
 // ------------------------------------------------------------ site gerado
 {
   const pagina = await navegador.newPage({ viewport: { width: 1280, height: 900 } });
   const errosJs = [];
   pagina.on('pageerror', (e) => errosJs.push(e.message));
   // Servido por HTTP o site carrega quase tudo. Sobra o Leaflet do CDN, que
-  // depende de rede externa e não existe no sandbox nem no CI.
+  // depende de rede externa e não existe no sandbox nem no CI: o desvio acima
+  // resolve o script, e os ícones que o CSS dele pede continuam faltando.
   const RUIDO = /Failed to load resource|unpkg|cdn|ERR_[A-Z_]+/i;
   pagina.on('console', (m) => { if (m.type() === 'error' && !RUIDO.test(m.text())) errosJs.push(m.text()); });
+  conferir(temLeafletLocal, 'o Leaflet local existe para as asserções do mapa', 'faltou node_modules/leaflet, rode npm ci');
+  await desviarLeaflet(pagina);
 
   await pagina.goto(`${base}/meu-save/`);
   await pagina.waitForTimeout(300);
 
-  // 1. o painel do assistente nasce fechado.
-  //    Quebrou porque display:flex vence o atributo [hidden] do HTML.
-  const painelAberto = await pagina.evaluate(() => {
-    const p = document.querySelector('#painel-chat');
-    if (!p) return null;
-    return getComputedStyle(p).display !== 'none';
-  });
-  conferir(painelAberto === false, 'assistente nasce fechado', painelAberto === null ? 'painel não existe' : 'nasceu aberto tapando o conteúdo');
+  // 1. o assistente só existe quando tem para onde perguntar (F5).
+  //
+  //    Enquanto o worker não estiver publicado, o widget INTEIRO não pode ser
+  //    gerado: antes ele ia ao ar nas 323 páginas e respondia com um recado
+  //    pedindo para publicar o worker. E não basta escondê-lo por CSS, tem que
+  //    NÃO EXISTIR no DOM: esconder por estilo já enganou a asserção do painel
+  //    uma vez neste mesmo arquivo.
+  //
+  //    O insumo é o próprio ENDERECO_ASSISTENTE do componente. Se ele não for
+  //    legível, isto FALHA em vez de pular: checagem que não acha o que
+  //    conferir aprova qualquer coisa, e é o modo de falha mais caro daqui.
+  const fonteChat = await readFile(join(raiz, 'src/components/Chat.astro'), 'utf-8');
+  const declarado = fonteChat.match(/^const ENDERECO_ASSISTENTE\s*=\s*'([^']*)'/m);
+  const htmlGerado = await todosOsHtml();
+  const paginasHtml = htmlGerado.length;
+  const comBotao = (await Promise.all(
+    htmlGerado.map(async (a) => (await readFile(a, 'utf-8')).includes('id="abrir-chat"')),
+  )).filter(Boolean).length;
+
+  const noDom = await pagina.evaluate(() => ({
+    botao: !!document.querySelector('#abrir-chat'),
+    painel: !!document.querySelector('#painel-chat'),
+    fechado: document.querySelector('#painel-chat')
+      ? getComputedStyle(document.querySelector('#painel-chat')).display === 'none'
+      : null,
+  }));
+
+  if (!declarado) {
+    falha('assistente: não consegui ler ENDERECO_ASSISTENTE de src/components/Chat.astro');
+  } else if (declarado[1] === '') {
+    conferir(
+      comBotao === 0 && noDom.botao === false && noDom.painel === false,
+      'sem worker publicado, o assistente não é gerado em página nenhuma',
+      `${comBotao} de ${paginasHtml} páginas com o botão, botão no DOM: ${noDom.botao}, painel: ${noDom.painel}`,
+    );
+  } else {
+    // Com endereço, ele volta em TODAS as páginas e o painel nasce fechado.
+    // A segunda metade quebrou uma vez: display:flex vence o [hidden] do HTML.
+    conferir(
+      comBotao === paginasHtml && noDom.fechado === true,
+      'com worker publicado, o assistente volta em todas as páginas e nasce fechado',
+      `${comBotao} de ${paginasHtml} páginas, painel fechado: ${noDom.fechado}`,
+    );
+  }
+
+  // 1b. glosa escrita à mão não imprime a mesma palavra duas vezes (F9).
+  //
+  //     "Imortalidade (Immortality)" no markdown marcava os dois lados com o
+  //     MESMO termo, então os dois exibiam o mesmo idioma: a tela mostrava
+  //     "Imortalidade (Imortalidade)" em português e "Immortality
+  //     (Immortality)" em inglês. Eram 134 ocorrências em 12 páginas.
+  //
+  //     Conferido nos DOIS idiomas, no HTML de todas as páginas, porque
+  //     consertar um lado e deixar o outro é metade do defeito. E o número de
+  //     glosas encontradas entra na condição: com zero glosas no site, "nenhuma
+  //     repetida" seria verdade trivial.
+  const GLOSA = /<span data-termo="([^"]+)" data-pt="([^"]*)" data-en="([^"]*)"[^>]*>[^<]*<\/span>\s*\(\s*<span data-termo="([^"]+)" data-pt="([^"]*)" data-en="([^"]*)"[^>]*>[^<]*<\/span>\s*\)/g;
+  let glosas = 0;
+  const repetidas = [];
+  for (const arq of await todosOsHtml()) {
+    const html = await readFile(arq, 'utf-8');
+    for (const g of html.matchAll(GLOSA)) {
+      if (g[1] !== g[4]) continue;
+      glosas++;
+      if (g[2] === g[5] || g[3] === g[6]) {
+        repetidas.push(`${arq.replace(dist, '')}: ${g[2]} (${g[5]})`);
+      }
+    }
+  }
+  //     O HTML sozinho não fecha a prova: quem troca o texto é o seletor no
+  //     navegador. A segunda metade abre /breeding, lê o que está NA TELA nos
+  //     dois idiomas e procura "X (X)" com a mesma palavra dos dois lados.
+  const repetidaNaTela = async () => {
+    await pagina.goto(`${base}/breeding/`);
+    await pagina.waitForTimeout(250);
+    const ler = () => pagina.evaluate(() => {
+      const achadas = [];
+      for (const s of document.querySelectorAll('span[data-termo]')) {
+        const irmao = s.nextSibling?.nextSibling;
+        if (irmao?.nodeType !== 1 || irmao.dataset?.termo !== s.dataset.termo) continue;
+        if (!/^\s*\(\s*$/.test(s.nextSibling.textContent || '')) continue;
+        if (s.textContent.trim() === irmao.textContent.trim()) achadas.push(s.textContent.trim());
+      }
+      return achadas;
+    });
+    const emPt = await ler();
+    await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
+    await pagina.waitForTimeout(300);
+    const emEn = await ler();
+    await pagina.locator('.seletor button', { hasText: 'PT' }).first().click();
+    await pagina.waitForTimeout(200);
+    return { emPt, emEn };
+  };
+  const glosaNaTela = await repetidaNaTela();
+
+  conferir(
+    glosas > 0 && repetidas.length === 0 && glosaNaTela.emPt.length === 0 && glosaNaTela.emEn.length === 0,
+    `as ${glosas} glosas "termo (Term)" mostram o outro idioma, nos dois sentidos`,
+    glosas === 0 ? 'não achei glosa nenhuma no site, então esta asserção não conferiu nada'
+      : repetidas.length ? `${repetidas.length} repetem a mesma palavra no HTML, por exemplo ${repetidas[0]}`
+      : `na tela de /breeding: PT ${JSON.stringify(glosaNaTela.emPt.slice(0, 3))}, EN ${JSON.stringify(glosaNaTela.emEn.slice(0, 3))}`,
+  );
 
   // 2. o seletor de idioma alterna, inclusive termo com acento.
   //    Quebrou porque \b de regex é ASCII e não casa antes de "Á".
@@ -298,6 +434,53 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     comMarcador.length === 0,
     'nenhuma página publica marcador de string não traduzida',
     `${comMarcador.length} páginas, por exemplo: ${comMarcador.slice(0, 3).join(', ')}`,
+  );
+
+  // 4b. "Onde aparece nos guias" leva ao TRECHO, não ao topo (F11).
+  //
+  //     A lista ligava para `/breeding/` e parava aí. O guia mais longo tem
+  //     34.314 caracteres: o link caía no topo e quem clicou procurava o nome
+  //     à mão, que é o trabalho que a seção existe para poupar.
+  //
+  //     As duas metades são obrigatórias. Só conferir que todo href tem "#"
+  //     aprovaria âncora quebrada, e âncora quebrada é pior que link para o
+  //     topo: ela promete precisão e entrega rolagem aleatória. Por isso o id
+  //     é procurado no HTML do guia de DESTINO.
+  const idsPorRota = new Map();
+  const idsDe = async (rota) => {
+    if (!idsPorRota.has(rota)) {
+      const arq = join(dist, rota, 'index.html');
+      const html = existsSync(arq) ? await readFile(arq, 'utf-8') : '';
+      idsPorRota.set(rota, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+    }
+    return idsPorRota.get(rota);
+  };
+
+  let comAncora = 0;
+  const semAncora = [];
+  const orfaos = [];
+  const fichasSemCitacao = [];
+  const fichas = (await todosOsHtml()).filter((a) => a.includes(`${sep}pal${sep}`));
+  for (const arq of fichas) {
+    const html = await readFile(arq, 'utf-8');
+    const lista = html.match(/class="guias"[\s\S]*?<\/ul>/)?.[0];
+    if (!lista) { fichasSemCitacao.push(arq); continue; }
+    for (const m of lista.matchAll(/href="([^"]+)"/g)) {
+      const [rota, ancora] = m[1].replace(/^\//, '').replace(/\/$/, '').split('/#');
+      if (!ancora) { semAncora.push(`${arq.replace(dist, '')} -> ${m[1]}`); continue; }
+      comAncora++;
+      if (!(await idsDe(rota)).has(decodeURIComponent(ancora))) {
+        orfaos.push(`${arq.replace(dist, '')} -> ${m[1]}`);
+      }
+    }
+  }
+  conferir(
+    fichas.length > 0 && comAncora > 0 && semAncora.length === 0 && orfaos.length === 0,
+    `os ${comAncora} links de "onde aparece nos guias" levam a uma seção que existe`
+    + ` (${fichasSemCitacao.length} das ${fichas.length} fichas não são citadas em guia nenhum)`,
+    comAncora === 0 ? 'nenhum link com âncora, então esta asserção não conferiu nada'
+      : semAncora.length ? `${semAncora.length} sem âncora, por exemplo ${semAncora[0]}`
+      : `${orfaos.length} apontam para id que não existe, por exemplo ${orfaos[0]}`,
   );
 
   // 5. a moldura inteira alterna de idioma, não só os nomes do jogo.
@@ -517,6 +700,54 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     `exato "${exato.trim()}" | empate "${empate.trim()}" | única "${unica.trim()}"`,
   );
 
+  // Quem não está na Palpédia não entra na média de rank, e continua cruzando
+  // entre si (F6).
+  //
+  // As onze da colaboração com Terraria dividem o mesmo CombiRank 3100, então
+  // qualquer média com elas caía num ponto arbitrário da tabela e a
+  // calculadora devolvia receita que o jogo não tem. Elas NÃO saíram da tela:
+  // têm 57 combinações únicas entre si, que são receita de verdade, e cortá-las
+  // da lista teria trocado um defeito por outro maior.
+  //
+  // As duas metades são obrigatórias. Só a primeira aprovaria a versão que
+  // apaga as onze da calculadora inteira, que foi a primeira tentativa desta
+  // tarefa. Os nomes saem do catálogo e das combinações únicas, não escritos
+  // aqui, senão a próxima colaboração passa direto.
+  const catalogoDoDisco = JSON.parse(await readFile(join(raiz, 'src/data/catalogo.json'), 'utf-8'));
+  const foraDaPalpedia = catalogoDoDisco.pals.filter((p) => p.numero == null);
+  const chavesFora = new Set(foraDaPalpedia.map((p) => p.chave));
+  const unicaEntreElas = (catalogoDoDisco.cruzamentos_unicos || [])
+    .find((u) => u.length === 3 && chavesFora.has(u[0]) && chavesFora.has(u[1]) && u[0] !== u[1]);
+  const nomePt = (chave) => catalogoDoDisco.pals.find((p) => p.chave === chave)?.pt || chave;
+
+  // A lista suspensa precisa oferecer os três antes de qualquer clique. Sem
+  // isto o selectOption estoura por timeout e a suíte morre com um stack
+  // trace, em vez de dizer que a calculadora deixou de oferecer as entidades.
+  const oferecidos = await pagina.evaluate((chaves) => {
+    const sel = document.getElementById('pai-a');
+    if (!sel) return null;
+    const tem = new Set([...sel.options].map((o) => o.value));
+    return chaves.filter((c) => !tem.has(c));
+  }, [foraDaPalpedia[0]?.chave, unicaEntreElas?.[0], unicaEntreElas?.[1]].filter(Boolean));
+
+  if (foraDaPalpedia.length === 0 || !unicaEntreElas) {
+    falha('Palpédia: o catálogo não tem entidade sem número ou combinação única entre elas, então esta asserção não conferiu nada');
+  } else if (oferecidos === null || oferecidos.length) {
+    falha(
+      `as ${foraDaPalpedia.length} entidades fora da Palpédia sumiram da calculadora, e com elas as combinações únicas entre si`
+      + ` (não oferecidos: ${oferecidos === null ? 'a lista nem existe' : oferecidos.join(', ')})`,
+    );
+  } else {
+    const misturado = await cruzar(foraDaPalpedia[0].chave, 'Anubis');
+    const entreElas = await cruzar(unicaEntreElas[0], unicaEntreElas[1]);
+    conferir(
+      /Palp[ée]dia/i.test(misturado) && !/Anubis/.test(misturado)
+        && new RegExp(nomePt(unicaEntreElas[2])).test(entreElas) && /única|unica/i.test(entreElas),
+      `as ${foraDaPalpedia.length} entidades fora da Palpédia não entram na média de rank e mantêm as combinações únicas entre si`,
+      `misturado com Anubis: "${misturado.trim()}" | ${nomePt(unicaEntreElas[0])} com ${nomePt(unicaEntreElas[1])}: "${entreElas.trim()}"`,
+    );
+  }
+
   // Condensação: só o total para 4★, que é o número com fonte.
   const condensar = async (n) => {
     await pagina.fill('#copias', String(n));
@@ -719,6 +950,43 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
     ruins.map((i) => `${i.rota}: ${i.total} linhas, ${i.antes} visíveis, ${i.depois} após filtro sem resultado, contagem "${i.contagem}"`).join(' | '),
   );
 
+  // 9c. nenhuma coluna de índice fica presa num idioma (F12).
+  //
+  //     A coluna TIPO de /tecnologias publicava "Items" e "Structures" crus do
+  //     paldb no meio de nome, nível e custo em português, nos 588 registros.
+  //     A de categoria de /estruturas tinha o defeito espelhado: mostrava o
+  //     português e continuava em português com o site em inglês.
+  //
+  //     A asserção troca o idioma de verdade e compara o texto renderizado. Só
+  //     conferir se "Items" sumiu do HTML aprovaria a coluna traduzida na
+  //     marra, presa em português, que é o outro jeito de errar isto.
+  const colunaEmDoisIdiomas = async (rota) => {
+    await pagina.goto(`${base}${rota}`);
+    await pagina.waitForTimeout(250);
+    const ler = () => pagina.evaluate(() =>
+      [...document.querySelectorAll('#grade li .meta .par:last-child .val')]
+        .slice(0, 40).map((e) => e.textContent.trim()));
+    const pt = await ler();
+    await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
+    await pagina.waitForTimeout(300);
+    const en = await ler();
+    await pagina.locator('.seletor button', { hasText: 'PT' }).first().click();
+    await pagina.waitForTimeout(200);
+    return { pt, en };
+  };
+
+  const tecno = await colunaEmDoisIdiomas('/tecnologias/');
+  const estrut = await colunaEmDoisIdiomas('/estruturas/');
+  const semIngles = (l) => l.length > 0 && !l.some((v) => /^(Items|Structures)$/.test(v));
+  const alterna = (r) => r.pt.length > 0 && r.en.length === r.pt.length
+    && r.pt.some((v, i) => v !== r.en[i]);
+  conferir(
+    semIngles(tecno.pt) && alterna(tecno) && alterna(estrut),
+    'as colunas de tipo e de categoria saem em português e alternam para o inglês',
+    `tecnologias PT ${JSON.stringify([...new Set(tecno.pt)].slice(0, 3))} EN ${JSON.stringify([...new Set(tecno.en)].slice(0, 3))}`
+    + ` | estruturas PT ${JSON.stringify([...new Set(estrut.pt)].slice(0, 3))} EN ${JSON.stringify([...new Set(estrut.en)].slice(0, 3))}`,
+  );
+
   // 9b. em 1440px o catálogo e os índices usam a largura, e o guia não (F4).
   //
   //     O alvo do site é PC, decidido em 01.08.2026, e antes desta tarefa a
@@ -813,11 +1081,83 @@ const navegador = await chromium.launch({ executablePath: ondeEstaOChromium() })
   const ligado = await doNossoSave();
   conferir(desligado === 0 && ligado > 0, 'o overlay do progresso liga e desliga o nosso save', `${desligado} visíveis desligado, ${ligado} ligado`);
 
+  // O interruptor só existe onde ele muda alguma coisa (F8).
+  //
+  // Ele ficava nas 323 páginas trocando de rótulo sem revelar nada em 319
+  // delas. As duas metades são obrigatórias: sem a segunda, o botão em toda
+  // página continuaria passando, porque "onde tem efeito ele aparece" é
+  // verdade trivial quando ele aparece em tudo.
+  //
+  // O delta é medido do que o navegador desenhou, ligando o overlay de
+  // verdade, e não da existência da classe no HTML: /mapa e /calculadoras
+  // reagem por JavaScript e não têm classe nenhuma para contar.
+  const deltaDoOverlay = async (rota) => {
+    await pagina.goto(`${base}${rota}`);
+    await pagina.evaluate(() => localStorage.removeItem('palworld-wiki-progresso'));
+    await pagina.reload();
+    await pagina.waitForTimeout(250);
+    const controle = await pagina.locator('#alternar-progresso').count();
+    const medir = () => pagina.evaluate(() => {
+      const marcas = [...document.querySelectorAll('.so-com-progresso, .so-sem-registro, .so-vencido')]
+        .filter((el) => el.getBoundingClientRect().height > 0).length;
+      // Valor de campo entra na conta porque em /calculadoras o overlay não
+      // acrescenta elemento: ele preenche o estoque da guilda nos campos.
+      const campos = [...document.querySelectorAll('#campos-bolo input')]
+        .map((i) => i.value).join(',');
+      return `${marcas}|${campos}`;
+    });
+    const antes = await medir();
+    if (!controle) return { controle: 0, mudou: false };
+    await pagina.locator('#alternar-progresso').click();
+    await pagina.waitForTimeout(250);
+    const depois = await medir();
+    await pagina.evaluate(() => localStorage.removeItem('palworld-wiki-progresso'));
+    return { controle, mudou: antes !== depois };
+  };
+
+  const COM_EFEITO = ['/pal/anubis/', '/pals/', '/mapa/', '/calculadoras/'];
+  const SEM_EFEITO = ['/', '/breeding/', '/itens/', '/painel/'];
+  const semControle = [];
+  const semEfeito = [];
+  for (const rota of COM_EFEITO) {
+    const r = await deltaDoOverlay(rota);
+    if (!r.controle) semControle.push(rota);
+    else if (!r.mudou) semEfeito.push(rota);
+  }
+  const ofereceEmVao = [];
+  for (const rota of SEM_EFEITO) {
+    const r = await deltaDoOverlay(rota);
+    if (r.controle) ofereceEmVao.push(rota);
+  }
+  conferir(
+    semControle.length === 0 && semEfeito.length === 0 && ofereceEmVao.length === 0,
+    `o interruptor de progresso aparece nas ${COM_EFEITO.length} rotas que ele muda e em nenhuma das outras`,
+    [
+      semControle.length ? `sem o controle onde deveria: ${semControle.join(', ')}` : '',
+      semEfeito.length ? `com o controle e sem efeito: ${semEfeito.join(', ')}` : '',
+      ofereceEmVao.length ? `oferecido sem ter o que revelar: ${ofereceEmVao.join(', ')}` : '',
+    ].filter(Boolean).join(' | '),
+  );
+
   // A escolha atravessa páginas, como o idioma.
+  //
+  // O estado é estabelecido AQUI. Antes esta asserção herdava o overlay ligado
+  // pelo teste de cima e passava por tabela, que é a armadilha escrita no
+  // CLAUDE.md: só apareceu quando a asserção da F8 entrou no meio e limpou o
+  // localStorage, e aí ela reprovou de imediato.
+  await pagina.goto(`${base}/pal/anubis/`);
+  await pagina.waitForTimeout(200);
+  await pagina.locator('#alternar-progresso').click();
+  await pagina.waitForTimeout(150);
+  const ligouAntes = await pagina.evaluate(() => document.documentElement.hasAttribute('data-progresso'));
   await pagina.goto(`${base}/pal/mozzarina/`);
   await pagina.waitForTimeout(200);
   const persistiu = await pagina.evaluate(() => document.documentElement.hasAttribute('data-progresso'));
-  conferir(persistiu, 'a escolha do overlay persiste entre páginas');
+  conferir(
+    ligouAntes && persistiu,
+    'a escolha do overlay persiste entre páginas',
+    !ligouAntes ? 'o overlay nem chegou a ligar, então persistir não prova nada' : 'não persistiu',
+  );
 
   // Sem JavaScript o overlay não existe, e a wiki continua inteira.
   const semJs = await navegador.newContext({ javaScriptEnabled: false });

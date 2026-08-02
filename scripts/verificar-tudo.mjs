@@ -11,7 +11,7 @@
  */
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
-import { filhoteDoPar } from '../src/lib/calculos.js';
+import { filhoteDoPar, cruzaveis, sorteaveis, naPalpedia } from '../src/lib/calculos.js';
 import { COLECOES_IMPORTADAS, registrosDe, medirCampo, rotuloDaColecao } from './lib/importacao.mjs';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -34,9 +34,21 @@ const lerJson = async (rel) => {
   catch (e) { erro('dados', `${rel} não é JSON válido: ${e.message}`); return null; }
 };
 
+/** Texto cru de um arquivo do repositório. Devolve null quando não existe. */
+const ler = async (rel) => {
+  const p = join(raiz, rel);
+  if (!existsSync(p)) return null;
+  return readFile(p, 'utf-8');
+};
+
 const pals = await lerJson('src/data/pals.json');
 const mapa = await lerJson('src/data/mapa.json');
 const termos = await lerJson('src/data/termos.json');
+// Lido aqui em cima porque duas checagens distantes uma da outra dependem dele:
+// a de consistência factual, que compara o número escrito nas páginas, e a da
+// Palpédia lá embaixo. Duas leituras do mesmo arquivo é como se ganha duas
+// verdades.
+const versao = await lerJson('src/data/versao.json');
 
 if (pals) {
   const aptValidas = new Set(Object.keys(pals.aptidoes || {}));
@@ -841,7 +853,9 @@ const juntos = Object.entries(corpos);
 const REGRAS = [
   // "era 65" e "de 65 para 80" citam o valor antigo de propósito: não são divergência
   { nome: 'level cap', re: /level cap(?![^.]{0,30}\bera\b)[^.]{0,30}?\b(\d{2,3})\b/gi, esperado: '80' },
-  { nome: 'total de Pals', re: /(\d{3})\s*Pals no Paldeck|Paldeck[^.]{0,20}(\d{3})/gi, esperado: '287' },
+  // O esperado sai de versao.json, não de um literal: com o número escrito
+  // aqui dentro, o verificador virava a quarta cópia do mesmo 287.
+  { nome: 'total de Pals', re: /(\d{3})\s*Pals no Paldeck|Paldeck[^.]{0,20}(\d{3})/gi, esperado: String(versao?.pals_no_paldeck ?? '') },
   { nome: 'cópias para condensar', re: /(\d{2,3})\s*(?:c[óo]pias|Pals) para (?:condensar|rank m[áa]ximo)/gi, esperado: '48' },
 ];
 for (const regra of REGRAS) {
@@ -870,7 +884,10 @@ for (const regra of REGRAS) {
 const receitas = await lerJson('src/data/receitas.json');
 if (receitas) {
   const textoEconomia = corpos['economia.md'] || '';
-  const linhaReceita = textoEconomia.match(/Receita do Cake b[áa]sico:([^\n]+)/)?.[1] || '';
+  // "Bolo básico (Cake)" desde a F10, e "Cake básico" antes dela. As duas
+  // formas casam porque a checagem existe para achar a LINHA, não para policiar
+  // como ela é escrita, e ela continua reprovando quando a linha some.
+  const linhaReceita = textoEconomia.match(/Receita do (?:Bolo b[áa]sico \(Cake\)|Cake b[áa]sico):([^\n]+)/)?.[1] || '';
   if (!linhaReceita) {
     erro('receitas', 'não achei a linha da receita do Cake básico em economia.md, que é a fonte do que está em receitas.json');
   } else {
@@ -933,7 +950,7 @@ if (pals && catalogo) {
   const paraConta = {
     pals: catalogo.pals
       .filter((p) => typeof p.combi === 'number')
-      .map((p) => ({ chave: p.chave, en: p.en, pt: p.pt, combi: p.combi, ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}) })),
+      .map((p) => ({ chave: p.chave, en: p.en, pt: p.pt, numero: p.numero, combi: p.combi, ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}) })),
     cruzamentos_unicos: catalogo.cruzamentos_unicos || [],
   };
   let receitas = 0;
@@ -954,6 +971,316 @@ if (pals && catalogo) {
     }
   }
   if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
+}
+
+// ------- termo que o mecanismo não alterna não pode ficar só em inglês (F10)
+//
+// O guia misturava idioma: "Heavily Armored", "Skymarcher" e "Legend" na mesma
+// tabela que "Imortalidade" e "Babá". As causas são duas e só uma tem conserto
+// aqui.
+//
+// Termo que o plugin MARCA já alterna sozinho: escrito em inglês, o seletor o
+// põe em português na carga da página. O problema é o termo que o plugin nunca
+// marca, o que está na lista NAO_MARCAR porque a palavra é curta ou genérica
+// demais. Esse fica preso em inglês para sempre, em qualquer idioma escolhido.
+//
+// A varredura casa do termo MAIS LONGO para o mais curto, como o plugin, senão
+// "Cake" acusa dentro de "Vegetable Cake" e a checagem vira ruído.
+{
+  const lib = await ler('src/lib/termos.js');
+  const bloco = lib?.match(/NAO_MARCAR = new Set\(\[([\s\S]*?)\]\)/)?.[1];
+  if (!termos?.termos || !bloco) {
+    erro('idioma', 'não consegui ler termos.json ou a lista NAO_MARCAR de src/lib/termos.js');
+  } else {
+    const naoMarca = new Set([...bloco.matchAll(/'([^']+)'/g)].map((m) => m[1]));
+    // Nome próprio do jogo que fica em inglês de propósito, com o motivo. Sem
+    // esta lista a checagem cobraria tradução de coisa que não tem tradução, e
+    // a próxima pessoa a desligaria.
+    const DE_PROPOSITO = [
+      'Arena Legend',        // nome de rank da Arena, não a passiva Lendário
+      'Work Suitability Books', // nome do item, e o item não está no dicionário
+      'Lucky Pals',          // nome da categoria de drop, idem
+      'Ranch Master',        // passiva própria, glosada como Mestre Pecuarista
+    ];
+    const alvos = Object.values(termos.termos)
+      .filter((v) => v.pt && v.en && v.pt !== v.en && naoMarca.has(v.en))
+      .sort((a, b) => b.en.length - a.en.length);
+    const todosOsEn = Object.values(termos.termos).map((v) => v.en).filter(Boolean)
+      .sort((a, b) => b.length - a.length);
+
+    if (!alvos.length) {
+      erro('idioma', 'nenhum termo do dicionário é bloqueado pelo NAO_MARCAR. Ou a lista mudou, ou esta checagem virou decoração');
+    } else {
+      const escapa = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const soltos = [];
+      for (const [arq, corpo] of juntos) {
+        // glossario e fontes SÃO a tabela de tradução: PT ao lado de EN ali
+        // está certo, e é a mesma proteção da lista NAO_MEXER.
+        if (arq === 'glossario.md' || arq === 'fontes.md') continue;
+        // Tira do texto, na ordem do mais longo para o mais curto, tudo que já
+        // é nome composto conhecido ou glosa "PT (EN)": o que sobrar é inglês
+        // sozinho de verdade.
+        let restante = corpo;
+        for (const frase of [...DE_PROPOSITO, ...todosOsEn]) {
+          const v = Object.values(termos.termos).find((t) => t.en === frase);
+          if (v?.pt) {
+            // Até duas palavras entre o nome e o parêntese, para "Bolo básico
+            // (Cake)" e "Bolo base (Cake)" contarem como glosa. Sem isso a
+            // checagem cobrava tradução de texto que já está traduzido.
+            restante = restante.replaceAll(
+              new RegExp(`${escapa(v.pt)}(?:\\s+[\\p{L}\\p{N}]+){0,2}\\s*\\(${escapa(frase)}\\)`, 'gu'), ' ');
+          }
+          if (frase.includes(' ') || DE_PROPOSITO.includes(frase)) {
+            restante = restante.replaceAll(frase, ' ');
+          }
+        }
+        for (const v of alvos) {
+          const rx = new RegExp(`(?<![\\p{L}\\p{N}_])${escapa(v.en)}(?![\\p{L}\\p{N}_])`, 'gu');
+          const n = (restante.match(rx) || []).length;
+          if (n) soltos.push(`${arq}: "${v.en}" ${n}x, e o oficial é "${v.pt}"`);
+        }
+      }
+      if (soltos.length) {
+        erro('idioma', `termo que o mecanismo nunca alterna, escrito só em inglês no guia -> ${soltos.join(' | ')}`);
+      } else {
+        passou(`idioma: nenhum dos ${alvos.length} termos que o NAO_MARCAR bloqueia aparece só em inglês no corpo dos guias`);
+      }
+    }
+  }
+}
+
+// ------------- todo valor de campo exibido tem tradução no dicionário (F12)
+//
+// A coluna TIPO de /tecnologias saía com o valor cru do paldb: 371 "Items" e
+// 217 "Structures" no meio de nome, nível e custo em português. Traduzir na
+// importação gravaria texto que ninguém reconfere contra a fonte, então a
+// tradução mora no dicionário de interface e entra na exibição.
+//
+// O que impede o defeito de voltar não é a tradução, é esta checagem: uma
+// importação futura pode trazer valor novo, e sem alguém olhando ele iria ao
+// ar em inglês exatamente como estes dois foram.
+{
+  const interfaceJson = await lerJson('src/data/interface.json');
+  const tecnologias = await lerJson('src/data/tecnologias.json');
+  if (!interfaceJson || !tecnologias?.itens?.length) {
+    erro('tipos', 'não consegui ler interface.json ou tecnologias.json para conferir a tradução da coluna TIPO');
+  } else {
+    const valores = [...new Set(tecnologias.itens.map((x) => x.tipo).filter(Boolean))];
+    if (!valores.length) {
+      erro('tipos', 'nenhuma tecnologia tem campo "tipo". Ou a importação mudou de forma, ou esta checagem virou decoração');
+    } else {
+      const semTraducao = valores.filter((v) => {
+        const t = interfaceJson[`tipo_${v}`];
+        return !t || !t.pt || !t.en;
+      });
+      if (semTraducao.length) {
+        erro('tipos', `${semTraducao.length} valor(es) de tipo sem tradução no interface.json, e iriam ao ar em inglês: ${semTraducao.map((v) => `tipo_${v}`).join(', ')}`);
+      } else {
+        const contagem = valores
+          .map((v) => `${tecnologias.itens.filter((x) => x.tipo === v).length} ${v}`)
+          .join(', ');
+        passou(`tipos: os ${valores.length} valores da coluna TIPO têm tradução PT/EN (${contagem})`);
+      }
+    }
+  }
+}
+
+// ------- o interruptor de progresso só onde ele muda alguma coisa (F8)
+//
+// Ele nascia nas 323 páginas, trocava de rótulo, gravava no localStorage e não
+// revelava nada em 319 delas. Medido no dist antes da correção: 609 elementos
+// de overlay nas 299 fichas de Pal, 11 em /pals, 1 em /mapa, zero em todo o
+// resto. Botão que muda de estado e não muda nada ensina que ele não funciona.
+//
+// Agora cada página DECLARA `usaProgresso` no Base, e esta checagem cobra a
+// declaração contra o que a página realmente tem. Nos dois sentidos: página
+// com overlay e sem declaração perde o interruptor em silêncio, e declaração
+// sem overlay traz o botão morto de volta.
+{
+  const PAGINAS = 'src/pages';
+  const varrerAstro = async (pasta) => {
+    const achados = [];
+    for (const item of await readdir(join(raiz, pasta), { withFileTypes: true })) {
+      if (item.isDirectory()) achados.push(...(await varrerAstro(`${pasta}/${item.name}`)));
+      else if (item.name.endsWith('.astro')) achados.push(`${pasta}/${item.name}`);
+    }
+    return achados;
+  };
+  const arquivos = await varrerAstro(PAGINAS);
+  if (!arquivos.length) {
+    erro('progresso', 'não achei página nenhuma em src/pages. Esta checagem não conferiu nada');
+  } else {
+    const errados = [];
+    let declaradas = 0;
+    for (const arq of arquivos) {
+      const fonte = await ler(arq);
+      if (!fonte) continue;
+      // Overlay é uma das duas coisas: elemento com a classe, ou reação ao
+      // evento. /mapa e /calculadoras só têm a segunda, e contar classe
+      // sozinha os deixaria de fora.
+      const temOverlay = /so-com-progresso|so-sem-registro|so-vencido|progresso:mudou/.test(fonte);
+      const declara = /usaProgresso/.test(fonte);
+      if (declara) declaradas++;
+      if (temOverlay && !declara) errados.push(`${arq} tem overlay e não declara usaProgresso`);
+      if (declara && !temOverlay) errados.push(`${arq} declara usaProgresso e não tem overlay nenhum`);
+    }
+    if (errados.length) erro('progresso', errados.join(' | '));
+    else if (!declaradas) erro('progresso', 'nenhuma página declara usaProgresso, então o interruptor não aparece em lugar nenhum');
+    else passou(`progresso: ${declaradas} de ${arquivos.length} páginas declaram o interruptor, e são exatamente as que têm o que revelar`);
+  }
+}
+
+// ------------------ a home não pode prometer filtro que a página não tem (F7)
+//
+// A home anunciava "filtro por aptidão de trabalho, elemento e nível" e a
+// /pals nunca teve elemento nem nível: tem busca por texto, aptidão, fase e a
+// caixa de curadoria. Trocar a frase e sair resolveria hoje e voltaria a
+// divergir no mês que vem, que é como ela chegou aqui.
+//
+// A checagem lê os controles que a página REALMENTE tem, direto do .astro, e
+// cobra a promessa contra eles. Falta de insumo reprova: sem achar a string ou
+// sem achar controle nenhum, ela não conferiu nada.
+{
+  const interfaceJson = await lerJson('src/data/interface.json');
+  const promessa = interfaceJson?.home_bloco_pals;
+  const fonteDaPagina = await ler('src/pages/pals.astro');
+
+  // Cada filtro que a home pode prometer, e o id do controle que o sustenta.
+  // Acrescentar filtro na página é acrescentar linha aqui, de propósito: é o
+  // que faz a promessa e a página andarem juntas.
+  const FILTROS = [
+    { id: 'txt', pt: /busca por nome|filtro por nome/i, en: /search by name|filter by name/i },
+    { id: 'apt', pt: /aptid[ãa]o/i, en: /work suitabilit/i },
+    { id: 'fase', pt: /fase/i, en: /game stage|\bstage\b/i },
+    { id: 'curadoria', pt: /curadoria/i, en: /curated/i },
+  ];
+  // O que a página NÃO tem e a home já prometeu. Sem esta lista a checagem só
+  // saberia cobrar o que alguém lembrou de cadastrar acima.
+  const NAO_EXISTEM = [
+    { nome: 'elemento', pt: /elemento/i, en: /\belement\b/i },
+    { nome: 'nível', pt: /n[íi]vel/i, en: /\blevel\b/i },
+  ];
+
+  if (!promessa?.pt || !promessa?.en) {
+    erro('promessa', 'interface.json não tem home_bloco_pals nos dois idiomas, e é ela que a home publica sobre o banco de Pals');
+  } else if (!fonteDaPagina) {
+    erro('promessa', 'não consegui ler src/pages/pals.astro para saber que filtros a página tem');
+  } else {
+    const temControle = (id) => new RegExp(`id="${id}"`).test(fonteDaPagina);
+    const existentes = FILTROS.filter((f) => temControle(f.id));
+    if (!existentes.length) {
+      erro('promessa', 'não achei controle nenhum em pals.astro. Ou a página mudou de forma, ou esta checagem virou decoração');
+    }
+    const mentiras = [];
+    for (const idioma of ['pt', 'en']) {
+      for (const f of FILTROS) {
+        if (f[idioma].test(promessa[idioma]) && !temControle(f.id)) {
+          mentiras.push(`${idioma}: promete "${f.id}" e a página não tem o controle`);
+        }
+      }
+      for (const n of NAO_EXISTEM) {
+        if (n[idioma].test(promessa[idioma])) {
+          mentiras.push(`${idioma}: promete filtro por ${n.nome}, que /pals não tem`);
+        }
+      }
+    }
+    if (mentiras.length) {
+      erro('promessa', `a home promete o que /pals não entrega -> ${mentiras.join(' | ')}`);
+    } else {
+      const anunciados = FILTROS.filter((f) => f.pt.test(promessa.pt) || f.en.test(promessa.en));
+      passou(`promessa da home: os ${anunciados.length} filtros anunciados (${anunciados.map((f) => f.id).join(', ')}) existem entre os ${existentes.length} controles de /pals, nos dois idiomas`);
+    }
+  }
+}
+
+// ------------------------- as três contagens de Pal têm que fechar entre si (F6)
+//
+// O site publicava 287 na home, 299 em /pals e 287 no painel, sem nada ligando
+// um número ao outro. A diferença não era estética: as onze entidades da
+// colaboração com Terraria não têm número de Palpédia, todas carregam o MESMO
+// CombiRank 3100, e mesmo assim entravam na calculadora como pai válido,
+// devolvendo receita que o jogo não tem.
+//
+// A checagem falha por falta de insumo: sem `pals_no_paldeck` em versao.json
+// ela não tem contra o que comparar, e aprovar sem conferir é o modo de errar
+// mais caro deste repositório.
+if (!versao || typeof versao.pals_no_paldeck !== 'number') {
+  erro('palpedia', 'versao.json não declara pals_no_paldeck. Sem esse número não há com o que comparar o catálogo, e a checagem não pode se aprovar sozinha');
+} else if (catalogo) {
+  const oficial = versao.pals_no_paldeck;
+  const numerados = catalogo.pals.filter(naPalpedia);
+  const semNumero = catalogo.pals.filter((p) => !naPalpedia(p));
+
+  // O recorte que sustenta o número tem que existir. Fonte citada e não
+  // gravada deixa de existir, e foi a F3 inteira que ensinou isso.
+  if (!versao.pals_no_paldeck_fonte || !existsSync(join(raiz, versao.pals_no_paldeck_fonte))) {
+    erro('palpedia', `pals_no_paldeck diz ${oficial} e aponta para "${versao.pals_no_paldeck_fonte || 'lugar nenhum'}", que não está no repositório`);
+  }
+
+  // O save de cada pessoa lê o total na tela da Palpédia do jogo. Se ele
+  // discordar do número da wiki, um dos dois envelheceu num patch.
+  for (const arq of await readdir(join(raiz, 'src/data/saves'))) {
+    const save = await lerJson(`src/data/saves/${arq}`);
+    const total = save?.paldeck?.total;
+    if (typeof total === 'number' && total !== oficial) {
+      erro('palpedia', `${arq} diz ${total} Pals na Palpédia e versao.json diz ${oficial}. Um dos dois envelheceu`);
+    }
+  }
+
+  // Nenhuma entidade fora da Palpédia pode chegar à calculadora, nem como pai
+  // nem como filhote. Provado pela MESMA função que a página usa, e não por
+  // uma cópia da regra que pode divergir dela.
+  const paraConta = {
+    pals: catalogo.pals.map((p) => ({
+      chave: p.chave, en: p.en, pt: p.pt, numero: p.numero, combi: p.combi,
+      ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}),
+    })),
+    cruzamentos_unicos: catalogo.cruzamentos_unicos || [],
+  };
+  const vazando = [
+    ...cruzaveis(paraConta).filter((p) => !naPalpedia(p)),
+    ...sorteaveis(paraConta).filter((p) => !naPalpedia(p)),
+  ];
+  if (vazando.length) {
+    erro('palpedia', `${vazando.length} entidade(s) sem número de Palpédia ainda entram na varredura por média de rank, por exemplo ${vazando[0].en}`);
+  }
+
+  // Duas metades, e a segunda é a que impede a correção de virar mutilação.
+  //
+  // Primeira: par que mistura uma delas com Pal de verdade não devolve
+  // filhote, e devolve o MOTIVO. Segunda: as 57 combinações únicas entre elas
+  // continuam respondendo, porque são receita do jogo. Cortar as onze da tela
+  // teria matado as 57 junto e o portão não teria dito nada.
+  const cobaia = semNumero[0];
+  const parceiro = numerados[0];
+  if (cobaia && parceiro) {
+    const r = filhoteDoPar(paraConta, cobaia.chave, parceiro.chave);
+    if (r?.filho || !r?.foraDaPalpedia) {
+      erro('palpedia', `${cobaia.en} com ${parceiro.en} devolve ${r?.filho?.en || 'nada, e sem dizer por quê'}, e ${cobaia.en} não está na Palpédia`);
+    }
+  }
+  const chavesSemNumero = new Set(semNumero.map((p) => p.chave));
+  const unicasEntreElas = (catalogo.cruzamentos_unicos || [])
+    .filter((u) => u.length === 3 && chavesSemNumero.has(u[0]) && chavesSemNumero.has(u[1]));
+  const unicasQuebradas = unicasEntreElas
+    .filter((u) => filhoteDoPar(paraConta, u[0], u[1])?.filho?.chave !== u[2]);
+  if (unicasEntreElas.length === 0) {
+    erro('palpedia', 'nenhuma combinação única entre as entidades fora da Palpédia. Ou o catálogo perdeu linha, ou esta checagem deixou de conferir alguma coisa');
+  } else if (unicasQuebradas.length) {
+    erro('palpedia', `${unicasQuebradas.length} de ${unicasEntreElas.length} combinações únicas entre as entidades fora da Palpédia pararam de responder, por exemplo ${unicasQuebradas[0].join(' + ')}`);
+  }
+
+  // Sobra do catálogo contra o número oficial. Hoje é 1, e enquanto ela
+  // existir tem que estar REGISTRADA em fontes.md, não arredondada em
+  // silêncio. É a mesma regra que a F3 aplicou às URLs sem recorte.
+  const sobra = numerados.length - oficial;
+  const registrada = /Palp[ée]dia[^|]*\|[^|]*\b288\b/.test(corpos['fontes.md'] || '')
+    || /\b288\b[^|]*Palp[ée]dia/.test(corpos['fontes.md'] || '');
+  if (sobra !== 0 && !registrada) {
+    erro('palpedia', `o catálogo traz ${numerados.length} entidades com número de Palpédia e o jogo declara ${oficial}, sobra ${sobra}, e a divergência não está registrada em fontes.md`);
+  } else {
+    passou(`Palpédia: ${catalogo.pals.length} no catálogo = ${numerados.length} numerados + ${semNumero.length} fora da Palpédia, contra ${oficial} do jogo${sobra ? ` (sobra ${sobra}, registrada em fontes.md)` : ''}. Nenhum dos ${semNumero.length} entra na média de rank, e as ${unicasEntreElas.length} combinações únicas entre eles continuam respondendo`);
+  }
 }
 
 // ------------------------------ poder de captura x referência congelada (E5)

@@ -4,7 +4,7 @@ descricao: "Herança de passivas, bolos, mutação e a cadeia de produção de P
 titulo_en: "Breeding and mutation"
 descricao_en: "Passive inheritance, cakes, mutation and the Pal production chain."
 ordem: 6
-atualizado: 2026-07-30
+atualizado: 2026-08-02
 ---
 
 :::cuidado
@@ -40,11 +40,20 @@ atualizado: 2026-07-30
 | **Skymarcher** | +2 pulos extras montado. | [Mobilidade] |
 | **Babá (Babysitter)** | +30% produção de ovo e +30% velocidade de incubação. | [Breeding] |
 
+:::nota
+**Três destas ficam em inglês porque não temos o nome oficial em português.** Heavily Armored,
+Idiosyncratic e Skymarcher não estão no dicionário do site, e o dicionário só recebe nome extraído
+das strings do jogo. Traduzir de cabeça aqui criaria um nome que não existe na sua tela, que é o
+defeito que este site foi feito para não ter. Quando a extração alcançar essas três, elas passam a
+alternar sozinhas, sem ninguém mexer nesta tabela.
+
+:::
+
 ## Os bolos do 1.0
 
-| Cake | Efeito | Quando usar |
+| Bolo (Cake) | Efeito | Quando usar |
 |---|---|---|
-| Cake normal | baseline, 1 ovo | nunca, se você tem os outros |
+| Bolo normal (Cake) | baseline, 1 ovo | nunca, se você tem os outros |
 | **Bolo Especial (Special Cake)** | aumenta herança de múltiplas passivas | linha de consolidação de passivas |
 | **Bolo de Verduras (Vegetable Cake)** | 2 ovos por ciclo | volume bruto de rolls |
 | **Bolo de Cogumelos (Mushroom Cake)** | chance de IVs/stats altos | refino final de IV |
@@ -62,7 +71,7 @@ atualizado: 2026-07-30
 | Passiva | Efeito |
 |---|---|
 | **Artisan** | +50% Work Speed. A melhor, disparado. |
-| Serious | +20% Work Speed |
+| Dedicado (Serious) | +20% Work Speed |
 | Ranch Master | +2 Aptidão para trabalho (Work Suitability) |
 | Jovem Pecuarista (Farmhand) | +1 Aptidão para trabalho |
 | Da sorte (Lucky) | +15% atk/def, +20% work speed. Serve nos dois lados. |
@@ -78,7 +87,7 @@ Vários guias ainda listam o pool antigo (Brutamontes, Ferocious, Burly Body). O
 | 5 | God of Destruction | Attack +40%, Defense +20%, **HP máximo -50%** |
 | 5 | Sanctified Meat Shield | Defense +50%, Attack -30% |
 | 4 | **Deus Inclemente (Demon God)** | Attack +30%, Defense +5%. Melhor passiva flat de ataque. |
-| 4 | **Legend** | Attack +20%, Defense +20%, Speed +20%. Zero downside. Só vem de Alpha lendário. |
+| 4 | **Lendário (Legend)** | Attack +20%, Defense +20%, Speed +20%. Zero downside. Só vem de Alpha lendário. |
 | 4 | **Corpo de Diamante (Diamond Body)** | Defense +30%, imune a flinch e knockback. Anti-stunlock, chave no PvP. |
 | 4 | Vampiric | Absorve dano para curar |
 | 4 | Siren of the Void / Eternal Flame / Invader / Lunker | +30% em dois elementos específicos |
@@ -103,7 +112,7 @@ Vários guias ainda listam o pool antigo (Brutamontes, Ferocious, Burly Body). O
 :::
 
 :::nota
-**Montaria:** Swift + Bom corredor (Runner) + Nimble + Lendário, teto de +80% de velocidade. No 1.0 existe também Dimensional Leap (+50% move speed com penalidade de fome).
+**Montaria:** Vertiginoso (Swift) + Bom corredor (Runner) + Ligeiro (Nimble) + Lendário, teto de +80% de velocidade. No 1.0 existe também Dimensional Leap (+50% move speed com penalidade de fome).
 
 Stacking é **aditivo** para o mesmo stat: Demon God (+30%) com Imortalidade (+15%) dá +45% de attack.
 

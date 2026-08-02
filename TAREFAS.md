@@ -696,6 +696,555 @@ remede e atualiza o número em vez de o teto virar decoração.
 
 Tarefa inteira em território de código e visual, o que é fora do meu, feita porque a emenda pediu.
 
+---
+
+**As oito abaixo saíram da auditoria do site de 01.08.2026, e todas estão no ar agora.** Elas são
+escritas antes de qualquer uma ser executada, e de propósito: é a terceira vez que esta lista some
+por existir só numa conversa. Tarefa que não está em arquivo não existe.
+
+**Ordem de execução: F5, F6, F7, F8, F12, F9, F10, F11.** Não é a ordem do número. As quatro
+primeiras são o que um visitante encontra em trinta segundos, e a F12 é uma linha de dado com efeito
+em 588 registros. As três últimas custam mais e aparecem menos.
+
+### [x] F5 — O botão do assistente está morto nas 323 páginas
+
+**Requisito:** R3.4
+**Território:** código e visual
+
+`ENDERECO_ASSISTENTE` está vazio em `src/components/Chat.astro`, e o `Base.astro` põe o `<Chat />`
+em toda página gerada. O botão abre, aceita a pergunta e responde com um bilhete de manutenção:
+
+> O assistente ainda não foi ligado. Falta publicar o worker e colocar o endereço dele em
+> src/components/Chat.astro. O passo a passo está em worker/README.md.
+
+Isso é recado de quem programa, exibido para quem lê. A C1 é que publica o worker e não tem data.
+Enquanto ela não acontecer, o widget não pode continuar no ar oferecendo o que não entrega.
+
+**Não é para consertar a mensagem, é para esconder o botão.** Explicar melhor a falta continua sendo
+um convite que termina em desculpa. Quando a C1 preencher a URL, o widget volta sozinho, sem esta
+tarefa precisar ser desfeita.
+
+**Aceite:**
+
+- Com `ENDERECO_ASSISTENTE` vazio, nenhuma página gerada oferece o assistente:
+
+  ```bash
+  npm run build
+  test "$(grep -rl 'id="abrir-chat"' dist/ | wc -l)" -eq 0 \
+    && echo "ok, nenhuma pagina oferece" || { echo "FALHOU"; exit 1; }
+  ```
+
+- Com uma URL preenchida, ele volta em **todas** as páginas, e o número sai da contagem de arquivos,
+  não escrito à mão:
+
+  ```bash
+  # com ENDERECO_ASSISTENTE preenchido
+  npm run build
+  test "$(grep -rl 'id="abrir-chat"' dist/ | wc -l)" -eq "$(find dist -name '*.html' | wc -l)" \
+    && echo "ok, volta em todas" || { echo "FALHOU"; exit 1; }
+  ```
+
+- Asserção nova em `scripts/testar-navegador.mjs`: com o endereço vazio, o botão não existe no DOM.
+  Afirmar sobre o botão escondido não basta, porque `display:none` já enganou o teste do painel uma
+  vez e está escrito nas armadilhas do `CLAUDE.md`.
+- Provado por sabotagem: renderizar o widget sem a guarda e ver o portão acusar.
+- `npm run portao` passando.
+
+**Feita. Zero de 323 páginas oferecem o assistente, e 323 de 323 voltam a oferecer quando o endereço
+existe**, medido com a URL preenchida e desfeita em seguida. O ramo "sem endereço" saiu de dentro do
+script junto: sem endereço o script não é gerado, então guardar a desculpa ali seria manter o texto
+vivo sem nunca exibi-lo.
+
+**A sabotagem apareceu sozinha, e foi a melhor prova possível.** A asserção nova rodou contra o
+`dist/` anterior à correção, que é literalmente o estado sabotado, e acusou "323 de 323 páginas com
+o botão, botão no DOM: true".
+
+**Encostou em `scripts/`, que é território de conteúdo, e por um motivo que vale registrar.** A
+suíte inteira não rodava neste ambiente: o `/mapa` pede o Leaflet ao unpkg, a saída para a internet é
+bloqueada aqui, e a asserção do zoom morria por timeout de 30s **derrubando o processo antes das
+outras cinquenta**. Um host bloqueado apagava o portão inteiro, e quem rodasse via só o timeout. O
+desvio serve a cópia local do mesmo pino que o `package.json` já declara, e falha dizendo que faltou
+insumo se ela não existir. As sete asserções do mapa passaram a rodar de verdade aqui, em vez de
+serem impossíveis: são 53 ok contra 45 antes.
+
+### [x] F6 — Três contagens de Pal no ar, e nenhuma explica a outra
+
+**Requisito:** R1.6, mais R5.1 pelo painel
+**Território:** compartilhado (o número é dado, a exibição é código)
+
+Quem abre o site lê três números diferentes para a mesma coisa:
+
+| Onde | Número | De onde sai |
+|---|---|---|
+| Home, bloco de estatísticas | 287 | escrito à mão em `src/pages/index.astro` |
+| `/pals`, subtítulo | 299 | `catalogo.pals.length` |
+| `/painel`, medidor de Palpédia | 132 de 287 | `paldeck.total` de `src/data/saves/joao.json` |
+
+**A maior parte da diferença já tem nome.** Onze das entidades do catálogo não têm número de
+Palpédia: Blue Slime, Cave Bat, Demon Eye, Enchanted Sword, Eye of Cthulhu, Green Slime, Illuminant
+Bat, Illuminant Slime, Purple Slime, Rainbow Slime e Red Slime. São as da colaboração com Terraria,
+que o jogo não registra na Palpédia. E elas continuam entrando na calculadora de cruzamento como pai
+válido, o que produz receita que não existe no jogo.
+
+**Sobra uma unidade, e ela é o motivo de a tarefa não ser só de texto.** Tirando as onze, restam
+288 com número, não 287. Um a mais que o total que o próprio save do jogo declara. Ou o catálogo tem
+uma entrada que a Palpédia não conta, ou o 287 é que está velho. Arredondar para 287 e seguir seria
+repetir o que a F1 já custou: escolher em silêncio.
+
+**Comece pelo dado, não pela home.** Trocar o 299 por 287 na cara do site esconde a entidade que
+ainda gera cruzamento errado.
+
+**Aceite:**
+
+- Um comando imprime as três contagens e a conta que liga uma na outra, sem número escrito à mão:
+
+  ```bash
+  node -e "
+  const c = require('./src/data/catalogo.json');
+  const com = c.pals.filter((p) => p.numero != null);
+  const sem = c.pals.filter((p) => p.numero == null);
+  const save = require('./src/data/saves/joao.json');
+  console.log('catalogo:', c.pals.length, '| com numero:', com.length, '| sem numero:', sem.length);
+  console.log('total da Palpedia segundo o save:', save.paldeck.total);
+  if (com.length !== save.paldeck.total) {
+    throw new Error('sobra ' + (com.length - save.paldeck.total) + ' sem explicacao');
+  }
+  "
+  ```
+
+- `verificar-tudo.mjs` reprova quando um Pal sem número de Palpédia aparece como pai possível na
+  calculadora de cruzamento, e imprime quantos foram conferidos.
+- `npm run testar` ganha um caso: nenhuma das onze entidades aparece como pai nem como resultado na
+  calculadora.
+- A unidade que sobra fica **resolvida ou registrada**. Se for divergência de fonte, entra em
+  `fontes.md` com a fonte que decidiu, como manda a convenção.
+- Os três lugares passam a dizer o mesmo número, e ele sai do dado.
+- As duas checagens provadas por sabotagem.
+- `npm run portao` passando.
+
+**Feita, e a primeira versão da correção estava errada de um jeito que só apareceu ao olhar o dado.**
+
+O número saiu de três lugares para um: `versao.json` passa a declarar `pals_no_paldeck: 287` com o
+recorte que o sustenta, a home lê dali, o verificador compara o texto das páginas contra ele em vez
+de contra um literal, e o save de cada pessoa é conferido contra o mesmo número. Antes o 287 estava
+escrito à mão na home, de novo dentro do verificador e de novo no save: três cópias divergem no
+primeiro patch. `/pals` deixou de dizer só "299 Pals" e passa a mostrar a conta: **299 = 288 da
+Palpédia + 11 da colaboração com Terraria, que o jogo não numera.**
+
+**Cortar as onze da calculadora teria trocado um defeito por um maior.** A primeira tentativa tirou
+as onze das três listas suspensas, e o portão passou. Só que elas têm **57 combinações únicas entre
+si**, importadas do paldb, que são receita de verdade: Green Slime com Red Slime dá Rainbow Slime, e
+por aí. Tirá-las da tela apagava as 57 em silêncio. O defeito real é mais estreito: as onze dividem
+o **mesmo CombiRank 3100**, então qualquer média com elas cai num ponto arbitrário da tabela.
+`Blue Slime com Lamball devolvia Chikipi`.
+
+A correção final tira as onze **só da média de rank**, mantém as combinações únicas, e a calculadora
+passa a dizer POR QUE o par não gera nada em vez de responder "nenhum par conhecido", que parecia
+defeito dela.
+
+**Cinco sabotagens, todas rodadas.** Apagar o registro do `fontes.md` acusou a sobra de 1 não
+registrada. Tirar `pals_no_paldeck` do `versao.json` acusou a checagem sem com o que comparar.
+Devolver as onze à varredura acusou "11 entidades ainda entram na média de rank". Tirar a guarda
+acusou "Blue Slime com Lamball devolve Chikipi". E cortar as onze da tela, que é a primeira
+tentativa, acusou "as 11 sumiram da calculadora, e com elas as combinações únicas entre si".
+
+**A sobra de uma unidade ficou registrada, não resolvida.** São 288 numerados contra os 287 do
+changelog oficial, numeração de 1 a 204 sem buraco mais 84 variantes com sufixo B. Qual entrada o
+jogo não conta não sai daqui: o paldb não abre desta máquina, então não há recorte novo para gravar.
+Está no `fontes.md`, na tabela do que continua em disputa, e o verificador **reprova se alguém
+apagar o registro sem resolver a sobra**.
+
+### [x] F7 — A home promete filtro que `/pals` não tem
+
+**Requisito:** R3.3, com R5.4 dizendo para que o filtro serve
+**Território:** conteúdo e dados (a string está em `src/data/interface.json`)
+
+A chave `home_bloco_pals` diz "Filtro por aptidão de trabalho, elemento e nível. Nomes em
+português.". O `/pals` tem busca por texto, um `<select>` de aptidão, um `<select>` de fase e uma
+caixa de "só curadoria". **Elemento e nível não existem.** A versão EN promete o mesmo.
+
+**Corrigir o texto, não implementar os filtros.** A queixa é a home mentir. Filtro por elemento pode
+virar tarefa um dia, e nesse dia o texto volta a citá-lo.
+
+**Aceite:**
+
+- `verificar-tudo.mjs` ganha uma checagem que compara o que a home promete com os controles que a
+  `/pals` tem, e reprova quando a home cita um que não existe. Sem essa checagem a tarefa é uma
+  edição de string que volta a divergir no próximo mês.
+- A checagem vale para as duas versões da string, PT e EN. Corrigir só o português deixaria metade
+  do defeito no ar, que é o que R2.4 existe para impedir.
+- Provada por sabotagem: devolver "elemento" à string e ver o portão acusar.
+- `npm run portao` passando.
+
+**Feita.** A home passa a dizer "filtro por aptidão de trabalho e fase do jogo, e busca por nome",
+que é o que a página tem. Elemento e nível saíram das duas versões, PT e EN.
+
+**O texto novo não é a entrega, a checagem é.** Trocar a frase resolveria hoje e voltaria a divergir
+no mês que vem, que é exatamente como ela chegou aqui. O verificador passa a ler os controles direto
+do `pals.astro` e a cobrar a promessa contra eles, e reprova nos dois sentidos: quando a home promete
+o que não existe, e quando alguém tira da página um controle que a home anuncia.
+
+**Duas sabotagens, as duas rodadas.** Devolver "elemento" só na versão em português acusou
+`pt: promete filtro por elemento, que /pals não tem`, o que também prova que a checagem não confere
+um idioma só. Renomear o `<select id="fase">` acusou a promessa nos dois idiomas de uma vez.
+
+### [x] F8 — "Nosso progresso" troca de rótulo e não mostra nada
+
+**Requisito:** R5.1
+**Território:** código e visual
+
+O `SeletorProgresso` está na lateral das 323 páginas. Clicar troca o rótulo de "Mostrar" para
+"Esconder", grava a escolha no `localStorage` e liga `data-progresso` no `<html>`. Do ponto de vista
+de quem clica, não acontece nada.
+
+O que ele revela existe em quatro rotas (`/pals`, `/pal/*`, `/mapa` e `/calculadoras`), e em `/pals`
+são uns poucos cartões entre 299, quase sempre fora da tela. Nas outras trezentas e tantas páginas
+não há o que revelar.
+
+**Medir antes de decidir.** Sem saber quantos elementos cada rota ganha ao ligar, não dá para dizer
+se o defeito é o controle aparecer onde não serve, se é o efeito ser invisível onde serve, ou se são
+os dois. Palpite aqui produz a correção errada.
+
+**Aceite:**
+
+- Um comando imprime, por rota do `dist/`, quantos elementos de overlay (`.so-com-progresso`,
+  `.so-sem-registro`, `.so-vencido`) existem. Número dito, não estimado.
+- Decidido pelo número, uma das duas: o controle deixa de aparecer onde o número é zero, ou o efeito
+  passa a ser perceptível sem rolagem onde não é. A escolha fica escrita na tarefa com o porquê.
+- Asserção nova em `scripts/testar-navegador.mjs`, e ela precisa das duas metades: em página que
+  oferece o controle, ligar aumenta a contagem de elementos **visíveis** de zero para mais que zero;
+  e nenhuma página oferece o controle com esse delta em zero. Só a primeira metade continuaria
+  passando com o botão em toda página.
+- A asserção estabelece o estado que precisa antes de afirmar, e não herda o `localStorage` do teste
+  anterior. Já custou uma reversão neste repositório, está nas armadilhas do `CLAUDE.md`.
+- Provada por sabotagem.
+- `npm run portao` passando.
+
+**Feita, e o número mudou a correção.** Medido no `dist/` antes de mexer em nada:
+
+| Rota | Elementos de overlay | Páginas |
+|---|---|---|
+| `/pal/<ficha>` | 609 | 299 |
+| `/pals` | 11 | 1 |
+| `/mapa` | 1 | 1 |
+| todo o resto | **0** | 22 |
+
+O interruptor estava nas **323**. Escolhida a primeira das duas saídas: ele deixa de aparecer onde
+não muda nada. A outra, tornar o efeito visível em toda página, exigiria inventar overlay para guia
+de texto, que é justamente o que a decisão 3.0 do PRD proíbe.
+
+**A contagem por classe não bastava, e quase produziu a correção errada.** `/calculadoras` e `/mapa`
+reagem ao evento `progresso:mudou` por JavaScript e não têm classe nenhuma no HTML: pela contagem
+crua os dois entrariam na lista de "zero" e perderiam o interruptor. São **quatro** rotas com efeito,
+não três, e por isso a asserção mede o delta do que o navegador desenhou, incluindo o valor dos
+campos do bolo, e não a presença da classe.
+
+**A declaração é da página, não de uma lista de rotas.** Cada página passa `usaProgresso` no `Base`,
+pelo mesmo motivo da F4: lista central envelhece calada. O verificador cobra os dois sentidos, página
+com overlay sem declarar e declaração sem overlay.
+
+**Três sabotagens, todas rodadas.** Devolver o `<SeletorProgresso />` a todas as páginas acusou
+"oferecido sem ter o que revelar: /, /breeding/, /itens/, /painel/". Tirar a declaração do `/mapa`
+acusou "tem overlay e não declara". Declarar na home acusou "declara e não tem overlay nenhum".
+
+**Dois achados de tabela, corrigidos junto.** A asserção "a escolha do overlay persiste entre
+páginas" **passava por herança**: ela lia um overlay que o teste anterior tinha deixado ligado. Só
+apareceu porque a asserção nova entrou no meio e limpou o `localStorage`, e aí ela reprovou na hora.
+Agora ela liga o overlay que vai conferir. É a armadilha que o `CLAUDE.md` já descreve, encontrada
+mais uma vez. E as 11 fichas sem número de Palpédia publicavam `número null na Palpédia` na meta
+descrição, ponta solta da F6 que só apareceu ao abrir o `[pal].astro` por outro motivo. A descrição
+de `/pals` também prometia filtro por nível, o mesmo defeito da F7 em outro lugar.
+
+### [x] F9 — Termo glosado à mão imprime duas vezes
+
+**Requisito:** R2.2
+**Território:** compartilhado (o gatilho está no conteúdo, o defeito é do plugin)
+
+`breeding.md` e `resumo-1-0.md` escrevem a glosa à mão, no formato "PT (EN)". O plugin bilíngue
+marca os dois lados, o português e o inglês de dentro do parêntese, porque os dois são termo
+conhecido. Cada `<span>` passa a exibir o idioma escolhido, e o par vira repetição:
+
+| No markdown | Na tela em PT | Na tela em EN |
+|---|---|---|
+| `Imortalidade (Immortality)` | Imortalidade (Imortalidade) | Immortality (Immortality) |
+| `Babá (Babysitter)` | Babá (Babá) | Babysitter (Babysitter) |
+| `Brutamontes (Musclehead)` | Brutamontes (Brutamontes) | Musclehead (Musclehead) |
+
+**A glosa à mão é redundante desde que o mecanismo existe**, e é exatamente o que ele faz sozinho:
+mostrar o nome no idioma escolhido. Escrever os dois duplica a mesma informação e quebra no primeiro
+clique do seletor.
+
+**Cuidado com o alcance.** `glossario.md` e `fontes.md` **são** a tabela de tradução, e ali a coluna
+PT ao lado da coluna EN está certa. Eles estão na lista `NAO_MEXER` de `padronizar-conteudo.mjs` por
+esse motivo, e qualquer varredura desta tarefa tem que respeitar a mesma lista.
+
+**Aceite:**
+
+- Comando sobre o `dist/`: nenhum par de `<span data-termo>` adjacente separado por " (" tem o mesmo
+  `data-pt`. Zero ocorrências, fora de `glossario` e `fontes`.
+- O mesmo comando conferido também pelo `data-en`, senão a versão em inglês fica com o defeito que a
+  em português perdeu.
+- `npm run testar` ganha um caso em `/breeding`, com a página nos dois idiomas: nenhuma palavra
+  aparece repetida entre parênteses logo depois de si mesma.
+- O número de ocorrências corrigidas, dito.
+- Provado por sabotagem: devolver uma glosa e ver o portão acusar.
+- `npm run portao` passando.
+
+**Feita, e o número é maior do que a queixa dizia: 134 glosas em 12 páginas**, não três. As três
+citadas eram só as que alguém tinha visto.
+
+**Apagar a glosa do texto era a saída óbvia e estava errada.** Ela resolveria a repetição e tiraria o
+nome em inglês de dentro de **título e de tabela**, onde o plugin não marca nada por regra: ali o
+leitor não teria como recuperá-lo, porque não há span para o seletor trocar. São 152 ocorrências no
+markdown contra 134 marcadas no HTML, e a diferença é exatamente esse pedaço.
+
+A correção é de uma linha de lógica no plugin: o parêntese passa a carregar o par **trocado**. A
+glosa vira o que quem escreveu quis dizer, o nome no outro idioma, e funciona nos dois sentidos:
+`Imortalidade (Immortality)` em português, `Immortality (Imortalidade)` em inglês. Quem escreve o
+guia continua sem marcar nada, que é R2.2.
+
+**A asserção tem duas metades e as duas são necessárias.** O HTML de todas as páginas, conferindo
+`data-pt` e `data-en` (consertar um idioma e deixar o outro é metade do defeito), mais a leitura do
+que está **na tela** de `/breeding` nos dois idiomas, porque quem troca o texto é o seletor no
+navegador e o HTML sozinho não prova isso. A contagem de glosas entra na condição: com zero glosas no
+site, "nenhuma repetida" seria verdade trivial.
+
+**Sabotagem rodada:** desfazer a troca acusou as 134 de uma vez. E, como manda o `CLAUDE.md`,
+`.astro/` e `node_modules/.astro/` foram apagados antes de cada medição, senão o HTML velho sai do
+cache e a mudança de plugin parece não ter efeito.
+
+### [x] F10 — Idioma misturado dentro do guia
+
+**Requisito:** R2.2, com R2.7 dizendo onde é o limite
+**Território:** conteúdo e dados
+
+Na tabela de passivas de `/breeding`, "Heavily Armored", "Skymarcher" e "Legend" aparecem em inglês
+na mesma coluna que "Imortalidade", "Babá" e "Brutamontes" em português. São **duas causas
+diferentes** e misturá-las produz meia correção:
+
+1. **`Legend` está no dicionário** (`legend`, PT "Lendário") e foi escrito em inglês no markdown.
+   Ele nasce em inglês na página e só vira "Lendário" quando alguém troca o idioma. A mesma tabela
+   escreve "Lendário (Legend)" trinta linhas abaixo.
+2. **`Heavily Armored` e `Skymarcher` não estão no dicionário.** Não alternam em idioma nenhum, e
+   nunca vão alternar até entrarem no `termos.json`. É o que `npm run termos:auditar` existe para
+   listar.
+
+**R2.7 não é desculpa.** Ele diz que o corpo do guia não é traduzido, e é justamente por isso que o
+corpo tem que ser escrito num idioma só: quem dá o outro é o mecanismo. Guia meio a meio não é
+"corpo em português", é corpo em dois idiomas ao mesmo tempo.
+
+**Aceite:**
+
+- `verificar-tudo.mjs` reprova quando o corpo de um guia escreve a forma EN de um termo que tem PT
+  no `termos.json`, com `glossario.md` e `fontes.md` de fora pelo mesmo motivo da F9.
+- Os termos que não estão no dicionário entram nele por `npm run termos:atualizar`, ou fica escrito
+  na tarefa por que não entram. "Não achei" não fecha: a origem por termo é exigida por R2.1.
+- `npm run termos:auditar` deixa de listar os três.
+- O número de ocorrências trocadas, dito por guia.
+- Provado por sabotagem.
+- `npm run portao` passando.
+
+**Feita, e a medição desfez metade da queixa.** Termo que o plugin MARCA já alternava: o seletor
+aplica o idioma na carga da página, então "Immortality" escrito em inglês no markdown vira
+"Imortalidade" antes de alguém clicar em nada. Eram 105 spans nascidos em inglês e nenhum deles é
+defeito com JavaScript ligado.
+
+**O defeito de verdade é o termo que o mecanismo nunca alterna:** o que está na lista `NAO_MARCAR`
+porque a palavra é curta ou genérica demais. Esse fica preso em inglês em qualquer idioma escolhido.
+São 14 termos com PT oficial nessa condição, e 27 ocorrências soltas foram reescritas em 5 guias:
+`base-e-trabalho` 3, `breeding` 5, `economia` 6, `nossas-bases` 12, `plano-de-acao` 1.
+
+**A varredura automática foi escrita, rodada e JOGADA FORA.** Ela produziu exatamente a armadilha do
+`CLAUDE.md`: "**Um** Fazenda de Criação cabe 4 Pals" com a concordância quebrada, "Vegetable **Bolo
+(Cake)**" partindo um nome composto pelo meio, e "Arena **Lendário (Legend)**" trocando o nome de um
+rank da Arena pela passiva de mesmo nome. As 27 foram feitas à mão, uma a uma.
+
+**O portão pegou uma regressão minha no mesmo commit.** Renomear "Receita do Cake básico" para
+"Receita do Bolo básico (Cake)" quebrou a checagem de receita, que procurava a linha pelo texto
+antigo. A checagem aceita as duas formas agora e continua reprovando quando a linha some, que é o
+que ela existe para fazer.
+
+**Heavily Armored, Idiosyncratic e Skymarcher continuam em inglês, e isso está dito na página.** Elas
+não estão no dicionário, o recorte gravado do paldb traz as três só em inglês, e o paldb não abre da
+máquina que roda o portão. Inventar tradução produziria um nome que não existe na tela de ninguém.
+Registrado em `fontes.md` e numa nota dentro da própria tabela de `breeding.md`.
+
+**Um item do aceite não se aplicava.** `npm run termos:auditar` lista o que falta no dicionário, e
+listar as três é justamente o comportamento certo enquanto elas não têm nome oficial gravado. Sair
+da lista seria sinal de que alguém inventou a tradução.
+
+**Duas sabotagens, as duas rodadas.** Devolver "Legend" solto à tabela acusou o termo e disse o nome
+oficial. Esvaziar a lista `NAO_MARCAR` acusou falta de insumo em vez de aprovar sem conferir.
+
+### [x] F11 — "Onde aparece nos guias" sem âncora, e 10 de 15 não é sinal
+
+**Requisito:** R1.7
+**Território:** código e visual
+
+A seção existe nas 299 páginas de Pal e tem dois defeitos que se somam.
+
+**O link cai no topo.** `src/pages/pal/[pal].astro` monta `href={base}/{id}` e para por aí. O guia
+mais longo tem 34.314 caracteres e a média é 8.615. Quem clicou procura o nome à mão, com Ctrl+F,
+que é exatamente o trabalho que a seção existe para poupar.
+
+**A lista não filtra.** Anubis aparece em 10 dos 15 guias, Lyleen em 9, Jormuntide Ignis em 8. Uma
+lista com dois terços dos guias não responde "onde", responde "em quase todo lugar". Do outro lado,
+179 dos 299 Pals não são citados em guia nenhum e recebem a frase de vazio.
+
+As duas coisas têm a mesma correção: **dizer o trecho, não o arquivo.** Dez links para dez seções
+nomeadas são dez respostas. Dez links para dez topos são ruído.
+
+**Aceite:**
+
+- Todo `href` da lista tem `#`, e o id apontado **existe no HTML do guia de destino**. As duas
+  metades, porque só a primeira aprovaria âncora quebrada, que é o defeito que a checagem de link
+  interno do verificador já pegou uma vez.
+- Cada item nomeia a seção além do guia. Item que só repete o nome do guia continua não sendo sinal.
+- Um comando imprime quantos itens ganharam âncora e quantos Pals continuam sem citação.
+- Provado por sabotagem: apagar o id de uma seção do guia e ver o portão acusar o link órfão.
+- `npm run portao` passando.
+
+**Feita. São 359 links, todos com âncora que existe no guia de destino**, e 179 das 299 fichas
+continuam sem citação nenhuma, número dito em vez de escondido.
+
+**A lista deixou de ser de guias e passou a ser de trechos.** Cada item traz o nome do guia e, embaixo,
+as seções onde o Pal aparece: Anubis em "Combate e squad" vira três links nomeados, "O nosso squad
+alvo", "Duas exceções à regra do elemento único" e "Squad para o mid game". Dez links para dez topos
+eram ruído; dez seções nomeadas são dez respostas. Foi assim que "10 de 15" deixou de ser um número
+sem significado sem precisar de corte arbitrário.
+
+**A âncora sai do mesmo `github-slugger` que o Astro usa para gerar o id do título**, e não de uma
+regra reescrita à mão: duas implementações da mesma coisa divergem no primeiro título com acento ou
+com ponto, e "Os bolos do 1.0" vira `os-bolos-do-10`. O slugger é reiniciado por página porque ele
+numera repetição.
+
+**29 das 415 citações estão antes do primeiro subtítulo**, e para elas o guia ganhou `id="topo"` no
+layout: sem uma âncora de verdade, essas voltariam a ser link para o topo de um guia de dez mil
+caracteres, exatamente o que a tarefa existe para acabar.
+
+**Duas sabotagens, as duas rodadas.** Voltar a ligar para o guia sem âncora acusou "nenhum link com
+âncora, então esta asserção não conferiu nada", que é a metade que impede a asserção de se aprovar
+sozinha. E fabricar âncora inexistente acusou 331 links apontando para id que não existe: sem essa
+segunda metade, âncora quebrada passaria, e ela é pior que link para o topo, porque promete precisão
+e entrega rolagem aleatória.
+
+**Encostou em `package.json`, território compartilhado, por uma linha:** `github-slugger` era
+dependência transitiva do Astro e passou a ser declarada. Depender de algo que só existe por acaso na
+árvore de outro pacote quebra no dia da atualização, sem aviso.
+
+**O portão pegou seis carimbos vencidos da F10 no meio desta tarefa.** As páginas revisadas ontem
+prometiam data mais velha que a revisão que receberam, e a virada do dia expôs isso. Corrigidos aqui.
+
+### [x] F12 — A coluna TIPO de `/tecnologias` está em inglês
+
+**Requisito:** R1.8, com R2.1 dizendo onde mora a tradução
+**Território:** conteúdo e dados
+
+`src/data/tecnologias.json` grava o campo `tipo` com o valor cru do paldb: **371 "Items" e 217
+"Structures"** nos 588 registros. O índice imprime o campo como veio, então a página tem nome,
+nível e custo em português e uma coluna inteira em inglês no meio.
+
+O `termos.json` não tem nenhum dos dois. A escolha é a de sempre neste repositório: **quem importa
+não inventa tradução, e o dicionário é o lugar dela.** Traduzir na importação grava texto que ninguém
+consegue reconferir contra a fonte; traduzir na exibição, pelo dicionário, mantém a alternância
+funcionando de graça.
+
+**Aceite:**
+
+- Nenhuma célula do `dist/tecnologias/` sai com "Items" ou "Structures":
+
+  ```bash
+  npm run build
+  test "$(grep -c '>Items<\|>Structures<' dist/tecnologias/index.html)" -eq 0 \
+    && echo "ok" || { echo "FALHOU"; exit 1; }
+  ```
+
+- Os dois termos alternam PT/EN pelo mecanismo, sem ninguém marcar à mão, e `npm run termos:auditar`
+  deixa de listá-los.
+- `verificar-tudo.mjs` reprova quando um valor distinto de `tipo` no catálogo não tem tradução
+  correspondente. Vale para valor novo que aparecer numa importação futura, e é isso que impede o
+  defeito de voltar.
+- Provado por sabotagem.
+- `npm run portao` passando.
+
+**Feita.** Zero células com "Items" ou "Structures". A tradução mora no dicionário de interface e
+entra na exibição, e o verificador reprova quando um valor de `tipo` do catálogo não tem par PT/EN,
+que é o que impede a próxima importação de publicar valor novo em inglês.
+
+**Traduzir não era metade da tarefa, era um terço.** A coluna traduzida podia ficar presa no
+português, que é o mesmo defeito espelhado, e foi o que `/estruturas` já tinha: ela mostrava
+"Produção" e continuava "Produção" com o site em inglês, apesar do comentário no arquivo afirmando
+que alternava. As duas colunas passaram a mandar o par PT/EN, e a asserção **troca o idioma de
+verdade e compara o texto renderizado**, em vez de conferir se "Items" sumiu do HTML.
+
+**Três sabotagens, todas rodadas.** Tirar `tipo_Structures` do dicionário acusou o valor sem
+tradução. Publicar o campo cru de novo acusou `PT ["Structures","Items"] EN ["Structures","Items"]`.
+E traduzir sem mandar o par acusou `estruturas PT ["Produção"] EN ["Produção"]`, que é a sabotagem
+que a versão "só checar se sumiu o inglês" teria aprovado.
+
+**Um item do aceite não se aplicava, e isto fica dito em vez de marcado.** `npm run termos:auditar`
+varre o corpo dos guias, não o catálogo importado, então ele nunca listaria estes dois. A cobrança
+equivalente é a checagem do verificador, que existe e está provada.
+
+**O rótulo ficou no singular, "Item" e "Estrutura".** O paldb grava a categoria no plural porque lá
+é nome de grupo; aqui é o tipo de UMA tecnologia por linha.
+
+### [ ] F13 — A checagem de receita da F1 confere zero pares e não diz nada
+
+**Requisito:** R1.5
+**Território:** conteúdo e dados
+
+Achada em 02.08 enquanto a F6 mexia na calculadora. **Não conserte junto de outra tarefa:** ela é o
+modo de falha que governa as armadilhas do `CLAUDE.md`, e merece o próprio commit.
+
+A F1 criou em `verificar-tudo.mjs` uma checagem que passa cada receita escrita na curadoria pela
+MESMA função que a página usa, e reprova quando o texto discorda da conta. Ela fechou dizendo, com
+todas as letras, que cobria **um par**, "que é quanto a curadoria tem escrito hoje", e que a linha de
+resumo diria esse número em vez de sugerir 77.
+
+Hoje ela cobre **zero**. O laço procura `onde` no formato `Cruzamento: A com B` no `pals.json`, e
+nenhum dos 77 registros casa mais com esse formato. O contador fica em 0, o `if (receitas)` é falso, e
+a checagem **não imprime nem reprova**. Ela sumiu da saída do portão sem ninguém notar:
+
+```bash
+node -e "
+const p = require('./src/data/pals.json');
+const n = p.pals.filter((x) => /^Cruzamento:\s*(.+?)\s+com\s+(.+?)\s*$/i.test(String(x.onde || ''))).length;
+console.log('pares que a checagem da F1 encontra hoje:', n);
+"
+```
+
+**Isto é exatamente a regra do `CLAUDE.md`:** "o modo de falha mais caro deste repositório não é a
+checagem que reprova, é a que aprova sem ter conferido". A checagem que a F1 escreveu para impedir
+texto e conta divergirem virou decoração no dia em que a curadoria mudou de formato, e o portão
+continuou verde. Se alguém escrever uma receita errada amanhã, nada acusa.
+
+**Duas saídas, e o commit escolhe uma dizendo o porquê:**
+
+1. **Ela volta a ter insumo.** Descobrir por que o formato mudou, se a curadoria deixou de escrever
+   receita de propósito ou se o campo virou outra coisa, e fazer a checagem ler o formato de hoje.
+2. **Ela sai.** Se a curadoria não escreve mais receita, a checagem não tem trabalho, e código que não
+   confere nada é pior que ausência: ele ocupa o lugar de uma checagem de verdade.
+
+O que **não** vale é deixar como está. E, se ela ficar, tem que reprovar quando o número de pares for
+zero, dizendo que é zero, em vez de calar.
+
+**Aceite:**
+
+- `npm run verificar` imprime uma linha sobre receita **em toda execução**, com o número de pares
+  conferidos, ou a checagem não existe mais no arquivo. Uma das duas, verificável por comando:
+
+  ```bash
+  npm run verificar | grep -q "receita:" && echo "diz o número" \
+    || (grep -q "Cruzamento:" scripts/verificar-tudo.mjs && { echo "FALHOU: existe e cala"; exit 1; } \
+        || echo "foi removida, e o commit explica por quê")
+  ```
+
+- Se ela ficar: zerar a lista de receitas da curadoria faz o portão **reprovar** por falta de insumo.
+  Provado por sabotagem, que aqui é apagar o campo `onde` de um Pal e ver a contagem cair e acusar.
+- O commit diz qual das duas saídas foi escolhida e por quê.
+- `npm run portao` passando.
+
 ### [x] H6 — Base do mapa, provisória e alinhada
 
 **Requisito:** R3.2
@@ -963,7 +1512,7 @@ scripts, marcação bilíngue, assistente por último.
 
 ---
 
-### [ ] B4 — A cadeia de acesso à Árvore Mundial não está documentada
+### [x] B4 — A cadeia de acesso à Árvore Mundial não está documentada
 
 **Requisito:** R1.1
 **Território:** conteúdo e dados
@@ -988,6 +1537,33 @@ portão para o endgame. Onde as duas se cruzam, a wiki afirma. Onde só uma fala
   ninguém marcar à mão. O que não existir lá entra como está e é registrado na tarefa.
 - Nenhum número ou passo que não esteja num recorte gravado. Se faltar, a página diz que falta.
 - `npm run portao` passando.
+
+**Feita, e a página não estava vazia como a tarefa supunha: estava errada em parte.** A `endgame.md`
+já tinha uma seção "Como entrar" com seis passos, e ela **não batia com os recortes**. Dizia "derrote
+todas as torres" onde a fonte diz "descubra Sunreach, depois derrote Auri & Shaolong", e não trazia
+nem o nível nem o lugar, que são as duas coisas que alguém precisa saber antes de ir.
+
+A cadeia agora está na ordem do recorte, com **nível 70 ou mais** e **o ponto mais ao norte do mapa**
+ditos na primeira linha, e o passo final separado dos seis pré-requisitos, porque ele é o que
+acontece depois deles e não mais um da fila.
+
+**O cruzamento das duas fontes está no texto, e é o que a tarefa pedia.** Onde as duas se encontram,
+Auri & Shaolong como o portão do endgame, a página afirma. Onde só o NextTier fala, o nível 68 e "a
+oitava e última torre padrão", a página diz de onde veio.
+
+**Três afirmações saíram da página por não terem prova gravada.** "4 echobones: Marine, Silent,
+Seafoam e Tidewind" e o Cientista da civilização antiga na ilha não estão em recorte nenhum do
+repositório. Elas viraram registro em `fontes.md`, com o caminho de volta: quem conferir no jogo,
+grava o recorte e devolve o texto. Tirar isso é desconfortável e é a regra: afirmação sem prova
+reproduzível vira boato no dia seguinte.
+
+**A marcação bilíngue aconteceu sozinha**, sem ninguém anotar nada, em `local_world_tree`,
+`echoing_flute`, `corrosive_mask`, `local_u_female_nomad01_v05` e nos Pals Panthalus, Shaolong e
+Bastigor.
+
+**O que não está no dicionário entrou como está, e fica registrado aqui:** Sunreach, Deserted Islet,
+Auri, Defense Module, Tower of the Azure Covenant e echobone. Nenhum tem nome oficial em português
+extraído das strings do jogo, e o `termos:atualizar` não alcança o paldb desta máquina.
 
 ### [ ] B3 — Reativar o leitor de save quando a biblioteca atualizar
 

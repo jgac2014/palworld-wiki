@@ -4,7 +4,7 @@ descricao: "Aptidão para trabalho, auras, layout de base e defesa contra invas�
 titulo_en: "Bases and work"
 descricao_en: "Work suitability, auras, base layout and raid defence."
 ordem: 5
-atualizado: 2026-07-30
+atualizado: 2026-08-02
 ---
 
 ## Como funciona Work Suitability no 1.0
@@ -43,7 +43,7 @@ O texto exato da partner skill é "While at a base, increases the [X] Work Suita
 |---|---|---|
 | Transporte (Transporting) | **Wumpo** | [SIM] Transport 6, Cooling 5, Cortar árvores (Lumbering) 5 por conta própria. Paga o próprio slot. |
 | Medicine | **Mycora** | [SIM] Plantio (Planting) 6, Medicine 6. Trabalha e dá aura. |
-| Plantio | Petallia | [Talvez] Planting 4, Medicine 4, Trabalho manual (Handiwork) 3. |
+| Plantio | Petallia | [Talvez] Plantio (Planting) 4, Medicine 4, Trabalho manual (Handiwork) 3. |
 | Mining | Tetroise | [Talvez] Mining 4 próprio. |
 | Acender fogo | Katress Ignis | [Talvez] Kindling 3, Trabalho manual 3, Medicine 3. |
 | Fazenda (Farming) (ranch) | Cinnamoth | [SIM] Obrigatório na base de comida. |
@@ -74,7 +74,7 @@ Quase todo nível 8 mora na Árvore Mundial (World Tree), que é conteúdo de n�
 | **Plantio** | Ophydia (7), Mycora (6 + aura), Lyleen | Dandilord (8, imune a veneno) |
 | **Medicine** | Mycora (6), Splatterina | Silvance (8) |
 | **Refrigeração** | Frostallion, Wumpo | Bastigor (8) |
-| **Gathering** | Venusa (6), Frostallion Noct | Jetragon (8, chega a 10 com rank 2) |
+| **Coleta (Gathering)** | Venusa (6), Frostallion Noct | Jetragon (8, chega a 10 com rank 2) |
 | **Transporte** | **Mimog**: suitability baixa mas velocidade absurda. Em transporte, velocidade vence nível. | Knocklem / Knocklem Ignis (7) |
 | **Fazenda** | Não há especialista. Mozzarina (leite), Chikipi (ovo), Beegarde (mel), Caprity (berry), Mau (ouro), Sibelyx (pano). Use Cinnamoth pela aura. | |
 
@@ -124,7 +124,7 @@ Quase todo nível 8 mora na Árvore Mundial (World Tree), que é conteúdo de n�
 :::destaque
 - **Empilhamento:** dá para empilhar plantações, pontos de mineração, produção e baús usando bancos, banquinhos e almofadas. Descoberta recente: dá para pular a fundação e encaixar plantação direto em qualquer iluminação posicionável (poste, tocha) usando a Japanese Floor Cushion, nível 55.
 - **Dois extratores de óleo no mesmo node.** Confirmado amplamente.
-- **Regra dos 50%:** um objeto só precisa estar metade dentro da base para funcionar. Ranch, breeding farm e expedition station na borda economizam espaço. Ressalva: item de ranch que cair fora do raio não é coletado.
+- **Regra dos 50%:** um objeto só precisa estar metade dentro da base para funcionar. Fazenda de Criação (Ranch), breeding farm e expedition station na borda economizam espaço. Ressalva: item de ranch que cair fora do raio não é coletado.
 - **Baú da guild não estraga comida.**
 - **Pals com Transporte coletam** Skill Fruit, Nightstar Sand e Kinship Peaches se a árvore estiver dentro da base. Coleta alto multiplica a coleta.
 

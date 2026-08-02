@@ -4,14 +4,14 @@ descricao: "Ouro, recursos raros, expedições e linha de bolo."
 titulo_en: "Economy and farming"
 descricao_en: "Gold, rare resources, expeditions and the cake line."
 ordem: 10
-atualizado: 2026-07-30
+atualizado: 2026-08-02
 ---
 
 ## Ouro
 
 | Fase | Método | Rendimento |
 |---|---|---|
-| Early | **Ranch de Mau.** Condense os Mau para escalar. | 10-50 por drop, passivo |
+| Early | **Fazenda de Criação (Ranch) de Mau.** Condense os Mau para escalar. | 10-50 por drop, passivo |
 | **Mid (o seu)** | **Dumud Gild.** Melhor fonte na sua faixa. | 19.900 no nível 1, até 79.600 no nível 80, **dobra em Alpha** |
 | Mid | **Black Marketeers.** 4 spawns fixos, ex. Abandoned Mineshaft (34, -421). Use Hanging Trap para imobilizar. | 10-15k + Gold Key por kill |
 | Mid | **Sibelyx no ranch** (Pano Requintado (High Quality Cloth), 264g cada) | ~250k/h passivo, segundo relatos |
@@ -54,14 +54,14 @@ Time com **Elphidran** (Dark, +80% drops), **Vaelet** (Ground, +80%), **Menastin
 ## Linha de cake
 
 :::cuidado
-**Atenção:** a receita abaixo é a do **Cake básico**, que no 1.0 é o bolo que você não quer usar. Os bolos que importam (Mushroom, Vegetable, Extravagant) usam ingredientes completamente diferentes, sem leite e sem berry. A tabela correta está na aba **Minhas 4 bases**, na seção da fazenda.
+**Atenção:** a receita abaixo é a do **Bolo básico (Cake)**, que no 1.0 é o bolo que você não quer usar. Os bolos que importam (Mushroom, Vegetable, Extravagant) usam ingredientes completamente diferentes, sem leite e sem berry. A tabela correta está na aba **Minhas 4 bases**, na seção da fazenda.
 
-Receita do Cake básico: Flour x5, Red Berries x8, Milk x7, Egg x8, Honey x2 (Cooking Pot, nível 17).
+Receita do Bolo básico (Cake): Flour x5, Red Berries x8, Milk x7, Egg x8, Honey x2 (Cooking Pot, nível 17).
 
-- Plantação de Trigo (Wheat Plantation) + Mill para Flour, Plantação de Frutinhas (Berry Plantation) para as berries
-- Ranch com Mozzarina (leite), Chikipi (ovo), Beegarde (mel)
+- Plantação de Trigo (Wheat Plantation) + Moenda (Mill) para Flour, Plantação de Frutinhas (Berry Plantation) para as berries
+- Fazenda de Criação (Ranch) com Mozzarina (leite), Chikipi (ovo), Beegarde (mel)
 - Panela (Cooking Pot) com Acender fogo (Kindling) alto (Dupin, Jormuntide Ignis) para acelerar
-- Lullu para +50% de crescimento, Cinnamoth pela aura de Farming
+- Lullu para +50% de crescimento, Cinnamoth pela aura de Fazenda (Farming)
 - **Guarde o cake dentro da Fazenda de Acasalamento (Breeding Farm)**, lá não estraga. Em baú comum estraga.
 - Leite estraga rápido: mantenha o ranch perto da Panela ou de refrigerador
 

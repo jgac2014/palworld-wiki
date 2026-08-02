@@ -66,6 +66,18 @@ export function filhoteDoPar(catalogo, chaveA, chaveB) {
     }
   }
 
+  // Chegou aqui, então o par NÃO está na tabela de combinação única, e o que
+  // sobra é a média de rank. Quem está fora da Palpédia não entra nela: as
+  // onze da colaboração com Terraria dividem o mesmo CombiRank 3100, então
+  // qualquer média com elas cai num ponto arbitrário da tabela e devolve
+  // receita que o jogo não tem. Elas cruzam entre si, e só, pelas 57
+  // combinações únicas que o bloco acima já respondeu.
+  //
+  // O motivo volta junto com a resposta: a página precisa dizer POR QUE não
+  // sai filhote, senão o par vira "nenhum par conhecido" e parece defeito.
+  if (!naPalpedia(a) || !naPalpedia(b)) {
+    return { filho: null, unica: false, alvo: null, foraDaPalpedia: true };
+  }
   if (typeof a.combi !== 'number' || typeof b.combi !== 'number') return null;
   const alvo = Math.floor((a.combi + b.combi + 1) / 2);
 
@@ -80,11 +92,40 @@ export function filhoteDoPar(catalogo, chaveA, chaveB) {
   return { filho: melhor, unica: false, alvo };
 }
 
+/**
+ * Entidade que o jogo registra na Palpédia, ou seja, Pal de verdade.
+ *
+ * As onze da colaboração com Terraria (os Slimes, os Bats, Demon Eye,
+ * Enchanted Sword e Eye of Cthulhu) entram no catálogo do paldb **sem número
+ * de Palpédia e todas com o mesmo CombiRank, 3100**. Rank repetido é
+ * impossível numa tabela cuja regra inteira é "média dos ranks, espécie de
+ * rank mais próximo": os outros 288 têm rank único. 3100 não é rank, é
+ * marcador de "não cruza".
+ *
+ * Enquanto elas ficaram no pool, a calculadora as oferecia como pai e devolvia
+ * receita que o jogo não tem. Os dois sinais dizem a mesma coisa, e é por isso
+ * que o critério é o número da Palpédia e não uma lista de nomes escrita à mão:
+ * lista à mão envelhece na próxima colaboração.
+ */
+export const naPalpedia = (p) => p != null && p.numero != null;
+
 /** Espécies que podem sair da média de rank, em ordem crescente. */
 export function sorteaveis(catalogo) {
   return catalogo.pals
-    .filter((p) => typeof p.combi === 'number' && !p.so_combinacao_unica)
+    .filter((p) => naPalpedia(p) && typeof p.combi === 'number' && !p.so_combinacao_unica)
     .sort((x, y) => x.combi - y.combi);
+}
+
+/**
+ * Espécies que entram na VARREDURA por média de rank.
+ *
+ * Não é a lista de quem pode ser escolhido como pai na tela: quem está fora da
+ * Palpédia continua selecionável, porque as 57 combinações únicas entre elas
+ * são receita de verdade. O que elas não podem é participar do par a par
+ * quadrático, onde o rank 3100 repetido geraria pares que o jogo não tem.
+ */
+export function cruzaveis(catalogo) {
+  return catalogo.pals.filter((p) => naPalpedia(p) && typeof p.combi === 'number');
 }
 
 /**
@@ -108,7 +149,7 @@ export function paresQueGeram(catalogo, chaveAlvo, mostrar = 12) {
   }
 
   const pool = sorteaveis(catalogo);
-  const lista = catalogo.pals.filter((p) => typeof p.combi === 'number');
+  const lista = cruzaveis(catalogo);
 
   // Busca binária pelo rank mais próximo, com o empate indo para o maior, que
   // é a regra conferida contra 149 combinações do paldb.

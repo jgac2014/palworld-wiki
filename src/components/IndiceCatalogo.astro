@@ -28,7 +28,12 @@ import { ui } from '../lib/termos.js';
 
 interface Props {
   itens: any[];
-  colunas?: { campo: string; chaveRotulo: string }[];
+  // `campoEn` é opcional e existe para o VALOR da coluna alternar de idioma,
+  // não só o rótulo dela. Sem isso a coluna TIPO de /tecnologias saía com o
+  // "Items" e "Structures" crus do paldb no meio de nome, nível e custo em
+  // português, e a categoria de /estruturas ficava presa no português mesmo
+  // com o site em inglês.
+  colunas?: { campo: string; campoEn?: string; chaveRotulo: string }[];
   subtituloChave: string;
 }
 
@@ -93,7 +98,9 @@ const internos = itens.filter(ehInterno).length;
           {colunas.map((c) => (
             <span class="par">
               <span class="rot" data-rot-pt={ui(c.chaveRotulo, 'pt')} data-rot-en={ui(c.chaveRotulo, 'en')}>{ui(c.chaveRotulo, 'pt')}</span>
-              <span class="val">{x[c.campo] ?? ''}</span>
+              {c.campoEn
+                ? <span class="val" data-rot-pt={x[c.campo] ?? ''} data-rot-en={x[c.campoEn] ?? x[c.campo] ?? ''}>{x[c.campo] ?? ''}</span>
+                : <span class="val">{x[c.campo] ?? ''}</span>}
             </span>
           ))}
         </span>

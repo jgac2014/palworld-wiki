@@ -5,7 +5,7 @@ titulo_en: "Our 4 bases"
 descricao_en: "Blueprint per base, roster and unlock order."
 camada: nosso-mundo
 ordem: 4
-atualizado: 2026-07-30
+atualizado: 2026-08-02
 ---
 
 A arquitetura de quatro bases que vocês montaram está certa. O problema não é quantas bases, é que três das quatro provavelmente estão perdendo produção por motivos que não aparecem na tela. Abaixo o diagnóstico e o redesenho, base por base.
@@ -18,12 +18,12 @@ A arquitetura de quatro bases que vocês montaram está certa. O problema não �
 :::
 
 :::cuidado
-**2. Cap de 3 Pals por Assembly Line, 1 por Workbench, 4 por Ranch.** O quarto Pal numa assembly line rende **zero**. Se a base principal de vocês tem 12 Pals de Trabalho manual (Handiwork) empilhados, boa parte está parada. O número real é 4 a 5 de Handiwork para cobrir uma Fábrica de Linha (Production Assembly Line), uma Weapon/Sphere Line e um workbench.
+**2. Cap de 3 Pals por Assembly Line, 1 por Workbench, 4 por Fazenda de Criação (Ranch).** O quarto Pal numa assembly line rende **zero**. Se a base principal de vocês tem 12 Pals de Trabalho manual (Handiwork) empilhados, boa parte está parada. O número real é 4 a 5 de Handiwork para cobrir uma Fábrica de Linha (Production Assembly Line), uma Weapon/Sphere Line e um workbench.
 
 :::
 
 :::cuidado
-**3. Um Ranch cabe 4 Pals, e o cake precisa de 5 ingredientes.** Matematicamente impossível sustentar breeding contínuo com um ranch só. Vocês precisam de **2 ranches**, e 3 quando forem caçar mutação.
+**3. Uma Fazenda de Criação (Ranch) cabe 4 Pals, e o bolo precisa de 5 ingredientes.** Matematicamente impossível sustentar breeding contínuo com um ranch só. Vocês precisam de **2 ranches**, e 3 quando forem caçar mutação.
 
 :::
 
@@ -101,11 +101,11 @@ Total: cerca de 13. Deixe folga, não encha os 15.
 ## Base 3 · Fazenda
 
 :::cuidado
-**Esta é a base que mais provavelmente está errada, e a culpa não é de vocês.** Todo guia de "linha de cake" descreve o Cake básico: trigo, berry, Mozzarina, Chikipi, Beegarde. No 1.0 esse é justamente o bolo que você não quer. Os bolos que importam usam ingredientes completamente diferentes.
+**Esta é a base que mais provavelmente está errada, e a culpa não é de vocês.** Todo guia de "linha de cake" descreve o Bolo básico (Cake): trigo, berry, Mozzarina, Chikipi, Beegarde. No 1.0 esse é justamente o bolo que você não quer. Os bolos que importam usam ingredientes completamente diferentes.
 
 | Bolo | Nível | Receita | Efeito |
 |---|---|---|---|
-| Cake base | 17 | Flour 5, Red Berries 8, Milk 7, Egg 8, Honey 2 | 1 ovo |
+| Bolo base (Cake) | 17 | Flour 5, Red Berries 8, Milk 7, Egg 8, Honey 2 | 1 ovo |
 | **Bolo de Cogumelos (Mushroom Cake)** | 30 | Flour 5, **Mushroom 5**, **Cavern Mushroom 3**, Egg 8, Honey 2 | IVs e stats altos |
 | **Bolo de Verduras (Vegetable Cake)** | **47** | Flour 8, **Tomato 8**, **Lettuce 7**, Egg 8, Honey 4 | **2 ovos por ciclo** |
 | Extravagant Vegetable | 60 | Flour, **Cotton Candy 8**, Potato 10, Onion 6, Carrot 8 | mutação ~3% |
@@ -117,18 +117,18 @@ Total: cerca de 13. Deixe folga, não encha os 15.
 
 ### Reforma sugerida
 
-- 2× Plantação de Trigo (Wheat Plantation) + 1× Mill. Flour 8 por bolo é o insumo mais pesado.
+- 2× Plantação de Trigo (Wheat Plantation) + 1× Moenda (Mill). Flour 8 por bolo é o insumo mais pesado.
 - 2× Tomato Plantation, 2× Lettuce Plantation.
 - 1× Plantação de Frutinhas (Berry Plantation), só para alimentar os Pals.
-- **Ranch A:** 2× Chikipi + 2× Beegarde. Dá Egg 8 e Honey 4, exatamente o que o Bolo de Verduras pede.
-- **Ranch B:** 2× Shroomer + 2× Mozzarina. Shroomer é subvalorizado: é o único que dropa Mushroom *e* Cavern Mushroom, os dois insumos do Bolo de Cogumelos, que vocês já podem fazer no nível 30.
+- **Fazenda de Criação (Ranch) A:** 2× Chikipi + 2× Beegarde. Dá Egg 8 e Honey 4, exatamente o que o Bolo de Verduras pede.
+- **Fazenda de Criação (Ranch) B:** 2× Shroomer + 2× Mozzarina. Shroomer é subvalorizado: é o único que dropa Mushroom *e* Cavern Mushroom, os dois insumos do Bolo de Cogumelos, que vocês já podem fazer no nível 30.
 - 2× Panela (Cooking Pot). Um só vira gargalo com três breeding farms.
 - **Sibelyx no ranch** quando sobrar slot: dropa Pano Requintado (High Quality Cloth) pronto, que vende a 264 de ouro e é insumo da Máquina Incubadora de Ovos Grande (Large Incubator). É a melhor fonte passiva de ouro depois do Mau.
 
-**Roster:** 3 Plantio (Planting) (Ophydia 7, Mycora 6), 3 Watering (Jormuntide 7), 2 Coleta (Gathering) (Venusa 6), 2 Acender fogo nos Cooking Pots, 2 Transporte, mais **Lullu** (+50% crescimento de plantação, obrigatório) e **Cinnamoth** (aura +1 Fazenda (Farming), obrigatório aqui).
+**Roster:** 3 Plantio (Planting) (Ophydia 7, Mycora 6), 3 Rega (Watering) (Jormuntide 7), 2 Coleta (Gathering) (Venusa 6), 2 Acender fogo nos Cooking Pots, 2 Transporte, mais **Lullu** (+50% crescimento de plantação, obrigatório) e **Cinnamoth** (aura +1 Fazenda (Farming), obrigatório aqui).
 
 :::atencao
-**Regra de escala:** suba para 3-4 de cada produtor de ranch *antes* de adicionar mais Breeding Farms. O gargalo é sempre o ingrediente, nunca a farm. E não coloque Ranch na borda da base: item que cai fora do raio não é coletado.
+**Regra de escala:** suba para 3-4 de cada produtor de ranch *antes* de adicionar mais Breeding Farms. O gargalo é sempre o ingrediente, nunca a farm. E não coloque a Fazenda de Criação (Ranch) na borda da base: item que cai fora do raio não é coletado.
 
 :::
 
@@ -151,7 +151,7 @@ Total: cerca de 13. Deixe folga, não encha os 15.
 | **Máquina Incubadora de Ovos Grande** | **47** | **10 ovos** | automática |
 | Reprodutor da Civilização Antiga (Ancient Hatchery) | Tech 76 | automatiza tudo | endgame, exige Paloxita (Paloxite) da Árvore Mundial (World Tree) |
 
-**Escalonamento:** nível 25-35, 1-2 farms e 3-4 incubadoras básicas com uma fogueira e um cooler. Nível 36, troque tudo por 4-6 **Incubadora de Ovos Elétrica** e acabe com o problema de temperatura. Nível 47, **Vegetable Cake mais Máquina Incubadora de Ovos Grande**: três farms rendendo 2 ovos por ciclo dão 6 ovos, e uma Máquina Incubadora de Ovos Grande cobre exatamente um ciclo completo. Esse é o ponto em que a operação vira industrial.
+**Escalonamento:** nível 25-35, 1-2 farms e 3-4 incubadoras básicas com uma fogueira e um cooler. Nível 36, troque tudo por 4-6 **Incubadora de Ovos Elétrica** e acabe com o problema de temperatura. Nível 47, **Bolo de Verduras (Vegetable Cake) mais Máquina Incubadora de Ovos Grande**: três farms rendendo 2 ovos por ciclo dão 6 ovos, e uma Máquina Incubadora de Ovos Grande cobre exatamente um ciclo completo. Esse é o ponto em que a operação vira industrial.
 
 :::
 
@@ -168,7 +168,7 @@ Total: cerca de 13. Deixe folga, não encha os 15.
 Os pais nas farms não contam como worker e a incubadora roda em timer, sem Pal atribuído. O espaço que sobra vira estoque.
 
 :::dica
-**Cake guardado dentro da Fazenda de Acasalamento (Breeding Farm) não estraga.** Em baú comum estraga. Encha até o teto e esqueça.
+**Bolo (Cake) guardado dentro da Fazenda de Acasalamento (Breeding Farm) não estraga.** Em baú comum estraga. Encha até o teto e esqueça.
 
 :::
 
@@ -190,7 +190,7 @@ Os pais nas farms não contam como worker e a incubadora roda em timer, sem Pal 
 | **41** | **Baú de Guilda** | O divisor de águas da sua arquitetura de 4 bases |
 | 42 / 44 | Fábrica de Linha II + Forno Elétrico | Salto de throughput da base 1 |
 | 45 | Mesa de Projetos | Combina 5 esquemas de tier baixo num do tier acima |
-| **47** | **Vegetable Cake + Máquina Incubadora de Ovos Grande** | Breeding vira industrial |
+| **47** | **Bolo de Verduras (Vegetable Cake) + Máquina Incubadora de Ovos Grande** | Breeding vira industrial |
 | 50 | Gerador Elétrico Grande + Pure Quartz Mine | Fim da dependência de nodes naturais |
 
 ## Detalhes de sanity que valem produção
