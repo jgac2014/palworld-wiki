@@ -1013,7 +1013,7 @@ site, "nenhuma repetida" seria verdade trivial.
 `.astro/` e `node_modules/.astro/` foram apagados antes de cada medição, senão o HTML velho sai do
 cache e a mudança de plugin parece não ter efeito.
 
-### [ ] F10 — Idioma misturado dentro do guia
+### [x] F10 — Idioma misturado dentro do guia
 
 **Requisito:** R2.2, com R2.7 dizendo onde é o limite
 **Território:** conteúdo e dados
@@ -1043,6 +1043,38 @@ corpo tem que ser escrito num idioma só: quem dá o outro é o mecanismo. Guia 
 - O número de ocorrências trocadas, dito por guia.
 - Provado por sabotagem.
 - `npm run portao` passando.
+
+**Feita, e a medição desfez metade da queixa.** Termo que o plugin MARCA já alternava: o seletor
+aplica o idioma na carga da página, então "Immortality" escrito em inglês no markdown vira
+"Imortalidade" antes de alguém clicar em nada. Eram 105 spans nascidos em inglês e nenhum deles é
+defeito com JavaScript ligado.
+
+**O defeito de verdade é o termo que o mecanismo nunca alterna:** o que está na lista `NAO_MARCAR`
+porque a palavra é curta ou genérica demais. Esse fica preso em inglês em qualquer idioma escolhido.
+São 14 termos com PT oficial nessa condição, e 27 ocorrências soltas foram reescritas em 5 guias:
+`base-e-trabalho` 3, `breeding` 5, `economia` 6, `nossas-bases` 12, `plano-de-acao` 1.
+
+**A varredura automática foi escrita, rodada e JOGADA FORA.** Ela produziu exatamente a armadilha do
+`CLAUDE.md`: "**Um** Fazenda de Criação cabe 4 Pals" com a concordância quebrada, "Vegetable **Bolo
+(Cake)**" partindo um nome composto pelo meio, e "Arena **Lendário (Legend)**" trocando o nome de um
+rank da Arena pela passiva de mesmo nome. As 27 foram feitas à mão, uma a uma.
+
+**O portão pegou uma regressão minha no mesmo commit.** Renomear "Receita do Cake básico" para
+"Receita do Bolo básico (Cake)" quebrou a checagem de receita, que procurava a linha pelo texto
+antigo. A checagem aceita as duas formas agora e continua reprovando quando a linha some, que é o
+que ela existe para fazer.
+
+**Heavily Armored, Idiosyncratic e Skymarcher continuam em inglês, e isso está dito na página.** Elas
+não estão no dicionário, o recorte gravado do paldb traz as três só em inglês, e o paldb não abre da
+máquina que roda o portão. Inventar tradução produziria um nome que não existe na tela de ninguém.
+Registrado em `fontes.md` e numa nota dentro da própria tabela de `breeding.md`.
+
+**Um item do aceite não se aplicava.** `npm run termos:auditar` lista o que falta no dicionário, e
+listar as três é justamente o comportamento certo enquanto elas não têm nome oficial gravado. Sair
+da lista seria sinal de que alguém inventou a tradução.
+
+**Duas sabotagens, as duas rodadas.** Devolver "Legend" solto à tabela acusou o termo e disse o nome
+oficial. Esvaziar a lista `NAO_MARCAR` acusou falta de insumo em vez de aprovar sem conferir.
 
 ### [ ] F11 — "Onde aparece nos guias" sem âncora, e 10 de 15 não é sinal
 

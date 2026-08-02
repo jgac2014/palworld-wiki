@@ -792,7 +792,10 @@ for (const regra of REGRAS) {
 const receitas = await lerJson('src/data/receitas.json');
 if (receitas) {
   const textoEconomia = corpos['economia.md'] || '';
-  const linhaReceita = textoEconomia.match(/Receita do Cake b[áa]sico:([^\n]+)/)?.[1] || '';
+  // "Bolo básico (Cake)" desde a F10, e "Cake básico" antes dela. As duas
+  // formas casam porque a checagem existe para achar a LINHA, não para policiar
+  // como ela é escrita, e ela continua reprovando quando a linha some.
+  const linhaReceita = textoEconomia.match(/Receita do (?:Bolo b[áa]sico \(Cake\)|Cake b[áa]sico):([^\n]+)/)?.[1] || '';
   if (!linhaReceita) {
     erro('receitas', 'não achei a linha da receita do Cake básico em economia.md, que é a fonte do que está em receitas.json');
   } else {
@@ -876,6 +879,82 @@ if (pals && catalogo) {
     }
   }
   if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
+}
+
+// ------- termo que o mecanismo não alterna não pode ficar só em inglês (F10)
+//
+// O guia misturava idioma: "Heavily Armored", "Skymarcher" e "Legend" na mesma
+// tabela que "Imortalidade" e "Babá". As causas são duas e só uma tem conserto
+// aqui.
+//
+// Termo que o plugin MARCA já alterna sozinho: escrito em inglês, o seletor o
+// põe em português na carga da página. O problema é o termo que o plugin nunca
+// marca, o que está na lista NAO_MARCAR porque a palavra é curta ou genérica
+// demais. Esse fica preso em inglês para sempre, em qualquer idioma escolhido.
+//
+// A varredura casa do termo MAIS LONGO para o mais curto, como o plugin, senão
+// "Cake" acusa dentro de "Vegetable Cake" e a checagem vira ruído.
+{
+  const lib = await ler('src/lib/termos.js');
+  const bloco = lib?.match(/NAO_MARCAR = new Set\(\[([\s\S]*?)\]\)/)?.[1];
+  if (!termos?.termos || !bloco) {
+    erro('idioma', 'não consegui ler termos.json ou a lista NAO_MARCAR de src/lib/termos.js');
+  } else {
+    const naoMarca = new Set([...bloco.matchAll(/'([^']+)'/g)].map((m) => m[1]));
+    // Nome próprio do jogo que fica em inglês de propósito, com o motivo. Sem
+    // esta lista a checagem cobraria tradução de coisa que não tem tradução, e
+    // a próxima pessoa a desligaria.
+    const DE_PROPOSITO = [
+      'Arena Legend',        // nome de rank da Arena, não a passiva Lendário
+      'Work Suitability Books', // nome do item, e o item não está no dicionário
+      'Lucky Pals',          // nome da categoria de drop, idem
+      'Ranch Master',        // passiva própria, glosada como Mestre Pecuarista
+    ];
+    const alvos = Object.values(termos.termos)
+      .filter((v) => v.pt && v.en && v.pt !== v.en && naoMarca.has(v.en))
+      .sort((a, b) => b.en.length - a.en.length);
+    const todosOsEn = Object.values(termos.termos).map((v) => v.en).filter(Boolean)
+      .sort((a, b) => b.length - a.length);
+
+    if (!alvos.length) {
+      erro('idioma', 'nenhum termo do dicionário é bloqueado pelo NAO_MARCAR. Ou a lista mudou, ou esta checagem virou decoração');
+    } else {
+      const escapa = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const soltos = [];
+      for (const [arq, corpo] of juntos) {
+        // glossario e fontes SÃO a tabela de tradução: PT ao lado de EN ali
+        // está certo, e é a mesma proteção da lista NAO_MEXER.
+        if (arq === 'glossario.md' || arq === 'fontes.md') continue;
+        // Tira do texto, na ordem do mais longo para o mais curto, tudo que já
+        // é nome composto conhecido ou glosa "PT (EN)": o que sobrar é inglês
+        // sozinho de verdade.
+        let restante = corpo;
+        for (const frase of [...DE_PROPOSITO, ...todosOsEn]) {
+          const v = Object.values(termos.termos).find((t) => t.en === frase);
+          if (v?.pt) {
+            // Até duas palavras entre o nome e o parêntese, para "Bolo básico
+            // (Cake)" e "Bolo base (Cake)" contarem como glosa. Sem isso a
+            // checagem cobrava tradução de texto que já está traduzido.
+            restante = restante.replaceAll(
+              new RegExp(`${escapa(v.pt)}(?:\\s+[\\p{L}\\p{N}]+){0,2}\\s*\\(${escapa(frase)}\\)`, 'gu'), ' ');
+          }
+          if (frase.includes(' ') || DE_PROPOSITO.includes(frase)) {
+            restante = restante.replaceAll(frase, ' ');
+          }
+        }
+        for (const v of alvos) {
+          const rx = new RegExp(`(?<![\\p{L}\\p{N}_])${escapa(v.en)}(?![\\p{L}\\p{N}_])`, 'gu');
+          const n = (restante.match(rx) || []).length;
+          if (n) soltos.push(`${arq}: "${v.en}" ${n}x, e o oficial é "${v.pt}"`);
+        }
+      }
+      if (soltos.length) {
+        erro('idioma', `termo que o mecanismo nunca alterna, escrito só em inglês no guia -> ${soltos.join(' | ')}`);
+      } else {
+        passou(`idioma: nenhum dos ${alvos.length} termos que o NAO_MARCAR bloqueia aparece só em inglês no corpo dos guias`);
+      }
+    }
+  }
 }
 
 // ------------- todo valor de campo exibido tem tradução no dicionário (F12)
