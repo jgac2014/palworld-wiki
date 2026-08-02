@@ -72,11 +72,38 @@ function marcadorDeTexto(textos, montarPropriedades, classe) {
     let m;
     padrao.lastIndex = 0;
     while ((m = padrao.exec(node.value)) !== null) {
-      if (m.index > ultimo) filhos.push({ type: 'text', value: node.value.slice(ultimo, m.index) });
+      const entre = node.value.slice(ultimo, m.index);
+      if (m.index > ultimo) filhos.push({ type: 'text', value: entre });
+      const propriedades = { ...montarPropriedades(m[1]), class: classe };
+
+      // Glosa escrita à mão: "Imortalidade (Immortality)".
+      //
+      // Os dois lados são o MESMO termo do dicionário, então os dois spans
+      // exibiam o mesmo idioma e a tela mostrava "Imortalidade (Imortalidade)"
+      // em português e "Immortality (Immortality)" em inglês. Eram 134
+      // ocorrências em 12 páginas.
+      //
+      // O parêntese passa a carregar o par TROCADO, e a glosa vira o que quem
+      // escreveu quis dizer: o nome no outro idioma, nos dois sentidos. Apagar
+      // a glosa do texto resolveria a repetição e tiraria o nome em inglês de
+      // dentro de título e de tabela, onde o mecanismo não marca nada e o
+      // leitor não tem como recuperá-lo.
+      const anterior = filhos[filhos.length - 2];
+      if (
+        propriedades['data-pt'] && propriedades['data-en']
+        && anterior?.type === 'element'
+        && anterior.properties?.['data-termo'] === propriedades['data-termo']
+        && /^\s*\($/.test(entre)
+      ) {
+        const pt = propriedades['data-pt'];
+        propriedades['data-pt'] = propriedades['data-en'];
+        propriedades['data-en'] = pt;
+      }
+
       filhos.push({
         type: 'element',
         tagName: 'span',
-        properties: { ...montarPropriedades(m[1]), class: classe },
+        properties: propriedades,
         children: [{ type: 'text', value: m[1] }],
       });
       ultimo = m.index + m[1].length;

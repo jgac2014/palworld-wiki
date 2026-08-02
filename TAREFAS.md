@@ -955,7 +955,7 @@ mais uma vez. E as 11 fichas sem número de Palpédia publicavam `número null n
 descrição, ponta solta da F6 que só apareceu ao abrir o `[pal].astro` por outro motivo. A descrição
 de `/pals` também prometia filtro por nível, o mesmo defeito da F7 em outro lugar.
 
-### [ ] F9 — Termo glosado à mão imprime duas vezes
+### [x] F9 — Termo glosado à mão imprime duas vezes
 
 **Requisito:** R2.2
 **Território:** compartilhado (o gatilho está no conteúdo, o defeito é do plugin)
@@ -989,6 +989,29 @@ esse motivo, e qualquer varredura desta tarefa tem que respeitar a mesma lista.
 - O número de ocorrências corrigidas, dito.
 - Provado por sabotagem: devolver uma glosa e ver o portão acusar.
 - `npm run portao` passando.
+
+**Feita, e o número é maior do que a queixa dizia: 134 glosas em 12 páginas**, não três. As três
+citadas eram só as que alguém tinha visto.
+
+**Apagar a glosa do texto era a saída óbvia e estava errada.** Ela resolveria a repetição e tiraria o
+nome em inglês de dentro de **título e de tabela**, onde o plugin não marca nada por regra: ali o
+leitor não teria como recuperá-lo, porque não há span para o seletor trocar. São 152 ocorrências no
+markdown contra 134 marcadas no HTML, e a diferença é exatamente esse pedaço.
+
+A correção é de uma linha de lógica no plugin: o parêntese passa a carregar o par **trocado**. A
+glosa vira o que quem escreveu quis dizer, o nome no outro idioma, e funciona nos dois sentidos:
+`Imortalidade (Immortality)` em português, `Immortality (Imortalidade)` em inglês. Quem escreve o
+guia continua sem marcar nada, que é R2.2.
+
+**A asserção tem duas metades e as duas são necessárias.** O HTML de todas as páginas, conferindo
+`data-pt` e `data-en` (consertar um idioma e deixar o outro é metade do defeito), mais a leitura do
+que está **na tela** de `/breeding` nos dois idiomas, porque quem troca o texto é o seletor no
+navegador e o HTML sozinho não prova isso. A contagem de glosas entra na condição: com zero glosas no
+site, "nenhuma repetida" seria verdade trivial.
+
+**Sabotagem rodada:** desfazer a troca acusou as 134 de uma vez. E, como manda o `CLAUDE.md`,
+`.astro/` e `node_modules/.astro/` foram apagados antes de cada medição, senão o HTML velho sai do
+cache e a mudança de plugin parece não ter efeito.
 
 ### [ ] F10 — Idioma misturado dentro do guia
 

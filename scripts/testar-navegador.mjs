@@ -224,6 +224,64 @@ const desviarLeaflet = (alvo) =>
     );
   }
 
+  // 1b. glosa escrita à mão não imprime a mesma palavra duas vezes (F9).
+  //
+  //     "Imortalidade (Immortality)" no markdown marcava os dois lados com o
+  //     MESMO termo, então os dois exibiam o mesmo idioma: a tela mostrava
+  //     "Imortalidade (Imortalidade)" em português e "Immortality
+  //     (Immortality)" em inglês. Eram 134 ocorrências em 12 páginas.
+  //
+  //     Conferido nos DOIS idiomas, no HTML de todas as páginas, porque
+  //     consertar um lado e deixar o outro é metade do defeito. E o número de
+  //     glosas encontradas entra na condição: com zero glosas no site, "nenhuma
+  //     repetida" seria verdade trivial.
+  const GLOSA = /<span data-termo="([^"]+)" data-pt="([^"]*)" data-en="([^"]*)"[^>]*>[^<]*<\/span>\s*\(\s*<span data-termo="([^"]+)" data-pt="([^"]*)" data-en="([^"]*)"[^>]*>[^<]*<\/span>\s*\)/g;
+  let glosas = 0;
+  const repetidas = [];
+  for (const arq of await todosOsHtml()) {
+    const html = await readFile(arq, 'utf-8');
+    for (const g of html.matchAll(GLOSA)) {
+      if (g[1] !== g[4]) continue;
+      glosas++;
+      if (g[2] === g[5] || g[3] === g[6]) {
+        repetidas.push(`${arq.replace(dist, '')}: ${g[2]} (${g[5]})`);
+      }
+    }
+  }
+  //     O HTML sozinho não fecha a prova: quem troca o texto é o seletor no
+  //     navegador. A segunda metade abre /breeding, lê o que está NA TELA nos
+  //     dois idiomas e procura "X (X)" com a mesma palavra dos dois lados.
+  const repetidaNaTela = async () => {
+    await pagina.goto(`${base}/breeding/`);
+    await pagina.waitForTimeout(250);
+    const ler = () => pagina.evaluate(() => {
+      const achadas = [];
+      for (const s of document.querySelectorAll('span[data-termo]')) {
+        const irmao = s.nextSibling?.nextSibling;
+        if (irmao?.nodeType !== 1 || irmao.dataset?.termo !== s.dataset.termo) continue;
+        if (!/^\s*\(\s*$/.test(s.nextSibling.textContent || '')) continue;
+        if (s.textContent.trim() === irmao.textContent.trim()) achadas.push(s.textContent.trim());
+      }
+      return achadas;
+    });
+    const emPt = await ler();
+    await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
+    await pagina.waitForTimeout(300);
+    const emEn = await ler();
+    await pagina.locator('.seletor button', { hasText: 'PT' }).first().click();
+    await pagina.waitForTimeout(200);
+    return { emPt, emEn };
+  };
+  const glosaNaTela = await repetidaNaTela();
+
+  conferir(
+    glosas > 0 && repetidas.length === 0 && glosaNaTela.emPt.length === 0 && glosaNaTela.emEn.length === 0,
+    `as ${glosas} glosas "termo (Term)" mostram o outro idioma, nos dois sentidos`,
+    glosas === 0 ? 'não achei glosa nenhuma no site, então esta asserção não conferiu nada'
+      : repetidas.length ? `${repetidas.length} repetem a mesma palavra no HTML, por exemplo ${repetidas[0]}`
+      : `na tela de /breeding: PT ${JSON.stringify(glosaNaTela.emPt.slice(0, 3))}, EN ${JSON.stringify(glosaNaTela.emEn.slice(0, 3))}`,
+  );
+
   // 2. o seletor de idioma alterna, inclusive termo com acento.
   //    Quebrou porque \b de regex é ASCII e não casa antes de "Á".
   // Varre o site inteiro: cada termo aparece em página diferente, e checar só
