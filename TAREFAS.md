@@ -1189,6 +1189,62 @@ equivalente é a checagem do verificador, que existe e está provada.
 **O rótulo ficou no singular, "Item" e "Estrutura".** O paldb grava a categoria no plural porque lá
 é nome de grupo; aqui é o tipo de UMA tecnologia por linha.
 
+### [ ] F13 — A checagem de receita da F1 confere zero pares e não diz nada
+
+**Requisito:** R1.5
+**Território:** conteúdo e dados
+
+Achada em 02.08 enquanto a F6 mexia na calculadora. **Não conserte junto de outra tarefa:** ela é o
+modo de falha que governa as armadilhas do `CLAUDE.md`, e merece o próprio commit.
+
+A F1 criou em `verificar-tudo.mjs` uma checagem que passa cada receita escrita na curadoria pela
+MESMA função que a página usa, e reprova quando o texto discorda da conta. Ela fechou dizendo, com
+todas as letras, que cobria **um par**, "que é quanto a curadoria tem escrito hoje", e que a linha de
+resumo diria esse número em vez de sugerir 77.
+
+Hoje ela cobre **zero**. O laço procura `onde` no formato `Cruzamento: A com B` no `pals.json`, e
+nenhum dos 77 registros casa mais com esse formato. O contador fica em 0, o `if (receitas)` é falso, e
+a checagem **não imprime nem reprova**. Ela sumiu da saída do portão sem ninguém notar:
+
+```bash
+node -e "
+const p = require('./src/data/pals.json');
+const n = p.pals.filter((x) => /^Cruzamento:\s*(.+?)\s+com\s+(.+?)\s*$/i.test(String(x.onde || ''))).length;
+console.log('pares que a checagem da F1 encontra hoje:', n);
+"
+```
+
+**Isto é exatamente a regra do `CLAUDE.md`:** "o modo de falha mais caro deste repositório não é a
+checagem que reprova, é a que aprova sem ter conferido". A checagem que a F1 escreveu para impedir
+texto e conta divergirem virou decoração no dia em que a curadoria mudou de formato, e o portão
+continuou verde. Se alguém escrever uma receita errada amanhã, nada acusa.
+
+**Duas saídas, e o commit escolhe uma dizendo o porquê:**
+
+1. **Ela volta a ter insumo.** Descobrir por que o formato mudou, se a curadoria deixou de escrever
+   receita de propósito ou se o campo virou outra coisa, e fazer a checagem ler o formato de hoje.
+2. **Ela sai.** Se a curadoria não escreve mais receita, a checagem não tem trabalho, e código que não
+   confere nada é pior que ausência: ele ocupa o lugar de uma checagem de verdade.
+
+O que **não** vale é deixar como está. E, se ela ficar, tem que reprovar quando o número de pares for
+zero, dizendo que é zero, em vez de calar.
+
+**Aceite:**
+
+- `npm run verificar` imprime uma linha sobre receita **em toda execução**, com o número de pares
+  conferidos, ou a checagem não existe mais no arquivo. Uma das duas, verificável por comando:
+
+  ```bash
+  npm run verificar | grep -q "receita:" && echo "diz o número" \
+    || (grep -q "Cruzamento:" scripts/verificar-tudo.mjs && { echo "FALHOU: existe e cala"; exit 1; } \
+        || echo "foi removida, e o commit explica por quê")
+  ```
+
+- Se ela ficar: zerar a lista de receitas da curadoria faz o portão **reprovar** por falta de insumo.
+  Provado por sabotagem, que aqui é apagar o campo `onde` de um Pal e ver a contagem cair e acusar.
+- O commit diz qual das duas saídas foi escolhida e por quê.
+- `npm run portao` passando.
+
 ### [x] H6 — Base do mapa, provisória e alinhada
 
 **Requisito:** R3.2

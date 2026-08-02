@@ -175,6 +175,14 @@ sabotar o que ela cobre e ver o portão acusar, no mesmo ambiente onde ela vai r
   mensagem por outro caminho impede.** Use `git commit -F <arquivo>` com o texto num arquivo, ou um
   heredoc no Bash. Nunca monte a mensagem com `-m` a partir do PowerShell. Para conferir antes de
   empurrar: `git log --format=%s -1 | cat -A` não pode começar com `M-oM-;M-?`.
+- **Assinatura de commit está DESLIGADA neste repositório, e é de propósito.** O ambiente pede
+  `commit.gpgsign=true` com formato `ssh`, mas o arquivo de chave apontado tem 0 byte e a privada não
+  existe: o git então produz commit sem assinatura **em silêncio**, com a exigência ligada, que é o
+  pior dos dois mundos. Exigência ligada sem material de chave só produz commit "Unverified" com a
+  aparência de quem tentou. Por isso o repositório fixa `commit.gpgsign=false`. Para religar: popular
+  `~/.ssh/commit_signing_key` e o `.pub`, registrar a pública como *signing key* na conta do GitHub, e
+  então `git config --unset commit.gpgsign`. Refazer commit antigo não adianta: `--amend` sem chave só
+  troca o SHA, o que já foi testado.
 
 ## Como entregar
 
