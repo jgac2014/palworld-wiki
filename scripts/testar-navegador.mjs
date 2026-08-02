@@ -845,6 +845,43 @@ const desviarLeaflet = (alvo) =>
     ruins.map((i) => `${i.rota}: ${i.total} linhas, ${i.antes} visíveis, ${i.depois} após filtro sem resultado, contagem "${i.contagem}"`).join(' | '),
   );
 
+  // 9c. nenhuma coluna de índice fica presa num idioma (F12).
+  //
+  //     A coluna TIPO de /tecnologias publicava "Items" e "Structures" crus do
+  //     paldb no meio de nome, nível e custo em português, nos 588 registros.
+  //     A de categoria de /estruturas tinha o defeito espelhado: mostrava o
+  //     português e continuava em português com o site em inglês.
+  //
+  //     A asserção troca o idioma de verdade e compara o texto renderizado. Só
+  //     conferir se "Items" sumiu do HTML aprovaria a coluna traduzida na
+  //     marra, presa em português, que é o outro jeito de errar isto.
+  const colunaEmDoisIdiomas = async (rota) => {
+    await pagina.goto(`${base}${rota}`);
+    await pagina.waitForTimeout(250);
+    const ler = () => pagina.evaluate(() =>
+      [...document.querySelectorAll('#grade li .meta .par:last-child .val')]
+        .slice(0, 40).map((e) => e.textContent.trim()));
+    const pt = await ler();
+    await pagina.locator('.seletor button', { hasText: 'EN' }).first().click();
+    await pagina.waitForTimeout(300);
+    const en = await ler();
+    await pagina.locator('.seletor button', { hasText: 'PT' }).first().click();
+    await pagina.waitForTimeout(200);
+    return { pt, en };
+  };
+
+  const tecno = await colunaEmDoisIdiomas('/tecnologias/');
+  const estrut = await colunaEmDoisIdiomas('/estruturas/');
+  const semIngles = (l) => l.length > 0 && !l.some((v) => /^(Items|Structures)$/.test(v));
+  const alterna = (r) => r.pt.length > 0 && r.en.length === r.pt.length
+    && r.pt.some((v, i) => v !== r.en[i]);
+  conferir(
+    semIngles(tecno.pt) && alterna(tecno) && alterna(estrut),
+    'as colunas de tipo e de categoria saem em português e alternam para o inglês',
+    `tecnologias PT ${JSON.stringify([...new Set(tecno.pt)].slice(0, 3))} EN ${JSON.stringify([...new Set(tecno.en)].slice(0, 3))}`
+    + ` | estruturas PT ${JSON.stringify([...new Set(estrut.pt)].slice(0, 3))} EN ${JSON.stringify([...new Set(estrut.en)].slice(0, 3))}`,
+  );
+
   // 9b. em 1440px o catálogo e os índices usam a largura, e o guia não (F4).
   //
   //     O alvo do site é PC, decidido em 01.08.2026, e antes desta tarefa a

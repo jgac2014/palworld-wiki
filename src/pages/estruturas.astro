@@ -4,8 +4,10 @@ import IndiceCatalogo from '../components/IndiceCatalogo.astro';
 import colecao from '../data/estruturas.json';
 import { ui } from '../lib/termos.js';
 
-// A categoria vem traduzida do próprio paldb, então a coluna alterna de idioma
-// junto com o resto sem ninguém escrever tradução aqui.
+// A categoria vem traduzida do próprio paldb nos dois idiomas, então a coluna
+// alterna sem ninguém escrever tradução aqui. Mandar o par PT/EN é o que faz a
+// alternância acontecer de verdade: com só o `categoria_pt`, a coluna ficava
+// presa no português mesmo com o site em inglês.
 const itens = colecao.itens.map((e) => ({ ...e, categoria_mostrada: e.categoria_pt }));
 ---
 <Base
@@ -18,7 +20,7 @@ const itens = colecao.itens.map((e) => ({ ...e, categoria_mostrada: e.categoria_
     <IndiceCatalogo
       itens={itens}
       subtituloChave="indice_estruturas_sub"
-      colunas={[{ campo: 'categoria_mostrada', chaveRotulo: 'indice_col_categoria' }]}
+      colunas={[{ campo: 'categoria_mostrada', campoEn: 'categoria', chaveRotulo: 'indice_col_categoria' }]}
     />
   </article>
 </Base>

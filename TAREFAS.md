@@ -1049,7 +1049,7 @@ nomeadas são dez respostas. Dez links para dez topos são ruído.
 - Provado por sabotagem: apagar o id de uma seção do guia e ver o portão acusar o link órfão.
 - `npm run portao` passando.
 
-### [ ] F12 — A coluna TIPO de `/tecnologias` está em inglês
+### [x] F12 — A coluna TIPO de `/tecnologias` está em inglês
 
 **Requisito:** R1.8, com R2.1 dizendo onde mora a tradução
 **Território:** conteúdo e dados
@@ -1080,6 +1080,28 @@ funcionando de graça.
   defeito de voltar.
 - Provado por sabotagem.
 - `npm run portao` passando.
+
+**Feita.** Zero células com "Items" ou "Structures". A tradução mora no dicionário de interface e
+entra na exibição, e o verificador reprova quando um valor de `tipo` do catálogo não tem par PT/EN,
+que é o que impede a próxima importação de publicar valor novo em inglês.
+
+**Traduzir não era metade da tarefa, era um terço.** A coluna traduzida podia ficar presa no
+português, que é o mesmo defeito espelhado, e foi o que `/estruturas` já tinha: ela mostrava
+"Produção" e continuava "Produção" com o site em inglês, apesar do comentário no arquivo afirmando
+que alternava. As duas colunas passaram a mandar o par PT/EN, e a asserção **troca o idioma de
+verdade e compara o texto renderizado**, em vez de conferir se "Items" sumiu do HTML.
+
+**Três sabotagens, todas rodadas.** Tirar `tipo_Structures` do dicionário acusou o valor sem
+tradução. Publicar o campo cru de novo acusou `PT ["Structures","Items"] EN ["Structures","Items"]`.
+E traduzir sem mandar o par acusou `estruturas PT ["Produção"] EN ["Produção"]`, que é a sabotagem
+que a versão "só checar se sumiu o inglês" teria aprovado.
+
+**Um item do aceite não se aplicava, e isto fica dito em vez de marcado.** `npm run termos:auditar`
+varre o corpo dos guias, não o catálogo importado, então ele nunca listaria estes dois. A cobrança
+equivalente é a checagem do verificador, que existe e está provada.
+
+**O rótulo ficou no singular, "Item" e "Estrutura".** O paldb grava a categoria no plural porque lá
+é nome de grupo; aqui é o tipo de UMA tecnologia por linha.
 
 ### [x] H6 — Base do mapa, provisória e alinhada
 

@@ -878,6 +878,42 @@ if (pals && catalogo) {
   if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
 }
 
+// ------------- todo valor de campo exibido tem tradução no dicionário (F12)
+//
+// A coluna TIPO de /tecnologias saía com o valor cru do paldb: 371 "Items" e
+// 217 "Structures" no meio de nome, nível e custo em português. Traduzir na
+// importação gravaria texto que ninguém reconfere contra a fonte, então a
+// tradução mora no dicionário de interface e entra na exibição.
+//
+// O que impede o defeito de voltar não é a tradução, é esta checagem: uma
+// importação futura pode trazer valor novo, e sem alguém olhando ele iria ao
+// ar em inglês exatamente como estes dois foram.
+{
+  const interfaceJson = await lerJson('src/data/interface.json');
+  const tecnologias = await lerJson('src/data/tecnologias.json');
+  if (!interfaceJson || !tecnologias?.itens?.length) {
+    erro('tipos', 'não consegui ler interface.json ou tecnologias.json para conferir a tradução da coluna TIPO');
+  } else {
+    const valores = [...new Set(tecnologias.itens.map((x) => x.tipo).filter(Boolean))];
+    if (!valores.length) {
+      erro('tipos', 'nenhuma tecnologia tem campo "tipo". Ou a importação mudou de forma, ou esta checagem virou decoração');
+    } else {
+      const semTraducao = valores.filter((v) => {
+        const t = interfaceJson[`tipo_${v}`];
+        return !t || !t.pt || !t.en;
+      });
+      if (semTraducao.length) {
+        erro('tipos', `${semTraducao.length} valor(es) de tipo sem tradução no interface.json, e iriam ao ar em inglês: ${semTraducao.map((v) => `tipo_${v}`).join(', ')}`);
+      } else {
+        const contagem = valores
+          .map((v) => `${tecnologias.itens.filter((x) => x.tipo === v).length} ${v}`)
+          .join(', ');
+        passou(`tipos: os ${valores.length} valores da coluna TIPO têm tradução PT/EN (${contagem})`);
+      }
+    }
+  }
+}
+
 // ------- o interruptor de progresso só onde ele muda alguma coisa (F8)
 //
 // Ele nascia nas 323 páginas, trocava de rótulo, gravava no localStorage e não
