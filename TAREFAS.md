@@ -1594,3 +1594,35 @@ Coisas que parecem tarefa e não são. Não puxe sem conversar.
   158 termos. Custa meio dia e uma chave AES. Só vale se a cobertura do dicionário virar gargalo,
   e hoje não é.
 - **Trocar de framework.** Ver `CLAUDE.md`.
+
+### [ ] E8 — Os 1.875 itens são nomes sem receita, e é o maior buraco do site
+
+**Requisito:** R1.8
+**Território:** conteúdo e dados, mais código para a rota de detalhe
+
+A auditoria de 01.08 pôs isto em primeiro lugar: o site não tem UMA receita de
+fabricação para nenhum dos 1.875 itens. "Do que eu preciso para fazer uma Esfera Mega"
+é a pergunta mais comum de quem joga, e o paldb responde em um clique.
+
+A ficha de item do paldb publica tudo o que falta, conferido em 02.08 na página da
+Mega Sphere: receita com materiais e quantidades (Paldium Fragment 1, Ingot 1, Wood 3,
+Stone 3), tempo de fabricação, tecnologia que destrava, bancadas que fabricam, tabela
+de quem dropa com quantidade e probabilidade, valor em ouro, peso, empilhamento máximo.
+
+Nada disso depende do `Mappings.usmap`.
+
+**Aceite:**
+- O importador visita a ficha de cada item e grava receita, tecnologia, bancadas,
+  drops, ouro, peso e empilhamento. Uma requisição por vez, com pausa, sem paralelismo.
+- Guarda de aborto: se menos de 300 itens vierem com receita, ABORTA sem gravar.
+- Congela a contagem de itens com receita em arquivo de referência, como o poder de
+  captura, para reimportação futura acusar deriva.
+- `/itens` deixa de ser beco sem saída: cada registro leva a `/item/<slug>`.
+- A ficha de item mostra a receita em português, com os nomes do jogo, e diz quando o
+  item não é fabricável em vez de deixar a seção vazia.
+- O pacote offline NÃO leva as 1.875 fichas: leva o índice, e diz no cabeçalho que as
+  fichas ficaram de fora e por quê. Medir e escrever o número.
+- O build continua abaixo de um minuto, ou a tarefa diz quanto passou e por quê.
+
+**Fonte:** paldb.cc, ficha por item. Gravar o recorte de UMA ficha em
+`src/data/recortes/`, com data e URL, pela regra da F3.
