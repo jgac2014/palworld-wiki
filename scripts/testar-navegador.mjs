@@ -446,18 +446,54 @@ const desviarLeaflet = (alvo) =>
   //     aprovaria âncora quebrada, e âncora quebrada é pior que link para o
   //     topo: ela promete precisão e entrega rolagem aleatória. Por isso o id
   //     é procurado no HTML do guia de DESTINO.
+  //     Esta asserção JÁ MENTIU uma vez, e o conserto é a parte que importa.
+  //
+  //     Ela passava aqui e reprovava no CI, no mesmo commit, acusando "360
+  //     apontam para id que não existe". Não era verdade: o id existia, e os
+  //     360 eram TODOS os links, não só os 46 títulos acentuados. Falhar tudo
+  //     em vez de um subconjunto é a assinatura de resolução de caminho
+  //     quebrada, não de âncora errada.
+  //
+  //     A causa era o prefixo de publicação. Em CI o site é construído em
+  //     /palworld-wiki/, o href sai `/palworld-wiki/combate/#secao`, e este
+  //     laço partia o caminho à mão e procurava `dist/palworld-wiki/combate/`,
+  //     que não existe. Conjunto de ids vazio, e todo link vira órfão.
+  //
+  //     O `semPrefixo()` já existia no topo deste arquivo, escrito depois de o
+  //     mesmo prefixo ter quebrado a busca na primeira execução em CI. Esta
+  //     asserção não o usou. Agora usa, e por isso roda igual nos dois lados.
+  //
+  //     E ela passa a separar os dois modos de falha, que era o que faltava
+  //     para ela não poder mentir de novo: destino que não resolve acusa a
+  //     RESOLUÇÃO, âncora ausente num destino que resolveu acusa o CONTEÚDO.
+  //     Antes os dois saíam com a mesma frase, e ela apontava para o lado
+  //     errado.
   const idsPorRota = new Map();
   const idsDe = async (rota) => {
     if (!idsPorRota.has(rota)) {
       const arq = join(dist, rota, 'index.html');
-      const html = existsSync(arq) ? await readFile(arq, 'utf-8') : '';
-      idsPorRota.set(rota, new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1])));
+      idsPorRota.set(
+        rota,
+        existsSync(arq)
+          ? new Set([...(await readFile(arq, 'utf-8')).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]))
+          : null, // null = o arquivo não existe, que é outro defeito
+      );
     }
     return idsPorRota.get(rota);
   };
 
+  /** Quebra o href em rota e âncora, descontando o prefixo de publicação. */
+  const partirLink = (href) => {
+    const corte = href.lastIndexOf('#');
+    if (corte < 0) return { rota: null, ancora: null };
+    const ancora = decodeURIComponent(href.slice(corte + 1));
+    const caminho = semPrefixo(href.slice(0, corte)).replace(/^\/+/, '').replace(/\/+$/, '');
+    return { rota: caminho, ancora: ancora || null };
+  };
+
   let comAncora = 0;
   const semAncora = [];
+  const semDestino = [];
   const orfaos = [];
   const fichasSemCitacao = [];
   const fichas = (await todosOsHtml()).filter((a) => a.includes(`${sep}pal${sep}`));
@@ -466,21 +502,25 @@ const desviarLeaflet = (alvo) =>
     const lista = html.match(/class="guias"[\s\S]*?<\/ul>/)?.[0];
     if (!lista) { fichasSemCitacao.push(arq); continue; }
     for (const m of lista.matchAll(/href="([^"]+)"/g)) {
-      const [rota, ancora] = m[1].replace(/^\//, '').replace(/\/$/, '').split('/#');
+      const { rota, ancora } = partirLink(m[1]);
       if (!ancora) { semAncora.push(`${arq.replace(dist, '')} -> ${m[1]}`); continue; }
       comAncora++;
-      if (!(await idsDe(rota)).has(decodeURIComponent(ancora))) {
-        orfaos.push(`${arq.replace(dist, '')} -> ${m[1]}`);
-      }
+      const ids = await idsDe(rota);
+      if (ids === null) semDestino.push(`${m[1]} (procurei em dist/${rota}/index.html)`);
+      else if (!ids.has(ancora)) orfaos.push(`${arq.replace(dist, '')} -> ${m[1]}`);
     }
   }
   conferir(
-    fichas.length > 0 && comAncora > 0 && semAncora.length === 0 && orfaos.length === 0,
+    fichas.length > 0 && comAncora > 0 && semAncora.length === 0
+      && semDestino.length === 0 && orfaos.length === 0,
     `os ${comAncora} links de "onde aparece nos guias" levam a uma seção que existe`
-    + ` (${fichasSemCitacao.length} das ${fichas.length} fichas não são citadas em guia nenhum)`,
+    + ` (prefixo "${PREFIXO || 'nenhum'}", ${fichasSemCitacao.length} das ${fichas.length} fichas sem citação)`,
     comAncora === 0 ? 'nenhum link com âncora, então esta asserção não conferiu nada'
       : semAncora.length ? `${semAncora.length} sem âncora, por exemplo ${semAncora[0]}`
-      : `${orfaos.length} apontam para id que não existe, por exemplo ${orfaos[0]}`,
+      // Este ramo acusa a asserção, não o site: o guia de destino não foi
+      // achado no disco, então nada foi conferido sobre a âncora.
+      : semDestino.length ? `${semDestino.length} link(s) cujo guia de destino não resolveu no dist, e isso é defeito DESTA asserção e não do site: ${semDestino[0]}`
+      : `${orfaos.length} apontam para id que não existe no guia de destino, por exemplo ${orfaos[0]}`,
   );
 
   // 5. a moldura inteira alterna de idioma, não só os nomes do jogo.
