@@ -11,3 +11,5 @@ worker/node_modules/
 worker/.wrangler/
 .cache/
 .claude/
+
+src/data/.receitas-parcial.json
