@@ -1189,7 +1189,7 @@ equivalente é a checagem do verificador, que existe e está provada.
 **O rótulo ficou no singular, "Item" e "Estrutura".** O paldb grava a categoria no plural porque lá
 é nome de grupo; aqui é o tipo de UMA tecnologia por linha.
 
-### [ ] F13 — A checagem de receita da F1 confere zero pares e não diz nada
+### [x] F13 — A checagem de receita da F1 confere zero pares e não diz nada
 
 **Requisito:** R1.5
 **Território:** conteúdo e dados
@@ -1244,6 +1244,41 @@ zero, dizendo que é zero, em vez de calar.
   Provado por sabotagem, que aqui é apagar o campo `onde` de um Pal e ver a contagem cair e acusar.
 - O commit diz qual das duas saídas foi escolhida e por quê.
 - `npm run portao` passando.
+
+**Feita pela saída 1, ela volta a ter insumo, e o insumo não era o que a tarefa supunha.**
+
+A tarefa oferecia "descobrir por que o formato mudou". A resposta estava escrita no `fontes.md` desde
+02.08: o par "Gildane com Ophydia" **saiu das três páginas de propósito**, porque nunca teve fonte
+independente. Ele foi eleito pela nossa própria conta entre 239 candidatos que a nossa própria regra
+gerou, que é o mesmo defeito da receita de Early Access com a nossa cara em vez da de um guia velho.
+**Zero pares é a decisão certa, não um acidente**, e uma checagem que reprovasse no zero deixaria o
+portão vermelho para sempre por causa dela. Portão que acusa o que já foi decidido é portão que
+alguém desliga, que é a lição que o gatilho do poder de captura já tinha custado.
+
+**O escopo estava errado desde o começo, e esse é o achado que a tarefa não previa.** A F1 encontrou
+o par escrito em TRÊS lugares: o campo `onde` de `pals.json`, o `plano-de-acao.md` e o `combate.md`.
+A checagem que ela deixou olhava **só o primeiro**. Ela cobria um terço do próprio motivo de existir,
+e ninguém notou porque o terço coberto era o que tinha o par na hora. Agora ela varre os 41 campos
+`onde` da curadoria mais os 13 guias, com `glossario.md` e `fontes.md` de fora pelo mesmo motivo da
+F9 e da F10: os dois **são** o registro, e o `fontes.md` cita o par que saiu justamente para
+registrar que ele saiu.
+
+**A segunda sabotagem derrubou a primeira versão da correção, e mudou a regra.** Pôr "Anubis sai do
+Cruzamento de Vanwyrm com Azurobe" num guia **passava**: no corpo do guia não há campo dizendo qual
+é o filho, e a checagem se contentava com o par devolver alguma coisa. A saída não é adivinhar o
+filho na prosa. É aplicar o que a F2 estabeleceu: **concordar com a nossa calculadora não é fonte**,
+é a circularidade que tirou o par do site. Então par específico escrito em qualquer lugar é
+reprovado, e o que a conta responde entra na mensagem só para dizer qual dos dois problemas é.
+
+**Cinco sabotagens, todas rodadas.** Receita errada na curadoria acusou o par contradizendo a conta.
+A mesma receita num guia acusou, e é a que a versão anterior aprovava. Um par que **concorda** com a
+calculadora acusou a circularidade em vez de aprovar. Apagar o registro do `fontes.md` acusou o zero
+sem registro, que é o que impede apagar uma receita errada passar por acerto. E tirar todos os campos
+`onde` acusou falta de insumo em vez de imprimir zero e passar.
+
+A linha sai em toda execução, com o número de pares e o número de fontes varridas, que é a metade que
+faltava: a versão anterior só falava quando achava par, então sumir da saída era o comportamento
+normal dela.
 
 ### [x] F14 — A E8 gravou por cima do `receitas.json` das calculadoras, e o portão está vermelho
 

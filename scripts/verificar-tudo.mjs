@@ -1174,12 +1174,37 @@ if (pals && catalogo) {
     passou(`cruzamento: ${comCombi} CombiRanks e ${unicos.length} combinações únicas, todas de Pal do catálogo`);
   }
 
-  // ------------------- receita escrita na curadoria x o que a conta responde
-  // A F1 nasceu porque a curadoria dizia "Anubis: Cruzamento de Vanwyrm com
-  // Azurobe" e a calculadora respondia Slowatt para esse par. Uma das duas
-  // estava errada, e ninguém tinha como saber qual sem abrir o JSON na mão.
-  // Agora o par escrito é passado pela MESMA função que a página usa, e texto
-  // que discorda da conta vira erro.
+  // ------------------- receita de cruzamento escrita no site x o que a conta responde
+  //
+  // A F1 nasceu porque a wiki dizia "Anubis: Cruzamento de Vanwyrm com Azurobe"
+  // e a calculadora respondia Slowatt para esse par. O par escrito é passado
+  // pela MESMA função que a página usa, e texto que discorda da conta vira erro.
+  //
+  // DUAS COISAS MUDARAM AQUI NA F13, e as duas por defeito da versão anterior.
+  //
+  // 1. O ESCOPO ESTAVA ERRADO DESDE O COMEÇO. A F1 achou o par escrito em TRÊS
+  //    lugares: o campo `onde` de pals.json, o plano-de-acao.md e o combate.md.
+  //    A checagem que ela deixou olhava só o primeiro. Ela cobria um terço do
+  //    próprio motivo de existir, e ninguém notou porque o terço que ela cobria
+  //    era o que tinha o par na hora. Agora ela varre o corpo dos guias também.
+  //
+  // 2. ELA CALAVA NO ZERO. O laço não achava par nenhum, o contador ficava em
+  //    0, o `if (receitas)` era falso, e a checagem sumia da saída do portão sem
+  //    reprovar. É a definição da armadilha que governa o CLAUDE.md: a checagem
+  //    que aprova sem ter conferido. Agora ela IMPRIME em toda execução, com o
+  //    número de pares e o número de fontes varridas.
+  //
+  // ZERO É A RESPOSTA CERTA HOJE, E É POR ISSO QUE ELA NÃO REPROVA POR ISSO.
+  // Em 02.08 o par "Gildane com Ophydia" saiu das três páginas, e o motivo está
+  // em fontes.md: ele nunca teve fonte independente, foi eleito pela NOSSA
+  // conta entre 239 candidatos que a NOSSA regra gerou. Escrever um par
+  // específico era conferir a calculadora com ela mesma. Reprovar no zero
+  // deixaria o portão vermelho para sempre por causa da decisão certa, e portão
+  // que acusa o que já foi decidido é portão que alguém desliga.
+  //
+  // O que o zero precisa é de PROVA de que ele é a decisão, e não um apagão
+  // acidental: com zero pares, o registro tem que continuar em fontes.md. Mesma
+  // regra que a F6 aplicou à sobra de uma unidade da Palpédia.
   const porNome = new Map();
   for (const p of catalogo.pals) {
     for (const n of [p.chave, p.en, p.pt]) if (n) porNome.set(String(n).toLowerCase(), p.chave);
@@ -1190,24 +1215,106 @@ if (pals && catalogo) {
       .map((p) => ({ chave: p.chave, en: p.en, pt: p.pt, numero: p.numero, combi: p.combi, ...(p.so_combinacao_unica ? { so_combinacao_unica: true } : {}) })),
     cruzamentos_unicos: catalogo.cruzamentos_unicos || [],
   };
-  let receitas = 0;
-  for (const p of pals.pals) {
-    const m = String(p.onde || '').match(/^Cruzamento:\s*(.+?)\s+com\s+(.+?)\s*$/i);
-    if (!m) continue;
-    const a = porNome.get(m[1].toLowerCase());
-    const b = porNome.get(m[2].toLowerCase());
-    if (!a || !b) {
-      erro('receita', `${p.nome}: a receita "${p.onde}" cita ${!a ? m[1] : m[2]}, que não é Pal do catálogo`);
-      continue;
+  // Onde a wiki pode afirmar uma receita. `glossario.md` e `fontes.md` ficam de
+  // fora pelo mesmo motivo da F9 e da F10: os dois SÃO o registro, e o
+  // fontes.md cita o par que saiu justamente para registrar que ele saiu.
+  const FORA_DA_VARREDURA = new Set(['glossario.md', 'fontes.md']);
+  const guias = Object.entries(corpos).filter(([arq]) => !FORA_DA_VARREDURA.has(arq));
+  const comOnde = pals.pals.filter((p) => p.onde);
+
+  // Falta de insumo REPROVA. Sem o campo `onde` e sem corpo de guia, esta
+  // checagem não varreu nada e não pode dizer que passou: é exatamente assim
+  // que ela virou decoração da primeira vez.
+  if (!comOnde.length || !guias.length) {
+    erro(
+      'receita',
+      `não há o que varrer: ${comOnde.length} campos "onde" na curadoria e ${guias.length} guias legíveis. ` +
+      'A checagem de receita não conferiu nada e não pode dizer que passou',
+    );
+  } else {
+    // "Cruzamento: A com B" e "Cruzamento de A com B", que são as duas formas
+    // que a F1 encontrou escritas. O "com" solto NÃO entra: metade dos guias
+    // tem "Pals com Transporte" e "monte com dano em área", e casar isso
+    // produziria dezenas de falsos positivos, que é o caminho mais curto para
+    // alguém desligar a checagem.
+    const FORMA = /Cruzamento(?:\s+de)?:?\s+([A-Z][\p{L}]+(?:\s+[A-Z][\p{L}]+)?)\s+com\s+([A-Z][\p{L}]+(?:\s+[A-Z][\p{L}]+)?)/gu;
+
+    const afirmacoes = [];
+    for (const p of comOnde) {
+      for (const m of String(p.onde).matchAll(FORMA)) {
+        afirmacoes.push({ onde: `curadoria de ${p.nome}`, alvo: p.nome, texto: m[0], a: m[1], b: m[2] });
+      }
     }
-    receitas++;
-    const filho = filhoteDoPar(paraConta, a, b)?.filho?.chave;
-    const esperado = porNome.get(String(p.nome).toLowerCase());
-    if (filho !== esperado) {
-      erro('receita', `${p.nome}: a curadoria diz "${p.onde}" e esse par devolve ${filho || 'nada'} na calculadora. Uma das duas está errada, e receita pré-1.0 é a suspeita de sempre: os 215 Pals antigos tiveram o rank de cruzamento alterado`);
+    for (const [arq, corpo] of guias) {
+      for (const m of String(corpo).matchAll(FORMA)) {
+        // No guia não há campo dizendo qual é o filho, então o alvo é o que a
+        // frase afirma. Sem alvo declarado, a checagem confere que o par existe
+        // e devolve alguma coisa, que é o que dá para afirmar dali.
+        afirmacoes.push({ onde: arq, alvo: null, texto: m[0], a: m[1], b: m[2] });
+      }
     }
+
+    // TODA afirmação de par é reprovada, e não só a que discorda da conta.
+    //
+    // Esta é a parte que a versão anterior errava por dentro, e a sabotagem
+    // mostrou: pôr "Anubis sai do Cruzamento de Vanwyrm com Azurobe" num guia
+    // PASSAVA, porque no corpo do guia não há campo dizendo qual é o filho, e a
+    // checagem se contentava com o par devolver alguma coisa.
+    //
+    // A saída não é adivinhar o filho na prosa, é aplicar a decisão de 02.08:
+    // **concordar com a nossa calculadora não é fonte**, é a circularidade que
+    // a F2 identificou. O par "Gildane com Ophydia" concordava com ela, e saiu
+    // do site justamente por isso. Então par escrito é reprovado de qualquer
+    // jeito, e o que a conta responde entra na mensagem para dizer QUAL dos dois
+    // problemas é.
+    for (const af of afirmacoes) {
+      const a = porNome.get(af.a.toLowerCase());
+      const b = porNome.get(af.b.toLowerCase());
+      if (!a || !b) {
+        erro('receita', `${af.onde}: "${af.texto}" cita ${!a ? af.a : af.b}, que não é Pal do catálogo`);
+        continue;
+      }
+      const filho = filhoteDoPar(paraConta, a, b)?.filho?.chave;
+      const esperado = af.alvo ? porNome.get(String(af.alvo).toLowerCase()) : null;
+      const contradiz = esperado && filho !== esperado;
+      erro(
+        'receita',
+        `${af.onde}: "${af.texto}" afirma um par específico. ` +
+        (contradiz
+          ? `Pior, ele contradiz a própria calculadora, que devolve ${filho || 'nada'} para esse par. `
+          : esperado
+            ? `A calculadora concorda e devolve ${filho}, e concordar com ela NÃO é fonte: ` +
+              'foi por essa circularidade que "Gildane com Ophydia" saiu do site em 02.08. '
+            : `A frase não diz qual é o filho, então não dá para conferir contra a conta; ` +
+              `a calculadora devolve ${filho || 'nada'} para esse par. Mesmo se concordasse não seria fonte, ` +
+              'que é a circularidade que tirou "Gildane com Ophydia" do site em 02.08. ') +
+        'Par específico só volta com fonte externa, que é o que a F2 destrava. Enquanto isso, aponte para a calculadora',
+      );
+    }
+
+    // Com zero pares, o zero precisa estar REGISTRADO. Sem isso, apagar uma
+    // receita errada do site em vez de corrigi-la passaria como acerto, e a
+    // próxima pessoa reescreveria a mesma receita sem saber que ela já caiu.
+    const registro = corpos['fontes.md'] || '';
+    const registrado = /Gildane com Ophydia/.test(registro)
+      && /nunca teve fonte|sem proced[êe]ncia|sem fonte independente/.test(registro);
+    if (!afirmacoes.length && !registrado) {
+      erro(
+        'receita',
+        'nenhuma receita de cruzamento escrita no site, e o fontes.md não registra por quê. ' +
+        'Zero pares é a decisão de 02.08, e decisão que sai do registro vira apagão acidental',
+      );
+    }
+
+    // Impressa SEMPRE, com o número de pares e o de fontes varridas. A versão
+    // anterior só falava quando achava par, então sumir da saída era o
+    // comportamento normal dela.
+    passou(
+      `receita: ${afirmacoes.length} par(es) de cruzamento afirmado(s) no site, ` +
+      `varridos ${comOnde.length} campos "onde" da curadoria e ${guias.length} guias` +
+      `${afirmacoes.length === 0 ? '. Zero é a decisão de 02.08, registrada em fontes.md' : ''}`,
+    );
   }
-  if (receitas) passou(`receita: ${receitas} par(es) escrito(s) na curadoria conferido(s) contra a calculadora`);
 }
 
 // ------- termo que o mecanismo não alterna não pode ficar só em inglês (F10)
