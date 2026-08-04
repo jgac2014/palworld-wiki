@@ -22,6 +22,8 @@
     "mapa:fundo": "node scripts/gerar-fundo-mapa.mjs",
     "importacao:congelar": "node scripts/congelar-importacao.mjs",
     "recortes:gravar": "node scripts/gravar-recortes.mjs",
+    "protecao:conferir": "node scripts/proteger-main.mjs",
+    "protecao:aplicar": "node scripts/proteger-main.mjs --aplicar",
     "testar": "node scripts/testar-navegador.mjs",
     "portao": "npm run verificar && npm run build && npm run offline && npm run testar"
   },

@@ -1307,6 +1307,44 @@ a regressão real que ela existe para pegar.
 é o comando que o `_leia_isto` do próprio arquivo importado já afirmava existir, e não existia:
 reimportação que não é comando não é reproduzível, e essa é a regra que a F3 deixou escrita.
 
+### [ ] F15 — O portão reprovou por um dia inteiro e ninguém leu
+
+**Requisito:** R1.5, com R4.2 dizendo o que o push dispara
+**Território:** compartilhado (a proteção é do repositório, o script e o comando são de `scripts/` e `package.json`)
+
+O commit `0f61ae0` foi para o `origin` em 03.08 às 19:36. Os **dois** workflows falharam ali mesmo,
+o "Portão de qualidade" em 42s e o "Publicar wiki" em 25s, e a main ficou vermelha até 04.08. A F14
+consertou o defeito; esta tarefa é sobre o outro problema, que é maior: **o portão acusou e ninguém
+leu.** Portão que reprova depois do push e não impede nada não gateia, ele registra.
+
+Isso não é falta de atenção de quem empurrou. É a ordem dos acontecimentos: o CI roda **depois** que
+o commit já está na main, então o único efeito de reprovar é escrever num lugar que ninguém abre por
+hábito. Enquanto o gate for posterior ao fato, ele depende de alguém lembrar de olhar, e lembrar não
+é mecanismo.
+
+**Caminho escolhido: proteção de branch, sem serviço novo.** O repositório é público, então a
+proteção de branch está disponível sem custo. A main passa a exigir o check `portao` verde, e um
+commit sem check verde não entra. O que estava em `.github/workflows/portao.yml` continua igual: o
+que muda é que o resultado dele passa a ter consequência.
+
+**A consequência tem que ficar escrita, porque ela muda o modo de trabalhar.** Check obrigatório
+bloqueia **push direto na main**, e não só merge: o commit chega sem status, e sem status ele é
+recusado. A partir daqui todo trabalho vai por ramo e pull request. Quem edita pela interface web do
+GitHub, que é o R4.1, continua conseguindo: o botão passa a oferecer ramo mais PR em vez de gravar
+direto.
+
+**Aceite:**
+
+- A proteção é aplicada por comando versionado no repositório, e não por clique numa tela. Regra que
+  só existe na configuração de alguém é a mesma coisa que tarefa que só existe numa conversa.
+- `enforce_admins` **ligado**. Com ele desligado o dono do repositório passa por cima, e como o dono
+  é quem empurra, a proteção não protegeria de nada.
+- Revisão obrigatória **desligada**, de propósito: são quatro pessoas e o dono não pode aprovar o
+  próprio PR. Exigir revisão travaria o repositório em vez de gatear.
+- Provado por sabotagem, que aqui é **tentar empurrar direto na main e ser recusado**. Sem essa
+  prova, a proteção é uma chamada de API que retornou 200 e pode não estar valendo.
+- `npm run portao` passando.
+
 ### [x] H6 — Base do mapa, provisória e alinhada
 
 **Requisito:** R3.2
