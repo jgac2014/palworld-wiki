@@ -13,3 +13,4 @@ worker/.wrangler/
 .claude/
 
 src/data/.receitas-parcial.json
+src/data/.fichas-pal-parcial.json
