@@ -12,6 +12,7 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { filhoteDoPar, cruzaveis, sorteaveis, naPalpedia } from '../src/lib/calculos.js';
+import { enderecoItem } from '../src/lib/enderecos.js';
 import { COLECOES_IMPORTADAS, registrosDe, medirCampo, rotuloDaColecao } from './lib/importacao.mjs';
 import { existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -917,6 +918,83 @@ for (const { arquivo, quem, blocos } of FORMA_DAS_RECEITAS) {
     );
   } else {
     passou(`${arquivo.replace('src/data/', '')}: os blocos ${blocos.join(', ')} estão no lugar`);
+  }
+}
+
+// ----------------- o que a ficha de item promete tem que existir (E9)
+//
+// Três checagens que sustentam três promessas da página, e nenhuma delas é
+// verificável olhando a tela: elas falham em 1 registro de 1.875.
+{
+  const fab = await lerJson('src/data/receitas-fabricacao.json');
+  const cat = await lerJson('src/data/itens.json');
+  if (fab?.receitas && cat?.itens) {
+    const chaves = new Set(cat.itens.map((i) => i.chave));
+
+    // 1. Endereço distinto por item.
+    //
+    //    O slug descarta o que não é letra, número ou hífen, e 253 chaves têm
+    //    dois-pontos, parêntese ou colchete. Duas chaves caindo no mesmo
+    //    endereço fazem uma ficha sobrescrever a outra, e o Astro não reclama:
+    //    o sintoma é uma página a menos, num total de 1.875, com o conteúdo
+    //    errado. É o tipo de coisa que só a próxima importação traz.
+    const porEndereco = new Map();
+    for (const i of cat.itens) {
+      const e = enderecoItem(i.chave);
+      if (!porEndereco.has(e)) porEndereco.set(e, []);
+      porEndereco.get(e).push(i.chave);
+    }
+    const colididos = [...porEndereco].filter(([, v]) => v.length > 1);
+    if (colididos.length) {
+      erro(
+        'ficha de item',
+        `${colididos.length} endereço(s) de ficha gerados por mais de uma chave, e a ficha de uma sobrescreve a da outra. ` +
+        `Ex: /item/${colididos[0][0]}/ vem de ${colididos[0][1].join(' e ')}`,
+      );
+    }
+
+    // 2. Todo material da receita é um item que tem página.
+    //
+    //    Cada material vira link na ficha. Chave que não existe em itens.json
+    //    é link para página não gerada, e são 147 materiais distintos ligados
+    //    de 1.244 fichas: um deles órfão produz link quebrado em dezenas de
+    //    páginas de uma vez.
+    const materiais = new Set();
+    for (const lista of Object.values(fab.receitas)) for (const m of lista) materiais.add(m.chave);
+    const orfaos = [...materiais].filter((c) => !chaves.has(c));
+    const alvosOrfaos = Object.keys(fab.receitas).filter((c) => !chaves.has(c));
+    if (orfaos.length || alvosOrfaos.length) {
+      erro(
+        'ficha de item',
+        `${orfaos.length} material(is) e ${alvosOrfaos.length} alvo(s) de receita sem item correspondente em itens.json, ` +
+        `então a ficha ligaria para página não gerada. Ex: ${[...orfaos, ...alvosOrfaos][0]}`,
+      );
+    }
+
+    // 3. Os três estados cobrem os 1.875 e não se sobrepõem.
+    //
+    //    "Tem receita", "foi visitado e não tem" e "a ficha não foi trazida"
+    //    são fatos diferentes, e a página diz qual é. Se a conta não fechar,
+    //    existe um quarto estado que ninguém declarou, e a ficha desses cairia
+    //    na frase errada dizendo "não é fabricável" sobre item que nunca foi
+    //    consultado. Silêncio afirmando é pior que silêncio calado.
+    const comReceita = Object.keys(fab.receitas).length;
+    const naoTrazidos = (fab.nao_trazidos || []).length;
+    const semReceita = cat.itens.length - comReceita - naoTrazidos;
+    const desencontros = [];
+    if (fab.com_receita !== comReceita) desencontros.push(`com_receita diz ${fab.com_receita} e a lista tem ${comReceita}`);
+    if (fab.sem_receita !== semReceita) desencontros.push(`sem_receita diz ${fab.sem_receita} e a conta dá ${semReceita}`);
+    if (fab.visitados !== cat.itens.length) desencontros.push(`visitados diz ${fab.visitados} e o catálogo tem ${cat.itens.length} itens`);
+    const foraDoCatalogo = (fab.nao_trazidos || []).filter((n) => !chaves.has(n.chave));
+    if (foraDoCatalogo.length) desencontros.push(`${foraDoCatalogo.length} em nao_trazidos não estão no catálogo`);
+    if (desencontros.length) {
+      erro('ficha de item', `os estados não fecham com os ${cat.itens.length} itens: ${desencontros.join('; ')}`);
+    } else if (!colididos.length && !orfaos.length && !alvosOrfaos.length) {
+      passou(
+        `ficha de item: ${cat.itens.length} endereços distintos, ${materiais.size} materiais todos com página, ` +
+        `e os três estados fecham (${comReceita} com receita + ${semReceita} não fabricáveis + ${naoTrazidos} sem ficha trazida)`,
+      );
+    }
   }
 }
 

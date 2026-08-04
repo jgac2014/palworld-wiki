@@ -1704,7 +1704,7 @@ Nada disso depende do `Mappings.usmap`.
 **Fonte:** paldb.cc, ficha por item. Gravar o recorte de UMA ficha em
 `src/data/recortes/`, com data e URL, pela regra da F3.
 
-### [ ] E9 — Ficha de item, com receita navegável e índice invertido
+### [x] E9 — Ficha de item, com receita navegável e índice invertido
 
 **Requisito:** R1.8, sob a emenda que esta tarefa registra no `PRD.md`
 **Território:** código e visual, encostando em conteúdo e dados pelo mínimo (as strings da moldura
@@ -1756,6 +1756,61 @@ apaga a diferença entre "o jogo não fabrica isso" e "nós não fomos buscar".
   "sem página por registro" sem qualificar.
 - Cada asserção nova provada por sabotagem, no mesmo ambiente onde ela vai rodar.
 - `npm run portao` passando.
+
+**Feita. São 1.875 fichas, e o build ficou em 21,6s.**
+
+**A emenda ao PRD é a parte que vale mais, porque a decisão de 31.07 estava errada por medição e não
+por opinião.** Ela proibia página por registro extrapolando os 13,3s da E1: 2.959 páginas a mais
+passariam de dois minutos. Medido, o build foi de **12,75s com 323 páginas para 21,6s com 2.198**,
+com o Pagefind indexando as 2.198. São **4,7ms por página a mais**, contra os 41ms que a divisão de
+13,3s por 323 sugeria, porque quase todo o tempo do build é custo fixo e não custo por página. Pelo
+marginal medido, as 2.959 da decisão original custariam cerca de 14s. **A extrapolação errava por um
+fator de nove, e por causa dela o maior buraco do site ficou dois dias sem conserto.**
+
+**O offline não leva as fichas, e quem decidiu foi o teto, não o gosto.** Com elas dentro o pacote
+vai a **8.858,8 KB contra o teto de 8.192 KB**, e o próprio `gerar-offline.mjs` aborta em 108%. Sem
+elas fica em **3.997,9 KB, 49%**. O que sai é a ficha e não o item: o índice com os 1.875 nomes
+continua no pacote. O número do que ficou de fora é escrito **no cabeçalho do arquivo**, e não só no
+log, porque quem recebe o HTML pelo grupo não lê o log de ninguém.
+
+**A asserção que já existia sobre o offline não foi afrouxada, foi apertada.** Ela exigia que o
+pacote trouxesse TODAS as páginas do dist, e afrouxá-la para "quase todas" devolveria ao script a
+liberdade de perder página em silêncio, que é o que ela existe para pegar. Agora ela cobra duas
+coisas: a conta fecha descontando a exclusão declarada, E o arquivo diz quantas ficaram de fora, com
+o número batendo com o que faltou de verdade. Corte que não é dito continua reprovando.
+
+**Onze sabotagens, todas rodadas.** Três no verificador: duas chaves caindo no mesmo endereço
+acusou `/item/stone/ vem de St(one) e Stone`; material sem item correspondente acusou o órfão pelo
+nome; e apagar uma receita acusou `os estados não fecham com os 1875 itens`. Duas nos links: apagar
+uma ficha de destino acusou `1 sem página: stone` entre 7.996 links, e tirar os links de todas as
+1.875 acusou `nenhum link para /item/ encontrado, então esta asserção não conferiu nada`, que é a
+metade que impede a asserção de se aprovar sozinha. Uma na receita: cortar o último material da
+Esfera Mega, que é o defeito original do parser, acusou `na tela Fragmento de Palúdio 1, Lingote de
+Metal 1, Madeira 3` contra os quatro esperados. Uma no índice invertido: truncar em 20 acusou
+`20 na tela contra 292 no receitas-fabricacao.json`. Duas no offline: exclusão declarada que não
+casa com rota nenhuma abortou com código 1, e cortar sem dizer no cabeçalho acusou
+`1875 de diferença, 0 declaradas`. Uma na largura: alargar toda ficha acusou
+`ficha de receita curta com coluna de 1176px`.
+
+**A décima primeira sabotagem NÃO acusou, e é a mais útil das onze.** Fundir os dois estados numa
+frase só passou batido: a asserção lia o parágrafo inteiro, e o `Motivo: 404` que acompanha um dos
+casos ainda fazia os dois textos diferirem. A página teria voltado a afirmar "não é fabricável"
+sobre um item que nunca foi consultado, com o motivo do lado, e o portão aprovaria. A frase de
+estado passou a morar no próprio elemento, com `data-estado`, e o motivo saiu de dentro dela. Só
+depois disso a sabotagem derrubou a asserção. **Asserção que não foi derrubada não é prova, é
+esperança.**
+
+**Dois defeitos apareceram só no screenshot, e nenhum dos dois em log.** A contagem do índice
+invertido saía como um `292` solto embaixo do subtítulo, sem dizer de quê, que é exatamente a lição
+que a F4 já tinha deixado escrita no `IndiceCatalogo.astro`. E a ficha era larga nas 1.875: bom para
+o Fragmento de Palúdio, com 292 entradas em grade de quatro colunas, e ruim para a Esfera Mega, que
+abria com metade de uma tela de 1440px em branco e os filetes das seções atravessando o vazio. A
+largura passou a sair do conteúdo, e a cláusula da F4 que impede "usar a largura" de virar "alargar
+tudo" passou a cobrir as fichas também.
+
+**Território fora do meu, e dito aqui em vez de escondido no diff.** A tarefa é de código e visual,
+e encostou em `src/data/interface.json` (as 11 strings da moldura, que é onde elas moram desde a A1)
+e em `scripts/`. Não encostou em `package.json`.
 
 ### [ ] E10 — Ficha de Pal com atributo, drop e onde capturar, importados da ficha
 

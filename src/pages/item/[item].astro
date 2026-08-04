@@ -1,0 +1,232 @@
+---
+/**
+ * Uma página por item do catálogo, 1.875 no total.
+ *
+ * Ela existe porque /itens era beco sem saída: 1.875 nomes onde clicar não
+ * levava a lugar nenhum, com a receita de 1.244 deles parada no repositório sem
+ * ninguém consumindo. Dado importado que nenhuma página lê não é cobertura, é
+ * peso morto.
+ *
+ * A ROTA É PARA OS 1.875, e não para os 1.244 fabricáveis. Gerar só quem tem
+ * receita recriaria o mesmo beco sem saída, menor e mais difícil de ver: quem
+ * clica em Paldium Fragment cai numa página e quem clica em Wheat cai num 404,
+ * e a página que ficou de pé é justamente a que LINKA para a que não existe.
+ *
+ * O índice invertido é a metade que o paldb não dá. A ficha dele responde "do
+ * que eu preciso para fazer isto"; a pergunta que sobra é a inversa, "tenho 300
+ * de Paldium, o que faço com isso", e o dado para respondê-la já estava aqui.
+ */
+import Base from '../../layouts/Base.astro';
+import itens from '../../data/itens.json';
+import fabricacao from '../../data/receitas-fabricacao.json';
+import { ui } from '../../lib/termos.js';
+import { enderecoItem } from '../../lib/enderecos.js';
+
+export async function getStaticPaths() {
+  const porChave = new Map(itens.itens.map((i) => [i.chave, i]));
+
+  // Índice invertido: material -> o que ele fabrica.
+  //
+  // Montado uma vez para as 1.875 páginas, e não por página: por página seriam
+  // 1.875 varreduras das 1.244 receitas.
+  const usadoEm = new Map();
+  for (const [alvo, materiais] of Object.entries(fabricacao.receitas)) {
+    for (const m of materiais) {
+      if (!usadoEm.has(m.chave)) usadoEm.set(m.chave, []);
+      usadoEm.get(m.chave).push({ chave: alvo, qtd: m.qtd });
+    }
+  }
+
+  // Os itens cuja ficha não voltou da importação. Um hoje, e o número não é o
+  // ponto: enquanto existir a lista, "sem receita" tem dois significados.
+  const naoTrazidos = new Map(fabricacao.nao_trazidos.map((n) => [n.chave, n.motivo]));
+
+  // O nome do material vem do itens.json e não do campo `nome` da receita, que
+  // é o inglês cru da ficha do paldb. Publicar o campo cru poria "Paldium
+  // Fragment" no meio de uma página em português, que é o mesmo defeito que a
+  // F12 corrigiu na coluna TIPO de /tecnologias.
+  const comNome = (chave, extra = {}) => {
+    const i = porChave.get(chave);
+    return {
+      chave,
+      endereco: enderecoItem(chave),
+      pt: i?.pt ?? chave,
+      en: i?.en ?? chave,
+      // Chave sem item correspondente seria link para página não gerada. O
+      // verificador reprova antes de chegar aqui; isto é o cinto do suspensório.
+      orfa: !i,
+      ...extra,
+    };
+  };
+
+  return itens.itens.map((item) => {
+    const receita = fabricacao.receitas[item.chave] ?? null;
+    return {
+      params: { item: enderecoItem(item.chave) },
+      props: {
+        item,
+        receita: receita ? receita.map((m) => comNome(m.chave, { qtd: m.qtd })) : null,
+        // Os três estados são exclusivos e a página diz qual é. Sem isso,
+        // "não é fabricável" e "não fomos buscar" viram a mesma frase.
+        estado: receita ? 'receita' : naoTrazidos.has(item.chave) ? 'sem-ficha' : 'nao-fabricavel',
+        motivo: naoTrazidos.get(item.chave) ?? null,
+        usadoEm: (usadoEm.get(item.chave) ?? [])
+          .map((u) => comNome(u.chave, { qtd: u.qtd }))
+          .sort((a, b) => a.pt.localeCompare(b.pt, 'pt-BR')),
+      },
+    };
+  });
+}
+
+const { item, receita, estado, motivo, usadoEm } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Os dois nomes numa linha só quando eles são diferentes. Pizza, Katana e Silo
+// se escrevem igual nos dois idiomas, e "PT Pizza · EN Pizza" é ruído.
+const dosDoisIdiomas = item.pt !== item.en;
+const carimbo = dosDoisIdiomas ? `PT ${item.pt} · EN ${item.en}` : '';
+
+// A largura sai do conteúdo, e não de uma escolha fixa para as 1.875.
+//
+// A ficha é duas coisas conforme o item: o Fragmento de Palúdio entra em 292
+// receitas e a lista dele é grade de catálogo, que é justamente o caso em que a
+// F4 mandou usar a largura toda; a Esfera Mega tem quatro linhas de receita e
+// nada mais, e em 1440px ela abria com metade da tela em branco à direita, com
+// os filetes das seções atravessando o vazio.
+//
+// O corte é onde a grade passa a render mais que uma coluna: abaixo disso a
+// coluna larga só empurra o texto para longe. Isto foi visto em screenshot, não
+// em log, que é o motivo de o CLAUDE.md exigir olhar a imagem.
+const COLUNAS_VALEM_A_PENA = 12;
+const larguraDaFicha = usadoEm.length >= COLUNAS_VALEM_A_PENA ? 'cheia' : 'texto';
+---
+<Base
+  titulo={item.pt}
+  descricao={receita
+    ? `${item.pt} em Palworld 1.0: receita de fabricação com ${receita.length} ${receita.length === 1 ? 'material' : 'materiais'}, e o que este item fabrica.`
+    : `${item.pt} em Palworld 1.0: nome oficial em português e em inglês, e o que este item fabrica.`}
+  largura={larguraDaFicha}
+>
+  <article data-pagefind-body>
+    <p class="volta">
+      <a href={`${base}/itens/`} data-rot-pt={ui('item_voltar', 'pt')} data-rot-en={ui('item_voltar', 'en')}>{ui('item_voltar', 'pt')}</a>
+    </p>
+
+    <h1 data-rot-pt={item.pt} data-rot-en={item.en}>{item.pt}</h1>
+    {carimbo && <div class="carimbo">{carimbo}</div>}
+    {item.sem_traducao_oficial && (
+      <p class="sem-traducao" data-rot-pt={ui('indice_sem_traducao', 'pt')} data-rot-en={ui('indice_sem_traducao', 'en')}>{ui('indice_sem_traducao', 'pt')}</p>
+    )}
+
+    <h2 data-rot-pt={ui('item_receita', 'pt')} data-rot-en={ui('item_receita', 'en')}>{ui('item_receita', 'pt')}</h2>
+    {estado === 'receita' ? (
+      <ul class="receita">
+        {receita.map((m) => (
+          <li>
+            <a class="mat" href={`${base}/item/${m.endereco}/`} data-rot-pt={m.pt} data-rot-en={m.en}>{m.pt}</a>
+            <span class="qtd">{m.qtd}</span>
+          </li>
+        ))}
+      </ul>
+    ) : estado === 'sem-ficha' ? (
+      /*
+        A frase que declara o estado mora no próprio elemento, com `data-estado`
+        junto, e o motivo fica FORA dela. Isso não é organização: é o que torna
+        a diferença entre os dois estados verificável.
+
+        A primeira versão punha os dois no mesmo parágrafo, e a sabotagem que
+        fundia as duas strings numa só PASSOU, porque o sufixo do motivo ainda
+        fazia os textos diferirem. A página teria voltado a dizer "não é
+        fabricável" sobre um item que nunca foi consultado, com um "Motivo: 404"
+        do lado, e a asserção teria aprovado.
+      */
+      <p class="ausente">
+        <span class="frase-estado" data-estado="sem-ficha" data-rot-pt={ui('item_sem_ficha', 'pt')} data-rot-en={ui('item_sem_ficha', 'en')}>{ui('item_sem_ficha', 'pt')}</span>
+        {motivo != null && (
+          <span class="motivo">
+            {' '}
+            <span data-rot-pt={ui('item_sem_ficha_motivo', 'pt')} data-rot-en={ui('item_sem_ficha_motivo', 'en')}>{ui('item_sem_ficha_motivo', 'pt')}</span>
+            {' '}<code>{String(motivo)}</code>
+          </span>
+        )}
+      </p>
+    ) : (
+      <p class="ausente">
+        <span class="frase-estado" data-estado="nao-fabricavel" data-rot-pt={ui('item_nao_fabricavel', 'pt')} data-rot-en={ui('item_nao_fabricavel', 'en')}>{ui('item_nao_fabricavel', 'pt')}</span>
+      </p>
+    )}
+
+    <h2 data-rot-pt={ui('item_usado_em', 'pt')} data-rot-en={ui('item_usado_em', 'en')}>{ui('item_usado_em', 'pt')}</h2>
+    {usadoEm.length === 0 ? (
+      <p class="ausente" data-rot-pt={ui('item_sem_uso', 'pt')} data-rot-en={ui('item_sem_uso', 'en')}>{ui('item_sem_uso', 'pt')}</p>
+    ) : (
+      <>
+        <p class="subtitulo" data-rot-pt={ui('item_usado_em_sub', 'pt')} data-rot-en={ui('item_usado_em_sub', 'en')}>{ui('item_usado_em_sub', 'pt')}</p>
+        {/*
+          A lista é INTEIRA. Cortar nos "20 primeiros" seria omitir sem dizer, e
+          o Peça da Civilização Antiga entra em 383 receitas: quem chega aqui
+          com o material na mão quer a lista toda, não uma amostra. Corte assim
+          não tem sintoma nenhum na tela, ele parece uma resposta mais curta.
+
+          E o rótulo vem junto do número, que é a lição da F4 escrita com estas
+          palavras no IndiceCatalogo.astro: fora de tabela, um número solto não
+          diz de que ele é. Isto aqui nasceu como um "292" sozinho embaixo do
+          subtítulo, e só apareceu no screenshot.
+        */}
+        <p class="contagem" id="contagem-usado" data-total={usadoEm.length}>
+          <strong>{usadoEm.length}</strong>{' '}
+          <span data-rot-pt={ui('item_usado_em_conta', 'pt')} data-rot-en={ui('item_usado_em_conta', 'en')}>{ui('item_usado_em_conta', 'pt')}</span>
+        </p>
+        <ul class="indice-grade usado-em">
+          {usadoEm.map((u) => (
+            <li>
+              <a href={`${base}/item/${u.endereco}/`} data-rot-pt={u.pt} data-rot-en={u.en}>{u.pt}</a>
+              <span class="qtd">{u.qtd}</span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </article>
+</Base>
+
+<style>
+  .volta { font-family: var(--sans); font-size: 12.5px; margin: 0 0 10px; }
+  .sem-traducao {
+    font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--atencao); font-family: var(--sans); margin: 6px 0 0;
+  }
+  .ausente { color: var(--texto-2); font-size: 14px; max-width: 62ch; }
+  .ausente code { font-size: 12.5px; }
+  .subtitulo { font-family: var(--sans); font-size: 13px; color: var(--texto-2); margin: 6px 0 2px; }
+  .contagem { font-family: var(--sans); font-size: 12.5px; color: var(--apagado); margin: 0 0 10px; }
+  .contagem strong { color: var(--texto); font-variant-numeric: tabular-nums; }
+
+  .receita { list-style: none; padding: 0; margin: 12px 0 4px; max-width: 380px; }
+  .receita li {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+    padding: 7px 0; border-bottom: 1px solid var(--linha);
+  }
+  /* Rótulo junto do valor, como na F4: um "3" sozinho não diz de quê. Aqui o
+     nome do material está do lado, então a quantidade é só o número. */
+  .qtd {
+    font-family: var(--sans); font-size: 13px; color: var(--texto);
+    font-weight: 600; font-variant-numeric: tabular-nums;
+  }
+
+  /* Mesma grade do índice, pela mesma razão da F4: nome curto em coluna única
+     desperdiça a largura do desktop e estica a página. */
+  .usado-em {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+    gap: 0 26px;
+    list-style: none; padding: 0; margin: 0;
+    border-top: 1px solid var(--linha);
+  }
+  .usado-em > li {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 7px 0; border-bottom: 1px solid var(--linha);
+    font-size: 14px; min-width: 0;
+  }
+  .usado-em > li > a { overflow-wrap: anywhere; }
+</style>

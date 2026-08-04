@@ -209,5 +209,19 @@
   "rodape_aberto":      { "pt": "Conteúdo aberto, contribuições bem-vindas", "en": "Open content, contributions welcome" },
   "rodape_corrigir":    { "pt": "Corrigir esta página", "en": "Fix this page" },
 
-  "aviso_idioma":       { "pt": "Os guias são escritos em português. O seletor troca os nomes do jogo.", "en": "Guides are written in Portuguese. The switch changes in-game names only." }
+  "aviso_idioma":       { "pt": "Os guias são escritos em português. O seletor troca os nomes do jogo.", "en": "Guides are written in Portuguese. The switch changes in-game names only." },
+
+  "_ficha_de_item": "E9. Os dois estados de ausência de receita são strings SEPARADAS de propósito: 'não é fabricável' e 'a ficha não foi trazida' são fatos diferentes, e uma frase só para os dois apagaria a diferença entre o jogo não fabricar a coisa e nós não termos ido buscar.",
+
+  "item_receita":       { "pt": "Receita de fabricação",  "en": "Crafting recipe" },
+  "item_material":     { "pt": "Material",               "en": "Material" },
+  "item_qtd":          { "pt": "Quantidade",             "en": "Quantity" },
+  "item_nao_fabricavel": { "pt": "Não é fabricável. A ficha deste item foi visitada na importação e não publica receita: ele vem de drop, de baú, de mercador ou do próprio mundo.", "en": "Not craftable. This item's page was visited during import and publishes no recipe: it comes from a drop, a chest, a merchant or the world itself." },
+  "item_sem_ficha":    { "pt": "A ficha deste item não foi trazida na importação, então não sabemos se ele é fabricável. Isto é diferente de não ser fabricável, e fica dito em vez de escondido.", "en": "This item's page was not retrieved during import, so we do not know whether it is craftable. That is different from not being craftable, and it is said rather than hidden." },
+  "item_sem_ficha_motivo": { "pt": "Motivo registrado na importação:", "en": "Reason recorded during import:" },
+  "item_usado_em":     { "pt": "Usado em",               "en": "Used in" },
+  "item_usado_em_sub": { "pt": "Tudo que este material fabrica, calculado a partir das receitas importadas.", "en": "Everything this material makes, computed from the imported recipes." },
+  "item_usado_em_conta": { "pt": "receitas usam este item como material", "en": "recipes use this item as a material" },
+  "item_sem_uso":      { "pt": "Nenhuma receita importada usa este item como material.", "en": "No imported recipe uses this item as a material." },
+  "item_voltar":       { "pt": "Todos os itens",         "en": "All items" }
 }

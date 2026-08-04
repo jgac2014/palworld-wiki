@@ -103,7 +103,7 @@ Cada requisito tem um identificador estável. As tarefas citam esses identificad
 | R1.5 | Verificador automático que falha em CI se dado ou conteúdo divergir | Feito, `npm run verificar` |
 | R1.6 | **Catálogo completo dos Pals do jogo, importado e não digitado** | Feito, 299 Pals |
 | R1.7 | Página gerada por Pal do catálogo, com ficha e ligação para os guias que o citam | Feito, 299 páginas geradas do catálogo (E1) |
-| R1.8 | Catálogo de itens, estruturas e tecnologias, importado e exibido em índice filtrável, **sem página por registro** (decisão de 31.07) | Feito. Importado: 1.875 itens, 496 estruturas, 588 tecnologias, com os três índices no ar (E7) |
+| R1.8 | Catálogo de itens, estruturas e tecnologias, importado e exibido em índice filtrável. **O item ganhou página por registro em 03.08**, emendando a decisão de 31.07 com medição; estrutura e tecnologia continuam só em índice até a E11 | Parcial. Importado: 1.875 itens, 496 estruturas, 588 tecnologias, com os três índices no ar (E7) e as 1.875 fichas de item no ar (E9) |
 | R1.9 | Calculadoras universais: bolo, cruzamento e condensação. **A de taxa de captura foi recusada em 01.08**, ver a seção 5 | **Pendente** |
 
 ### R2 — Bilíngue
@@ -234,6 +234,9 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
   outras três coleções são listas de nome e número. Página por registro somaria 2.959 páginas às
   317, e extrapolando os 13,3s da E1 o build passaria de dois minutos, estourando o limite de um
   minuto que a própria E1 fixou. Três índices entregam mais e custam três páginas.
+  **Emendada em 03.08, ver abaixo: o custo de build foi medido e é nove vezes menor que a
+  extrapolação, e o item passou a ter ficha.** A metade da decisão que continua de pé é a outra: o
+  índice sozinho não bastava porque item tem receita, e receita é conteúdo, não nome e número.
 - **31.07** **A calculadora de bolo é uma só.** D5 e E5 viraram uma tarefa, porque separadas a
   mesma calculadora nasceria duas vezes: uma com o nosso estoque e outra sem.
 - **31.07** O pacote offline cobre as duas camadas, guias e catálogo. Medido antes de decidir: as
@@ -248,5 +251,24 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
 - **01.08** A calculadora de taxa de captura está **cancelada**, e no lugar dela entra uma tabela de
   poder de captura. Motivo na seção 5. A regra que decorre e vale para o resto: **onde não há
   fórmula com fonte, publique o dado, não o palpite.**
+- **03.08** **Emenda à decisão de 31.07: o item ganha página por registro.** A decisão original
+  proibia página por registro nas três coleções, e o argumento dela era de custo de build,
+  extrapolado e não medido: 2.959 páginas a mais, "extrapolando os 13,3s da E1", passariam de dois
+  minutos. **Medido agora, a extrapolação errava por um fator de nove.** As 1.875 fichas de item
+  levaram o build de **12,75s com 323 páginas para 21,6s com 2.198**, com o Pagefind indexando as
+  2.198. São 4,7ms por página a mais, e não os 41ms que a divisão de 13,3s por 323 sugeria: quase
+  todo o tempo do build é custo fixo, de processar o conteúdo e montar o pacote, e não custo por
+  página. Pelo marginal medido, as 2.959 da decisão original custariam cerca de 14s, e o build todo
+  ficaria perto de 27s. **O limite de um minuto que a E1 fixou continua de pé e não foi encostado.**
+  A regra que decorre: **extrapolação não derruba requisito, medição derruba.** Foi extrapolação que
+  quase deixou o maior buraco do site sem conserto.
+- **03.08** **O pacote offline não leva as fichas de item, e o teto de 8 MB é que decide.** Medido
+  antes de escolher: com as 1.875 fichas dentro o arquivo vai a 8.858,8 KB, contra o teto de
+  8.192 KB, e o `gerar-offline.mjs` aborta em 108%. Sem elas fica em 3.997,9 KB, 49% do teto. O que
+  sai é a FICHA e não o item: o índice com os 1.875 nomes nos dois idiomas continua no pacote, que é
+  o que resolve a consulta sem internet, saber como a coisa se chama na tela de quem joga. O número
+  do que ficou de fora é escrito no cabeçalho do próprio arquivo, e não só no log, porque quem
+  recebe o HTML pelo grupo não lê o log de ninguém. **Estrutura e tecnologia, quando ganharem ficha
+  na E11, entram na mesma conta antes de qualquer decisão.**
 - **30.07** O repositório de destino é `nederreis/PalCrew`. Enquanto ele for privado e sem acesso
   liberado, este repositório é a fonte da verdade.

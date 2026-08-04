@@ -1070,6 +1070,14 @@ const desviarLeaflet = (alvo) =>
     const pals = await medir('/pals/', '.grade > .cartao');
     const itens = await medir('/itens/', '#grade > li:not(.escondida)');
     const guia = await medir('/breeding/', 'article > p');
+    // A ficha de item da E9 é os dois casos no mesmo molde, e por isso entra
+    // aqui e não numa asserção própria: é a mesma cláusula da F4, a de que
+    // "usar a largura" não pode virar "alargar tudo". O Fragmento de Palúdio
+    // entra em 292 receitas e a lista dele é grade de catálogo; a Esfera Mega
+    // tem quatro linhas de receita e abria com metade da tela vazia à direita.
+    // A largura sai do conteúdo, e é isso que as duas medidas cobram.
+    const itemLargo = await medir('/item/paldium-fragment/', '.usado-em > li');
+    const itemCurto = await medir('/item/mega-sphere/', '.receita > li');
     await largo.close();
 
     const problemas = [];
@@ -1078,6 +1086,8 @@ const desviarLeaflet = (alvo) =>
     if (itens.altura > ALTURA_ITENS_ANTES_DA_F4 / 2) {
       problemas.push(`/itens com ${itens.altura}px de altura, teto ${ALTURA_ITENS_ANTES_DA_F4 / 2}px`);
     }
+    if (itemLargo.colunas < 3) problemas.push(`ficha com índice invertido grande em ${itemLargo.colunas} colunas, mínimo 3`);
+    if (itemCurto.conteudo > 900) problemas.push(`ficha de receita curta com coluna de ${itemCurto.conteudo}px, devia ficar estreita`);
     // O teto do guia é 860px, que é a medida de leitura mais o respiro lateral.
     if (guia.conteudo > 900) problemas.push(`guia com coluna de ${guia.conteudo}px, devia ficar na medida de leitura`);
 
@@ -1086,7 +1096,8 @@ const desviarLeaflet = (alvo) =>
       'em 1440px o catálogo e o índice usam a largura, e o guia continua estreito',
       problemas.length
         ? problemas.join(' | ')
-        : `/pals ${pals.colunas} por linha, /itens ${itens.colunas} colunas e ${itens.altura}px (era ${ALTURA_ITENS_ANTES_DA_F4}px), guia ${guia.conteudo}px`,
+        : `/pals ${pals.colunas} por linha, /itens ${itens.colunas} colunas e ${itens.altura}px (era ${ALTURA_ITENS_ANTES_DA_F4}px),`
+          + ` ficha larga ${itemLargo.colunas} colunas, ficha curta ${itemCurto.conteudo}px, guia ${guia.conteudo}px`,
     );
   }
 
@@ -1103,6 +1114,171 @@ const desviarLeaflet = (alvo) =>
     'a busca do site acha um item que só existe no índice de itens',
     `resultados: ${resultados.join(', ') || 'nenhum'}`,
   );
+
+  // 9d a 9g. a ficha de item (E9).
+  //
+  //   As quatro asserções abaixo cobrem quatro modos de errar diferentes, e
+  //   nenhum deles aparece na contagem de páginas geradas: as 1.875 fichas
+  //   nascem em qualquer um dos quatro.
+  {
+    const catalogoItens = JSON.parse(await readFile(join(raiz, 'src/data/itens.json'), 'utf-8'));
+    const fabricacao = JSON.parse(await readFile(join(raiz, 'src/data/receitas-fabricacao.json'), 'utf-8'));
+    const nomePt = new Map(catalogoItens.itens.map((i) => [i.chave, i.pt]));
+
+    // O idioma é ESTABELECIDO aqui, e não herdado. A asserção 9c logo acima
+    // troca para EN e volta, e uma asserção que confere texto em português
+    // depois de outra que mexe no idioma já passou por acidente neste arquivo:
+    // está nas armadilhas do CLAUDE.md e custou uma reversão.
+    const emPortugues = async (rota) => {
+      await pagina.goto(`${base}${rota}`);
+      await pagina.evaluate(() => { try { localStorage.setItem('palworld-wiki-idioma', 'pt'); } catch {} });
+      await pagina.reload();
+      await pagina.waitForTimeout(250);
+      return pagina.evaluate(() => document.documentElement.dataset.idioma || 'pt');
+    };
+
+    // 9d. a receita conferida contra a fonte sai inteira na tela.
+    //
+    //     Mega Sphere é o caso que a E8 conferiu na ficha do paldb, e está
+    //     aqui por um motivo específico: é ele que pega o parser perdendo o
+    //     ÚLTIMO material. A primeira versão do importador lia essa receita
+    //     como "Paldium 1, Ingot 1, Wood 3" e engolia o Stone 3 do fim, e a
+    //     contagem de itens com receita não mudava nada por causa disso.
+    //
+    //     O esperado fixa CHAVE e QUANTIDADE, que é o que veio da fonte, e o
+    //     nome é lido do itens.json. Digitar "Lingote de Metal" aqui trocaria
+    //     a asserção por um teste da minha memória, e ainda aprovaria a ficha
+    //     publicando o inglês cru do campo `nome` da receita, que é o defeito
+    //     que a F12 corrigiu na coluna TIPO de /tecnologias.
+    const MEGA = [['Paldium_Fragment', 1], ['Ingot', 1], ['Wood', 3], ['Stone', 3]];
+    const idiomaDaFicha = await emPortugues('/item/mega-sphere/');
+    const receitaNaTela = await pagina.evaluate(() =>
+      [...document.querySelectorAll('.receita > li')].map((li) => ({
+        nome: li.querySelector('.mat')?.textContent.trim() || '',
+        qtd: li.querySelector('.qtd')?.textContent.trim() || '',
+        href: li.querySelector('.mat')?.getAttribute('href') || '',
+      })));
+    const receitaEsperada = MEGA.map(([c, q]) => ({ nome: nomePt.get(c), qtd: String(q) }));
+    const receitaBate =
+      idiomaDaFicha === 'pt' &&
+      receitaNaTela.length === MEGA.length &&
+      receitaNaTela.every((l, i) => l.nome === receitaEsperada[i].nome && l.qtd === receitaEsperada[i].qtd);
+    conferir(
+      receitaBate,
+      'a ficha da Esfera Mega mostra os quatro materiais com o nome em português e a quantidade da fonte',
+      `esperado ${receitaEsperada.map((e) => `${e.nome} ${e.qtd}`).join(', ')}`
+      + ` | na tela ${receitaNaTela.map((l) => `${l.nome} ${l.qtd}`).join(', ') || 'nada'}`
+      + ` | idioma ${idiomaDaFicha}`,
+    );
+
+    // 9e. todo link de material leva a uma página que existe.
+    //
+    //     A asserção 4 não alcança isto: ela visita só as rotas de primeiro
+    //     nível, e as fichas moram em /item/<slug>/. São 147 materiais
+    //     distintos ligados de 1.244 fichas, então um único órfão produz link
+    //     quebrado em dezenas de páginas de uma vez.
+    //
+    //     Zero links encontrados FALHA em vez de passar. Sem essa metade, uma
+    //     ficha que parasse de linkar aprovaria esta asserção por vacuidade,
+    //     que é o modo de falha mais caro deste repositório.
+    const fichasDeItem = (await readdir(join(dist, 'item'), { withFileTypes: true }))
+      .filter((d) => d.isDirectory())
+      .map((d) => join(dist, 'item', d.name, 'index.html'))
+      .filter((a) => existsSync(a));
+    const alvos = new Map();
+    for (const arq of fichasDeItem) {
+      const html = await readFile(arq, 'utf-8');
+      for (const m of html.matchAll(/href="([^"]*\/item\/[^"]+)"/g)) {
+        const slug = semPrefixo(m[1]).replace(/^\/|\/$/g, '').split('/').pop();
+        alvos.set(slug, (alvos.get(slug) || 0) + 1);
+      }
+    }
+    const totalLinks = [...alvos.values()].reduce((s, n) => s + n, 0);
+    const semDestino = [...alvos.keys()].filter((s) => !existsSync(join(dist, 'item', s, 'index.html')));
+    conferir(
+      totalLinks > 0 && semDestino.length === 0,
+      'todo link de material das fichas de item leva a uma página gerada',
+      totalLinks === 0
+        ? 'nenhum link para /item/ encontrado nas fichas, então esta asserção não conferiu nada'
+        : `${totalLinks} links para ${alvos.size} destinos, ${semDestino.length} sem página: ${semDestino.slice(0, 3).join(', ')}`,
+    );
+
+    // 9f. item sem receita diz QUAL DOS DOIS CASOS é, e não fica com seção vazia.
+    //
+    //     São 630 itens visitados sem receita publicada ("não é fabricável") e
+    //     1 cuja ficha não voltou da importação ("não fomos buscar"). Os dois
+    //     estados existem separados no dado e não podem voltar a virar um só:
+    //     a mesma frase para os dois apagaria a diferença entre o jogo não
+    //     fabricar a coisa e nós não termos ido lá.
+    //
+    //     Por isso a asserção compara os DOIS textos entre si. Conferir só que
+    //     cada um não está vazio aprovaria uma frase genérica servindo aos dois.
+    //
+    //     E ela lê a FRASE DE ESTADO, não o parágrafo inteiro. A primeira
+    //     versão lia o parágrafo, e a sabotagem que funde as duas strings numa
+    //     só PASSOU: o "Motivo: 404" que acompanha um dos casos ainda fazia os
+    //     textos diferirem, e a página teria voltado a afirmar "não é
+    //     fabricável" sobre um item que nunca foi consultado. A asserção só
+    //     virou prova depois que a sabotagem a derrubou.
+    const semReceita = async (rota) => {
+      await emPortugues(rota);
+      return pagina.evaluate(() => {
+        const vazia = [...document.querySelectorAll('h2')]
+          .some((h) => !h.nextElementSibling || h.nextElementSibling.textContent.trim() === '');
+        const frase = document.querySelector('.frase-estado');
+        return {
+          texto: frase?.textContent.trim() || '',
+          estado: frase?.dataset.estado || '',
+          temReceita: !!document.querySelector('.receita > li'),
+          secaoVazia: vazia,
+        };
+      });
+    };
+    const naoFabricavel = await semReceita('/item/wheat/');
+    const semFicha = await semReceita('/item/celestial-sigil-master/');
+    conferir(
+      naoFabricavel.texto.length > 20 && semFicha.texto.length > 20
+      && naoFabricavel.texto !== semFicha.texto
+      && naoFabricavel.estado === 'nao-fabricavel' && semFicha.estado === 'sem-ficha'
+      && !naoFabricavel.temReceita && !semFicha.temReceita
+      && !naoFabricavel.secaoVazia && !semFicha.secaoVazia,
+      'item sem receita diz qual dos dois casos é, com frases diferentes e sem seção vazia',
+      `[${naoFabricavel.estado}] "${naoFabricavel.texto.slice(0, 45)}..."`
+      + ` | [${semFicha.estado}] "${semFicha.texto.slice(0, 45)}..."`
+      + ` | textos iguais: ${naoFabricavel.texto === semFicha.texto}`
+      + ` | seção vazia: ${naoFabricavel.secaoVazia || semFicha.secaoVazia}`,
+    );
+
+    // 9g. o índice invertido bate com a contagem tirada do dado.
+    //
+    //     "Tenho 300 de Paldium, o que faço com isso" é a pergunta que esta
+    //     seção existe para responder, e ela só vale se a lista for inteira.
+    //     Uma lista truncada não tem sintoma nenhum na tela: ela parece uma
+    //     resposta completa e mais curta.
+    //
+    //     O esperado é RECALCULADO do receitas-fabricacao.json, e não escrito
+    //     aqui: número congelado numa asserção envelhece na próxima importação
+    //     e vira alarme falso, e alarme falso é o que faz alguém desligar a
+    //     asserção. Dois materiais, um deles o mais usado do jogo, para o caso
+    //     de um corte só aparecer acima de certo tamanho.
+    const contarUsos = (chave) =>
+      Object.values(fabricacao.receitas).filter((l) => l.some((m) => m.chave === chave)).length;
+    const invertidos = [];
+    for (const chave of ['Paldium_Fragment', 'Ancient_Civilization_Parts']) {
+      await emPortugues(`/item/${chave.toLowerCase().replace(/_/g, '-')}/`);
+      const naTela = await pagina.evaluate(() => ({
+        declarado: Number(document.getElementById('contagem-usado')?.dataset.total || 0),
+        linhas: document.querySelectorAll('.usado-em > li').length,
+      }));
+      invertidos.push({ chave, esperado: contarUsos(chave), ...naTela });
+    }
+    const errados = invertidos.filter((i) => i.esperado === 0 || i.declarado !== i.esperado || i.linhas !== i.esperado);
+    conferir(
+      errados.length === 0,
+      'o índice invertido publica todas as receitas que usam o material, conferido contra o dado',
+      invertidos.map((i) => `${i.chave}: ${i.linhas} na tela, ${i.declarado} declarados, ${i.esperado} no receitas-fabricacao.json`).join(' | '),
+    );
+  }
 
   // 10. o overlay do progresso é adição, nunca requisito.
   //    Decisão 3.0 do PRD. Desligado, a Camada 1 não mostra nada do nosso
@@ -1539,12 +1715,23 @@ if (existsSync(offline)) {
   const ativos = await pagina.evaluate(() => document.querySelectorAll('.lateral a.ativo, .lateral [aria-current]').length);
   conferir(ativos === 1, 'menu offline destaca um item por vez', `${ativos} destacados`);
 
-  // 8. o pacote offline traz TODAS as páginas do dist, não só as de primeiro nível.
+  // 8. o pacote offline traz todas as páginas do dist MENOS as que ele declara
+  //    deixar de fora, e o número das que ficaram fora está escrito nele.
+  //
   //    Quebrou porque a varredura olhava um nível só: as 299 fichas de Pal
   //    ficavam de fora e o contador de páginas esperadas era calculado da mesma
   //    lista incompleta, então nunca acusava a falta. O alvo é comparado com o
   //    que o build gerou de verdade, e não com um número escrito aqui, senão o
   //    teste envelhece junto com o catálogo.
+  //
+  //    A E9 acrescentou uma exclusão deliberada, as 1.875 fichas de item, que
+  //    somam 4,5 MB e estourariam o teto de 8 MB. Afrouxar a asserção para
+  //    "traz quase todas" teria devolvido ao script a liberdade de perder
+  //    página em silêncio, que é exatamente o que ela existe para pegar. Em
+  //    vez disso ela passa a exigir as duas coisas: a conta fecha DESCONTANDO
+  //    a exclusão, e o arquivo DIZ quantas ficaram de fora, com o número
+  //    batendo com o que faltou de verdade. Corte que não é dito continua
+  //    reprovando.
   const noDist = (async function contar(pasta) {
     let total = 0;
     for (const item of await readdir(pasta, { withFileTypes: true })) {
@@ -1556,7 +1743,19 @@ if (existsSync(offline)) {
   });
   const esperadas = await noDist(dist);
   const empacotadas = await pagina.evaluate(() => document.querySelectorAll('.pagina').length);
-  conferir(empacotadas === esperadas, 'o offline empacota todas as páginas do build', `${empacotadas} no arquivo, ${esperadas} no dist`);
+  const faltando = esperadas - empacotadas;
+  // O número sai do cabeçalho do próprio arquivo, que é onde quem recebe o
+  // HTML pelo grupo vai ler. Conferir só o log do script deixaria o leitor sem
+  // saber que existe um pedaço da wiki que não veio.
+  const declaradoNoCabecalho = await pagina.evaluate(() => {
+    const t = document.querySelector('.aviso-offline')?.textContent || '';
+    return [...t.matchAll(/ficaram de fora (\d+) páginas/g)].reduce((s, m) => s + Number(m[1]), 0);
+  });
+  conferir(
+    faltando === declaradoNoCabecalho,
+    'o offline empacota o build inteiro menos o que ele declara deixar de fora, e diz quantas são',
+    `${empacotadas} no arquivo, ${esperadas} no dist, ${faltando} de diferença, ${declaradoNoCabecalho} declaradas no cabeçalho`,
+  );
 
   // E o conteúdo tem que estar buscável, não só presente: a ficha de Pal não
   // aparece no menu, então a busca em memória é o único caminho até ela.

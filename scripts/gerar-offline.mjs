@@ -34,17 +34,60 @@ if (!existsSync(dist)) {
 // 299 fichas de Pal ficam em /pal/<nome>/, e enquanto isto olhava só o primeiro
 // nível elas sumiam do pacote sem aviso: o contador de páginas esperadas era
 // calculado a partir da mesma lista incompleta, então nunca acusava falta.
-const rotas = [];
+const encontradas = [];
 for (const nome of await readdir(dist, { withFileTypes: true })) {
   if (!nome.isDirectory() || ['_astro', 'pagefind'].includes(nome.name)) continue;
-  if (existsSync(join(dist, nome.name, 'index.html'))) rotas.push(nome.name);
+  if (existsSync(join(dist, nome.name, 'index.html'))) encontradas.push(nome.name);
   for (const filho of await readdir(join(dist, nome.name), { withFileTypes: true })) {
     if (!filho.isDirectory()) continue;
     if (existsSync(join(dist, nome.name, filho.name, 'index.html'))) {
-      rotas.push(`${nome.name}/${filho.name}`);
+      encontradas.push(`${nome.name}/${filho.name}`);
     }
   }
 }
+
+/**
+ * O que fica DE FORA do pacote, de propósito, com o motivo medido junto.
+ *
+ * As 1.875 fichas de item da E9 somam 3927,2 KB de HTML mais 638,8 KB de texto
+ * de índice. Medido em 03.08.2026: com elas dentro o pacote vai a 8858,8 KB,
+ * contra o teto de 8192 KB decidido em 31.07, e o próprio script aborta em
+ * 108%. Não é escolha de gosto, é o teto sendo respeitado.
+ *
+ * O que sai é a FICHA, não o item. O índice de /itens continua no pacote com os
+ * 1.875 nomes nos dois idiomas, que é o que resolve a consulta sem internet:
+ * saber como a coisa se chama na sua tela. A receita fica para quem tem rede.
+ *
+ * Corte tem que ser dito, e é por isso que o número entra no cabeçalho do
+ * próprio arquivo e não só neste log: quem recebe o HTML pelo grupo não lê o
+ * log de ninguém. É a regra do CLAUDE.md contra corte silencioso.
+ */
+const FORA_DO_PACOTE = [
+  {
+    prefixo: 'item/',
+    o_que: 'as fichas de item',
+    porque: 'elas somam mais de 4,5 MB e estourariam o teto de 8 MB do arquivo',
+    ainda_tem: 'o índice com os 1.875 nomes continua aqui, em Itens',
+  },
+];
+
+const rotas = encontradas.filter((r) => !FORA_DO_PACOTE.some((f) => r.startsWith(f.prefixo)));
+const deixadasDeFora = FORA_DO_PACOTE.map((f) => ({
+  ...f,
+  quantas: encontradas.filter((r) => r.startsWith(f.prefixo)).length,
+}));
+
+// Exclusão que não casa com nada é declaração velha, e velha ela vira mentira
+// no cabeçalho: o arquivo passaria a dizer que 0 fichas ficaram de fora e o
+// pacote passaria a carregar todas de volta, estourando o teto por um motivo
+// que ninguém ligaria a esta lista. Falta de insumo FALHA, não passa batido.
+const orfas = deixadasDeFora.filter((f) => f.quantas === 0);
+if (orfas.length) {
+  console.error(`  ABORTADO: a exclusão de ${orfas.map((f) => f.prefixo).join(', ')} não casa com rota nenhuma do dist.`);
+  console.error('  Ou a rota foi renomeada, ou ela deixou de existir. Atualize FORA_DO_PACOTE em vez de deixar a declaração mentir.');
+  process.exit(1);
+}
+
 const homeHtml = await readFile(join(dist, 'index.html'), 'utf-8');
 
 const pegar = (html, tag, attr = '') => {
@@ -208,7 +251,11 @@ ${menu}
 <main class="conteudo">
   <input class="busca-offline" id="busca" type="search" placeholder="Buscar em toda a wiki, por exemplo: bolo, quartzo, Anubis" autocomplete="off">
   <ul class="resultados" id="resultados"></ul>
-  <p class="aviso-offline">Versão offline: um arquivo só, sem internet, sem servidor. O mapa interativo e o assistente ficam de fora porque dependem de rede.</p>
+  <p class="aviso-offline">Versão offline: um arquivo só, sem internet, sem servidor. O mapa interativo e o assistente ficam de fora porque dependem de rede.${
+    deixadasDeFora
+      .map((f) => ` Também ficaram de fora ${f.quantas} páginas, ${f.o_que}, porque ${f.porque}: ${f.ainda_tem}.`)
+      .join('')
+  }</p>
 ${secoes}
 </main>
 </div>
@@ -296,6 +343,9 @@ const totalBytes = bytes(doc);
 const totalConteudo = [...secoesMedidas.values()].reduce((s, v) => s + v.html + v.indice, 0);
 
 console.log(`  ${paginas.length} páginas empacotadas em ${saida}`);
+for (const f of deixadasDeFora) {
+  console.log(`  ${f.quantas} páginas fora do pacote de propósito (${f.o_que}): ${f.porque}`);
+}
 console.log('  composição por seção (HTML embutido + texto do índice de busca):');
 for (const [nome, v] of [...secoesMedidas].sort((a, b) => b[1].html + b[1].indice - a[1].html - a[1].indice)) {
   const rotulo = `${v.paginas} ${v.paginas === 1 ? 'página' : 'páginas'}`;

@@ -25,9 +25,18 @@
  * é ao lado de visualização: as calculadoras e a de poder de captura.
  */
 import { ui } from '../lib/termos.js';
+import { enderecoItem } from '../lib/enderecos.js';
 
 interface Props {
   itens: any[];
+  // Rota da ficha de cada registro, quando ela existe. Sem isto o índice é um
+  // beco sem saída: 1.875 nomes onde clicar não leva a lugar nenhum.
+  //
+  // É opcional porque as três coleções não andam juntas. Os itens ganharam
+  // ficha na E9; estrutura e tecnologia ganham na E11, e até lá o índice delas
+  // continua sendo lista. Linkar antes da rota existir produziria 1.084 links
+  // para páginas não geradas, que é o defeito que a asserção 4 já pega.
+  rota?: string;
   // `campoEn` é opcional e existe para o VALOR da coluna alternar de idioma,
   // não só o rótulo dela. Sem isso a coluna TIPO de /tecnologias saía com o
   // "Items" e "Structures" crus do paldb no meio de nome, nível e custo em
@@ -37,12 +46,15 @@ interface Props {
   subtituloChave: string;
 }
 
-const { itens, colunas = [], subtituloChave } = Astro.props;
+const { itens, colunas = [], subtituloChave, rota } = Astro.props;
 
 // Entrada interna do jogo se reconhece pelo nome: identificador cru não tem
 // espaço e tem underscore, porque ninguém escreveu uma tradução para ele.
 const ehInterno = (x: any) => /_/.test(x.en);
 const internos = itens.filter(ehInterno).length;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const href = (x: any) => (rota ? `${base}/${rota}/${enderecoItem(x.chave)}/` : null);
 ---
 
 <p class="subtitulo" data-rot-pt={ui(subtituloChave, 'pt')} data-rot-en={ui(subtituloChave, 'en')}>{ui(subtituloChave, 'pt')}</p>
@@ -78,7 +90,9 @@ const internos = itens.filter(ehInterno).length;
       data-interno={ehInterno(x) ? '1' : ''}
       data-busca={`${x.pt} ${x.en}`.toLowerCase()}
     >
-      <span class="nome" data-rot-pt={x.pt} data-rot-en={x.en}>{x.pt}</span>
+      {href(x)
+        ? <a class="nome" href={href(x)} data-rot-pt={x.pt} data-rot-en={x.en}>{x.pt}</a>
+        : <span class="nome" data-rot-pt={x.pt} data-rot-en={x.en}>{x.pt}</span>}
       {x.pt !== x.en && <span class="en">{x.en}</span>}
       {/*
         O jogo não traduziu este nome, e a página diz isso em vez de
