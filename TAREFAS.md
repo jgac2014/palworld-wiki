@@ -1245,7 +1245,7 @@ zero, dizendo que é zero, em vez de calar.
 - O commit diz qual das duas saídas foi escolhida e por quê.
 - `npm run portao` passando.
 
-### [ ] F14 — A E8 gravou por cima do `receitas.json` das calculadoras, e o portão está vermelho
+### [x] F14 — A E8 gravou por cima do `receitas.json` das calculadoras, e o portão está vermelho
 
 **Requisito:** R1.5, com R1.9 dizendo o que se perdeu
 **Território:** conteúdo e dados, encostando em `package.json` pelo mínimo
@@ -1286,6 +1286,26 @@ conferência cruzada contra 15 guias não. O importado ganha nome próprio.
   `TypeError` com pilha, que é erro de programa e não diagnóstico. Provada por sabotagem: apagar o
   bloco `bolo` tem que acusar o bloco pelo nome, não estourar.
 - `npm run portao` passando.
+
+**Feita, e o sintoma era pior que a causa.** A colisão em si custa um comando para desfazer: o
+importado volta a ser `receitas-fabricacao.json`, com as 1.244 receitas intactas, e o das
+calculadoras volta ao nome que os dois consumidores já usam. O que custava caro era o **modo de
+falhar**. `TypeError: Cannot read properties of undefined` com pilha é erro de programa, não
+diagnóstico: quem lesse a saída do portão não descobriria dali que um arquivo tinha virado o outro,
+e o build caía logo depois pelo mesmo motivo sem nunca dizer o motivo.
+
+A checagem nova é de **forma**, roda antes de qualquer consumidor ler, e nomeia o bloco que sumiu e
+o arquivo de onde ele sumiu. Ela vale para os dois arquivos, e não só para o que foi vítima desta
+vez: a colisão não tem lado preferido.
+
+**Duas sabotagens, as duas rodadas.** Apagar o bloco `bolo` acusou
+`src/data/receitas.json perdeu o bloco bolo`. E refazer o acidente inteiro, gravando o arquivo de
+fabricação por cima do outro, acusou `perdeu os blocos bolo, condensacao` em vez de estourar, que é
+a regressão real que ela existe para pegar.
+
+**Encostou em `package.json`, território compartilhado, por uma linha.** `npm run receitas:importar`
+é o comando que o `_leia_isto` do próprio arquivo importado já afirmava existir, e não existia:
+reimportação que não é comando não é reproduzível, e essa é a regra que a F3 deixou escrita.
 
 ### [x] H6 — Base do mapa, provisória e alinhada
 

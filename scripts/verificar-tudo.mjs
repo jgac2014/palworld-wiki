@@ -877,12 +877,55 @@ for (const regra of REGRAS) {
   }
 }
 
+// ------------- forma dos dois arquivos de receita, que já colidiram (F14)
+//
+// São duas coisas diferentes com nome parecido, e elas se destruíram uma vez.
+// `receitas.json` tem os números das calculadoras, escritos à mão a partir dos
+// guias e conferidos contra eles logo abaixo. `receitas-fabricacao.json` tem a
+// receita de fabricação de 1.244 itens, importada do paldb. Em 02.08 o
+// importador gravou o segundo por cima do primeiro.
+//
+// O sintoma foi um `TypeError` com pilha no meio do laço aqui embaixo. Isso é
+// erro de programa, não diagnóstico: quem lesse a saída não descobriria que um
+// arquivo tinha virado o outro, e o build caía depois pelo mesmo motivo sem
+// nunca dizer o motivo.
+//
+// Esta checagem roda ANTES de qualquer consumidor tentar ler, e nomeia o bloco
+// que sumiu e o arquivo de onde ele sumiu.
+const FORMA_DAS_RECEITAS = [
+  {
+    arquivo: 'src/data/receitas.json',
+    quem: 'as calculadoras de bolo e de condensação',
+    blocos: ['bolo', 'condensacao'],
+  },
+  {
+    arquivo: 'src/data/receitas-fabricacao.json',
+    quem: 'a ficha de item',
+    blocos: ['receitas', 'visitados', 'com_receita', 'sem_receita', 'nao_trazidos'],
+  },
+];
+for (const { arquivo, quem, blocos } of FORMA_DAS_RECEITAS) {
+  const d = await lerJson(arquivo);
+  if (!d) continue;
+  const faltando = blocos.filter((b) => d[b] === undefined || d[b] === null);
+  if (faltando.length) {
+    erro(
+      'receitas',
+      `${arquivo} perdeu ${faltando.length === 1 ? 'o bloco' : 'os blocos'} ${faltando.join(', ')}. ` +
+      `Quem lê esse arquivo e vai quebrar: ${quem}. Outro importador gravou por cima? ` +
+      'Os dois arquivos de receita já colidiram uma vez (F14)',
+    );
+  } else {
+    passou(`${arquivo.replace('src/data/', '')}: os blocos ${blocos.join(', ')} estão no lugar`);
+  }
+}
+
 // ------------------------------- dado das calculadoras x texto dos guias (E5)
 // receitas.json existe para a calculadora não refazer uma conta que o guia já
 // publica. Duas cópias do mesmo número divergem no primeiro patch, e aí o site
 // passa a dizer duas coisas: é o defeito que este verificador existe para pegar.
 const receitas = await lerJson('src/data/receitas.json');
-if (receitas) {
+if (receitas?.bolo && receitas?.condensacao) {
   const textoEconomia = corpos['economia.md'] || '';
   // "Bolo básico (Cake)" desde a F10, e "Cake básico" antes dela. As duas
   // formas casam porque a checagem existe para achar a LINHA, não para policiar

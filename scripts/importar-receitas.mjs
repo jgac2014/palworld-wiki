@@ -4,8 +4,15 @@
  * Uma requisicao por vez, com pausa. Retomavel: grava o progresso a cada 25
  * itens, entao queda de rede nao joga fora o que ja foi buscado.
  *
- *   node scripts/importar-receitas.mjs --limite 25   piloto
- *   node scripts/importar-receitas.mjs               tudo
+ *   npm run receitas:importar -- --limite 25   piloto
+ *   npm run receitas:importar                  tudo
+ *
+ * O destino e receitas-FABRICACAO.json, e o nome longo existe por acidente
+ * caro: a primeira versao gravava em receitas.json, que ja era outra coisa (os
+ * numeros das calculadoras de bolo e de condensacao, escritos a mao a partir
+ * dos guias). O arquivo foi sobrescrito, o verificador passou a morrer com
+ * TypeError e o build junto. Duas coisas diferentes nao dividem nome de
+ * arquivo so porque as duas se chamam receita em portugues.
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -15,7 +22,7 @@ const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGEM = 'https://paldb.cc/en/';
 const PAUSA = 700;
 const PARCIAL = join(raiz, 'src/data/.receitas-parcial.json');
-const DESTINO = join(raiz, 'src/data/receitas.json');
+const DESTINO = join(raiz, 'src/data/receitas-fabricacao.json');
 const MINIMO_COM_RECEITA = 300;
 
 const limite = (() => {
@@ -84,7 +91,7 @@ const comFalha = Object.values(feito).filter((v) => v && !Array.isArray(v)).leng
 console.log(`\nVisitadas ${Object.keys(feito).length}: ${total} com receita, ${semReceita} sem receita na ficha, ${comFalha} que a requisicao nao trouxe`);
 
 if (limite === Infinity && total < MINIMO_COM_RECEITA) {
-  console.error(`ABORTADO: so ${total} itens com receita, abaixo do minimo de ${MINIMO_COM_RECEITA}. Nada foi gravado em receitas.json.`);
+  console.error(`ABORTADO: so ${total} itens com receita, abaixo do minimo de ${MINIMO_COM_RECEITA}. Nada foi gravado em receitas-fabricacao.json.`);
   process.exit(1);
 }
 
@@ -92,7 +99,11 @@ const saida = {
   _leia_isto: [
     'Receita de fabricacao por item, importada da ficha do paldb.',
     'Gerado por: npm run receitas:importar. Nao editar a mao.',
-    'Item sem entrada aqui nao e fabricavel, ou a ficha nao publica receita.',
+    'NAO confundir com receitas.json, que e outro arquivo: aquele tem os numeros',
+    'das calculadoras de bolo e de condensacao, escritos a mao a partir dos guias.',
+    'Item sem entrada aqui e um dos dois casos, e a diferenca importa: ou a ficha',
+    'foi visitada e nao publica receita (nao e fabricavel), ou ela nao foi trazida.',
+    'O segundo caso esta listado em nao_trazidos, com o motivo.',
   ],
   fonte: 'https://paldb.cc/en/<chave-do-item>',
   importado_em: new Date().toISOString().slice(0, 10),
@@ -103,4 +114,4 @@ const saida = {
   receitas: Object.fromEntries(Object.entries(feito).filter(([, v]) => Array.isArray(v))),
 };
 writeFileSync(DESTINO, JSON.stringify(saida, null, 1) + '\n');
-console.log(`Gravado em src/data/receitas.json`);
+console.log(`Gravado em src/data/receitas-fabricacao.json`);

@@ -17,6 +17,7 @@
     "offline": "node scripts/gerar-offline.mjs",
     "pals:conferir": "node scripts/conferir-pals.mjs",
     "catalogo:importar": "node scripts/importar-catalogo.mjs",
+    "receitas:importar": "node scripts/importar-receitas.mjs",
     "mapa:importar": "node scripts/importar-mapa.mjs",
     "mapa:fundo": "node scripts/gerar-fundo-mapa.mjs",
     "importacao:congelar": "node scripts/congelar-importacao.mjs",
