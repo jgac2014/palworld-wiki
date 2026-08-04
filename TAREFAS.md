@@ -1245,6 +1245,48 @@ zero, dizendo que é zero, em vez de calar.
 - O commit diz qual das duas saídas foi escolhida e por quê.
 - `npm run portao` passando.
 
+### [ ] F14 — A E8 gravou por cima do `receitas.json` das calculadoras, e o portão está vermelho
+
+**Requisito:** R1.5, com R1.9 dizendo o que se perdeu
+**Território:** conteúdo e dados, encostando em `package.json` pelo mínimo
+**Prioridade:** antes de qualquer outra coisa. Nada mais fecha com o portão vermelho.
+
+Achada em 03.08, ao começar a E9. O commit `0f61ae0` importou a receita de fabricação dos 1.875
+itens e escreveu o resultado em `src/data/receitas.json`, que **já existia e era outra coisa**: os
+números das calculadoras de bolo e de condensação, escritos à mão a partir dos guias e conferidos
+contra eles pelo verificador. O arquivo novo não tem `bolo` nem `condensacao`, e os dois
+consumidores morrem:
+
+```bash
+npm run verificar
+# TypeError: Cannot read properties of undefined (reading 'ingredientes')
+#   at scripts/verificar-tudo.mjs:894
+```
+
+`src/pages/calculadoras.astro` lê os mesmos campos, então o build cai logo depois. **A main está
+vermelha desde `0f61ae0`**, e o commit foi feito sem o portão rodar: ele reprova em 200ms.
+
+**Não é conflito de merge, é colisão de nome.** Duas coisas diferentes disputando `receitas.json`:
+uma é a receita de UM prato, escrita por nós; a outra é a receita de fabricação de 1.244 itens,
+importada. O `_leia_isto` do arquivo novo diz "Gerado por: npm run receitas:importar", e esse
+script **não existe no `package.json`**, então nem a reimportação está reproduzível por comando.
+
+**Quem volta a ser `receitas.json` é o das calculadoras**, pela regra do `CLAUDE.md` sobre o que
+vale mais aqui: o dado importado se refaz com um comando e uma tarde, e o escrito à mão com
+conferência cruzada contra 15 guias não. O importado ganha nome próprio.
+
+**Aceite:**
+
+- `npm run verificar` volta a passar, e a linha das calculadoras volta a aparecer na saída.
+- O dado importado da E8 continua inteiro, com as 1.244 receitas, em arquivo de nome próprio, e o
+  importador grava lá.
+- `npm run receitas:importar` existe e é o comando que o `_leia_isto` do arquivo já afirma.
+- **O verificador ganha uma checagem que reprova quando um dos dois arquivos perde a forma que o
+  consumidor espera**, dizendo qual bloco sumiu. Sem ela, a próxima colisão volta a aparecer como
+  `TypeError` com pilha, que é erro de programa e não diagnóstico. Provada por sabotagem: apagar o
+  bloco `bolo` tem que acusar o bloco pelo nome, não estourar.
+- `npm run portao` passando.
+
 ### [x] H6 — Base do mapa, provisória e alinhada
 
 **Requisito:** R3.2
@@ -1595,6 +1637,21 @@ Coisas que parecem tarefa e não são. Não puxe sem conversar.
   e hoje não é.
 - **Trocar de framework.** Ver `CLAUDE.md`.
 
+---
+
+## Bloco E, continuação — A ficha de cada registro do catálogo
+
+**Estas quatro estavam desalinhadas no arquivo.** A E8 tinha sido escrita logo abaixo de "Fora da
+fila", que é a lista do que NÃO é tarefa, e ler o arquivo de cima para baixo dizia o contrário do
+que ela é. O bloco existe para agrupar E8, E9, E10 e E11, que são a mesma ideia em quatro coleções:
+o índice diz que a coisa existe, e a ficha diz o que fazer com ela.
+
+**A decisão de 31.07 do `PRD.md` proíbe página por registro**, e está lá com o motivo: eram 2.959
+páginas e uma extrapolação de dois minutos de build. A E8 já pede `/item/<slug>` no aceite, ou seja,
+a decisão já foi emendada em tarefa sem ser emendada no PRD. **Quem fechar a E9 registra a emenda no
+`PRD.md` com o tempo de build MEDIDO ao lado**, e não com a extrapolação que a decisão usou. Emenda
+sem medição é a mesma extrapolação com o sinal trocado.
+
 ### [ ] E8 — Os 1.875 itens são nomes sem receita, e é o maior buraco do site
 
 **Requisito:** R1.8
@@ -1626,3 +1683,114 @@ Nada disso depende do `Mappings.usmap`.
 
 **Fonte:** paldb.cc, ficha por item. Gravar o recorte de UMA ficha em
 `src/data/recortes/`, com data e URL, pela regra da F3.
+
+### [ ] E9 — Ficha de item, com receita navegável e índice invertido
+
+**Requisito:** R1.8, sob a emenda que esta tarefa registra no `PRD.md`
+**Território:** código e visual, encostando em conteúdo e dados pelo mínimo (as strings da moldura
+moram em `interface.json`, e as checagens novas em `scripts/`)
+**Bloqueada por:** F14, que é o que devolve o portão ao verde
+
+A E8 trouxe a receita de 1.244 itens e parou antes de publicar. Hoje `/itens` é uma lista de 1.875
+nomes onde clicar não leva a lugar nenhum, e o dado da receita está no repositório sem nenhuma
+página consumindo. Dado importado que ninguém consome não é cobertura, é peso morto: é a mesma frase
+que a asserção 9 do `testar-navegador.mjs` já carrega sobre os três índices da E4.
+
+**A rota é para os 1.875, não para os 1.244 fabricáveis.** Deixar 630 itens sem página recria o beco
+sem saída que esta tarefa existe para fechar, só que menor e mais difícil de ver: quem clica em
+Paldium Fragment cai numa página, quem clica em Wheat cai num 404.
+
+**Os dois estados de "sem receita" são diferentes e o `receitas.json` os guarda separados.** São 630
+itens com a ficha visitada e sem receita publicada, que é "não é fabricável", e 1 item cuja ficha
+não voltou (`Celestial_Sigil_[Master]`, 404). Uma página que diga só "sem receita" funde os dois e
+apaga a diferença entre "o jogo não fabrica isso" e "nós não fomos buscar".
+
+**Aceite:**
+
+- Existe uma página por chave de `itens.json`, e o número sai da contagem, não escrito à mão:
+
+  ```bash
+  npm run build
+  test "$(find dist/item -name index.html | wc -l)" -eq "$(node -p "require('./src/data/itens.json').itens.length")" \
+    && echo "ok, uma ficha por item" || { echo "FALHOU"; exit 1; }
+  ```
+
+- **A ficha da Esfera Mega mostra Paldium 1, Lingote 1, Madeira 3, Pedra 3.** É o caso conferido
+  contra a fonte na E8, e é o que pega o parser perdendo o último material de novo: a primeira
+  versão do importador lia essa mesma receita sem o Stone 3 do fim.
+- **Todo link de material leva a uma página que existe.** As duas metades: o link tem que existir e
+  o destino tem que ter sido gerado. Só a primeira aprovaria 147 links para 404.
+- **Item sem receita diz qual dos dois casos é**, e não fica com seção vazia. Vale para os dois:
+  um dos 630 e o 1 que não foi trazido.
+- **O índice invertido de um material conhecido bate com a contagem calculada do `receitas.json`.**
+  Número na tela conferido contra o número no dado, e não contra um literal digitado na asserção.
+- `/itens` deixa de ser beco sem saída: cada registro leva à ficha, e a largura que a F4 deu ao
+  índice continua de pé (4 colunas em 1440px, altura abaixo do teto congelado).
+- **O pacote offline NÃO leva as 1.875 fichas.** Leva o índice, e escreve no cabeçalho quantas
+  ficaram de fora e por quê. O número é medido, não estimado.
+- **O tempo de build é medido e escrito no commit.** Hoje são 12,3s com 323 páginas. Se passar de um
+  minuto, o critério não afrouxa e a geração sob demanda continua proibida pela stack: registre o
+  tempo medido, troque o critério com a medição ao lado, e diga. Foi assim que o teto do offline
+  virou 8 MB.
+- **A emenda à decisão de 31.07 entra no `PRD.md`** com o tempo medido, e o R1.8 deixa de dizer
+  "sem página por registro" sem qualificar.
+- Cada asserção nova provada por sabotagem, no mesmo ambiente onde ela vai rodar.
+- `npm run portao` passando.
+
+### [ ] E10 — Ficha de Pal com atributo, drop e onde capturar, importados da ficha
+
+**Requisito:** R1.7
+**Território:** conteúdo e dados para a importação, código e visual para a ficha
+**Bloqueada por:** E9, pelo caminho de importação e pela rota que ela abre
+
+As 299 fichas de Pal mostram nome, número, elementos, aptidões e os guias que citam. A ficha do
+paldb publica muito mais e nada disso está aqui: HP, ataque, defesa, velocidade, peso, comida por
+refeição, o que o Pal dropa com quantidade e probabilidade, onde ele aparece no mundo e em que
+horário, montaria e sela.
+
+**Mesmo caminho da E8, e a guarda de aborto junto.** Uma requisição por vez, com pausa, retomável, e
+aborto sem gravar quando o campo inteiro sumir da extração. A E8 provou que a contagem sozinha não
+acusa defeito de recorte: os 1.875 itens vieram completos as três vezes, e as três primeiras
+versões liam a receita errada.
+
+**Não comece pela tela.** O dado entra primeiro, conferido contra a fonte com recorte gravado pela
+regra da F3, e a ficha consome depois. A ordem inversa produz página desenhada em cima de campo que
+ainda vai mudar de forma.
+
+**Aceite:**
+- O importador grava atributo, drop e local de captura por Pal, e ABORTA sem gravar se uma categoria
+  inteira vier vazia.
+- A contagem por categoria é congelada em arquivo de referência, como o poder de captura e a
+  `referencia-importacao.json`, para reimportação futura acusar deriva.
+- A ficha mostra os três blocos novos, e diz qual não veio em vez de deixar seção vazia.
+- O drop liga para a ficha de item da E9, e o local de captura liga para o `/mapa` quando a
+  coordenada existir.
+- Nenhum campo digitado à mão. R1.6 vale aqui igual.
+- Recorte de UMA ficha gravado em `src/data/recortes/`, com data e URL.
+- `npm run portao` passando, com o tempo de build medido de novo.
+
+### [ ] E11 — Ficha de estrutura e de tecnologia, mesmo caminho
+
+**Requisito:** R1.8, sob a mesma emenda que a E9 registra
+**Território:** conteúdo e dados para a importação, código e visual para as rotas
+**Bloqueada por:** E9
+
+As 496 estruturas e as 588 tecnologias estão no mesmo estado em que os itens estavam antes da E9:
+índice que filtra e não leva a lugar nenhum. A estrutura tem custo de construção, requisito de
+tecnologia e o que ela fabrica; a tecnologia tem custo em pontos, nível, e o que ela destrava.
+
+**O que fecha o ciclo é o cruzamento, não a ficha isolada.** A tecnologia destrava estrutura e item,
+a estrutura fabrica item, e o item pede material que é outro item. Com as três rotas no ar, a
+pergunta "o que preciso fazer para conseguir isto" passa a ter resposta navegável em vez de exigir
+que a pessoa mantenha o grafo na cabeça. A E9 entrega uma aresta desse grafo; esta entrega o resto.
+
+**Aceite:**
+- Existe uma página por registro das duas coleções, com o número saindo da contagem.
+- O custo de construção da estrutura leva à ficha de item de cada material, com a mesma prova de
+  destino existente que a E9 exige.
+- A tecnologia lista o que ela destrava, ligando para estrutura e item, e o dado sai do
+  `tecnologias.json` cruzado, não de lista escrita à mão.
+- A ficha de item da E9 ganha o caminho de volta: qual tecnologia destrava e qual bancada fabrica.
+- O pacote offline continua sem as fichas, e o cabeçalho passa a dizer o total das três coleções.
+- O tempo de build medido de novo, com o critério vigente ao lado.
+- `npm run portao` passando.
