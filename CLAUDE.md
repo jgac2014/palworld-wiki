@@ -188,6 +188,12 @@ sabotar o que ela cobre e ver o portão acusar, no mesmo ambiente onde ela vai r
   `~/.ssh/commit_signing_key` e o `.pub`, registrar a pública como *signing key* na conta do GitHub, e
   então `git config --unset commit.gpgsign`. Refazer commit antigo não adianta: `--amend` sem chave só
   troca o SHA, o que já foi testado.
+- **Nome de arquivo de saída é decisão, não detalhe.** Um importador gravou em
+  `src/data/receitas.json`, que já era o dado das calculadoras, e derrubou o build por um dia. O git
+  mostrou o arquivo como modificado e a mensagem de commit imprimiu 27 deleções, e as duas coisas
+  passaram batido. Antes de escolher o caminho de saída de um script novo, confira se ele existe. E
+  **NENHUM commit vai para o `origin` sem `npm run portao`**, inclusive commit que só toca dado: foi
+  "é só dado" que produziu este.
 
 ## Como entregar
 
