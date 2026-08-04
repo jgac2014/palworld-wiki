@@ -1307,7 +1307,7 @@ a regressão real que ela existe para pegar.
 é o comando que o `_leia_isto` do próprio arquivo importado já afirmava existir, e não existia:
 reimportação que não é comando não é reproduzível, e essa é a regra que a F3 deixou escrita.
 
-### [ ] F15 — O portão reprovou por um dia inteiro e ninguém leu
+### [x] F15 — O portão reprovou por um dia inteiro e ninguém leu
 
 **Requisito:** R1.5, com R4.2 dizendo o que o push dispara
 **Território:** compartilhado (a proteção é do repositório, o script e o comando são de `scripts/` e `package.json`)
@@ -1344,6 +1344,36 @@ direto.
 - Provado por sabotagem, que aqui é **tentar empurrar direto na main e ser recusado**. Sem essa
   prova, a proteção é uma chamada de API que retornou 200 e pode não estar valendo.
 - `npm run portao` passando.
+
+**Feita, e a sabotagem é a única parte que prova alguma coisa.** A chamada de API devolveu 200 e o
+`npm run protecao:conferir` leu de volta exatamente o esperado, e nenhuma das duas garante que a
+regra vale: as duas leem a configuração, não o comportamento. A prova foi tentar empurrar direto:
+
+```
+remote: error: GH006: Protected branch update failed for refs/heads/main.
+remote: - Required status check "portao" is expected.
+ ! [remote rejected] teste-protecao -> main (protected branch hook declined)
+```
+
+Código de saída 1, conferido separado do pipe: `git push ... | tail` devolve o código do `tail` e
+imprime 0 em cima de uma recusa, que foi o que apareceu na primeira leitura.
+
+**O próprio fechamento desta tarefa foi o primeiro teste do fluxo novo.** Marcar a F15 como feita
+exigia um commit, e a main já não aceitava push direto: este texto entrou por ramo e pull request,
+com o portão rodando antes do merge. Fluxo que ninguém percorreu é fluxo que ninguém sabe se
+funciona.
+
+**`strict` ligado**, ou seja, o ramo precisa estar em dia com a main antes de entrar. Custa rebase
+quando a main anda, e paga pelo caso que motivou os territórios do `CLAUDE.md`: duas pessoas
+dirigindo agentes no mesmo repositório sem ver o que a outra faz, e dois ramos que passam sozinhos
+podendo se quebrar juntos. Se o rebase virar incômodo maior que o risco, o número está numa linha só
+em `scripts/proteger-main.mjs`.
+
+**O que esta tarefa NÃO resolve, e fica dito.** `construir` e `publicar` ficaram fora dos checks
+exigidos porque dependem de o GitHub Pages estar de pé, e indisponibilidade de publicação não é
+motivo para recusar código correto. Se o Pages falhar sozinho, o portão continua verde e a main
+continua aceitando, que é o comportamento certo. O que a proteção garante é que o que está na main
+passou no portão, não que o que está publicado é a main.
 
 ### [x] H6 — Base do mapa, provisória e alinhada
 
