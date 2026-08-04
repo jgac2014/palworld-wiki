@@ -4,7 +4,7 @@ descricao: "O que está em disputa entre fontes e de onde veio cada dado."
 titulo_en: "Sources and uncertainty"
 descricao_en: "What sources disagree on and where each figure came from."
 ordem: 15
-atualizado: 2026-08-02
+atualizado: 2026-08-04
 ---
 
 :::destaque
@@ -40,8 +40,8 @@ respondê-la, então publicá-la em prosa era dizer em texto o que o site se rec
 |---|---|
 | **Level cap** | Usei **80**. Sete fontes independentes convergem, incluindo guias práticos. A manchete do GamesRadar diz 85 e é outlier isolado. |
 | **Total de Pals** | **Resolvido em 01.08.** Usei **287**, texto literal do changelog oficial da Pocketpair no Steam, e o VGC confirma os 72 Pals novos de forma independente. O 259 da BisectHosting é soma sobre base velha: 215 mais 72 dá 287. Não eram duas fontes discordando, era uma somando errado. |
-| **Uma entidade a mais que a Palpédia** | **Aberta desde 01.08.** O catálogo importado do paldb traz **288** entidades com número de Palpédia, contra os **287** que o changelog oficial declara e que a tela da Palpédia do save confirma. A numeração vai de 1 a 204 sem buraco nenhum, mais 84 variantes com sufixo B, e 204 mais 84 dá 288. Falta uma resposta para qual entrada o jogo não conta, e ela não sai daqui: o paldb não abre desta máquina, então não há como gravar recorte novo. **A wiki continua publicando 287**, que é o número com fonte oficial, e o 288 fica dito em vez de arredondado. Isto é diferente das onze da colaboração com Terraria, que não têm número nenhum e já estão fora da conta. |
-| **Nome em português de três passivas de mutação** | **Aberta desde 02.08.** Heavily Armored, Idiosyncratic e Skymarcher aparecem só em inglês na `breeding.md`, e continuam assim de propósito. O dicionário do site recebe nome extraído das strings do jogo, e o recorte gravado do paldb traz as três apenas em inglês. O paldb não abre da máquina que roda o portão, então não há como gravar recorte novo. Inventar tradução aqui produziria um nome que não existe na tela de ninguém. |
+| **Uma entidade a mais que a Palpédia** | **Aberta desde 01.08.** O catálogo importado do paldb traz **288** entidades com número de Palpédia, contra os **287** que o changelog oficial declara e que a tela da Palpédia do save confirma. A numeração vai de 1 a 204 sem buraco nenhum, mais 84 variantes com sufixo B, e 204 mais 84 dá 288. Falta uma resposta para qual entrada o jogo não conta, e ela não sai daqui: ninguém foi conferir entrada por entrada contra a Palpédia do jogo. O paldb voltou a responder desta máquina em 04.08.2026, então o impedimento de acesso que estava escrito aqui deixou de valer, e o que falta é o trabalho de conferência. **A wiki continua publicando 287**, que é o número com fonte oficial, e o 288 fica dito em vez de arredondado. Isto é diferente das onze da colaboração com Terraria, que não têm número nenhum e já estão fora da conta. |
+| **Nome em português de três passivas de mutação** | **Aberta desde 02.08.** Heavily Armored, Idiosyncratic e Skymarcher aparecem só em inglês na `breeding.md`, e continuam assim de propósito. O dicionário do site recebe nome extraído das strings do jogo, e o recorte gravado do paldb traz as três apenas em inglês. O paldb voltou a responder desta máquina em 04.08.2026, então dá para gravar recorte novo: o que falta é o nome oficial em português, que sai das strings do jogo e não do paldb. Inventar tradução aqui produziria um nome que não existe na tela de ninguém. |
 | **Materiais da Flauta Ecoante e a Deserted Islet** | **Aberta desde 02.08.** Os dois recortes que sustentam a cadeia de acesso à Árvore Mundial dizem "ache os materiais" e "ache a Deserted Islet" sem dizer quais nem onde. Uma versão anterior da `endgame.md` listava "4 echobones: Marine, Silent, Seafoam e Tidewind" e um Cientista da civilização antiga na ilha, **sem fonte gravada para nada disso**, e por isso saiu da página. Quem conferir no jogo, grave o recorte e devolva ao texto. |
 | **Ganho real do Awakening** | Datamine sugere +50%, testes práticos mostram 7-10%. Sem número oficial. Trate como polimento final. |
 | **Taxa base de mutação** | Não publicada. Estimativas da comunidade ficam em 0,7-1%, e cerca de 3% com o cake certo. Ignore sites que citam precisão maior. |
@@ -497,6 +497,39 @@ resultado que o próprio paldb calcula por par.
 | CombiRank e combinações únicas | [paldb.cc/en/Breeding_Farm](https://paldb.cc/en/Breeding_Farm), abas *Breed Combi* e *Breed Unique* |
 | Resultado por par, para conferir | `paldb.cc/en/api/pal_breed_2a?parent2a=<Pal>`, usado pela [calculadora deles](https://paldb.cc/en/Breed) |
 
+## A receita de fabricação sai da ficha de cada item, e o recorte é da Mega Sphere
+
+Registrado em **04.08.2026**, ao fechar a E8. As 1.875 fichas de item do paldb foram visitadas uma
+por vez, com pausa, e delas saíram **1.244 receitas**. Os outros 631 se dividem em dois casos que a
+wiki mantém separados: **630 foram visitados e a ficha não publica receita**, ou seja, não são
+fabricáveis, e **1 não foi trazido** (`Celestial_Sigil_[Master]`, HTTP 404). Juntar os dois numa
+frase só apagaria a diferença entre o jogo não fabricar a coisa e nós não termos ido buscar.
+
+**A contagem sozinha não prova nada, e este é o caso que mostra por quê.** Três versões do recorte
+trouxeram as mesmas 1.875 fichas e o mesmo número de itens com receita. O que mudava era o conteúdo
+de cada uma: a primeira lia a Mega Sphere como *Paldium Fragment 1, Ingot 1, Wood 3* e engolia o
+*Stone 3* do fim, porque procurava o fim do bloco casando `</div>` aninhado, e os fechamentos da
+última linha são o próprio terminador. Um defeito que não mexe em nenhum total.
+
+Por isso a referência congelada em `src/data/referencia-receitas.json` não guarda só os totais.
+Ela guarda também o **número de referências a material** (4.034, a soma do tamanho de todas as
+receitas) e o **uso dos seis materiais mais frequentes**: perder um material por receita derruba
+1.244 de uma vez e aparece ali, com os totais de itens intactos. O verificador compara importação
+nova contra essa referência e diz o que mudou e de quanto.
+
+A receita conferida material por material contra a fonte é a da **Mega Sphere**: Paldium Fragment 1,
+Ingot 1, Wood 3, Stone 3. O recorte está em `src/data/recortes/paldb-mega-sphere.md`, com data e
+URL, pela regra da F3.
+
+:::nota
+**O paldb voltou a responder desta máquina em 04.08.2026**, com HTTP 200 na ficha da Mega Sphere, e
+foi assim que este recorte foi gravado. Duas linhas da tabela de disputa acima diziam que ele não
+abria daqui, o que era verdade em 01.08 e em 02.08. A afirmação foi corrigida onde estava, porque
+página que diz que a fonte não abre enquanto o repositório grava recorte dela no mesmo dia se
+contradiz. **As duas divergências continuam abertas**: o que mudou é o motivo pelo qual ninguém as
+fechou ainda, não o estado delas.
+:::
+
 ## Fontes principais
 
 Cada link daqui para baixo tem recorte gravado em `src/data/recortes/`, com data de captura e o
@@ -516,6 +549,7 @@ respondem 403.
 
 ### Base, breeding e economia
 
+- [paldb.cc, ficha da Mega Sphere](https://paldb.cc/en/Mega_Sphere), a ficha de item de onde sai a receita de fabricação dos 1.244 itens fabricáveis
 - [Nodecraft, Work Suitability nível 10](https://nodecraft.com/support/games/palworld/general/palworld-work-suitability-level-10-explained)
 - [PC Gamer, melhores Pals de base no 1.0](https://www.pcgamer.com/games/survival-crafting/palworld-best-pals/)
 - [palworld.gg, partner skills](https://palworld.gg/partner-skills)

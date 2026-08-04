@@ -1672,7 +1672,7 @@ a decisão já foi emendada em tarefa sem ser emendada no PRD. **Quem fechar a E
 `PRD.md` com o tempo de build MEDIDO ao lado**, e não com a extrapolação que a decisão usou. Emenda
 sem medição é a mesma extrapolação com o sinal trocado.
 
-### [ ] E8 — Os 1.875 itens são nomes sem receita, e é o maior buraco do site
+### [x] E8 — Os 1.875 itens são nomes sem receita, e é o maior buraco do site
 
 **Requisito:** R1.8
 **Território:** conteúdo e dados, mais código para a rota de detalhe
@@ -1703,6 +1703,51 @@ Nada disso depende do `Mappings.usmap`.
 
 **Fonte:** paldb.cc, ficha por item. Gravar o recorte de UMA ficha em
 `src/data/recortes/`, com data e URL, pela regra da F3.
+
+**Fechada em 04.08, e os dois critérios que faltavam são os que a fazem existir como dado
+verificável.** A importação e a rota já estavam no ar desde a E9; o que faltava era o que impede a
+próxima importação de trocar o dado em silêncio.
+
+**A referência congelada não guarda só totais, e é aí que está a diferença.** Total não pega o
+defeito que ESTA importação já teve: as três primeiras versões do recorte trouxeram as mesmas 1.875
+fichas e o mesmo número de itens com receita, e o que mudava era o conteúdo, porque o parser perdia
+o último material de cada uma. `referencia-receitas.json` congela também o **número de referências a
+material** (4.034) e o **uso dos seis materiais mais frequentes**. Sabotado com o defeito original,
+tirar o último material de toda receita, o verificador acusou **dez derivas de uma vez**, entre elas
+`referencias: 2989 na importação e 4034 na referência (-1045)`, com os totais de itens intactos.
+
+**O recorte quase não provou nada, e ele passou na checagem assim mesmo.** A primeira captura da
+ficha da Mega Sphere gravou quatro trechos dizendo `Paldium Fragment`, `Ingot`, `Wood`, `Stone`,
+**sem número nenhum**, porque o extrator quebra linha em todo `</div>` e o paldb põe o material num
+div e a quantidade no seguinte. Cabeçalho afirmando que provava "Paldium 1, Ingot 1, Wood 3,
+Stone 3", corpo provando só que essas palavras existem na página, e a checagem da F3 aprovando,
+porque ela exige que haja linha citada e não que a linha sustente a afirmação.
+
+A correção é geral e não é para esta página: **alguma prova é um bloco estruturado, não uma frase.**
+Alvo do `gravar-recortes.mjs` pode declarar `bloco`, e aí a região sai do HTML cru com as tags
+virando espaço em vez de quebra de linha. O bloco só vale se contiver todos os termos de relevância,
+e alvo que declara bloco sem achá-lo cai em `sem-trecho` em vez de gravar os trechos por termo como
+se bastassem.
+
+**Sete sabotagens. Seis acusaram e uma não, e a que não acusou virou a checagem que faltava.**
+Perder o último material de toda receita acusou dez derivas. Trocar um material sem mudar o tamanho
+da receita acusou `importação diz "... Wood 3, Wood 3" e a referência conferida diz "... Wood 3,
+Stone 3"`, que é o caso que comparar tamanho aprovaria. Esvaziar a referência acusou falta de insumo
+em vez de percorrer zero campos e dizer que bate. Apagar o recorte acusou por dois caminhos
+independentes. Cortar a janela do bloco vazou markup para dentro da citação, e isso foi visto
+lendo o arquivo, não em log.
+
+**A sétima passou:** fazer o bloco da receita sumir da página degradou o recorte para `sem-trecho`,
+e o portão continuou verde. A checagem da F3 só exige que recorte não-vivo seja **mencionado** no
+`fontes.md`, e o `fontes.md` menciona este arquivo como PROVA da receita. A menção existia e dizia o
+contrário do estado real. Agora a referência congelada cobra que o recorte que ela aponta esteja
+`viva`, e não só que exista.
+
+**Duas afirmações da página ficaram velhas no mesmo dia e foram corrigidas junto.** O `fontes.md`
+dizia em duas linhas que "o paldb não abre desta máquina", verdade em 01.08 e em 02.08, e o recorte
+desta tarefa foi gravado dele com HTTP 200 em 04.08. Página que diz que a fonte não abre enquanto o
+repositório grava recorte dela no mesmo dia se contradiz. As duas divergências continuam abertas: o
+que mudou é o motivo pelo qual ninguém as fechou, não o estado delas.
 
 ### [x] E9 — Ficha de item, com receita navegável e índice invertido
 

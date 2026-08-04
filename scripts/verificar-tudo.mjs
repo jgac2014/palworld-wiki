@@ -921,6 +921,122 @@ for (const { arquivo, quem, blocos } of FORMA_DAS_RECEITAS) {
   }
 }
 
+// -------------- receitas importadas x referência congelada (E8)
+//
+// Mesmo mecanismo do poder de captura: a importação nova é comparada com o que
+// já foi conferido e aceito, e a checagem diz O QUE mudou e DE QUANTO, em vez
+// de aprovar qualquer coisa que tenha o tamanho certo.
+//
+// E ela não compara só totais, porque total não pega o defeito que ESTA
+// importação já teve. As três primeiras versões do recorte trouxeram as mesmas
+// 1.875 fichas e o mesmo número de itens com receita: o que mudava era o
+// conteúdo, porque o parser perdia o último material de cada uma. Por isso
+// entram também o número de referências a material e o uso dos seis materiais
+// mais frequentes, que caem 1.244 de uma vez quando isso acontece.
+{
+  const fab = await lerJson('src/data/receitas-fabricacao.json');
+  const ref = await lerJson('src/data/referencia-receitas.json');
+
+  if (fab?.receitas && !ref) {
+    erro('receitas importadas', 'src/data/referencia-receitas.json não existe, então a importação não tem contra o que ser comparada');
+  } else if (fab?.receitas && ref) {
+    // Referência sem os blocos que a comparação usa é falta de insumo, e aqui
+    // falta de insumo REPROVA. Uma referência esvaziada faria esta checagem
+    // percorrer zero campos e imprimir "bate", que é o modo de falha mais caro
+    // deste repositório.
+    const faltaNaRef = ['totais', 'materiais', 'uso_por_material', 'receita_conferida']
+      .filter((b) => !ref[b] || !Object.keys(ref[b]).length);
+    if (faltaNaRef.length) {
+      erro('receitas importadas', `referencia-receitas.json sem ${faltaNaRef.join(', ')}: a comparação não teria o que conferir`);
+    } else {
+      const listas = Object.values(fab.receitas);
+      const uso = new Map();
+      for (const l of listas) for (const m of l) uso.set(m.chave, (uso.get(m.chave) ?? 0) + 1);
+
+      const medido = {
+        totais: {
+          visitados: fab.visitados,
+          com_receita: Object.keys(fab.receitas).length,
+          sem_receita: fab.sem_receita,
+          nao_trazidos: (fab.nao_trazidos ?? []).length,
+        },
+        materiais: {
+          distintos: uso.size,
+          referencias: listas.reduce((s, l) => s + l.length, 0),
+          maior_receita: listas.reduce((m, l) => Math.max(m, l.length), 0),
+        },
+        uso_por_material: Object.fromEntries([...uso]),
+      };
+
+      const derivas = [];
+      const comparar = (bloco, rotulo) => {
+        for (const [campo, esperado] of Object.entries(ref[bloco])) {
+          if (campo.startsWith('_')) continue;
+          const atual = medido[bloco][campo] ?? 0;
+          if (atual !== esperado) {
+            const d = atual - esperado;
+            derivas.push(`${rotulo} ${campo}: ${atual} na importação e ${esperado} na referência (${d > 0 ? '+' : ''}${d})`);
+          }
+        }
+      };
+      comparar('totais', '');
+      comparar('materiais', 'materiais,');
+      comparar('uso_por_material', 'uso de');
+
+      // A receita conferida contra a fonte é comparada material a material, na
+      // ordem. Comparar só o tamanho aprovaria a troca de um material por
+      // outro, e é justamente ela que o recorte gravado existe para desmentir.
+      for (const [chave, esperada] of Object.entries(ref.receita_conferida)) {
+        const atual = fab.receitas[chave];
+        if (!atual) { derivas.push(`a receita conferida de ${chave} sumiu da importação`); continue; }
+        const como = (l) => l.map((m) => `${m.chave} ${m.qtd}`).join(', ');
+        if (como(atual) !== como(esperada)) {
+          derivas.push(`receita de ${chave}: importação diz "${como(atual)}" e a referência conferida diz "${como(esperada)}"`);
+        }
+      }
+
+      // Referência que aponta para recorte inexistente é referência sem prova,
+      // que é exatamente a armadilha que a F3 registrou. E existir não basta:
+      // ele tem que estar `viva`.
+      //
+      // Esta segunda metade nasceu de uma sabotagem que PASSOU. Fazendo o bloco
+      // da receita sumir da página, o recorte degradou para `sem-trecho`
+      // dizendo "o bloco não está mais na página", e o portão continuou verde:
+      // a checagem da F3 só exige que um recorte não-vivo seja mencionado no
+      // fontes.md, e o fontes.md menciona este arquivo como PROVA da receita.
+      // A menção existia e dizia o contrário do estado real.
+      if (ref.recorte) {
+        const caminho = join(raiz, ref.recorte);
+        if (!existsSync(caminho)) {
+          derivas.push(`a referência aponta para o recorte ${ref.recorte}, que não existe`);
+        } else {
+          const st = (await readFile(caminho, 'utf-8')).match(/^status:\s*(\S+)\s*$/m)?.[1];
+          if (st !== 'viva') {
+            derivas.push(
+              `o recorte ${ref.recorte} está "${st ?? 'sem status'}" e não "viva": a receita conferida deixou de ter prova reproduzível`,
+            );
+          }
+        }
+      }
+
+      if (derivas.length) {
+        erro(
+          'receitas importadas',
+          `${derivas.length} deriva(s) contra a referência congelada em ${ref.congelado_em}: ${derivas.slice(0, 6).join('; ')}` +
+          `${derivas.length > 6 ? `; e mais ${derivas.length - 6}` : ''}. ` +
+          'Se a mudança for real, atualize referencia-receitas.json NO MESMO COMMIT e registre em fontes.md',
+        );
+      } else {
+        passou(
+          `receitas importadas: ${medido.totais.com_receita} receitas, ${medido.materiais.referencias} referências a material ` +
+          `e ${medido.materiais.distintos} materiais distintos batem com a referência congelada em ${ref.congelado_em}, ` +
+          `mais a receita conferida da Mega Sphere`,
+        );
+      }
+    }
+  }
+}
+
 // ----------------- o que a ficha de item promete tem que existir (E9)
 //
 // Três checagens que sustentam três promessas da página, e nenhuma delas é

@@ -74,6 +74,32 @@ const ALVOS = {
     usado_para: 'A calculadora do paldb, usada para conferir resultado por par',
     termos: ['Breeding Calculator', 'Parent', 'Child', 'Breed'],
   },
+  'https://paldb.cc/en/Mega_Sphere': {
+    arquivo: 'paldb-mega-sphere.md',
+    usado_para:
+      'A ficha de item que a importação de receitas lê, com a receita conferida material por material: Paldium Fragment 1, Ingot 1, Wood 3, Stone 3',
+    // Os quatro materiais são o critério de relevância, e o Stone está aqui de
+    // propósito: é o ÚLTIMO da receita, e é ele que a primeira versão do
+    // recorte perdia. Página que mudar de forma e deixar de trazer o último
+    // material cai em `sem-trecho` em vez de gravar prova pela metade.
+    termos: ['Paldium Fragment', 'Ingot', 'Wood', 'Stone'],
+    // O que prova a receita é o bloco, não os quatro nomes soltos: o paldb põe
+    // o material num div e a quantidade no seguinte, e o recorte por termo
+    // devolvia "Paldium Fragment", "Ingot", "Wood", "Stone" sem número nenhum.
+    // É o mesmo bloco que o importar-receitas.mjs lê.
+    bloco: {
+      rotulo: 'Receita de fabricação, do bloco recipes da ficha',
+      de: '<div class="recipes">',
+      // Janela de HTML folgada porque uma URL de imagem do paldb come 200 chars
+      // sozinha, e citação curta porque a receita inteira cabe em 41 chars de
+      // texto. Os 120 param antes de um tooltip do Bootstrap que carrega HTML
+      // dentro do atributo `data-bs-title`, coisa que nenhuma remoção de tag
+      // por regex desfaz direito. Sobra ruído, não afirmação errada, e a prova
+      // está no começo da citação.
+      html_chars: 6000,
+      chars: 120,
+    },
+  },
   'https://steamcommunity.com/ogg/1623730/announcements/detail/686383649529010624': {
     arquivo: 'steam-changelog-1-0.md',
     usado_para: 'Total de Pals (287) e o que o 1.0 mudou, fonte oficial da Pocketpair',
@@ -414,6 +440,52 @@ const analisar = (corpo, termos) => {
   return { blocos, ...recortar(blocos, termos) };
 };
 
+/**
+ * Alguma prova é um BLOCO ESTRUTURADO, e não uma frase.
+ *
+ * `paraTexto` quebra linha em todo `</div>`, que é o certo para prosa e é
+ * exatamente errado para tabela: a ficha do paldb põe o nome do material num
+ * div e a quantidade no seguinte, então o recorte por termo saía como quatro
+ * linhas dizendo "Paldium Fragment", "Ingot", "Wood", "Stone", SEM NENHUM
+ * NÚMERO. Cabeçalho declarando que provava "Paldium 1, Ingot 1, Wood 3,
+ * Stone 3", corpo provando nada disso, e a checagem do verificador aprovando,
+ * porque ela só exige que exista linha citada.
+ *
+ * Quando o alvo declara `bloco`, a região é recortada do HTML cru e as tags
+ * viram espaço em vez de quebra de linha, então nome e quantidade continuam na
+ * mesma linha. Falta de insumo FALHA: bloco declarado que não aparece na página
+ * devolve null e derruba o recorte para `sem-trecho`, em vez de gravar os
+ * trechos por termo como se bastassem.
+ */
+const recortarBloco = (html, bloco, termos = []) => {
+  if (!bloco) return null;
+  const i = html.indexOf(bloco.de);
+  if (i === -1) return null;
+  // Tira as tags PRIMEIRO, numa janela folgada de HTML, e só depois corta o
+  // texto. Cortar o HTML e limpar depois foi a primeira versão, e ela vazou
+  // `<img loading="lazy" src="https://cdn...` para dentro da citação: a janela
+  // caiu no meio de uma tag, o fecha-sinal ficou fora, e `<[^>]*>` não casou.
+  // A janela de HTML é grande porque uma URL de imagem do paldb come 200 chars
+  // sozinha, e a receita inteira cabe em 41 chars de texto.
+  const texto = decodificar(
+    html
+      .slice(i, i + (bloco.html_chars ?? 6000))
+      .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/<[^>]*$/, ' '),
+  )
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, bloco.chars ?? MAX_CHARS_TRECHO);
+  if (!texto) return null;
+  // O bloco só vale se os termos de relevância estiverem DENTRO dele. Sem isto
+  // uma página reestruturada gravaria a região vizinha, que abre onde o bloco
+  // abria e não contém o que se quer provar.
+  const faltando = termos.filter((t) => !texto.toLowerCase().includes(t.toLowerCase()));
+  if (faltando.length) return { rotulo: bloco.rotulo, texto, faltando };
+  return { rotulo: bloco.rotulo, texto };
+};
+
 const descrever = (t) => `${t.via} ${t.r.http ? `HTTP ${t.r.http}` : `falhou (${t.r.erro})`}`;
 
 for (const url of fila) {
@@ -507,11 +579,28 @@ for (const url of fila) {
   const achados = Object.entries(contagem)
     .filter(([, n]) => n > 0)
     .map(([t, n]) => `${t} (${n})`);
-  const status = escolhidos.length ? 'viva' : 'sem-trecho';
+  // Alvo que declara `bloco` só é `viva` COM o bloco. Sem ele, os trechos por
+  // termo sobrariam sozinhos e o recorte afirmaria no cabeçalho o que o corpo
+  // não mostra, que é o modo de falha que este script existe para não repetir.
+  const estruturado = recortarBloco(r.corpo, alvo.bloco, alvo.termos);
+  const blocoServe = estruturado && !estruturado.faltando;
+  const status = escolhidos.length && (!alvo.bloco || blocoServe) ? 'viva' : 'sem-trecho';
   const hash = createHash('sha256').update(r.corpo).digest('hex').slice(0, 16);
 
-  const corpoArquivo = escolhidos.length
-    ? escolhidos.map(({ termo, trecho }) => `### ${termo}\n\n> ${trecho}`).join('\n\n')
+  const corpoArquivo = status === 'viva'
+    ? [
+        ...(estruturado ? [`### ${estruturado.rotulo}\n\n> ${estruturado.texto}`] : []),
+        ...escolhidos.map(({ termo, trecho }) => `### ${termo}\n\n> ${trecho}`),
+      ].join('\n\n')
+    : alvo.bloco && !blocoServe
+    ? [
+        '**O bloco estruturado que sustenta a afirmação não está mais na página.**',
+        estruturado
+          ? `Ele foi achado e não contém ${estruturado.faltando.join(', ')}: a página mudou de forma, e o que abre onde o bloco abria já não é o bloco.`
+          : `O recorte procurava por \`${alvo.bloco.de}\` e não achou.`,
+        'Os trechos por termo sozinhos NÃO provam esta afirmação: eles trazem o nome de cada coisa',
+        'e não os números ao lado. Reconfira antes de continuar citando.',
+      ].join('\n')
     : [
         '**A página abriu e não contém nenhum dos termos de relevância**, nem por requisição',
         'direta nem por navegador. Ou ela mudou de assunto, ou o que ela serve é uma tela de',

@@ -1,0 +1,42 @@
+{
+  "_leia_isto": "Referência CONGELADA da importação de receitas de fabricação. Este arquivo não é o que o site exibe: a ficha de /item/<slug>/ lê src/data/receitas-fabricacao.json, que vem da importação do paldb. Aqui ficam os mesmos números depois de conferidos, para o verificador comparar uma importação nova contra o que já foi aceito e dizer o que mudou e de quanto. Quando uma mudança for real e aceita, atualize os números aqui NO MESMO COMMIT que atualiza a importação, e escreva em fontes.md o que mudou e por quê. Mexer aqui para calar o verificador, sem registrar, desfaz o único aviso que existe.",
+  "fonte": "paldb.cc, uma ficha por item. Importado por npm run receitas:importar",
+  "congelado_em": "2026-08-04",
+  "versao_do_jogo": "1.0.2",
+  "recorte": "src/data/recortes/paldb-mega-sphere.md",
+
+  "_por_que_mais_de_um_numero": "Total sozinho não acusa o defeito que esta importação já teve. As três primeiras versões do recorte traziam os 1.875 itens e a contagem de itens com receita não mudava nada: o que mudava era o CONTEÚDO de cada receita, porque o parser perdia o último material. Por isso a referência congela também o número de referências a material (a soma do tamanho de todas as receitas) e o uso dos seis materiais mais frequentes: perder um material por receita derruba 1.244 de uma vez, e aparece aqui mesmo com o total de itens intacto.",
+
+  "totais": {
+    "visitados": 1875,
+    "com_receita": 1244,
+    "sem_receita": 630,
+    "nao_trazidos": 1
+  },
+
+  "materiais": {
+    "distintos": 147,
+    "referencias": 4034,
+    "maior_receita": 5
+  },
+
+  "_sobre_o_uso_por_material": "Quantas receitas usam cada um dos seis materiais mais frequentes. Seis e não todos os 147 porque a cauda longa muda a cada patch por motivo legítimo, e alarme que dispara sempre é alarme que alguém desliga. Estes seis atravessam a progressão inteira e não deviam se mover sem alguém saber.",
+  "uso_por_material": {
+    "Ancient_Civilization_Parts": 383,
+    "Paldium_Fragment": 292,
+    "Ingot": 279,
+    "Leather": 233,
+    "Refined_Ingot": 187,
+    "Fiber": 147
+  },
+
+  "_sobre_a_receita_conferida": "A única receita conferida material por material contra a ficha do paldb, com o recorte gravado em src/data/recortes/paldb-mega-sphere.md. Ela é o caso que pega o parser perdendo o último material: a primeira versão do importador lia esta receita como Paldium 1, Ingot 1, Wood 3 e engolia o Stone 3 do fim.",
+  "receita_conferida": {
+    "Mega_Sphere": [
+      { "chave": "Paldium_Fragment", "qtd": 1 },
+      { "chave": "Ingot", "qtd": 1 },
+      { "chave": "Wood", "qtd": 3 },
+      { "chave": "Stone", "qtd": 3 }
+    ]
+  }
+}
