@@ -11,9 +11,66 @@ Tudo é feito pelo próprio site do GitHub, pelo navegador.
 2. Lá embaixo, clique em **"Corrigir esta página"**. Isso te leva direto ao arquivo certo no GitHub.
 3. Clique no ícone de lápis (canto superior direito da caixa de texto).
 4. Escreva.
-5. Desça até o fim, escreva uma frase explicando o que mudou e clique em **Commit changes**.
+5. Clique no botão verde **Commit changes...**, no canto superior direito. Abre uma caixinha.
+   "Commit" é o jeito do GitHub de dizer "salvar".
+6. Escreva uma frase explicando o que mudou. Serve para o resto do grupo entender depois.
+7. **Ainda na mesma caixinha, mais embaixo, escolha a SEGUNDA opção:**
+   *"Create a new branch for this commit and start a pull request"*.
+8. Clique em **Propose changes**.
+9. Na tela que abre, clique em **Create pull request**.
 
-Em um ou dois minutos o site já está no ar com a sua alteração. Não precisa avisar ninguém.
+Pronto, sua parte acabou. **Falta só esperar e apertar um último botão**, e as duas coisas estão
+explicadas logo abaixo.
+
+### Por que a segunda opção, e não a primeira
+
+A primeira opção grava direto na wiki. Ela existia até 04.08.2026 e **hoje o site recusa**: ele
+passou a conferir cada mudança antes de publicar, e mudança que chega sem essa conferência é
+rejeitada. Se você escolher a primeira, vai ver uma mensagem de erro em inglês. Não quebrou nada,
+é só escolher a segunda e seguir.
+
+**São quatro cliques a mais, não um processo novo.** Exatamente estes quatro: escolher a segunda
+opção, *Propose changes*, *Create pull request* e, no fim da espera, *Merge pull request*. Tudo na
+mesma tela onde você já estava, sem instalar nada e sem sair do navegador.
+
+Dois nomes que vão aparecer na tela, para eles não assustarem:
+
+- **branch** (ramo) é uma cópia separada da wiki, só sua. Enquanto seu texto está nela, o site
+  publicado não muda. É o que garante que texto pela metade não vai ao ar sem querer.
+- **pull request** é a página que junta a sua mudança e o resultado da conferência, com o botão que
+  põe o texto na wiki de verdade.
+
+### A espera, e o que cada bolinha quer dizer
+
+Depois do passo 9, a página do pull request mostra uma caixa de status no meio. **A conferência leva
+perto de um minuto e quarenta**, e nesse tempo a tela muda sozinha. Não precisa recarregar nem ficar
+olhando: pode fechar e voltar depois.
+
+| O que aparece | O que significa | O que fazer |
+|---|---|---|
+| 🟡 Bolinha amarela girando | **Está conferindo.** É o estado normal, e é o que você vai ver assim que criar o pedido | Esperar. Isso não é erro, é a conferência acontecendo |
+| ✅ Check verde | Passou. O botão **Merge pull request** fica disponível | Clicar em **Merge pull request** e confirmar. Em menos de um minuto está no ar |
+| ❌ X vermelho | Alguma coisa não passou na conferência. O botão de publicar **não** libera | Ver a seção abaixo |
+
+O amarelo é o que mais confunde: ele parece que travou e não travou. **Um minuto e quarenta é o
+tempo normal, e passar um pouco disso também é.** Enquanto ele estiver girando, não há nada a fazer.
+
+### Se aparecer o X vermelho
+
+**Avise no grupo e pare por aí.** Diga que abriu um pedido e que ele ficou vermelho, e mande o link
+da página. Quem mexe no código resolve.
+
+Três coisas que valem saber, nessa ordem:
+
+- **O seu trabalho não se perdeu.** Ele está guardado na tal cópia separada, inteirinho, com o texto
+  que você escreveu. Dá para corrigir e continuar de onde parou, hoje ou daqui a uma semana. Não
+  precisa reescrever nada.
+- **Vermelho quase nunca é erro de quem escreveu texto.** A conferência olha o site inteiro, então
+  ela reprova por coisas como um número que passou a contradizer outra página, ou um link que
+  apontava para um lugar que mudou de nome. Você pode ter esbarrado nisso sem ter causado.
+- **Não tente contornar.** Não existe botão de forçar, e isso é de propósito: a conferência é o que
+  impede a wiki de publicar coisa errada, e ela já pegou contradição de número entre páginas,
+  aptidão errada em Pal e link quebrado. Ler o registro do que reprovou não é a sua tarefa.
 
 ---
 
@@ -82,6 +139,9 @@ Se quiser guardar um rascunho sem publicar, acrescente `rascunho: true` no topo.
 
 Não precisa mexer em mais nada. O menu, a busca e o assistente de IA se atualizam sozinhos.
 
+Para salvar, valem os mesmos passos 5 a 9 do começo deste guia: a segunda opção na caixinha, e
+depois esperar a conferência.
+
 ---
 
 ## Adicionar um ponto no mapa
@@ -102,6 +162,8 @@ As coordenadas `x` e `y` são as mesmas que o jogo mostra no canto da tela quand
 Se preferir, abra a página do mapa na wiki e **clique no lugar**: a coordenada aparece embaixo, pronta para copiar.
 
 Categorias existentes: `base`, `minerio`, `quartzo`, `carvao`, `enxofre`, `petroleo`, `torre`, `alpha`, `santuario`, `mercador`.
+
+Para salvar, valem os mesmos passos 5 a 9 do começo deste guia.
 
 ---
 
@@ -124,6 +186,8 @@ Aptidões válidas: `acender`, `rega`, `plantio`, `energia`, `manual`, `coleta`,
 Fases: `mid`, `endgame`, `aura`, `utilidade`, `fazenda`, `combate`.
 
 Deixe de fora as aptidões que o Pal não tem. **Se não souber um número, omita em vez de chutar.**
+
+Para salvar, valem os mesmos passos 5 a 9 do começo deste guia.
 
 ---
 
