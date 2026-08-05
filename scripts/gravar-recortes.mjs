@@ -100,6 +100,27 @@ const ALVOS = {
       chars: 120,
     },
   },
+  // As duas da conferencia de drops. A URL e a da api.php e nao a da pagina:
+  // a wiki.gg responde 403 para leitura direta, por causa da Cloudflare, e a
+  // API responde 200. E o mesmo caminho que os limites do mapa ja usam.
+  //
+  // O bloco `{{Item Drop` e o que prova: e la que a wiki.gg publica as duas
+  // listas, normal e de alfa, com quantidade e probabilidade. Os termos soltos
+  // sozinhos diriam so que as palavras existem na pagina.
+  'https://palworld.wiki.gg/api.php?action=parse&page=Lifmunk&prop=wikitext&format=json&formatversion=2': {
+    arquivo: 'wikigg-lifmunk-drops.md',
+    usado_para:
+      'Conferencia independente dos drops do Lifmunk, que divergem do paldb: a wiki.gg diz Berry Seeds e o paldb diz Wheat Seeds',
+    termos: ['normal_drops', 'alpha_drops', 'Berry Seeds', 'Ring of Grass Resistance'],
+    bloco: { rotulo: 'Bloco Item Drop, as duas listas', de: '{{Item Drop', html_chars: 900, chars: 460 },
+  },
+  'https://palworld.wiki.gg/api.php?action=parse&page=Lamball&prop=wikitext&format=json&formatversion=2': {
+    arquivo: 'wikigg-lamball-drops.md',
+    usado_para:
+      'Controle da conferencia de drops: o Lamball bate com o paldb no normal, incluindo a faixa 1-3, o que separa divergencia de recorte deslocado',
+    termos: ['normal_drops', 'alpha_drops', 'Wool', 'Lamball Mutton'],
+    bloco: { rotulo: 'Bloco Item Drop, as duas listas', de: '{{Item Drop', html_chars: 900, chars: 460 },
+  },
   'https://steamcommunity.com/ogg/1623730/announcements/detail/686383649529010624': {
     arquivo: 'steam-changelog-1-0.md',
     usado_para: 'Total de Pals (287) e o que o 1.0 mudou, fonte oficial da Pocketpair',

@@ -75,6 +75,27 @@ if (chavesPedidas && pals.length !== chavesPedidas.size) {
   process.exit(1);
 }
 
+/**
+ * Chave do paldb virando pedaco de URL.
+ *
+ * QUARTA MORDIDA DO MESMO BUG, e as quatro foram a mesma ilusao: achar que a
+ * lista de caracteres a escapar estava completa.
+ *
+ *   1 e 2. A E8 apanhou de dois-pontos e de parentese em chave de item.
+ *   3. Esta versao escapava exatamente esses dois "por precaucao", e a pagina
+ *      do alfa do Chikipi, "Plump_&_Juicy_Chikipi", voltou 404 pelo &.
+ *   4. A correcao foi encodeURIComponent, com um comentario afirmando que ele
+ *      escapa TODOS. Ele NAO escapa: ! ' ( ) * ~ passam inteiros. As paginas
+ *      "Dont_Touch!_Jolthog" e "Watch_Your_Feet!_Jolthog_Cryst" voltaram 404.
+ *
+ * O que fecha a serie e escapar o que o encodeURIComponent deixa passar, e nao
+ * uma lista nova de caracteres conhecidos. Conferido: com %21 as duas respondem
+ * 200. E note que o parentese esta nessa lista, ou seja, so encodeURIComponent
+ * teria REGREDIDO a correcao da E8 se este script lidasse com chave de item.
+ */
+const paraUrl = (chave) =>
+  encodeURIComponent(chave).replace(/[!'()*~]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+
 const texto = (s) =>
   s.replace(/<[^>]*>/g, ' ')
     .replace(/&ndash;/g, '-').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
@@ -155,23 +176,71 @@ function lerAtributos(html) {
  * casar por nome. Casar por nome quebraria no primeiro item que o jogo
  * traduzir diferente.
  */
-function lerDrops(html) {
-  const bloco = cartao(html, 'Possible Drops');
-  if (!bloco) return null;
-  const out = [];
-  const linha = /<a class="itemname"[^>]*href="([^"]+)"[^>]*>(?:<img[^>]*>)?([^<]+)<\/a>[\s\S]{0,200}?itemQuantity">([^<]+)<\/small>[\s\S]{0,200}?<td>\s*([\d.]+)%/g;
-  for (const m of bloco.matchAll(linha)) {
-    const qtd = texto(m[3]);
-    const [min, max] = qtd.includes('-') ? qtd.split('-').map((n) => Number(n.trim())) : [Number(qtd), Number(qtd)];
-    out.push({
-      chave: decodeURIComponent(m[1]).replace(/^.*\//, ''),
-      nome: texto(m[2]),
+/**
+ * A pagina do alfa, quando existe, e a chave dela.
+ *
+ * O paldb NAO publica drop de alfa como segunda tabela: ele da uma pagina
+ * inteira por alfa, com nome proprio ("Coward_of_the_Steppe_Lifmunk"), e a
+ * ficha normal so linka para ela. Sem seguir esse link, a lista de drops do
+ * site diria "Lifmunk dropa Semente e Remedio" e valeria so para o comum, com
+ * o leitor sem saber que existe outra.
+ *
+ * ATENCAO ao que a pagina do alfa publica: sao os drops EXTRAS do alfa, e nao a
+ * lista inteira. A wiki.gg publica a lista inteira no mesmo campo. Ler as duas
+ * como se fossem a mesma coisa faria os drops normais sumirem do alfa.
+ */
+function acharAlfa(html) {
+  const m = html.match(/<a[^>]*href="([^"]+)"[^>]*>\s*<span class="[^"]*palAlpha[^"]*">/);
+  return m ? decodeURIComponent(m[1]).replace(/^.*\//, '') : null;
+}
+
+/**
+ * A TERCEIRA COLUNA DA TABELA E UMA CONDICAO DE NIVEL, e descarta-la funde tres
+ * listas numa.
+ *
+ * A tabela do paldb tem cabecalho "Item | Qty | (em branco) | Probability", e a
+ * coluna em branco carrega `<span class="level">70</span>` em algumas linhas.
+ * Linha com nivel e drop da variante daquele nivel, nao do Pal comum.
+ *
+ * O Wispaw mostra o estrago: as duas primeiras linhas sao Small Pal Soul 2 e
+ * Leather 1-2, e as nove seguintes repetem essas duas COM nivel 70 e
+ * acrescentam relíquia e Holy Water. Lidas juntas, a ficha do Pal comum
+ * publicava onze drops, dois deles duplicados, e prometia relíquia de endgame
+ * em Pal de mid game. A wiki.gg publica exatamente as duas sem condicao.
+ *
+ * O piloto de 10 nao pegou isto porque nenhum dos dez tem linha condicional.
+ * Quem pegou foi a conferencia contra fonte independente, que e o motivo de ela
+ * existir: a contagem dizia 299 de 299 com drop, e estava certa e inutil.
+ */
+function lerTabelaDeDrops(bloco) {
+  const base = [];
+  const porNivel = [];
+  for (const tr of bloco.split('<tr>').slice(1)) {
+    const item = tr.match(/<a class="itemname"[^>]*href="([^"]+)"[^>]*>(?:<img[^>]*>)?([^<]+)<\/a>/);
+    if (!item) continue;
+    const qtd = tr.match(/itemQuantity">([^<]+)<\/small>/);
+    const prob = tr.match(/<td>\s*([\d.]+)%/);
+    if (!qtd || !prob) continue;
+    const t = texto(qtd[1]);
+    const [min, max] = t.includes('-') ? t.split('-').map((n) => Number(n.trim())) : [Number(t), Number(t)];
+    const nivel = tr.match(/<span class="level">\s*(\d+)\s*<\/span>/);
+    const registro = {
+      chave: decodeURIComponent(item[1]).replace(/&amp;/g, '&').replace(/^.*\//, ''),
+      nome: texto(item[2]),
       min,
       max: Number.isFinite(max) ? max : min,
-      probabilidade: Number(m[4]),
-    });
+      probabilidade: Number(prob[1]),
+    };
+    if (nivel) porNivel.push({ ...registro, nivel: Number(nivel[1]) });
+    else base.push(registro);
   }
-  return out.length ? out : null;
+  return { base: base.length ? base : null, porNivel: porNivel.length ? porNivel : null };
+}
+
+function lerDrops(html) {
+  const bloco = cartao(html, 'Possible Drops');
+  if (!bloco) return { base: null, porNivel: null };
+  return lerTabelaDeDrops(bloco);
 }
 
 /**
@@ -217,7 +286,7 @@ for (const [i, pal] of alvo.entries()) {
   if (feito[pal.chave] && !feito[pal.chave].falha) continue;
   try {
     // Codificada por precaucao, ver o cabecalho deste arquivo.
-    const url = ORIGEM + pal.chave.replace(/[:()]/g, (c) => '%' + c.charCodeAt(0).toString(16).toUpperCase());
+    const url = ORIGEM + paraUrl(pal.chave);
     const r = await fetch(url, { headers: { 'user-agent': 'wiki-palworld (projeto de fa, sem fins lucrativos)' } });
     if (!r.ok) {
       // FALHA fica num campo proprio. Ausencia declarada e `null` dentro do
@@ -226,11 +295,36 @@ for (const [i, pal] of alvo.entries()) {
       falhas++;
     } else {
       const html = await r.text();
-      feito[pal.chave] = {
+      const alfa = acharAlfa(html);
+      const d = lerDrops(html);
+      const registro = {
         atributos: lerAtributos(html),
-        drops: lerDrops(html),
+        drops: d.base,
+        // Drop condicionado a nivel fica em lista propria, nunca misturado com
+        // o do Pal comum: ver o comentario de lerTabelaDeDrops.
+        drops_por_nivel: d.porNivel,
         captura: lerCaptura(html),
+        alfa,
+        // `null` aqui quer dizer duas coisas diferentes conforme `alfa`: sem
+        // pagina de alfa, este Pal nao tem alfa; com pagina e drops_alfa nulo,
+        // a pagina existe e nao publica drop. Os dois casos ficam legiveis
+        // porque a chave da pagina fica gravada ao lado.
+        drops_alfa: null,
       };
+      if (alfa) {
+        await new Promise((s) => setTimeout(s, PAUSA));
+        const ra = await fetch(ORIGEM + paraUrl(alfa), { headers: { 'user-agent': 'wiki-palworld (projeto de fa, sem fins lucrativos)' } });
+        if (!ra.ok) {
+          // Falha na pagina do alfa nao pode virar "este Pal nao tem alfa": e o
+          // mesmo defeito da E8 num campo novo. Fica dito no proprio registro.
+          registro.falha_alfa = ra.status;
+        } else {
+          const da = lerDrops(await ra.text());
+          registro.drops_alfa = da.base;
+          registro.drops_alfa_por_nivel = da.porNivel;
+        }
+      }
+      feito[pal.chave] = registro;
     }
   } catch (e) {
     feito[pal.chave] = { falha: String(e.message || e).slice(0, 60) };
@@ -288,6 +382,10 @@ const saida = {
   com_atributos: conta('atributos'),
   com_drops: conta('drops'),
   com_captura: conta('captura'),
+  com_alfa: trazidos.filter(([, v]) => v.alfa).length,
+  com_drops_alfa: trazidos.filter(([, v]) => v.drops_alfa).length,
+  com_drops_por_nivel: trazidos.filter(([, v]) => v.drops_por_nivel || v.drops_alfa_por_nivel).length,
+  falha_na_pagina_do_alfa: trazidos.filter(([, v]) => v.falha_alfa).map(([k, v]) => ({ chave: k, motivo: v.falha_alfa })),
   nao_trazidos: naoTrazidos.map(([k, v]) => ({ chave: k, motivo: v.falha })),
   fichas: Object.fromEntries(trazidos),
 };

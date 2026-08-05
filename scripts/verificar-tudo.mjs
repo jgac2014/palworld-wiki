@@ -1037,6 +1037,116 @@ for (const { arquivo, quem, blocos } of FORMA_DAS_RECEITAS) {
   }
 }
 
+// -------------- fichas de Pal importadas x referência congelada (E10)
+//
+// Mesmo mecanismo do poder de captura e das receitas. E pelo mesmo motivo de
+// sempre: total não pega recorte que muda de conteúdo sem mudar de tamanho.
+// Por isso entram também o número de campos de atributo distintos, o total de
+// linhas de drop e de captura, e uma ficha conferida inteira.
+//
+// A ficha conferida é a do Lamball, e a escolha não é arbitrária: ela é a que
+// bateu com a palworld.wiki.gg no piloto, incluindo a faixa 1-3 do Wool. É a
+// única linha desta importação com fonte independente batendo em cima.
+{
+  const fp = await lerJson('src/data/fichas-pal.json');
+  const ref = await lerJson('src/data/referencia-fichas-pal.json');
+
+  if (fp?.fichas && !ref) {
+    erro('fichas de Pal', 'src/data/referencia-fichas-pal.json não existe, então a importação não tem contra o que ser comparada');
+  } else if (fp?.fichas && ref) {
+    const faltaNaRef = ['totais', 'ficha_conferida'].filter((b) => !ref[b] || !Object.keys(ref[b]).length);
+    if (faltaNaRef.length) {
+      erro('fichas de Pal', `referencia-fichas-pal.json sem ${faltaNaRef.join(', ')}: a comparação não teria o que conferir`);
+    } else {
+      const fichas = Object.values(fp.fichas);
+      const campos = new Set();
+      for (const f of fichas) for (const k of Object.keys(f.atributos || {})) campos.add(k);
+      const medido = {
+        visitados: fp.visitados,
+        com_atributos: fichas.filter((f) => f.atributos).length,
+        com_drops: fichas.filter((f) => f.drops).length,
+        com_captura: fichas.filter((f) => f.captura).length,
+        com_drops_alfa: fichas.filter((f) => f.drops_alfa).length,
+        // A lista condicional é medida à parte de propósito. Ela existe porque
+        // fundi-la com a base foi um defeito real desta importação, e um número
+        // que some sozinho é o sintoma de a fusão ter voltado.
+        com_drops_por_nivel: fichas.filter((f) => f.drops_por_nivel || f.drops_alfa_por_nivel).length,
+        campos_de_atributo: campos.size,
+        linhas_de_drop: fichas.reduce((s, f) => s + (f.drops?.length ?? 0) + (f.drops_alfa?.length ?? 0), 0),
+        linhas_de_drop_por_nivel: fichas.reduce(
+          (s, f) => s + (f.drops_por_nivel?.length ?? 0) + (f.drops_alfa_por_nivel?.length ?? 0), 0),
+        linhas_de_captura: fichas.reduce((s, f) => s + (f.captura?.length ?? 0), 0),
+      };
+
+      const derivas = [];
+      for (const [campo, esperado] of Object.entries(ref.totais)) {
+        if (campo.startsWith('_')) continue;
+        const atual = medido[campo] ?? 0;
+        if (atual !== esperado) {
+          const d = atual - esperado;
+          derivas.push(`${campo}: ${atual} na importação e ${esperado} na referência (${d > 0 ? '+' : ''}${d})`);
+        }
+      }
+
+      // A ficha conferida é comparada campo a campo. Comparar só o tamanho
+      // aprovaria a troca de um item por outro, que é exatamente a divergência
+      // que esta importação já tem aberta com a wiki.gg no Lifmunk.
+      for (const [chave, esperada] of Object.entries(ref.ficha_conferida)) {
+        const atual = fp.fichas[chave];
+        if (!atual) { derivas.push(`a ficha conferida de ${chave} sumiu da importação`); continue; }
+        const como = (l) => (l || []).map((d) => `${d.chave} ${d.min}-${d.max}@${d.probabilidade}`).join(', ');
+        if (como(atual.drops) !== como(esperada.drops)) {
+          derivas.push(`drops de ${chave}: importação diz "${como(atual.drops)}" e a referência conferida diz "${como(esperada.drops)}"`);
+        }
+        for (const [k, v] of Object.entries(esperada.atributos || {})) {
+          if (atual.atributos?.[k] !== v) {
+            derivas.push(`${chave}.${k}: importação diz ${JSON.stringify(atual.atributos?.[k])} e a referência diz ${JSON.stringify(v)}`);
+          }
+        }
+      }
+
+      // Toda chave de drop tem que ser item do catálogo, senão a ficha liga
+      // para página não gerada. Mesma checagem que a E9 faz para os materiais.
+      const catalogoDeItens = await lerJson('src/data/itens.json');
+      const chavesDeItem = new Set((catalogoDeItens?.itens ?? []).map((i) => i.chave));
+      if (chavesDeItem.size) {
+        const orfaos = new Set();
+        for (const f of fichas) {
+          for (const d of [...(f.drops ?? []), ...(f.drops_alfa ?? [])]) {
+            if (!chavesDeItem.has(d.chave)) orfaos.add(d.chave);
+          }
+        }
+        if (orfaos.size) {
+          derivas.push(`${orfaos.size} chave(s) de drop sem item em itens.json, por exemplo ${[...orfaos][0]}`);
+        }
+      }
+
+      if (ref.recorte) {
+        const caminho = join(raiz, ref.recorte);
+        if (!existsSync(caminho)) derivas.push(`a referência aponta para o recorte ${ref.recorte}, que não existe`);
+        else {
+          const st = (await readFile(caminho, 'utf-8')).match(/^status:\s*(\S+)\s*$/m)?.[1];
+          if (st !== 'viva') derivas.push(`o recorte ${ref.recorte} está "${st ?? 'sem status'}" e não "viva"`);
+        }
+      }
+
+      if (derivas.length) {
+        erro(
+          'fichas de Pal',
+          `${derivas.length} deriva(s) contra a referência congelada em ${ref.congelado_em}: ${derivas.slice(0, 6).join('; ')}` +
+          `${derivas.length > 6 ? `; e mais ${derivas.length - 6}` : ''}. ` +
+          'Se a mudança for real, atualize referencia-fichas-pal.json NO MESMO COMMIT e registre em fontes.md',
+        );
+      } else {
+        passou(
+          `fichas de Pal: ${medido.com_atributos} com atributo, ${medido.com_drops} com drop, ${medido.com_captura} com captura, ` +
+          `${medido.campos_de_atributo} campos distintos e ${medido.linhas_de_drop} linhas de drop batem com a referência congelada em ${ref.congelado_em}`,
+        );
+      }
+    }
+  }
+}
+
 // ----------------- o que a ficha de item promete tem que existir (E9)
 //
 // Três checagens que sustentam três promessas da página, e nenhuma delas é

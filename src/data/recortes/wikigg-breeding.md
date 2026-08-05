@@ -1,6 +1,6 @@
 ---
 url: https://palworld.wiki.gg/wiki/Breeding
-capturado_em: 2026-08-01
+capturado_em: 2026-08-05
 usado_para: "Segunda leitura da regra de cruzamento, e a fonte que o fontes.md declara anterior ao 1.0"
 status: viva
 http: 200
@@ -8,13 +8,13 @@ via: navegador
 tentado: "requisicao-direta HTTP 403; navegador HTTP 200"
 titulo: "Breeding - The Palworld Wiki"
 termos_achados: "Breeding (64); Combi (23); Rank (8); Cake (5)"
-trechos: 4 de 4 termos, em 1509 blocos de texto
-sha256_pagina: 5ae43bef322281cf
+trechos: 4 de 4 termos, em 1520 blocos de texto
+sha256_pagina: c4343ea76fa4e6f1
 ---
 # wikigg-breeding
 
 Recorte, não cópia: só o suficiente para reconferir *segunda leitura da regra de cruzamento, e a fonte que o fontes.md declara anterior ao 1.0*.
-A página inteira tinha 1509 blocos de texto e 467 KB.
+A página inteira tinha 1520 blocos de texto e 260 KB.
 
 ### Breeding
 

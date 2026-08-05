@@ -1,0 +1,46 @@
+{
+  "_leia_isto": "Referência CONGELADA da importação das fichas de Pal. Este arquivo não é o que o site exibe: a ficha de Pal lê src/data/fichas-pal.json, que vem da importação do paldb. Aqui ficam os mesmos números depois de conferidos, para o verificador comparar uma importação nova contra o que já foi aceito e dizer o que mudou e de quanto. Quando uma mudança for real e aceita, atualize os números aqui NO MESMO COMMIT que atualiza a importação, e escreva em fontes.md o que mudou e por quê. Mexer aqui para calar o verificador, sem registrar, desfaz o único aviso que existe.",
+  "fonte": "paldb.cc, uma ficha por Pal mais uma por alfa. Importado por npm run fichas:importar",
+  "congelado_em": "2026-08-05",
+  "versao_do_jogo": "1.0.2",
+  "recorte": "src/data/recortes/wikigg-lamball-drops.md",
+  "_por_que_mais_de_um_numero": "Total sozinho não acusa o defeito que este tipo de recorte tem, e esta importação provou isso duas vezes no piloto. Na primeira versão o parser descartava toda linha sem barra de progresso, e trazia 9 atributos de 23 com a contagem de fichas em 100% do mesmo jeito. Por isso a referência congela também o número de CAMPOS de atributo distintos e o total de LINHAS de drop e de captura: perder um campo em todas as fichas derruba esses números sem mexer em quantas fichas vieram.",
+  "totais": {
+    "visitados": 299,
+    "com_atributos": 299,
+    "com_drops": 299,
+    "com_captura": 274,
+    "com_drops_alfa": 282,
+    "com_drops_por_nivel": 108,
+    "campos_de_atributo": 25,
+    "linhas_de_drop": 1209,
+    "linhas_de_drop_por_nivel": 1382,
+    "linhas_de_captura": 2090
+  },
+  "_sobre_os_que_faltam": "25 Pals sem captura são os que não aparecem em spawner nenhum: chefe de torre, alfa de raide e as 10 entidades da colaboração com Terraria. 10 Pals não têm página de alfa, e são exatamente as 10 do Terraria. 1 tem página de alfa que não publica drop (Astralym). Nos três casos o valor é null com a causa legível ao lado, e nenhum deles é falha de rede: falha fica em nao_trazidos e em falha_na_pagina_do_alfa, que estão vazios.",
+  "_sobre_a_ficha_conferida": "O Lamball é a única linha desta importação com fonte independente batendo em cima: os drops dele foram conferidos contra a palworld.wiki.gg em 04.08 e bateram, incluindo a faixa 1-3 do Wool. O recorte está em src/data/recortes/wikigg-lamball-drops.md. Os atributos NÃO têm conferência independente, e os três congelados aqui servem para acusar deriva, não para provar que estão certos: ver a nota sobre isso em fontes.md.",
+  "ficha_conferida": {
+    "Lamball": {
+      "drops": [
+        {
+          "chave": "Wool",
+          "min": 1,
+          "max": 3,
+          "probabilidade": 100
+        },
+        {
+          "chave": "Lamball_Mutton",
+          "min": 1,
+          "max": 1,
+          "probabilidade": 100
+        }
+      ],
+      "atributos": {
+        "health": 70,
+        "gold_coin": 421,
+        "combirank": 3050
+      }
+    }
+  },
+  "_sobre_a_lista_condicional": "A tabela do paldb tem uma coluna de condicao de nivel, e linha com nivel e drop da variante daquele nivel, nao do Pal comum. Sao 108 Pals com 1.382 linhas condicionais. Fundi-las com a lista base foi um defeito real desta importacao, achado pela conferencia contra a wiki.gg e nao pela contagem: o Wispaw publicava onze drops, dois duplicados, e prometia reliquia de endgame em Pal de mid game."
+}

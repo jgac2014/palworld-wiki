@@ -1992,6 +1992,86 @@ ainda vai mudar de forma.
 - Recorte de UMA ficha gravado em `src/data/recortes/`, com data e URL.
 - `npm run portao` passando, com o tempo de build medido de novo.
 
+**Andamento em 05.08: o dado está importado e conferido, a ficha ainda não mostra.** A tarefa
+continua aberta pelo que falta, que é a tela. O que está feito:
+
+**O piloto pagou duas vezes, e as duas antes de gastar as 299 requisições.** A primeira versão do
+parser trocava a barra de progresso por um separador e lia os dois lados, o que **descartava em
+silêncio toda linha sem barra**: `Size`, `Work Speed`, `CaptureRateCorrect`, `Egg`, `Code` e as sete
+velocidades. Eram 9 atributos de 23, com a contagem de fichas em 100% do mesmo jeito. E os atributos
+estão repartidos em cartões, então ler só o primeiro trazia 15 de 23.
+
+**Ficam de fora, com o motivo no script:** o cartão "Level 80", que é faixa calculada pelo paldb por
+cima do intervalo de talento e não dado do jogo, e o "Tribes", que é a aptidão que já está no
+`catalogo.json` e já foi conferida. Retrazer seria conferir a mesma fonte com ela mesma.
+
+**Drop de alfa é página separada no paldb**, com nome próprio (`Coward_of_the_Steppe_Lifmunk`), e a
+ficha normal só linka. Sem seguir o link, a lista do site valeria só para o comum sem dizer isso. A
+guarda de colapso não disparou: quatro dos dez do piloto têm a mesma contagem e conteúdos
+diferentes.
+
+**Diferença de formato entre as fontes, que precisa ficar dita:** o `alpha_drops` da wiki.gg
+**inclui** os drops normais, e a página de alfa do paldb traz **só os extras**. Comparar cru daria
+divergência em todo Pal do jogo.
+
+**A codificação de chave mordeu pela terceira e pela quarta vez, na mesma tarefa.** Terceira: a
+página `Plump_&_Juicy_Chikipi` deu 404 porque o `&` não estava na lista `[:()]` herdada da E8.
+Quarta, e essa desmente o que o commit da terceira afirmou: **`encodeURIComponent` não escapa
+`! ' ( ) * ~`**, e `Dont_Touch!_Jolthog` e `Watch_Your_Feet!_Jolthog_Cryst` voltaram 404. O parêntese
+está nessa lista, ou seja, trocar a lista da E8 por `encodeURIComponent` puro teria **regredido** a
+correção dela. O que fecha a série é escapar o que ele deixa passar, e não uma lista nova.
+
+**A importação das 299 trouxe tudo, com zero falha de rede:** 299 com atributo em 25 campos
+distintos, 299 com drop somando 1.209 linhas entre normal e alfa, 274 com captura somando 2.090
+linhas, 282 com drop de alfa. Os 25 sem captura, os 10 sem página de alfa (que são exatamente as 10
+entidades do Terraria) e os sem drop de alfa saem como `null` **com a causa ao lado**, e
+`nao_trazidos` está vazio.
+
+**A conferência independente pegou um defeito que teria ido ao ar, e a contagem não pegaria.** A
+tabela do paldb tem uma terceira coluna, e ela é uma **condição de nível**: linha com `70` ali é
+drop da variante daquele nível, não do Pal comum. Lidas juntas, a ficha do Wispaw publicava **onze
+drops, dois deles duplicados**, e prometia relíquia de endgame num Pal de mid game. A wiki.gg
+publica exatamente as duas linhas sem condição, e agora nós também. São **108 Pals com 1.382 linhas
+condicionais**, hoje em lista própria com o nível junto.
+
+O piloto de dez não pegaria isso, porque nenhum dos dez tem linha condicional, e a saída dizia
+`299 de 299 com drop`, que estava certa e inútil. **Foi a conferência contra fonte independente que
+achou**, que é o motivo de ela existir.
+
+**A conferência independente virou comando:** `npm run drops:conferir` compara os drops importados
+contra a `palworld.wiki.gg` pela `api.php`, porque o HTML dela responde 403. Drop é a única parte
+desta ficha que dá para conferir contra fonte independente, e é por isso que a conferência é dele:
+atributo de Pal não é discreto, e comparar com o paldb seria conferir o paldb com ele mesmo.
+
+**Conferidos os 299, são 331 divergências em 272 Pals, em quatro classes, e duas delas continuam
+abertas.** As duas fechadas são grafia (119 ocorrências de "Pal Fluids" contra "Aquatic Pal Fluids")
+e cobertura (193 anéis e apitos que só a wiki.gg lista, todos no alfa). As duas abertas estão em
+`fontes.md`, e a segunda apareceu só na conferência dos 299: **a faixa de quantidade do drop de alfa
+diverge entre as fontes**, com Gumoss em 2-4 contra 1, Penking em 3-4 contra 2-3 e Kingpaca em 3-5
+contra 1-3. Enquanto isso não for decidido, a quantidade do drop de alfa não vai para a tela.
+
+**A primeira contradição:** o primeiro drop do Lifmunk é
+**Wheat Seeds** para o paldb e **Berry Seeds** para a wiki.gg, com a mesma quantidade e a mesma
+probabilidade. Não é recorte deslocado (o Lamball bate nos dois, incluindo a faixa 1-3) e não é o
+paldb se confundindo numa página (a página do item `Wheat_Seeds` lista o `Carbunclo`, id interno do
+Lifmunk, e a do `Berry_Seeds` não). Duas fontes coerentes por dentro discordando, e é conferível no
+jogo em trinta segundos.
+
+**Os atributos não têm conferência independente, e isso fica dito em vez de escondido.** O jogo
+mostra os stats do Pal capturado, no nível dele, já modificados por talento, condensação e passiva.
+`health: 70` é valor base de espécie que entra numa fórmula que não temos. A referência congelada
+serve para acusar deriva, não para provar que o número está certo.
+
+**Quatro sabotagens da checagem nova, todas rodadas.** Repetir o defeito do piloto, apagando os seis
+atributos sem barra, acusou `campos_de_atributo: 19 na importação e 25 na referência (-6)`. Trocar a
+faixa do Wool na ficha conferida acusou o par lado a lado. Pôr chave de drop sem item acusou por dois
+caminhos. Esvaziar a referência acusou falta de insumo em vez de percorrer zero campos e passar.
+
+**O que falta para fechar a E10:** a ficha de Pal mostrar os três blocos, o drop ligando para a ficha
+de item da E9, e a decisão sobre o campo de captura. **O critério "liga para o /mapa quando a
+coordenada existir" não tem como ser cumprido por esta fonte**: o paldb dá mapa e área nomeada
+(`green_A`, `grass_grade_01`) com faixa de nível, e nunca coordenada.
+
 ### [ ] E11 — Ficha de estrutura e de tecnologia, mesmo caminho
 
 **Requisito:** R1.8, sob a mesma emenda que a E9 registra
