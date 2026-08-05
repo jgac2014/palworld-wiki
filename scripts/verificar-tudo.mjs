@@ -1130,6 +1130,39 @@ for (const { arquivo, quem, blocos } of FORMA_DAS_RECEITAS) {
         }
       }
 
+      // Todo campo importado tem que ter rótulo em português.
+      //
+      // Mesma regra da F12: sem isto, a próxima importação que trouxer um campo
+      // novo o publica com a chave crua do paldb no meio de uma página em
+      // português, e ninguém percebe porque a página continua bonita. Campo que
+      // não vai para a tela também precisa de rótulo, senão "tirei de propósito"
+      // e "esqueci" ficam com a mesma cara.
+      // Lido do interface.json direto, e nao pelo helper ui(): src/lib/termos.js
+      // importa JSON, e o Node puro recusa isso sem atributo de importacao. O
+      // Astro resolve, o script nao.
+      const rotulos = await lerJson('src/data/interface.json');
+      const semRotulo = [...campos].filter((c) => !rotulos?.[`atr_${c}`]?.pt);
+      if (semRotulo.length) {
+        derivas.push(`${semRotulo.length} campo(s) de atributo sem rótulo em interface.json: ${semRotulo.join(', ')}`);
+      }
+
+      // Divergência registrada tem que continuar existindo no dado.
+      //
+      // A ficha marca a linha dizendo que as fontes discordam, e o registro é
+      // que sustenta a marca. Se a próxima importação passar a trazer o valor da
+      // outra fonte, o registro vira mentira exibida na tela: acusa em vez de
+      // continuar afirmando disputa que já acabou.
+      for (const d of ref.divergencias_abertas ?? []) {
+        const lista = fp.fichas[d.pal]?.[d.lista];
+        if (!lista) { derivas.push(`a divergência registrada cita ${d.pal}.${d.lista}, que não existe na importação`); continue; }
+        if (!lista.some((x) => x.chave === d.item)) {
+          derivas.push(
+            `a divergência registrada diz que ${d.pal} dropa ${d.item} segundo o paldb, e a importação não traz mais esse item. ` +
+            'Ou a fonte mudou e a divergência acabou, ou o recorte quebrou: resolva em fontes.md em vez de deixar a ficha marcando disputa que não existe',
+          );
+        }
+      }
+
       if (derivas.length) {
         erro(
           'fichas de Pal',

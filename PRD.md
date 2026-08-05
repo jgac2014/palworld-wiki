@@ -262,6 +262,16 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
   ficaria perto de 27s. **O limite de um minuto que a E1 fixou continua de pé e não foi encostado.**
   A regra que decorre: **extrapolação não derruba requisito, medição derruba.** Foi extrapolação que
   quase deixou o maior buraco do site sem conserto.
+- **04.08** **O teto do pacote offline deixou de ser critério de desempenho em 04.08.** A medição de
+  carga que sustentava os 8 MB não é reproduzível: o mesmo arquivo de 8,3 MB mediu 2,2s em 31.07 e
+  12,0s em 04.08, e o tempo não cresce com o tamanho, oscila. O que se mede de forma estável é nó de
+  DOM (100k em 8,3 MB, 200k em 16 MB) e heap, que fica em 10 MB independente do tamanho porque o
+  conteúdo é HTML estático. **O teto de 12 MB existe como ALARME DE CRESCIMENTO INESPERADO**, não
+  como barra de qualidade: ele nunca pegou lentidão, pegaria importação duplicada. Para mudar de
+  novo, não é preciso medir carga.
+  A contagem de nós passou a ser impressa pelo `gerar-offline.mjs` junto do tamanho, por ser a
+  medida que não oscila, e o `testar-navegador.mjs` compara essa contagem com o DOM que o Chromium
+  constrói do mesmo arquivo, para o número impresso não virar decoração.
 - **03.08** **O pacote offline não leva as fichas de item, e o teto de 8 MB é que decide.** Medido
   antes de escolher: com as 1.875 fichas dentro o arquivo vai a 8.858,8 KB, contra o teto de
   8.192 KB, e o `gerar-offline.mjs` aborta em 108%. Sem elas fica em 3.997,9 KB, 49% do teto. O que

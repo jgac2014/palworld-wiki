@@ -12,9 +12,13 @@ import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import catalogo from '../../data/catalogo.json';
 import curadoria from '../../data/pals.json';
+import fichasPal from '../../data/fichas-pal.json';
+import referenciaFichas from '../../data/referencia-fichas-pal.json';
+import itensJson from '../../data/itens.json';
+import mapaPontos from '../../data/mapa-pontos.json';
 import { termo, ui, rotuloApt } from '../../lib/termos.js';
 import { quemTem } from '../../lib/progresso.js';
-import { enderecoPal } from '../../lib/enderecos.js';
+import { enderecoPal, enderecoItem } from '../../lib/enderecos.js';
 import GithubSlugger from 'github-slugger';
 
 const REPO = 'https://github.com/nederreis/PalCrew';
@@ -78,6 +82,58 @@ export async function getStaticPaths() {
 
   const porNome = new Map(curadoria.pals.map((p) => [p.nome, p]));
 
+  // ---------------------------------------------- a ficha importada (E10)
+  const itemPorChave = new Map(itensJson.itens.map((i) => [i.chave, i]));
+  const itensPorNomeEn = new Map(itensJson.itens.map((i) => [i.en, i]));
+  // Nome do item vindo de itens.json, nunca o `nome` cru da importação, que é o
+  // inglês da ficha do paldb. É o defeito que a F12 corrigiu em /tecnologias.
+  const comNomeDeItem = (d) => {
+    const i = itemPorChave.get(d.chave);
+    return { ...d, endereco: enderecoItem(d.chave), pt: i?.pt ?? d.chave, en: i?.en ?? d.nome ?? d.chave };
+  };
+
+  // Pal que existe como marcador NOMEADO no mapa ganha link para o ponto.
+  //
+  // São 137 dos 299, e os três tipos que carregam nome de Pal e coordenada são
+  // "Alpha Pal", "Unknown" e "City". Os outros 162 não têm ponto porque o paldb
+  // não publica coordenada de spawn comum, só área nomeada: a ficha diz isso em
+  // vez de deixar a seção parecendo incompleta.
+  const nomesNoMapa = new Set(
+    mapaPontos.pontos.filter((p) => p.en && typeof p.lv === 'number').map((p) => p.en),
+  );
+
+  const divergentes = new Map();
+  for (const d of referenciaFichas.divergencias_abertas ?? []) {
+    divergentes.set(`${d.pal}|${d.lista}|${d.item}`, d);
+  }
+
+  // Âncora da seção de divergência no fontes.md, tirada do MESMO slugger que o
+  // Astro usa, e não escrita à mão.
+  //
+  // Escrever à mão já falhou aqui: o título tem "contradição" e o literal foi
+  // digitado "contradicao", que é âncora quebrada. É o defeito exato da F11, e
+  // a regra que ela deixou é esta: duas implementações da mesma coisa divergem
+  // no primeiro título com acento. O slugger roda sobre TODOS os títulos da
+  // página, em ordem, porque ele numera repetição.
+  //
+  // Não achar a seção FALHA o build em vez de gerar link para lugar nenhum: a
+  // ficha afirma que há divergência registrada, e afirmação com link morto é
+  // pior que afirmação sem link.
+  const fontes = paginas.find((p) => p.id === 'fontes');
+  if (!fontes) throw new Error('E10: fontes.md não está na coleção, e a ficha de Pal liga para a seção de divergência dele');
+  const sluggerFontes = new GithubSlugger();
+  let ancoraDivergencia = null;
+  for (const linha of fontes.body.split('\n')) {
+    const t = linha.match(/^#{2,6}\s+(.+?)\s*$/);
+    if (!t) continue;
+    const texto = t[1].replace(/[*_`]/g, '').trim();
+    const slug = sluggerFontes.slug(texto);
+    if (/drops/i.test(texto) && /wiki\.gg/i.test(texto)) ancoraDivergencia = slug;
+  }
+  if (divergentes.size && !ancoraDivergencia) {
+    throw new Error('E10: há divergência registrada e o fontes.md não tem a seção que a explica');
+  }
+
   return catalogo.pals.map((pal) => {
     // O nome em inglês e o em português podem cair em seções diferentes do
     // mesmo guia, então as duas listas são somadas por seção e não
@@ -89,6 +145,13 @@ export async function getStaticPaths() {
         for (const [ancora, secao] of data.secoes) guias.get(id).secoes.set(ancora, secao);
       }
     }
+    const f = fichasPal.fichas[pal.chave] ?? null;
+    const marcar = (lista, nome) =>
+      (lista ?? []).map((d) => ({
+        ...comNomeDeItem(d),
+        divergencia: divergentes.get(`${pal.chave}|${nome}|${d.chave}`) ?? null,
+      }));
+
     return {
       params: { pal: enderecoPal(pal.chave) },
       props: {
@@ -99,13 +162,39 @@ export async function getStaticPaths() {
           ...data,
           secoes: [...data.secoes.values()],
         })),
+        atributos: f?.atributos ?? null,
+        // O valor de `egg` e nome de ITEM, e sai em portugues com link, como
+        // qualquer outro. Publicado cru ele poe "Verdant Egg" no meio de uma
+        // pagina em portugues, que e o defeito que a F12 corrigiu na coluna
+        // TIPO de /tecnologias. Os 26 valores distintos existem em itens.json.
+        ovo: (() => {
+          const i = itensPorNomeEn.get(f?.atributos?.egg);
+          return i ? { pt: i.pt, en: i.en, endereco: enderecoItem(i.chave) } : null;
+        })(),
+        drops: marcar(f?.drops, 'drops'),
+        // O alfa vai SEM quantidade, decidido em 05.08: as duas fontes
+        // concordam sobre o item e discordam sobre quanto. Ver fontes.md.
+        dropsAlfa: marcar(f?.drops_alfa, 'drops_alfa').map(({ min, max, ...resto }) => resto),
+        dropsPorNivel: [...marcar(f?.drops_por_nivel, 'drops_por_nivel'), ...marcar(f?.drops_alfa_por_nivel, 'drops_alfa_por_nivel')]
+          .sort((a, b) => a.nivel - b.nivel || a.pt.localeCompare(b.pt, 'pt-BR')),
+        captura: f?.captura ?? null,
+        noMapa: nomesNoMapa.has(pal.en),
+        ancoraDivergencia,
       },
     };
   });
 }
 
-const { pal, nossa, guias } = Astro.props;
+const { pal, nossa, guias, atributos, ovo, drops, dropsAlfa, dropsPorNivel, captura, noMapa, ancoraDivergencia } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// `code` é o identificador interno do jogo e não é informação para quem joga.
+// Fica fora da tela e tem rótulo em interface.json, porque o verificador cobra
+// rótulo para todo campo importado e "esqueci" e "tirei de propósito" não podem
+// ter a mesma cara.
+const ATRIBUTOS_FORA_DA_TELA = new Set(['code', 'egg']);
+const atributosNaTela = Object.entries(atributos ?? {}).filter(([k]) => !ATRIBUTOS_FORA_DA_TELA.has(k));
+const linkFontes = `${base}/fontes/${ancoraDivergencia ? `#${ancoraDivergencia}` : ''}`;
 
 // Ordenado do maior para o menor: quem lê quer saber para que o Pal serve, e
 // isso é a aptidão mais alta, não a ordem alfabética da chave.
@@ -200,6 +289,122 @@ const carimbo = (l) => [
       </p>
     )}
 
+    {atributosNaTela.length > 0 && (
+      <>
+        <h2 data-rot-pt={ui('pal_atributos', 'pt')} data-rot-en={ui('pal_atributos', 'en')}>{ui('pal_atributos', 'pt')}</h2>
+        <p class="sub-bloco" data-rot-pt={ui('pal_atributos_sub', 'pt')} data-rot-en={ui('pal_atributos_sub', 'en')}>{ui('pal_atributos_sub', 'pt')}</p>
+        <ul class="atributos">
+          {ovo && (
+            <li>
+              <span class="rot" data-rot-pt={ui('atr_egg', 'pt')} data-rot-en={ui('atr_egg', 'en')}>{ui('atr_egg', 'pt')}</span>
+              <a class="val" href={`${base}/item/${ovo.endereco}/`} data-rot-pt={ovo.pt} data-rot-en={ovo.en}>{ovo.pt}</a>
+            </li>
+          )}
+          {atributosNaTela.map(([chave, valor]) => (
+            <li>
+              <span class="rot" data-rot-pt={ui(`atr_${chave}`, 'pt')} data-rot-en={ui(`atr_${chave}`, 'en')}>{ui(`atr_${chave}`, 'pt')}</span>
+              <span class="val">{valor}</span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    <h2 data-rot-pt={ui('pal_drops', 'pt')} data-rot-en={ui('pal_drops', 'en')}>{ui('pal_drops', 'pt')}</h2>
+    {drops.length === 0 && dropsAlfa.length === 0 && dropsPorNivel.length === 0 ? (
+      <p class="sub-bloco" data-rot-pt={ui('pal_sem_drops', 'pt')} data-rot-en={ui('pal_sem_drops', 'en')}>{ui('pal_sem_drops', 'pt')}</p>
+    ) : (
+      <>
+        {drops.length > 0 && (
+          <ul class="drops">
+            {drops.map((d) => (
+              <li>
+                <a href={`${base}/item/${d.endereco}/`} data-rot-pt={d.pt} data-rot-en={d.en}>{d.pt}</a>
+                <span class="qtd">{d.min === d.max ? d.min : `${d.min}-${d.max}`}</span>
+                <span class="prob">{d.probabilidade}%</span>
+                {/*
+                  Divergência aberta fica À VISTA na linha, e o valor publicado
+                  é o do paldb, que é a fonte de registro desta importação.
+                  Nunca média e nunca escolha silenciosa: a regra é a mesma que
+                  o fontes.md aplica desde a R1.2.
+                */}
+                {d.divergencia && (
+                  <a class="divergencia" href={linkFontes}>
+                    <span data-rot-pt={ui('pal_divergencia', 'pt')} data-rot-en={ui('pal_divergencia', 'en')}>{ui('pal_divergencia', 'pt')}</span>{': '}{d.divergencia.wiki_gg}{'. '}
+                    <span data-rot-pt={ui('pal_ver_fontes', 'pt')} data-rot-en={ui('pal_ver_fontes', 'en')}>{ui('pal_ver_fontes', 'pt')}</span>
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {dropsAlfa.length > 0 && (
+          <>
+            <h3 data-rot-pt={ui('pal_drops_alfa', 'pt')} data-rot-en={ui('pal_drops_alfa', 'en')}>{ui('pal_drops_alfa', 'pt')}</h3>
+            <ul class="drops sem-quantidade">
+              {dropsAlfa.map((d) => (
+                <li><a href={`${base}/item/${d.endereco}/`} data-rot-pt={d.pt} data-rot-en={d.en}>{d.pt}</a></li>
+              ))}
+            </ul>
+            <p class="sub-bloco aviso">
+              <span data-rot-pt={ui('pal_drops_alfa_sem_qtd', 'pt')} data-rot-en={ui('pal_drops_alfa_sem_qtd', 'en')}>{ui('pal_drops_alfa_sem_qtd', 'pt')}</span>{' '}
+              <a href={linkFontes} data-rot-pt={ui('pal_ver_fontes', 'pt')} data-rot-en={ui('pal_ver_fontes', 'en')}>{ui('pal_ver_fontes', 'pt')}</a>
+            </p>
+          </>
+        )}
+
+        {dropsPorNivel.length > 0 && (
+          <>
+            <h3 data-rot-pt={ui('pal_drops_nivel', 'pt')} data-rot-en={ui('pal_drops_nivel', 'en')}>{ui('pal_drops_nivel', 'pt')}</h3>
+            <p class="sub-bloco" data-rot-pt={ui('pal_drops_nivel_sub', 'pt')} data-rot-en={ui('pal_drops_nivel_sub', 'en')}>{ui('pal_drops_nivel_sub', 'pt')}</p>
+            <ul class="drops por-nivel">
+              {dropsPorNivel.map((d) => (
+                <li>
+                  <a href={`${base}/item/${d.endereco}/`} data-rot-pt={d.pt} data-rot-en={d.en}>{d.pt}</a>
+                  <span class="qtd">{d.min === d.max ? d.min : `${d.min}-${d.max}`}</span>
+                  <span class="prob">{d.probabilidade}%</span>
+                  <span class="nivel">
+                    <span data-rot-pt={ui('pal_drops_nivel_a_partir', 'pt')} data-rot-en={ui('pal_drops_nivel_a_partir', 'en')}>{ui('pal_drops_nivel_a_partir', 'pt')}</span>{' '}{d.nivel}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </>
+    )}
+
+    <h2 data-rot-pt={ui('pal_captura', 'pt')} data-rot-en={ui('pal_captura', 'en')}>{ui('pal_captura', 'pt')}</h2>
+    {!captura ? (
+      <p class="sub-bloco" data-rot-pt={ui('pal_sem_captura', 'pt')} data-rot-en={ui('pal_sem_captura', 'en')}>{ui('pal_sem_captura', 'pt')}</p>
+    ) : (
+      <>
+        {noMapa && (
+          <p class="no-mapa">
+            <a href={`${base}/mapa/?busca=${encodeURIComponent(pal.en)}`} data-rot-pt={ui('pal_captura_no_mapa', 'pt')} data-rot-en={ui('pal_captura_no_mapa', 'en')}>{ui('pal_captura_no_mapa', 'pt')}</a>
+          </p>
+        )}
+        <p class="sub-bloco" data-rot-pt={ui('pal_captura_areas', 'pt')} data-rot-en={ui('pal_captura_areas', 'en')}>{ui('pal_captura_areas', 'pt')}</p>
+        <ul class="areas">
+          {captura.map((c) => (
+            <li>
+              <code>{c.area}</code>
+              {c.nivel_min != null && (
+                <span class="nivel">
+                  <span data-rot-pt={ui('pal_nivel', 'pt')} data-rot-en={ui('pal_nivel', 'en')}>{ui('pal_nivel', 'pt')}</span>{' '}
+                  {c.nivel_min === c.nivel_max ? c.nivel_min : `${c.nivel_min}-${c.nivel_max}`}
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+        {!noMapa && (
+          <p class="sub-bloco aviso" data-rot-pt={ui('pal_captura_sem_coord', 'pt')} data-rot-en={ui('pal_captura_sem_coord', 'en')}>{ui('pal_captura_sem_coord', 'pt')}</p>
+        )}
+      </>
+    )}
+
     <h2 data-rot-pt={ui('pal_nos_guias', 'pt')} data-rot-en={ui('pal_nos_guias', 'en')}>{ui('pal_nos_guias', 'pt')}</h2>
     {guias.length === 0 ? (
       <p data-rot-pt={ui('pal_sem_guias', 'pt')} data-rot-en={ui('pal_sem_guias', 'en')}>{ui('pal_sem_guias', 'pt')}</p>
@@ -247,6 +452,55 @@ const carimbo = (l) => [
     font-weight: 600; font-variant-numeric: tabular-nums;
   }
   .sem-curadoria { font-size: 14px; color: var(--apagado); margin-top: 16px; }
+
+  .sub-bloco { font-family: var(--sans); font-size: 12.5px; color: var(--texto-2); margin: 4px 0 12px; max-width: 68ch; }
+  .sub-bloco.aviso { color: var(--apagado); }
+
+  .atributos {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 0 24px; list-style: none; padding: 0; margin: 0 0 6px;
+    border-top: 1px solid var(--linha); font-family: var(--sans);
+  }
+  .atributos > li {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 6px 0; border-bottom: 1px solid var(--linha); font-size: 13px;
+  }
+  .atributos .rot { color: var(--texto-2); }
+  .atributos .val { color: var(--texto); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .drops { list-style: none; padding: 0; margin: 8px 0 14px; max-width: 560px; }
+  .drops li {
+    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    padding: 7px 0; border-bottom: 1px solid var(--linha);
+  }
+  .drops li > a:first-child { flex: 1; min-width: 140px; }
+  .drops .qtd, .drops .prob, .drops .nivel {
+    font-family: var(--sans); font-size: 12.5px; font-variant-numeric: tabular-nums;
+  }
+  .drops .qtd { color: var(--texto); font-weight: 600; }
+  .drops .prob { color: var(--texto-2); min-width: 48px; text-align: right; }
+  .drops .nivel { color: var(--apagado); }
+  /* A lista do alfa não tem coluna de quantidade, e a ausência é a informação:
+     ver a nota logo abaixo dela e o registro em fontes.md. */
+  .drops.sem-quantidade li { border-bottom-style: dashed; }
+  /* Separada do drop comum de propósito. Foi a fusão das duas que fazia o
+     Wispaw prometer relíquia de endgame em Pal de mid game. */
+  .drops.por-nivel { border-left: 2px solid var(--linha); padding-left: 14px; }
+
+  .no-mapa { font-family: var(--sans); font-size: 13px; margin: 6px 0 2px; }
+  .areas { list-style: none; padding: 0; margin: 4px 0 12px; max-width: 460px; }
+  .areas li {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 5px 0; border-bottom: 1px solid var(--linha);
+  }
+  .areas code { font-size: 12.5px; }
+  .areas .nivel { font-family: var(--sans); font-size: 12.5px; color: var(--texto-2); font-variant-numeric: tabular-nums; }
+
+  .divergencia {
+    flex-basis: 100%; font-family: var(--sans); font-size: 11.5px;
+    color: var(--atencao); text-decoration: none; border-bottom: 1px dotted var(--atencao);
+    align-self: flex-start; width: fit-content;
+  }
   .guias { margin: 10px 0 0 20px; }
   .guias li { margin-bottom: 6px; }
   .guias .guia { font-weight: 600; }

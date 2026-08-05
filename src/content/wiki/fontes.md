@@ -539,7 +539,8 @@ limites do mapa já usam.
 
 As duas URLs conferidas, com recorte gravado:
 
-- [wiki.gg, wikitext do Lifmunk](https://palworld.wiki.gg/api.php?action=parse&page=Lifmunk&prop=wikitext&format=json&formatversion=2)
+- [paldb, ficha do Lifmunk](https://paldb.cc/en/Lifmunk), o lado que diz Wheat Seeds
+- [wiki.gg, wikitext do Lifmunk](https://palworld.wiki.gg/api.php?action=parse&page=Lifmunk&prop=wikitext&format=json&formatversion=2), o lado que diz Berry Seeds
 - [wiki.gg, wikitext do Lamball](https://palworld.wiki.gg/api.php?action=parse&page=Lamball&prop=wikitext&format=json&formatversion=2)
 
 | Pal | Lista | paldb | wiki.gg |

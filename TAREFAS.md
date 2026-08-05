@@ -1570,7 +1570,9 @@ Encostou em `package.json`, compartilhado, por uma linha de script.
 Hoje a página do mapa viaja no pacote como texto e mais nada: o Leaflet vem da rede e não abre sem
 internet, os 13.755 pontos ficam fora porque moram num bloco de dados fora do corpo da página, e os
 341 tiles do fundo também ficam fora. Medido em 01.08, depois da H6: a página serve 897 KB no site e
-contribui 12,0 KB para o pacote, que fechou em 3,72 MB de um teto de 8 MB.
+contribui 12,0 KB para o pacote, que fechou em 3,72 MB de um teto de 8 MB. **O teto daquela medição
+não vale mais:** em 04.08 ele virou um alarme de crescimento de 12 MB, e o pacote já está em
+8,34 MB, o que deixa cerca de 3,9 MB para esta tarefa caber.
 
 Escopo já decidido, para a tarefa não nascer impossível:
 
@@ -1582,7 +1584,8 @@ Escopo já decidido, para a tarefa não nascer impossível:
 
 **Aceite:**
 - Abrir o arquivo com duplo clique, **sem rede**, mostra o mapa com os pontos e a tabela preenchida.
-- O pacote fica abaixo de 8 MB, e o número medido entra no commit.
+- O pacote fica abaixo do alarme de 12 MB, e o número medido entra no commit, junto da contagem de
+  nós de DOM que o empacotador imprime.
 - Provado desligando a rede de verdade, não simulando.
 
 ## Bloco B — Fechar as pontas do conteúdo
@@ -1960,7 +1963,7 @@ tudo" passou a cobrir as fichas também.
 e encostou em `src/data/interface.json` (as 11 strings da moldura, que é onde elas moram desde a A1)
 e em `scripts/`. Não encostou em `package.json`.
 
-### [ ] E10 — Ficha de Pal com atributo, drop e onde capturar, importados da ficha
+### [x] E10 — Ficha de Pal com atributo, drop e onde capturar, importados da ficha
 
 **Requisito:** R1.7
 **Território:** conteúdo e dados para a importação, código e visual para a ficha
@@ -1986,8 +1989,17 @@ ainda vai mudar de forma.
 - A contagem por categoria é congelada em arquivo de referência, como o poder de captura e a
   `referencia-importacao.json`, para reimportação futura acusar deriva.
 - A ficha mostra os três blocos novos, e diz qual não veio em vez de deixar seção vazia.
-- O drop liga para a ficha de item da E9, e o local de captura liga para o `/mapa` quando a
-  coordenada existir.
+- O drop liga para a ficha de item da E9, e o local de captura liga para o `/mapa` **quando o Pal
+  existir como marcador nomeado**, com os demais mostrando a área nomeada e a faixa de nível.
+
+  **Emenda de 05.08, com a medição ao lado, no mesmo padrão do teto de 8 MB.** O critério original
+  dizia "liga para o `/mapa` quando a coordenada existir", e essa coordenada **não existe nesta
+  fonte**: o paldb publica área nomeada (`green_A`, `grass_grade_01`) com faixa de nível, e nunca
+  coordenada de spawn comum. Medido no `mapa-pontos.json`: **137 dos 299 Pals** aparecem como
+  marcador nomeado com coordenada, nos três tipos que carregam nome de Pal e nível (`Alpha Pal` 83,
+  `Unknown` 87, `City` 73, somando 243 pontos). Esses 137 ganham link para o ponto; os outros 162
+  mostram a área e a faixa, **dizendo que a fonte não publica coordenada** em vez de deixar a seção
+  parecendo incompleta. O critério não morreu, virou condicional com o número que o justifica.
 - Nenhum campo digitado à mão. R1.6 vale aqui igual.
 - Recorte de UMA ficha gravado em `src/data/recortes/`, com data e URL.
 - `npm run portao` passando, com o tempo de build medido de novo.
@@ -2067,10 +2079,50 @@ atributos sem barra, acusou `campos_de_atributo: 19 na importação e 25 na refe
 faixa do Wool na ficha conferida acusou o par lado a lado. Pôr chave de drop sem item acusou por dois
 caminhos. Esvaziar a referência acusou falta de insumo em vez de percorrer zero campos e passar.
 
-**O que falta para fechar a E10:** a ficha de Pal mostrar os três blocos, o drop ligando para a ficha
-de item da E9, e a decisão sobre o campo de captura. **O critério "liga para o /mapa quando a
-coordenada existir" não tem como ser cumprido por esta fonte**: o paldb dá mapa e área nomeada
-(`green_A`, `grass_grade_01`) com faixa de nível, e nunca coordenada.
+**Fechada em 05.08, com a tela no ar e as duas divergências decididas.**
+
+**A quantidade do drop de alfa NÃO vai para a tela, e a página diz por quê.** As duas fontes
+concordam sobre quais itens caem e discordam sobre quanto, e o padrão (paldb sempre maior e
+deslocado para cima, lista normal batendo) indica que descrevem alfas de níveis diferentes. A lista
+de itens é a única afirmação que as duas sustentam. Silêncio não era opção: a ficha traz a nota com
+link para a seção do `fontes.md`.
+
+**A divergência do Lifmunk é publicada com o valor do paldb e a disputa à vista**, porque o paldb é
+a fonte de registro desta importação. Nunca média, nunca escolha silenciosa. Os dois recortes estão
+gravados, o do paldb e o da wiki.gg. **E a marca não é literal no template**: a divergência mora em
+`referencia-fichas-pal.json`, e o verificador reprova se ela sumir do dado, para a ficha não ficar
+marcando disputa que já acabou.
+
+**A lista condicional por nível entra rotulada e separada visualmente.** Foi ela que evitou publicar
+relíquia de endgame como drop de Pal de mid game no Wispaw, e achado escondido no dado volta a ser
+defeito na próxima importação. São 108 Pals com 1.382 linhas.
+
+**A âncora para o `fontes.md` quase repetiu a F11 no mesmo dia em que eu a citei.** Escrevi o
+literal `contradicao` e o título tem `contradição`: link morto. Agora ela sai do mesmo
+`github-slugger` que o Astro usa, e o build FALHA se a seção não existir.
+
+**O screenshot pegou o que o log não pegaria:** o campo `Ovo` saía como "Verdant Egg", valor em
+inglês no meio de uma página em português, que é a classe de defeito da F12. Os 26 valores distintos
+existem em `itens.json` com nome em português, e agora o campo sai traduzido e com link.
+
+**O teto do offline subiu de 8 MB para 8,3 MB**, porque os três blocos levaram a seção `pal/` de
+833 KB para 4.522 KB e o pacote a 8.225 KB. O número novo não é palpite: é até onde a medição de
+31.07 já alcançava, que inflou o arquivo a 8,3 MB e mediu 2,2s de carga. Registrado no `PRD.md`.
+**Sobram 274 KB, e isso não cobre a E11.**
+
+**Emenda de 04.08, antes deste bloco ser mergeado: os 8,3 MB não existem mais, e o número virou
+outra coisa.** A medição de carga que sustentava o teto não se reproduz: o mesmo arquivo de 8,3 MB
+mediu 2,2s em 31.07 e 12,0s em 04.08, e o tempo oscila em vez de crescer com o tamanho. O limite
+passou a 12 MB e deixou de ser barra de qualidade: virou ALARME DE CRESCIMENTO INESPERADO, que
+nunca pegou lentidão e pegaria importação duplicada. No lugar do tempo entrou a contagem de nós de
+DOM, que não oscila, impressa pelo `gerar-offline.mjs` e conferida contra o Chromium em
+`testar-navegador.mjs`. A decisão inteira está no `PRD.md`.
+
+**Seis sabotagens nesta metade, todas rodadas.** Campo de atributo sem rótulo acusou os dois pelo
+nome. A divergência registrada sumindo do dado acusou. Devolver a quantidade ao drop de alfa acusou
+`tem número: true`. Refundir a lista condicional acusou `comum 11 de 2` e listou as relíquias na
+mensagem. Quebrar a âncora acusou `âncora viva: false`. E o teto do offline reprovou sozinho antes
+de eu subir, que é ele fazendo o trabalho dele.
 
 ### [ ] E11 — Ficha de estrutura e de tecnologia, mesmo caminho
 

@@ -42,5 +42,18 @@
       }
     }
   },
-  "_sobre_a_lista_condicional": "A tabela do paldb tem uma coluna de condicao de nivel, e linha com nivel e drop da variante daquele nivel, nao do Pal comum. Sao 108 Pals com 1.382 linhas condicionais. Fundi-las com a lista base foi um defeito real desta importacao, achado pela conferencia contra a wiki.gg e nao pela contagem: o Wispaw publicava onze drops, dois duplicados, e prometia reliquia de endgame em Pal de mid game."
+  "_sobre_a_lista_condicional": "A tabela do paldb tem uma coluna de condicao de nivel, e linha com nivel e drop da variante daquele nivel, nao do Pal comum. Sao 108 Pals com 1.382 linhas condicionais. Fundi-las com a lista base foi um defeito real desta importacao, achado pela conferencia contra a wiki.gg e nao pela contagem: o Wispaw publicava onze drops, dois duplicados, e prometia reliquia de endgame em Pal de mid game.",
+  "_sobre_as_divergencias": "Divergência ABERTA entre o paldb e a palworld.wiki.gg sobre um drop específico. A ficha publica o valor do paldb, que é a fonte de registro desta importação, e marca a linha para o leitor ver que há disputa. Nunca média, nunca escolha silenciosa. Fica aqui e não escrito no .astro porque a página não pode carregar literal de conteúdo, e porque o verificador confere que a divergência registrada ainda existe no dado: se a próxima importação passar a dizer Berry Seeds, o registro vira mentira e tem que acusar.",
+  "divergencias_abertas": [
+    {
+      "pal": "Lifmunk",
+      "item": "Wheat_Seeds",
+      "lista": "drops",
+      "paldb": "Wheat Seeds 1 (100%)",
+      "wiki_gg": "Berry Seeds 1 (100%)",
+      "url_paldb": "https://paldb.cc/en/Lifmunk",
+      "url_wiki_gg": "https://palworld.wiki.gg/api.php?action=parse&page=Lifmunk&prop=wikitext&format=json&formatversion=2",
+      "registrado_em": "2026-08-05"
+    }
+  ]
 }

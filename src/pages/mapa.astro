@@ -208,7 +208,7 @@ const listar = (ls, l) => ls.map((x) => (l === 'en' ? x.en : x.pt)).join(', ');
         carregado da rede, e os 13.755 pontos do paldb ficam de fora do arquivo único: eles moram num
         bloco de dados fora do corpo da página, que é o que o empacotador leva. <b>Os tiles do fundo
         também ficam de fora</b>, e são {fundo.tiles.total} arquivos somando 4,4 MB, que não caberiam
-        no teto de 8 MB junto com o resto. Medido em 01.08: a página serve 897 KB no site e contribui
+        no teto de 12 MB junto com o resto. Medido em 01.08: a página serve 897 KB no site e contribui
         12,0 KB para o pacote, que fechou em 3,72 MB. Está escrito aqui porque corte em silêncio é o
         que este projeto proíbe.
       </p>
@@ -732,6 +732,22 @@ const listar = (ls, l) => ls.map((x) => (l === 'en' ? x.en : x.pt)).join(', ');
       if (achadosAtuais.length) irPara(achadosAtuais[0]);
     });
     document.addEventListener('idioma:mudou', () => { if (achadosAtuais.length) pintarAchados(); });
+
+    // Chegada por link: /mapa/?busca=Faleris%20Aqua
+    //
+    // A ficha de Pal liga para cá quando o Pal tem marcador nomeado, e são 137
+    // dos 299. Sem isto o link abriria o mapa inteiro e deixaria a pessoa
+    // procurando à mão, que é o mesmo defeito que a F11 corrigiu nos links dos
+    // guias: cair no topo não é responder onde.
+    //
+    // Reaproveita a busca que já existe em vez de abrir um caminho próprio,
+    // porque é ela que sabe ligar a camada desligada antes de abrir o popup.
+    const pedido = new URLSearchParams(location.search).get('busca');
+    if (pedido) {
+      campo.value = pedido;
+      buscar();
+      if (achadosAtuais.length) irPara(achadosAtuais[0]);
+    }
 
     // --- leitura de coordenada ---
     // Guarda os dois idiomas junto do texto: sem isso, trocar de idioma depois

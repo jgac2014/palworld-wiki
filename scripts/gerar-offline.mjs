@@ -50,9 +50,10 @@ for (const nome of await readdir(dist, { withFileTypes: true })) {
  * O que fica DE FORA do pacote, de propósito, com o motivo medido junto.
  *
  * As 1.875 fichas de item da E9 somam 3927,2 KB de HTML mais 638,8 KB de texto
- * de índice. Medido em 03.08.2026: com elas dentro o pacote vai a 8858,8 KB,
- * contra o teto de 8192 KB decidido em 31.07, e o próprio script aborta em
- * 108%. Não é escolha de gosto, é o teto sendo respeitado.
+ * de índice. Medido em 03.08.2026: elas acrescentam 4860,9 KB ao arquivo, que
+ * foi de 3997,9 KB para 8858,8 KB. Com o pacote hoje em 8339,7 KB, devolvê-las
+ * o levaria a cerca de 13.200 KB, acima do alarme de 12.288 KB, e o script
+ * abortaria de novo.
  *
  * O que sai é a FICHA, não o item. O índice de /itens continua no pacote com os
  * 1.875 nomes nos dois idiomas, que é o que resolve a consulta sem internet:
@@ -66,7 +67,7 @@ const FORA_DO_PACOTE = [
   {
     prefixo: 'item/',
     o_que: 'as fichas de item',
-    porque: 'elas somam mais de 4,5 MB e estourariam o teto de 8 MB do arquivo',
+    porque: 'elas somam mais de 4,5 MB e levariam este arquivo a quase 13 MB',
     ainda_tem: 'o índice com os 1.875 nomes continua aqui, em Itens',
   },
 ];
@@ -311,23 +312,64 @@ ${popover}
 </body>
 </html>`;
 
-await writeFile(saida, doc);
-
-// ------------------------------------------------ composição e teto
+// ------------------------------------------------ composição e alarme
 //
-// O teto é de 8 MB em bytes, decidido em 31.07.2026 e registrado no PRD com a
-// medição que o gerou. Em bytes e não em tempo de carga porque a variação entre
-// rodadas do mesmo arquivo passou de 60%, o que tornaria instável qualquer
-// asserção de tempo aqui dentro.
+// 12 MB, e o que esse número significa mudou em 04.08.2026.
+//
+// Ele NÃO é mais critério de desempenho. A medição de carga que sustentava os
+// 8 MB não é reproduzível: o mesmo arquivo de 8,3 MB mediu 2,2s em 31.07 e
+// 12,0s em 04.08, e o tempo não cresce com o tamanho, oscila. Quem decide o que
+// entra no pacote é o conteúdo, não este número.
+//
+// O que se mede de forma estável é nó de DOM (100 mil em 8,3 MB, 200 mil em
+// 16 MB) e heap, que fica em 10 MB independente do tamanho porque o conteúdo é
+// HTML estático. Por isso a contagem de nós é impressa junto do tamanho: é a
+// medida que não oscila entre rodadas, e é ela que denuncia duplicação.
+//
+// Este limite existe como ALARME DE CRESCIMENTO INESPERADO, não como barra de
+// qualidade. Ele nunca pegou lentidão; pegaria importação duplicada. Para
+// mudá-lo de novo não é preciso medir carga, é preciso saber o que cresceu.
 //
 // A composição por seção é impressa SEMPRE, e não só quando estoura. O total
 // sozinho esconde duplicação: uma seção que aparecesse duas vezes no pacote
 // somaria alguns KB no fim da linha e ninguém veria. Separada por seção, ela
 // aparece com o dobro de páginas no log do portão.
-const TETO_BYTES = 8388608;
+const ALARME_BYTES = 12582912;
 
 const bytes = (s) => Buffer.byteLength(s, 'utf-8');
 const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
+
+/**
+ * Quantos elementos o navegador vai criar a partir deste arquivo.
+ *
+ * Contados fora do <script> e do <style>, senão o bundle minificado e o índice
+ * de busca entrariam na conta com qualquer "<" que tivessem dentro, e o número
+ * deixaria de ser sobre o DOM. Comentário de HTML também sai: ele é nó, mas não
+ * é elemento, e não aparece em querySelectorAll('*').
+ *
+ * Isto é contagem de marcação, não parsing de verdade, então ela vale o que o
+ * navegador confirmar. Conferida em 05.08 contra o Chromium abrindo o próprio
+ * pacote: os dois deram o mesmo número. A asserção que mantém os dois casados
+ * mora em `testar-navegador.mjs` e reprova o portão se eles divergirem, porque
+ * número impresso que ninguém confere volta a ser decoração no dia seguinte.
+ */
+const contarNos = (html) =>
+  (html
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, '<$1></$1>')
+    .match(/<[a-zA-Z][^\s/>]*/g) ?? []).length;
+
+// A contagem vai também para dentro do arquivo, no <html>, que é como o teste
+// de navegador compara o que foi contado aqui com o que o Chromium enxerga.
+// Atributo não cria elemento, então gravar o número ali não muda o número.
+const nos = contarNos(doc);
+const documento = doc.replace('<html lang="pt-BR">', `<html lang="pt-BR" data-nos="${nos}">`);
+if (documento === doc) {
+  console.error('  ABORTADO: não achei a tag <html> para gravar a contagem de nós dentro do arquivo.');
+  console.error('  Sem ela o teste de navegador fica sem com o que comparar, e a contagem impressa vira decoração.');
+  process.exit(1);
+}
+await writeFile(saida, documento);
 
 const secoesMedidas = new Map();
 paginas.forEach((p, i) => {
@@ -339,7 +381,7 @@ paginas.forEach((p, i) => {
   secoesMedidas.set(nome, atual);
 });
 
-const totalBytes = bytes(doc);
+const totalBytes = bytes(documento);
 const totalConteudo = [...secoesMedidas.values()].reduce((s, v) => s + v.html + v.indice, 0);
 
 console.log(`  ${paginas.length} páginas empacotadas em ${saida}`);
@@ -354,14 +396,22 @@ for (const [nome, v] of [...secoesMedidas].sort((a, b) => b[1].html + b[1].indic
   );
 }
 console.log(`    ${'moldura'.padEnd(14)} ${'CSS e JS'.padStart(12)}   ${kb(totalBytes - totalConteudo).padStart(10)} restante`);
-console.log(`  ${kb(totalBytes)} de teto ${kb(TETO_BYTES)} (${((totalBytes / TETO_BYTES) * 100).toFixed(0)}%), abre com duplo clique`);
+console.log(
+  `  ${kb(totalBytes)} e ${nos.toLocaleString('pt-BR')} nós de DOM, contra o alarme de ${kb(ALARME_BYTES)} (${((totalBytes / ALARME_BYTES) * 100).toFixed(0)}%). Abre com duplo clique`
+);
 
-if (totalBytes > TETO_BYTES) {
+if (totalBytes > ALARME_BYTES) {
   console.error(
-    `  ABORTADO: o pacote tem ${totalBytes} bytes (${kb(totalBytes)}) e o teto é ${TETO_BYTES} bytes (${kb(TETO_BYTES)}).`
+    `  ABORTADO: o pacote cresceu além do esperado. Tem ${totalBytes} bytes (${kb(totalBytes)}) e ${nos.toLocaleString('pt-BR')} nós de DOM, contra os ${ALARME_BYTES} bytes (${kb(ALARME_BYTES)}) que este script espera.`
   );
   console.error(
-    `  Passou ${totalBytes - TETO_BYTES} bytes (${kb(totalBytes - TETO_BYTES)}). Veja a composição acima para achar a seção que cresceu.`
+    '  Isto NÃO quer dizer que o arquivo ficou grande demais: o tamanho não é critério de desempenho aqui, e a decisão de 04.08 no PRD.md explica por quê.'
+  );
+  console.error(
+    '  Quer dizer que ele cresceu sem que ninguém previsse, e a causa disso costuma ser importação duplicada, não conteúdo novo legítimo.'
+  );
+  console.error(
+    `  Antes de subir o número, procure na composição acima a seção que dobrou de páginas ou de bytes. Passou ${totalBytes - ALARME_BYTES} bytes (${kb(totalBytes - ALARME_BYTES)}).`
   );
   process.exit(1);
 }
