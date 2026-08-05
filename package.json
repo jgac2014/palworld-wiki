@@ -26,7 +26,8 @@
     "protecao:conferir": "node scripts/proteger-main.mjs",
     "protecao:aplicar": "node scripts/proteger-main.mjs --aplicar",
     "testar": "node scripts/testar-navegador.mjs",
-    "portao": "npm run verificar && npm run build && npm run offline && npm run testar"
+    "portao": "npm run verificar && npm run build && npm run offline && npm run testar",
+    "drops:conferir": "node scripts/conferir-drops.mjs"
   },
   "dependencies": {
     "astro": "^5.18.2",

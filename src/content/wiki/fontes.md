@@ -4,7 +4,7 @@ descricao: "O que está em disputa entre fontes e de onde veio cada dado."
 titulo_en: "Sources and uncertainty"
 descricao_en: "What sources disagree on and where each figure came from."
 ordem: 15
-atualizado: 2026-08-04
+atualizado: 2026-08-05
 ---
 
 :::destaque
@@ -528,6 +528,76 @@ abria daqui, o que era verdade em 01.08 e em 02.08. A afirmação foi corrigida 
 página que diz que a fonte não abre enquanto o repositório grava recorte dela no mesmo dia se
 contradiz. **As duas divergências continuam abertas**: o que mudou é o motivo pelo qual ninguém as
 fechou ainda, não o estado delas.
+:::
+
+## Os drops de Pal foram conferidos contra a wiki.gg, e sobrou uma contradição
+
+Registrado em **04.08.2026**, no piloto da E10. Os drops importados da ficha do paldb foram
+conferidos contra a **palworld.wiki.gg**, que é fonte independente, por `npm run drops:conferir`.
+A wiki.gg responde 403 para leitura direta, e a `api.php` responde 200, que é o mesmo caminho que os
+limites do mapa já usam.
+
+As duas URLs conferidas, com recorte gravado:
+
+- [wiki.gg, wikitext do Lifmunk](https://palworld.wiki.gg/api.php?action=parse&page=Lifmunk&prop=wikitext&format=json&formatversion=2)
+- [wiki.gg, wikitext do Lamball](https://palworld.wiki.gg/api.php?action=parse&page=Lamball&prop=wikitext&format=json&formatversion=2)
+
+| Pal | Lista | paldb | wiki.gg |
+|---|---|---|---|
+| Lamball | normal | Wool 1-3 (100%), Lamball Mutton 1 (100%) | **igual** |
+| Lamball | alfa | Ancient Civilization Parts 1-2, Precious Pelt 1-2, mais os normais | os mesmos **mais** Ring of Neutral Resistance 1 (5%) |
+| Lifmunk | normal | **Wheat Seeds** 1 (100%), Low Grade Medical Supplies 1 (20%) | **Berry Seeds** 1 (100%), Low Grade Medical Supplies 1 (20%) |
+| Lifmunk | alfa | Ancient Civilization Parts 1-2, Precious Pelt 1-2, mais os normais | os mesmos **mais** Ring of Grass Resistance 1 (5%) |
+
+**Conferidos os 299, são 331 divergências em 272 Pals**, 75 na lista normal e 256 na de alfa. Os
+outros 27 não têm página ou não têm bloco de drop na wiki.gg. Elas caem em quatro classes, e só duas
+são desacordo sobre número.
+
+**Nome diferente para o mesmo item, 119 ocorrências contadas dos dois lados.** A wiki.gg chama de
+"Pal Fluids" o que o paldb chama de "Aquatic Pal Fluids". Só o segundo existe em `itens.json`,
+porque o catálogo inteiro veio do paldb. Não é contradição sobre qual item cai, é grafia.
+
+**Anel e apito que só a wiki.gg lista, 193 ocorrências, quase todas na lista de alfa.** Ring of
+Neutral Resistance é o mais comum, e há variantes com sufixo "+1" e "+2" que não existem em
+`itens.json`. **A página de alfa do paldb não publica nenhum deles.** É diferença de cobertura, não
+desacordo sobre um número.
+
+:::cuidado
+**Quarta classe, aberta em 05.08 e sem explicação: a faixa de quantidade do alfa diverge.** Não é
+grafia nem cobertura, é o mesmo item com números diferentes nas duas fontes, e por isso
+`Ancient Civilization Parts` aparece dos dois lados do relatório.
+
+| Pal, lista de alfa | paldb | wiki.gg |
+|---|---|---|
+| Gumoss | Ancient Civilization Parts **2-4** | **1** |
+| Penking | Ancient Civilization Parts **3-4**, Precious Pelt **3-4** | **2-3** e **2-3** |
+| Kingpaca | Ancient Civilization Parts **3-5**, Precious Pelt **3-5** | **1-3** e **1-3** |
+
+Não é recorte nosso: o número sai da tabela da própria página do alfa, lida linha a linha, e a lista
+normal do mesmo Pal bate. A hipótese em aberto é que a página do paldb descreva o alfa nomeado, que
+é de nível mais alto, e o campo da wiki.gg descreva o alfa genérico. **Enquanto isso não for
+decidido, a quantidade do drop de alfa não deve ir para a tela**, porque as duas fontes dão números
+diferentes e nenhuma foi conferida no jogo.
+:::
+
+**Diferença de formato que precisa ficar dita, senão vira divergência inventada:** o campo
+`alpha_drops` da wiki.gg **inclui** os drops normais, e a página de alfa do paldb traz **só os
+extras**. Comparar cru daria divergência em todo Pal do jogo. O `conferir-drops.mjs` soma antes de
+comparar.
+
+:::atencao
+**A contradição de verdade é uma só, e ela continua aberta.** O primeiro drop do Lifmunk é
+**Wheat Seeds** para o paldb e **Berry Seeds** para a wiki.gg, com a mesma quantidade e a mesma
+probabilidade. São plantas diferentes, e trigo é ingrediente da calculadora de bolo.
+
+**Não é recorte deslocado nosso**: o Lamball bate perfeito nos dois, incluindo a faixa 1-3, e
+deslocamento quebraria os dois. **E não é o paldb se confundindo numa página só**: a página do item
+`Wheat_Seeds` lista o Carbunclo, que é o id interno do Lifmunk, entre os Pals que o dropam, e a
+página do `Berry_Seeds` não lista. As duas fontes estão internamente coerentes e discordam.
+
+**A wiki continua publicando o que o paldb diz**, porque é dele que vem o catálogo inteiro, e a
+divergência fica dita em vez de escolhida em silêncio. **Isto é conferível no jogo em trinta
+segundos**, que é o que falta: derrubar um Lifmunk e olhar o que cai.
 :::
 
 ## Fontes principais
