@@ -107,6 +107,13 @@ const ALVOS = {
   // O bloco `{{Item Drop` e o que prova: e la que a wiki.gg publica as duas
   // listas, normal e de alfa, com quantidade e probabilidade. Os termos soltos
   // sozinhos diriam so que as palavras existem na pagina.
+  'https://paldb.cc/en/Lifmunk': {
+    arquivo: 'paldb-lifmunk-drops.md',
+    usado_para:
+      'O outro lado da divergencia do Lifmunk: a ficha do paldb publica Wheat Seeds 1 100%, e a wiki.gg publica Berry Seeds no mesmo lugar',
+    termos: ['Wheat Seeds', 'Low Grade Medical Supplies', 'Possible Drops'],
+    bloco: { rotulo: 'Tabela Possible Drops da ficha', de: '>Possible Drops<', html_chars: 4000, chars: 200 },
+  },
   'https://palworld.wiki.gg/api.php?action=parse&page=Lifmunk&prop=wikitext&format=json&formatversion=2': {
     arquivo: 'wikigg-lifmunk-drops.md',
     usado_para:

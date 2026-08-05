@@ -1280,6 +1280,99 @@ const desviarLeaflet = (alvo) =>
     );
   }
 
+  // 9h a 9j. a ficha de Pal mostra a ficha importada (E10).
+  {
+    const fichasJson = JSON.parse(await readFile(join(raiz, 'src/data/fichas-pal.json'), 'utf-8'));
+    const refJson = JSON.parse(await readFile(join(raiz, 'src/data/referencia-fichas-pal.json'), 'utf-8'));
+
+    // 9h. drop de alfa sai SEM quantidade, e a página diz por quê.
+    //
+    //     Decidido em 05.08: as duas fontes concordam sobre o item e discordam
+    //     sobre quanto (Gumoss 2-4 contra 1, Kingpaca 3-5 contra 1-3). A lista
+    //     de itens é a única afirmação que as duas sustentam.
+    //
+    //     A asserção cobra as DUAS metades. Só conferir que o número sumiu
+    //     aprovaria a página escondendo a divergência, que é o silêncio que a
+    //     decisão proíbe; só conferir a nota aprovaria a nota ao lado do número.
+    await pagina.goto(`${base}/pal/lifmunk/`);
+    await pagina.waitForTimeout(250);
+    const alfa = await pagina.evaluate(() => {
+      const lista = document.querySelector('.drops.sem-quantidade');
+      const nota = [...document.querySelectorAll('.sub-bloco.aviso')].map((e) => e.textContent).join(' ');
+      return {
+        itens: lista ? [...lista.querySelectorAll('li')].map((li) => li.textContent.trim()) : [],
+        temNumero: lista ? /\d/.test(lista.textContent) : null,
+        explica: /quantidade não está publicada/i.test(nota),
+        linkFontes: !!document.querySelector('.sub-bloco.aviso a[href*="fontes"]'),
+      };
+    });
+    conferir(
+      alfa.itens.length > 0 && alfa.temNumero === false && alfa.explica && alfa.linkFontes,
+      'o drop de alfa lista os itens, não publica quantidade, e diz por quê com link para as fontes',
+      `${alfa.itens.length} itens, tem número: ${alfa.temNumero}, explica: ${alfa.explica}, link: ${alfa.linkFontes}`,
+    );
+
+    // 9i. o drop condicionado a nível fica SEPARADO do drop comum.
+    //
+    //     Foi a fusão dos dois que fazia o Wispaw publicar onze drops, dois
+    //     duplicados, e prometer relíquia de endgame em Pal de mid game. O
+    //     achado não pode ficar só no dado: escondido lá, ele volta a ser
+    //     defeito na próxima importação.
+    await pagina.goto(`${base}/pal/wispaw/`);
+    await pagina.waitForTimeout(250);
+    const wispaw = await pagina.evaluate(() => {
+      const comum = document.querySelector('.drops:not(.sem-quantidade):not(.por-nivel)');
+      const nivel = document.querySelector('.drops.por-nivel');
+      return {
+        comum: comum ? [...comum.querySelectorAll('li > a:first-child')].map((a) => a.textContent.trim()) : [],
+        nivel: nivel ? [...nivel.querySelectorAll('li > a:first-child')].map((a) => a.textContent.trim()) : [],
+        rotulado: /variante de nível alto/i.test(document.body.textContent),
+        // Elementos distintos, e não a mesma lista com uma classe a mais.
+        separados: !!comum && !!nivel && comum !== nivel,
+      };
+    });
+    const esperadoComum = (fichasJson.fichas.Wispaw.drops || []).length;
+    const esperadoNivel = [
+      ...(fichasJson.fichas.Wispaw.drops_por_nivel || []),
+      ...(fichasJson.fichas.Wispaw.drops_alfa_por_nivel || []),
+    ].length;
+    conferir(
+      wispaw.comum.length === esperadoComum && wispaw.nivel.length === esperadoNivel
+      && esperadoNivel > 0 && wispaw.rotulado && wispaw.separados
+      && !wispaw.comum.some((n) => /Relíquia|Relic/i.test(n)),
+      'o drop de variante de nível fica separado e rotulado, e não vaza para o drop comum',
+      `comum ${wispaw.comum.length} de ${esperadoComum}, por nível ${wispaw.nivel.length} de ${esperadoNivel},`
+      + ` rotulado ${wispaw.rotulado} | comum: ${wispaw.comum.join(', ')}`,
+    );
+
+    // 9j. a divergência registrada aparece na linha, com link que abre a seção.
+    //
+    //     O valor publicado é o do paldb, que é a fonte de registro desta
+    //     importação, e o da wiki.gg fica à vista ao lado. Nunca média, nunca
+    //     escolha silenciosa. A âncora é conferida de verdade: link para uma
+    //     seção que não existe é o defeito da F11, e ele já apareceu aqui uma
+    //     vez porque o título tem "contradição" e o literal dizia "contradicao".
+    const div = refJson.divergencias_abertas[0];
+    await pagina.goto(`${base}/pal/${div.pal.toLowerCase()}/`);
+    await pagina.waitForTimeout(250);
+    const marca = await pagina.evaluate(() => {
+      const a = document.querySelector('.drops .divergencia');
+      return a ? { texto: a.textContent.trim(), href: a.getAttribute('href') } : null;
+    });
+    let ancoraViva = false;
+    if (marca?.href) {
+      await pagina.goto(`${base}${semPrefixo(marca.href)}`);
+      await pagina.waitForTimeout(200);
+      const id = marca.href.split('#')[1];
+      ancoraViva = await pagina.evaluate((x) => !!document.getElementById(decodeURIComponent(x)), id);
+    }
+    conferir(
+      !!marca && marca.texto.includes(div.wiki_gg) && ancoraViva,
+      'a divergência aberta aparece na linha do drop, com o valor da outra fonte e âncora que existe',
+      marca ? `"${marca.texto.slice(0, 70)}" -> ${marca.href}, âncora viva: ${ancoraViva}` : 'nenhuma marca de divergência na ficha',
+    );
+  }
+
   // 10. o overlay do progresso é adição, nunca requisito.
   //    Decisão 3.0 do PRD. Desligado, a Camada 1 não mostra nada do nosso
   //    save; ligado, mostra. E sem JavaScript continua sendo a wiki inteira,

@@ -315,8 +315,15 @@ await writeFile(saida, doc);
 
 // ------------------------------------------------ composição e teto
 //
-// O teto é de 8 MB em bytes, decidido em 31.07.2026 e registrado no PRD com a
-// medição que o gerou. Em bytes e não em tempo de carga porque a variação entre
+// O teto é de 8,3 MB em bytes. Eram 8 MB, decididos em 31.07.2026, e a E10
+// levou o pacote a 8225 KB ao pôr atributo, drop e captura nas 299 fichas de
+// Pal: a seção pal/ foi de 833 KB para 4522 KB.
+//
+// O número novo NÃO é palpite: a própria medição de 31.07 inflou o arquivo a
+// 8,3 MB com 100 mil nós e mediu 2,2s de carga com o layout intacto. O teto sobe
+// até onde já foi medido, e nem um byte além. Isso deixa 274 KB de folga, o que
+// NÃO cobre a E11: quando estrutura e tecnologia ganharem ficha, o teto precisa
+// de medição nova, e não de mais um empurrão. Em bytes e não em tempo de carga porque a variação entre
 // rodadas do mesmo arquivo passou de 60%, o que tornaria instável qualquer
 // asserção de tempo aqui dentro.
 //
@@ -324,7 +331,7 @@ await writeFile(saida, doc);
 // sozinho esconde duplicação: uma seção que aparecesse duas vezes no pacote
 // somaria alguns KB no fim da linha e ninguém veria. Separada por seção, ela
 // aparece com o dobro de páginas no log do portão.
-const TETO_BYTES = 8388608;
+const TETO_BYTES = 8499200;
 
 const bytes = (s) => Buffer.byteLength(s, 'utf-8');
 const kb = (n) => `${(n / 1024).toFixed(1)} KB`;

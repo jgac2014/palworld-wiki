@@ -733,6 +733,22 @@ const listar = (ls, l) => ls.map((x) => (l === 'en' ? x.en : x.pt)).join(', ');
     });
     document.addEventListener('idioma:mudou', () => { if (achadosAtuais.length) pintarAchados(); });
 
+    // Chegada por link: /mapa/?busca=Faleris%20Aqua
+    //
+    // A ficha de Pal liga para cá quando o Pal tem marcador nomeado, e são 137
+    // dos 299. Sem isto o link abriria o mapa inteiro e deixaria a pessoa
+    // procurando à mão, que é o mesmo defeito que a F11 corrigiu nos links dos
+    // guias: cair no topo não é responder onde.
+    //
+    // Reaproveita a busca que já existe em vez de abrir um caminho próprio,
+    // porque é ela que sabe ligar a camada desligada antes de abrir o popup.
+    const pedido = new URLSearchParams(location.search).get('busca');
+    if (pedido) {
+      campo.value = pedido;
+      buscar();
+      if (achadosAtuais.length) irPara(achadosAtuais[0]);
+    }
+
     // --- leitura de coordenada ---
     // Guarda os dois idiomas junto do texto: sem isso, trocar de idioma depois
     // de mexer no mapa devolvia a frase inicial e apagava a coordenada lida.

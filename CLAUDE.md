@@ -194,6 +194,11 @@ sabotar o que ela cobre e ver o portão acusar, no mesmo ambiente onde ela vai r
   passaram batido. Antes de escolher o caminho de saída de um script novo, confira se ele existe. E
   **NENHUM commit vai para o `origin` sem `npm run portao`**, inclusive commit que só toca dado: foi
   "é só dado" que produziu este.
+- **Coluna que você não entende não é ruído.** A tabela de drops do paldb tem uma terceira coluna de
+  condição de nível, e descartá-la fazia 108 Pals publicarem 1.382 linhas de variante de nível alto
+  como se fossem drop comum. O piloto de dez não pegou porque nenhum dos dez tinha condição, e a
+  saída dizia 299 de 299 com drop. **Piloto que não cobre a variação da fonte mede o caminho feliz e
+  chama de cobertura.**
 
 ## Como entregar
 

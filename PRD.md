@@ -262,6 +262,15 @@ Decisões tomadas com data, para ninguém reabrir sem motivo novo.
   ficaria perto de 27s. **O limite de um minuto que a E1 fixou continua de pé e não foi encostado.**
   A regra que decorre: **extrapolação não derruba requisito, medição derruba.** Foi extrapolação que
   quase deixou o maior buraco do site sem conserto.
+- **05.08** **Teto do offline de 8 MB para 8,3 MB, até onde a medição de 31.07 já alcança.** A E10
+  pôs atributo, drop e local de captura nas 299 fichas de Pal, e a seção `pal/` foi de 833 KB para
+  4.522 KB, levando o pacote a 8.225 KB contra o teto de 8.192. O número novo sai da medição que já
+  existe: em 31.07 o arquivo foi inflado a **8,3 MB com 100 mil nós** e carregou em **2,2s** com o
+  layout intacto. O teto sobe até o que foi medido e nem um byte além. **Sobram 274 KB de folga, e
+  isso não cobre a E11**: quando estrutura e tecnologia ganharem ficha, o teto precisa de medição
+  nova em vez de mais um empurrão. A alternativa, tirar as fichas de Pal do pacote, contradiz a
+  decisão de 31.07, que as pôs lá porque consultar um Pal sem internet é o caso de uso que motivou o
+  offline.
 - **03.08** **O pacote offline não leva as fichas de item, e o teto de 8 MB é que decide.** Medido
   antes de escolher: com as 1.875 fichas dentro o arquivo vai a 8.858,8 KB, contra o teto de
   8.192 KB, e o `gerar-offline.mjs` aborta em 108%. Sem elas fica em 3.997,9 KB, 49% do teto. O que
