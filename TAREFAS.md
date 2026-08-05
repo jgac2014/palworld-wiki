@@ -1570,7 +1570,9 @@ Encostou em `package.json`, compartilhado, por uma linha de script.
 Hoje a página do mapa viaja no pacote como texto e mais nada: o Leaflet vem da rede e não abre sem
 internet, os 13.755 pontos ficam fora porque moram num bloco de dados fora do corpo da página, e os
 341 tiles do fundo também ficam fora. Medido em 01.08, depois da H6: a página serve 897 KB no site e
-contribui 12,0 KB para o pacote, que fechou em 3,72 MB de um teto de 8 MB.
+contribui 12,0 KB para o pacote, que fechou em 3,72 MB de um teto de 8 MB. **O teto daquela medição
+não vale mais:** em 04.08 ele virou um alarme de crescimento de 12 MB, e o pacote já está em
+8,34 MB, o que deixa cerca de 3,9 MB para esta tarefa caber.
 
 Escopo já decidido, para a tarefa não nascer impossível:
 
@@ -1582,7 +1584,8 @@ Escopo já decidido, para a tarefa não nascer impossível:
 
 **Aceite:**
 - Abrir o arquivo com duplo clique, **sem rede**, mostra o mapa com os pontos e a tabela preenchida.
-- O pacote fica abaixo de 8 MB, e o número medido entra no commit.
+- O pacote fica abaixo do alarme de 12 MB, e o número medido entra no commit, junto da contagem de
+  nós de DOM que o empacotador imprime.
 - Provado desligando a rede de verdade, não simulando.
 
 ## Bloco B — Fechar as pontas do conteúdo
@@ -2106,6 +2109,14 @@ existem em `itens.json` com nome em português, e agora o campo sai traduzido e 
 833 KB para 4.522 KB e o pacote a 8.225 KB. O número novo não é palpite: é até onde a medição de
 31.07 já alcançava, que inflou o arquivo a 8,3 MB e mediu 2,2s de carga. Registrado no `PRD.md`.
 **Sobram 274 KB, e isso não cobre a E11.**
+
+**Emenda de 04.08, antes deste bloco ser mergeado: os 8,3 MB não existem mais, e o número virou
+outra coisa.** A medição de carga que sustentava o teto não se reproduz: o mesmo arquivo de 8,3 MB
+mediu 2,2s em 31.07 e 12,0s em 04.08, e o tempo oscila em vez de crescer com o tamanho. O limite
+passou a 12 MB e deixou de ser barra de qualidade: virou ALARME DE CRESCIMENTO INESPERADO, que
+nunca pegou lentidão e pegaria importação duplicada. No lugar do tempo entrou a contagem de nós de
+DOM, que não oscila, impressa pelo `gerar-offline.mjs` e conferida contra o Chromium em
+`testar-navegador.mjs`. A decisão inteira está no `PRD.md`.
 
 **Seis sabotagens nesta metade, todas rodadas.** Campo de atributo sem rótulo acusou os dois pelo
 nome. A divergência registrada sumindo do dado acusou. Devolver a quantidade ao drop de alfa acusou

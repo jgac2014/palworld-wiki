@@ -1850,6 +1850,33 @@ if (existsSync(offline)) {
     `${empacotadas} no arquivo, ${esperadas} no dist, ${faltando} de diferença, ${declaradoNoCabecalho} declaradas no cabeçalho`,
   );
 
+  // 8b. a contagem de nós que o empacotador imprime é a que o navegador constrói.
+  //
+  //    Ela existe porque, na decisão de 04.08, nó de DOM tomou o lugar do tempo
+  //    de carga: o tempo do mesmo arquivo oscilou de 2,2s para 12,0s entre duas
+  //    medições, e a contagem de nós não oscila. É ela que denuncia importação
+  //    duplicada. Só que o `gerar-offline.mjs` conta a marcação com regex, e
+  //    número impresso que ninguém confere vira decoração no dia seguinte: se a
+  //    conta descolar do DOM real, o alarme passa a vigiar uma ficção.
+  //
+  //    Com JavaScript DESLIGADO de propósito. Os módulos embutidos criam cerca
+  //    de 90 elementos depois do load, e medir com eles dentro faria a asserção
+  //    depender do instante em que o teste olhou. O que o script conta é o que
+  //    o arquivo traz escrito, e é isso que o navegador tem que confirmar.
+  const semJs = await navegador.newPage({ javaScriptEnabled: false });
+  await semJs.goto(`file://${offline}`);
+  const nosDoDom = await semJs.evaluate(() => ({
+    declarado: Number(document.documentElement.dataset.nos),
+    real: document.querySelectorAll('*').length,
+  }));
+  await semJs.close();
+  conferir(
+    Number.isInteger(nosDoDom.declarado) && nosDoDom.declarado > 0
+      && nosDoDom.declarado === nosDoDom.real,
+    'a contagem de nós que o empacotador imprime é a que o navegador constrói',
+    `o arquivo diz ${nosDoDom.declarado || 'nada'}, o navegador construiu ${nosDoDom.real}`,
+  );
+
   // E o conteúdo tem que estar buscável, não só presente: a ficha de Pal não
   // aparece no menu, então a busca em memória é o único caminho até ela.
   await pagina.fill('#busca', 'aegidron');
